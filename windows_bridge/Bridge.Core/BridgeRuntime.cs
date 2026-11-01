@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 
 namespace SimControlStudio;
 
+public sealed record ConnectedDevice(string DeviceId, string Name, string Role, string? ProfileId,
+    int Hz, int? LatencyMs, string ConnectionQuality);
+
 public sealed class BridgeRuntime : IAsyncDisposable
 {
     private readonly BridgeConfiguration _config;
@@ -33,7 +36,8 @@ public sealed class BridgeRuntime : IAsyncDisposable
     public TelemetryFrame? Latest => Volatile.Read(ref _latest);
     public string Fingerprint => BridgeCertificate.Fingerprint(_certificate);
     public IReadOnlyList<object> Events => _events.ToArray();
-    public IReadOnlyList<object> Clients => _clients.Values.Select(c => (object)new { c.DeviceId, c.Name, c.Role, c.Hz, c.LatencyMs }).ToArray();
+    public IReadOnlyList<ConnectedDevice> Clients => _clients.Values.Select(c => new ConnectedDevice(c.DeviceId, c.Name, c.Role,
+        c.ProfileId, c.Hz, c.LatencyMs, c.LatencyMs is null ? "mérésre vár" : c.LatencyMs <= 20 ? "kiváló" : c.LatencyMs <= 60 ? "jó" : c.LatencyMs <= 150 ? "közepes" : "gyenge")).ToArray();
     public bool IsRunning => _web != null;
     public BridgeRuntime(BridgeConfiguration config, DeviceRegistry registry, X509Certificate2 certificate,
         IGameAdapter adapter, IGameProbe probe, IKeySink sink, IEnumerable<string>? profiles = null)
@@ -83,11 +87,11 @@ public sealed class BridgeRuntime : IAsyncDisposable
                     if (frame != null) Volatile.Write(ref _latest, frame);
                     var latest = Latest;
                     var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-                    if (latest != null && (now - latest.TimestampMs > 500 || Health.State != "live") && latest.State != "stale")
+                    if (latest != null && (now - latest.TimestampMs > 500 || Health.State is not ("live" or "demo")) && latest.State != "stale")
                         Volatile.Write(ref _latest, latest.Stale(now));
                     Controls.Watchdog();
                     foreach (var client in _clients.Values)
-                        if (Environment.TickCount64 - client.LastSeenTicks > 5000) { Controls.ReleaseOwner(client.Owner); client.Close(); }
+                        if (Environment.TickCount64 - client.LastSeenTicks > 5000) { Release(client); client.Close(); }
                 }
                 catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { break; }
                 catch (Exception e) when (e is IOException or SocketException or InvalidDataException)
@@ -126,12 +130,12 @@ public sealed class BridgeRuntime : IAsyncDisposable
             var authentication = Registry.Authenticate(hello);
             if (authentication == null) { await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "authentication_failed", lifetime.Token); return; }
             session = new(socket, hello, lifetime);
-            if (_clients.TryRemove(hello.DeviceId, out var previous)) { Controls.ReleaseOwner(previous.Owner); previous.Close(); }
+            if (_clients.TryRemove(hello.DeviceId, out var previous)) { Release(previous); previous.Close(); }
             _clients[hello.DeviceId] = session;
             await session.SendAsync(new { type = "welcome", protocol = Protocol.Version, bridgeVersion = Protocol.AppVersion,
                 deviceId = hello.DeviceId, secret = authentication.NewSecret, canControl = authentication.Device.CanControl,
                 mobileControlEnabled = _config.MobileControlEnabled, gameId = _config.GameId,
-                supportedActions = MappedActions(), suggestedProfile = _suggestedProfile }, lifetime.Token);
+                mode = _adapter.IsDemo ? "demo" : "live", supportedActions = MappedActions(session.ProfileId), suggestedProfile = _suggestedProfile }, lifetime.Token);
             Log("connected", hello.Name);
             using var senderStop = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
             var sender = SendFramesAsync(session, senderStop.Token);
@@ -154,11 +158,12 @@ public sealed class BridgeRuntime : IAsyncDisposable
                         case "latency":
                             session.LatencyMs = Math.Clamp(root.GetProperty("ms").GetInt32(), 0, 60000);
                             break;
-                        case "releaseAll": Controls.ReleaseOwner(session.Owner); break;
+                        case "releaseAll": Release(session); break;
                         case "profile":
                             var profile = root.GetProperty("profileId").GetString();
                             if (profile != null && _profiles.Contains(profile))
                             {
+                                Release(session); session.ProfileId = profile;
                                 _suggestedProfile = profile; Registry.RememberProfile(session.DeviceId, profile);
                                 foreach (var client in _clients.Values)
                                     await client.SendAsync(new { type = "profileSuggestion", profileId = profile, sourceDevice = session.DeviceId }, lifetime.Token);
@@ -169,11 +174,10 @@ public sealed class BridgeRuntime : IAsyncDisposable
                             if (request == null) break;
                             var rejected = guard.Validate(request);
                             if (rejected != null) { await session.SendAsync(new ControlAck("ack", request.Id, "rejected", rejected), lifetime.Token); break; }
+                            if (session.Pending.Count >= 16 && request.Phase != "up")
+                            { await session.SendAsync(new ControlAck("ack", request.Id, "rejected", "too_many_pending_commands"), lifetime.Token); break; }
                             await session.SendAsync(new ControlAck("ack", request.Id, "received", TimestampMs: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()), lifetime.Token);
-                            var device = Registry.Get(session.DeviceId);
-                            var ack = await Controls.ExecuteAsync(session.Owner, device?.CanControl == true && session.Role is "panel" or "hybrid", request, lifetime.Token);
-                            await session.SendAsync(ack, lifetime.Token);
-                            Log("command", $"{session.Name} / {request.Action} / {ack.Stage} / {ack.Reason}");
+                            session.Track(request.Id, ProcessCommandAsync(session, request, lifetime.Token));
                             break;
                     }
                 }
@@ -181,7 +185,9 @@ public sealed class BridgeRuntime : IAsyncDisposable
             finally
             {
                 senderStop.Cancel();
+                lifetime.Cancel(); Release(session);
                 try { await sender; } catch (OperationCanceledException) { } catch (WebSocketException) { }
+                await Task.WhenAll(session.Pending.Values);
             }
         }
         catch (Exception e) when (e is WebSocketException or OperationCanceledException or JsonException or InvalidOperationException or KeyNotFoundException or InvalidDataException or FormatException or DecoderFallbackException)
@@ -190,13 +196,34 @@ public sealed class BridgeRuntime : IAsyncDisposable
         {
             if (session != null)
             {
-                Controls.ReleaseOwner(session.Owner);
+                Release(session);
                 if (_clients.TryGetValue(session.DeviceId, out var current) && ReferenceEquals(current, session)) _clients.TryRemove(session.DeviceId, out _);
                 Log("disconnected", session.Name);
             }
         }
     }
-    private string[] MappedActions() => _config.Bindings.GetValueOrDefault(_config.GameId)?.Keys.ToArray() ?? [];
+    private string[] MappedActions(string? profile) => _adapter.IsDemo ? ActionCatalog.Actions.ToArray() : _config.ResolveBindings(profile).Keys.ToArray();
+    private void Release(ClientSession client)
+    {
+        Controls.ReleaseOwner(client.Owner);
+        if (_adapter is IDemoSource demo) demo.ReleaseOwner(client.Owner);
+    }
+    private async Task ProcessCommandAsync(ClientSession session, ControlRequest request, CancellationToken cancellation)
+    {
+        try
+        {
+            var roleAllowed = session.Role is "panel" or "hybrid";
+            ControlAck ack;
+            if (_adapter is IDemoSource demo)
+                ack = roleAllowed ? demo.Apply(session.Owner, request) : new("ack", request.Id, "rejected", "dashboard_read_only");
+            else
+                ack = await Controls.ExecuteAsync(session.Owner, Registry.Get(session.DeviceId)?.CanControl == true && roleAllowed,
+                    request, cancellation, session.ProfileId);
+            await session.SendAsync(ack, cancellation);
+            Log("command", $"{session.Name} / {request.Action} / {ack.Stage} / {ack.Reason}");
+        }
+        catch (Exception e) when (e is WebSocketException or OperationCanceledException or ObjectDisposedException) { session.Close(); }
+    }
     private async Task SendFramesAsync(ClientSession client, CancellationToken cancellation)
     {
         using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1d / client.Hz));
@@ -216,7 +243,8 @@ public sealed class BridgeRuntime : IAsyncDisposable
                 if (now - lastHealth > 1000)
                 {
                     await client.SendAsync(new { type = "health", health = Health, canControl = Registry.Get(client.DeviceId)?.CanControl == true,
-                        mobileControlEnabled = _config.MobileControlEnabled, supportedActions = MappedActions() }, cancellation);
+                        mode = _adapter.IsDemo ? "demo" : "live", mobileControlEnabled = _config.MobileControlEnabled,
+                        supportedActions = MappedActions(client.ProfileId), clients = Clients }, cancellation);
                     lastHealth = now;
                 }
             }
@@ -263,7 +291,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
     }
     private void OnRevoke(string id)
     {
-        if (_clients.TryGetValue(id, out var client)) { Controls.ReleaseOwner(client.Owner); client.Close(); }
+        if (_clients.TryGetValue(id, out var client)) { Release(client); client.Close(); }
     }
     public object DiagnosticReport() => new { application = "SIM CONTROL STUDIO", version = Protocol.AppVersion,
         exportedAt = DateTimeOffset.UtcNow, health = Health, clients = Clients, latest = Latest, events = Events,
@@ -287,9 +315,16 @@ public sealed class BridgeRuntime : IAsyncDisposable
         public string Name => hello.Name;
         public string Role => hello.Role;
         public int Hz => hello.Hz;
+        public string? ProfileId { get; set; } = hello.ProfileId;
+        public ConcurrentDictionary<string, Task> Pending { get; } = [];
         public string Owner { get; } = hello.DeviceId + "/" + Guid.NewGuid().ToString("N");
         public long LastSeenTicks { get; set; } = Environment.TickCount64;
-        public int LatencyMs { get; set; }
+        public int? LatencyMs { get; set; }
+        public void Track(string id, Task task)
+        {
+            Pending[id] = task;
+            _ = task.ContinueWith(completed => Pending.TryRemove(id, out _), TaskScheduler.Default);
+        }
         public async Task SendAsync(object value, CancellationToken cancellation)
         {
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellation);

@@ -45,7 +45,9 @@ jobs:
           set -o pipefail
           flutter analyze --no-fatal-infos 2>&1 | tee ../ci-results/flutter-analyze.log
       - name: Flutter tests
-        run: flutter test --machine > ../ci-results/flutter-tests.jsonl
+        run: |
+          set -o pipefail
+          flutter test --machine 2>&1 | tee ../ci-results/flutter-tests.jsonl
       - name: Prepare isolated preview signing key
         env:
           STUDIO_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -92,6 +94,7 @@ jobs:
           name: Android-check-results-${{ github.sha }}
           path: |
             ci-results/
+            mobile_flutter/pubspec.lock
             tests/results/profile-tests.json
           if-no-files-found: error
           retention-days: 30

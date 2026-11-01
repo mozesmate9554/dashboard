@@ -22,7 +22,7 @@ public sealed record Datum(object? Value, string Unit, string Source, long Times
     Validity Validity = Validity.Valid, bool Derived = false);
 public sealed record TelemetryFrame(long Sequence, long TimestampMs, string GameId, string Adapter,
     string State, IReadOnlyDictionary<string, Datum> Fields, string? VehicleId = null,
-    string? GameVersion = null)
+    string? GameVersion = null, string Mode = "live")
 {
     public TelemetryFrame Stale(long now) => this with
     {
@@ -64,7 +64,8 @@ public static class TelemetryCatalog
         ["yaw"]="rad", ["pitch"]="rad", ["roll"]="rad", ["suspension"]="m",
         ["stageTime"]="ms", ["stageSplits"]="ms", ["stageDistance"]="m",
         ["stageState"]="state", ["vehicleId"]="text", ["stageId"]="text", ["navigation"]="text",
-        ["damage"]="raw", ["sessionStatus"]="state"
+        ["damage"]="raw", ["sessionStatus"]="state", ["lights"]="bool", ["wiperLevel"]="level",
+        ["radioActive"]="bool", ["intercomActive"]="bool", ["starterActive"]="bool"
     };
     public static Dictionary<string, Datum> Empty(string source, long timestamp) => Fields.ToDictionary(
         p => p.Key, p => new Datum(null, p.Value, source, timestamp, Validity.Unsupported));

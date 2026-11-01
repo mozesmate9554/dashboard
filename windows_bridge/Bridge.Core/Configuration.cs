@@ -16,6 +16,10 @@ public sealed class BridgeConfiguration
     {
         ["acr"] = [], ["ac"] = [], ["acc"] = [], ["beamng"] = []
     };
+    public Dictionary<string, Dictionary<string, KeyBinding>> ProfileBindings { get; set; } = [];
+    public IReadOnlyDictionary<string, KeyBinding> ResolveBindings(string? profileId) =>
+        profileId != null && ProfileBindings.TryGetValue(GameId + "/" + profileId, out var profile)
+            ? profile : Bindings.GetValueOrDefault(GameId) ?? new Dictionary<string, KeyBinding>();
     public int UdpPort { get; set; } = 4444;
     public void Validate()
     {
@@ -24,16 +28,27 @@ public sealed class BridgeConfiguration
         if (Port is < 1024 or > 65535 || DiscoveryPort is < 1024 or > 65535 || UdpPort is < 1024 or > 65535)
             throw new ArgumentException("A port 1024 és 65535 között legyen.");
         if (Hz is not (20 or 30 or 60)) throw new ArgumentException("A frissítés 20, 30 vagy 60 Hz lehet.");
-        if (!new[] { "acr", "ac", "acc", "beamng" }.Contains(GameId)) throw new ArgumentException("Nem implementált játékadapter.");
+        if (!new[] { "acr", "ac", "acc", "beamng", "demo" }.Contains(GameId)) throw new ArgumentException("Nem implementált játékadapter.");
         if (RallyProcessNames == null || RallyProcessNames.Length is < 1 or > 6 || RallyProcessNames.Any(name =>
             string.IsNullOrWhiteSpace(name) || name.Length > 100 || name.Any(c => !(char.IsAsciiLetterOrDigit(c) || c is '-' or '_' or '.'))))
             throw new ArgumentException("Érvénytelen Rally-folyamatnév.");
-        foreach (var game in Bindings.Values)
+        if (Bindings == null || ProfileBindings == null) throw new ArgumentException("Üres kiosztásnyilvántartás.");
+        foreach (var key in ProfileBindings.Keys)
+        {
+            var parts = key.Split('/');
+            if (parts.Length != 2 || !new[] { "acr", "ac", "acc", "beamng", "demo" }.Contains(parts[0]) ||
+                parts[1].Length is < 1 or > 100 || parts[1].Any(char.IsControl)) throw new ArgumentException("Hibás profilkiosztás-azonosító.");
+        }
+        foreach (var game in Bindings.Values.Concat(ProfileBindings.Values))
+        {
+            if (game == null) throw new ArgumentException("Üres játék-/profilkiosztás.");
             foreach (var (action, binding) in game)
             {
                 if (!ActionCatalog.Actions.Contains(action)) throw new ArgumentException($"Ismeretlen művelet: {action}");
+                if (binding == null) throw new ArgumentException("Üres billentyű-hozzárendelés.");
                 binding.Validate();
             }
+        }
     }
     public static BridgeConfiguration Load(string path)
     {

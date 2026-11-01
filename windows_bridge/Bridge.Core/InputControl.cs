@@ -78,15 +78,40 @@ public sealed class ControlEngine(BridgeConfiguration config, IGameProbe probe, 
     private readonly Dictionary<string, Lease> _leases = [];
     private readonly Dictionary<ushort, int> _keyOwners = [];
     private readonly Dictionary<string, CancellationTokenSource> _repeats = [];
+    private readonly Dictionary<string, CancellationTokenSource> _owners = [];
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<string, SemaphoreSlim> _pressGates = [];
     private readonly CancellationTokenSource _shutdown = new();
     public int HeldKeyCount { get { lock (_gate) return _keyOwners.Count; } }
     public event Action<string>? Error;
-    private bool Allowed => config.MobileControlEnabled && probe.IsRunning(config.GameId) && probe.IsForeground(config.GameId);
+    private bool Allowed => config.GameId != "demo" && config.MobileControlEnabled && probe.IsRunning(config.GameId) && probe.IsForeground(config.GameId);
 
     public async Task<ControlAck> ExecuteAsync(string owner, bool canControl, ControlRequest request,
-        CancellationToken cancellation = default)
+        CancellationToken cancellation = default, string? profileId = null)
+    {
+        if (request.Phase != "press" || !ActionCatalog.Actions.Contains(request.Action))
+            return await ExecuteCoreAsync(owner, canControl, request, cancellation, profileId);
+        CancellationToken ownerToken;
+        lock (_gate)
+        {
+            if (!_owners.TryGetValue(owner, out var source)) _owners[owner] = source = new();
+            ownerToken = source.Token;
+        }
+        using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellation, ownerToken, _shutdown.Token);
+        var gate = _pressGates.GetOrAdd(request.Action, _ => new(1, 1));
+        var entered = false;
+        try
+        {
+            await gate.WaitAsync(linked.Token); entered = true;
+            return await ExecuteCoreAsync(owner, canControl, request, linked.Token, profileId);
+        }
+        catch (OperationCanceledException) { return new("ack", request.Id, "rejected", "cancelled"); }
+        finally { if (entered) gate.Release(); }
+    }
+    private async Task<ControlAck> ExecuteCoreAsync(string owner, bool canControl, ControlRequest request,
+        CancellationToken cancellation, string? profileId)
     {
         ControlAck Ack(string stage, string? reason = null) => new("ack", request.Id, stage, reason, TimestampMs: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+        if (cancellation.IsCancellationRequested) return Ack("rejected", "cancelled");
         if (string.IsNullOrEmpty(request.Id) || request.Id.Length > 100 || !ActionCatalog.Actions.Contains(request.Action) ||
             request.Phase is not ("press" or "down" or "up")) return Ack("rejected", "invalid_command");
         var leaseId = owner + ":" + request.Action;
@@ -94,7 +119,7 @@ public sealed class ControlEngine(BridgeConfiguration config, IGameProbe probe, 
         if (request.Phase == "up") { lock (_gate) { StopRepeat(leaseId); Release(leaseId); } return Ack("released"); }
         if (!canControl) return Ack("rejected", "device_read_only");
         if (!Allowed) { ReleaseOwner(owner); return Ack("rejected", "control_disabled_or_game_not_foreground"); }
-        if (!config.Bindings.TryGetValue(config.GameId, out var bindings) || !bindings.TryGetValue(request.Action, out var binding))
+        if (!config.ResolveBindings(profileId).TryGetValue(request.Action, out var binding))
             return Ack("rejected", "unsupported_or_unmapped");
         try { binding.Validate(); }
         catch (ArgumentException) { return Ack("rejected", "invalid_binding"); }
@@ -131,7 +156,7 @@ public sealed class ControlEngine(BridgeConfiguration config, IGameProbe probe, 
             finally { lock (_gate) Release(id); }
             return Ack("executed");
         }
-        catch (OperationCanceledException) { ReleaseOwner(owner); return Ack("rejected", "cancelled"); }
+        catch (OperationCanceledException) { return Ack("rejected", "cancelled"); }
         catch (Exception e) when (e is System.ComponentModel.Win32Exception or PlatformNotSupportedException)
         { ReleaseOwner(owner); return Ack("rejected", "input_failed"); }
     }
@@ -203,6 +228,7 @@ public sealed class ControlEngine(BridgeConfiguration config, IGameProbe probe, 
     {
         lock (_gate)
         {
+            if (_owners.Remove(owner, out var source)) { source.Cancel(); source.Dispose(); }
             foreach (var id in _repeats.Keys.Where(k => k.StartsWith(owner + ":", StringComparison.Ordinal)).ToArray()) StopRepeat(id);
             foreach (var id in _leases.Where(k => k.Value.Owner == owner).Select(k => k.Key).ToArray()) Release(id);
         }
@@ -220,6 +246,8 @@ public sealed class ControlEngine(BridgeConfiguration config, IGameProbe probe, 
     {
         lock (_gate)
         {
+            foreach (var source in _owners.Values) { source.Cancel(); source.Dispose(); }
+            _owners.Clear();
             foreach (var id in _repeats.Keys.ToArray()) StopRepeat(id);
             foreach (var id in _leases.Keys.ToArray()) Release(id);
             foreach (var key in _keyOwners.Keys.ToArray()) ReleaseKey(key);

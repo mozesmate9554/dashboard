@@ -9,6 +9,7 @@ namespace SimControlStudio;
 
 public interface IGameAdapter : IDisposable
 {
+    bool IsDemo => false;
     string GameId { get; }
     AdapterHealth Health { get; }
     ValueTask<TelemetryFrame?> PollAsync(CancellationToken cancellation);
@@ -307,6 +308,7 @@ public static class AdapterFactory
     {
         "acr" or "ac" or "acc" => new AcSharedMemoryAdapter(config.GameId, new WindowsMemorySource(), probe),
         "beamng" => new BeamNgOutGaugeAdapter(config.UdpPort, probe),
+        "demo" => new DemoAdapter(),
         _ => throw new NotSupportedException("Az adapter még nincs implementálva.")
     };
 }
