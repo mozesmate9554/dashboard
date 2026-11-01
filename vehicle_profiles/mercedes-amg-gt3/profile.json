@@ -1,0 +1,596 @@
+{
+  "id": "mercedes-amg-gt3",
+  "name": "Mercedes-AMG GT3",
+  "modelYear": 2020,
+  "category": "GT3",
+  "color": "#37dfc3",
+  "version": "0.1.0",
+  "fidelity": "inspired",
+  "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
+  "gameVehicleAliases": [],
+  "references": [
+    {
+      "url": "https://customerracing.mercedes-amg.com/en/mercedes-amg-gt3",
+      "checkedOn": "2026-11-01",
+      "scope": "Model and cockpit concept; exact switch positions pending.",
+      "status": "reviewed_primary_or_organiser",
+      "supportsExactGeometry": false
+    }
+  ],
+  "knownLimitations": [
+    "Factory pixel geometry, fonts and complete switch labels have NOT been verified.",
+    "Drawing scale and RPM LED thresholds are editable design settings, not live engine-limit telemetry.",
+    "A visible control is usable only after mapping and granting permission in the Bridge.",
+    "Car profiles do not imply that the selected game includes this car or supports every field."
+  ],
+  "dashboard": {
+    "schemaVersion": 1,
+    "id": "mercedes-amg-gt3-dash",
+    "version": "0.1.0",
+    "revision": 1,
+    "name": "Mercedes-AMG GT3 · Műszerfal",
+    "vehicleId": "mercedes-amg-gt3",
+    "role": "dashboard",
+    "isBase": true,
+    "width": 1200,
+    "height": 700,
+    "background": "#080a0c",
+    "supportedFields": [
+      "fuel",
+      "gear",
+      "lapCurrent",
+      "rpm",
+      "speed",
+      "tyrePressure",
+      "tyreTempMiddle",
+      "waterTemp"
+    ],
+    "pages": [
+      {
+        "id": "mercedes-amg-gt3-race",
+        "name": "Verseny",
+        "elements": [
+          {
+            "kind": "leds",
+            "field": "rpm",
+            "x": 140,
+            "y": 50,
+            "w": 920,
+            "h": 30,
+            "label": "RPM",
+            "max": 8000,
+            "count": 16,
+            "id": "mercedes-amg-gt3-race-1",
+            "color": "#37dfc3",
+            "z": 0
+          },
+          {
+            "kind": "number",
+            "field": "rpm",
+            "x": 150,
+            "y": 110,
+            "w": 900,
+            "h": 130,
+            "label": "RPM",
+            "id": "mercedes-amg-gt3-race-2",
+            "color": "#37dfc3",
+            "z": 1
+          },
+          {
+            "kind": "gear",
+            "field": "gear",
+            "x": 470,
+            "y": 290,
+            "w": 260,
+            "h": 280,
+            "label": "GEAR",
+            "id": "mercedes-amg-gt3-race-3",
+            "color": "#37dfc3",
+            "z": 2
+          },
+          {
+            "kind": "number",
+            "field": "speed",
+            "x": 90,
+            "y": 310,
+            "w": 310,
+            "h": 190,
+            "label": "SPEED",
+            "id": "mercedes-amg-gt3-race-4",
+            "color": "#37dfc3",
+            "z": 3
+          },
+          {
+            "kind": "number",
+            "field": "fuel",
+            "x": 800,
+            "y": 310,
+            "w": 310,
+            "h": 190,
+            "label": "FUEL",
+            "id": "mercedes-amg-gt3-race-5",
+            "color": "#37dfc3",
+            "z": 4
+          },
+          {
+            "kind": "number",
+            "field": "lapCurrent",
+            "x": 90,
+            "y": 560,
+            "w": 420,
+            "h": 90,
+            "label": "LAP",
+            "id": "mercedes-amg-gt3-race-6",
+            "color": "#37dfc3",
+            "z": 5
+          },
+          {
+            "kind": "number",
+            "field": "waterTemp",
+            "x": 760,
+            "y": 560,
+            "w": 350,
+            "h": 90,
+            "label": "WATER",
+            "id": "mercedes-amg-gt3-race-7",
+            "color": "#37dfc3",
+            "z": 6
+          },
+          {
+            "kind": "text",
+            "field": "",
+            "x": 200,
+            "y": 665,
+            "w": 800,
+            "h": 30,
+            "label": "MERCEDES-AMG GT3 / 2020",
+            "fontSize": 16,
+            "color": "#37dfc3",
+            "id": "mercedes-amg-gt3-race-8",
+            "z": 7
+          }
+        ]
+      },
+      {
+        "id": "mercedes-amg-gt3-systems",
+        "name": "Rendszerek",
+        "elements": [
+          {
+            "kind": "tyres",
+            "field": "tyrePressure",
+            "x": 60,
+            "y": 100,
+            "w": 480,
+            "h": 350,
+            "label": "PRESSURE",
+            "id": "mercedes-amg-gt3-systems-1",
+            "color": "#37dfc3",
+            "z": 0
+          },
+          {
+            "kind": "tyres",
+            "field": "tyreTempMiddle",
+            "x": 660,
+            "y": 100,
+            "w": 480,
+            "h": 350,
+            "label": "TEMPERATURE",
+            "id": "mercedes-amg-gt3-systems-2",
+            "color": "#37dfc3",
+            "z": 1
+          },
+          {
+            "kind": "pedals",
+            "field": "",
+            "x": 100,
+            "y": 500,
+            "w": 320,
+            "h": 130,
+            "label": "",
+            "id": "mercedes-amg-gt3-systems-3",
+            "color": "#37dfc3",
+            "z": 2
+          },
+          {
+            "kind": "gForce",
+            "field": "",
+            "x": 510,
+            "y": 480,
+            "w": 180,
+            "h": 180,
+            "label": "",
+            "id": "mercedes-amg-gt3-systems-4",
+            "color": "#37dfc3",
+            "z": 3
+          },
+          {
+            "kind": "number",
+            "field": "waterTemp",
+            "x": 770,
+            "y": 500,
+            "w": 330,
+            "h": 130,
+            "label": "WATER",
+            "id": "mercedes-amg-gt3-systems-5",
+            "color": "#37dfc3",
+            "z": 4
+          }
+        ]
+      }
+    ]
+  },
+  "panel": {
+    "schemaVersion": 1,
+    "id": "mercedes-amg-gt3-panel",
+    "version": "0.1.0",
+    "revision": 1,
+    "name": "Mercedes-AMG GT3 · Kezelőpanel",
+    "vehicleId": "mercedes-amg-gt3",
+    "role": "panel",
+    "isBase": true,
+    "width": 1200,
+    "height": 700,
+    "background": "#080a0c",
+    "supportedFields": [
+      "gear"
+    ],
+    "pages": [
+      {
+        "id": "mercedes-amg-gt3-wheel",
+        "name": "Kormány",
+        "elements": [
+          {
+            "kind": "svg",
+            "field": "",
+            "x": 0,
+            "y": 0,
+            "w": 1200,
+            "h": 700,
+            "label": "",
+            "assetId": "wheel-body",
+            "border": false,
+            "z": -20,
+            "id": "mercedes-amg-gt3-wheel-1",
+            "color": "#37dfc3"
+          },
+          {
+            "kind": "gear",
+            "field": "gear",
+            "x": 465,
+            "y": 135,
+            "w": 270,
+            "h": 120,
+            "label": "GEAR",
+            "fontSize": 80,
+            "border": false,
+            "id": "mercedes-amg-gt3-wheel-2",
+            "color": "#37dfc3",
+            "z": 1
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 135,
+            "y": 150,
+            "w": 175,
+            "h": 110,
+            "label": "RADIO",
+            "action": "radio",
+            "shape": "circle",
+            "id": "mercedes-amg-gt3-wheel-3",
+            "color": "#37dfc3",
+            "z": 2
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 875,
+            "y": 150,
+            "w": 175,
+            "h": 110,
+            "label": "PIT",
+            "action": "pitLimiter",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-wheel-4",
+            "color": "#37dfc3",
+            "z": 3
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 135,
+            "y": 290,
+            "w": 175,
+            "h": 110,
+            "label": "LIGHT",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-wheel-5",
+            "color": "#37dfc3",
+            "z": 4
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 875,
+            "y": 290,
+            "w": 175,
+            "h": 110,
+            "label": "FLASH",
+            "action": "flash",
+            "shape": "circle",
+            "id": "mercedes-amg-gt3-wheel-6",
+            "color": "#37dfc3",
+            "z": 5
+          },
+          {
+            "kind": "rotary",
+            "field": "",
+            "x": 200,
+            "y": 465,
+            "w": 220,
+            "h": 110,
+            "label": "TC",
+            "action": "tcUp",
+            "minusAction": "tcDown",
+            "shape": "circle",
+            "id": "mercedes-amg-gt3-wheel-7",
+            "color": "#37dfc3",
+            "z": 6
+          },
+          {
+            "kind": "rotary",
+            "field": "",
+            "x": 490,
+            "y": 465,
+            "w": 220,
+            "h": 110,
+            "label": "ABS",
+            "action": "absUp",
+            "minusAction": "absDown",
+            "shape": "circle",
+            "id": "mercedes-amg-gt3-wheel-8",
+            "color": "#37dfc3",
+            "z": 7
+          },
+          {
+            "kind": "stepper",
+            "field": "",
+            "x": 780,
+            "y": 465,
+            "w": 220,
+            "h": 110,
+            "label": "BB",
+            "action": "brakeBiasUp",
+            "minusAction": "brakeBiasDown",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-wheel-9",
+            "color": "#37dfc3",
+            "z": 8
+          }
+        ]
+      },
+      {
+        "id": "mercedes-amg-gt3-console",
+        "name": "Középkonzol",
+        "elements": [
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 80,
+            "y": 95,
+            "w": 480,
+            "h": 135,
+            "label": "IGNITION",
+            "action": "ignition",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-console-1",
+            "color": "#37dfc3",
+            "z": 0
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 595,
+            "y": 95,
+            "w": 480,
+            "h": 135,
+            "label": "START",
+            "action": "starter",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-console-2",
+            "color": "#37dfc3",
+            "z": 1
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 80,
+            "y": 260,
+            "w": 480,
+            "h": 135,
+            "label": "LIGHTS",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-console-3",
+            "color": "#37dfc3",
+            "z": 2
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 595,
+            "y": 260,
+            "w": 480,
+            "h": 135,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-console-4",
+            "color": "#37dfc3",
+            "z": 3
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 80,
+            "y": 425,
+            "w": 480,
+            "h": 135,
+            "label": "FAN",
+            "action": "fan",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-console-5",
+            "color": "#37dfc3",
+            "z": 4
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 595,
+            "y": 425,
+            "w": 480,
+            "h": 135,
+            "label": "RAIN",
+            "action": "rainLight",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-console-6",
+            "color": "#37dfc3",
+            "z": 5
+          }
+        ]
+      },
+      {
+        "id": "mercedes-amg-gt3-combined",
+        "name": "Kombinált mobilpanel",
+        "elements": [
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 50,
+            "y": 90,
+            "w": 250,
+            "h": 140,
+            "label": "RADIO",
+            "action": "radio",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-1",
+            "color": "#37dfc3",
+            "z": 0
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 330,
+            "y": 90,
+            "w": 250,
+            "h": 140,
+            "label": "PIT",
+            "action": "pitLimiter",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-2",
+            "color": "#37dfc3",
+            "z": 1
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 610,
+            "y": 90,
+            "w": 250,
+            "h": 140,
+            "label": "LIGHT",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-3",
+            "color": "#37dfc3",
+            "z": 2
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 890,
+            "y": 90,
+            "w": 250,
+            "h": 140,
+            "label": "FLASH",
+            "action": "flash",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-4",
+            "color": "#37dfc3",
+            "z": 3
+          },
+          {
+            "kind": "rotary",
+            "field": "",
+            "x": 50,
+            "y": 270,
+            "w": 250,
+            "h": 140,
+            "label": "TC",
+            "action": "tcUp",
+            "minusAction": "tcDown",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-5",
+            "color": "#37dfc3",
+            "z": 4
+          },
+          {
+            "kind": "rotary",
+            "field": "",
+            "x": 330,
+            "y": 270,
+            "w": 250,
+            "h": 140,
+            "label": "ABS",
+            "action": "absUp",
+            "minusAction": "absDown",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-6",
+            "color": "#37dfc3",
+            "z": 5
+          },
+          {
+            "kind": "stepper",
+            "field": "",
+            "x": 610,
+            "y": 270,
+            "w": 250,
+            "h": 140,
+            "label": "BB",
+            "action": "brakeBiasUp",
+            "minusAction": "brakeBiasDown",
+            "shape": "rounded",
+            "id": "mercedes-amg-gt3-combined-7",
+            "color": "#37dfc3",
+            "z": 6
+          },
+          {
+            "kind": "text",
+            "field": "",
+            "x": 50,
+            "y": 650,
+            "w": 1100,
+            "h": 30,
+            "label": "EGYÉNI ELRENDEZÉS / EREDETI AUTÓ ÁLTAL INSPIRÁLT",
+            "fontSize": 14,
+            "id": "mercedes-amg-gt3-combined-8",
+            "color": "#37dfc3",
+            "z": 7
+          }
+        ]
+      },
+      {
+        "id": "mercedes-amg-gt3-custom",
+        "name": "Egyéni vezérlők",
+        "elements": []
+      }
+    ],
+    "assets": {
+      "wheel-body": {
+        "type": "svg",
+        "base64": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDcwMCI+PHBhdGggZD0iTTEzMCA5NSBRNjAwIDIwIDEwNzAgOTUgTDExNTAgMzAwIEwxMDgwIDU3MCBRNjAwIDY5MCAxMjAgNTcwIEw1MCAzMDAgWiIgZmlsbD0iIzE2MWIyMiIgc3Ryb2tlPSIjM2Q0NjU0IiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cmVjdCB4PSIzNTAiIHk9IjEzMCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iIzA3MDkwZCIgc3Ryb2tlPSIjMzdkZmMzIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4="
+      }
+    }
+  }
+}

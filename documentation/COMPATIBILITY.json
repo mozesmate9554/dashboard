@@ -1,0 +1,4774 @@
+{
+  "schemaVersion": 1,
+  "note": "Requested coverage checklist. This does NOT assert that every session exists in every game.",
+  "rows": [
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acr",
+      "game": "Assetto Corsa Rally",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [
+        "speed",
+        "rpm",
+        "gear",
+        "throttle",
+        "brake",
+        "steering",
+        "gX",
+        "gY",
+        "gZ"
+      ],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acevo",
+      "game": "Assetto Corsa EVO",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ac",
+      "game": "Assetto Corsa",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "beamng",
+      "game": "BeamNG.drive",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "acc",
+      "game": "Assetto Corsa Competizione",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "implemented_not_live_verified",
+      "buttonBox": "locally_mapped_SendInput_not_game_verified",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "iracing",
+      "game": "iRacing",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ams2",
+      "game": "Automobilista 2",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "rf2",
+      "game": "rFactor 2",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "lmu",
+      "game": "Le Mans Ultimate",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "f1",
+      "game": "EA SPORTS F1",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "eawrc",
+      "game": "EA SPORTS WRC",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "dirt2",
+      "game": "DiRT Rally 2.0",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "raceroom",
+      "game": "RaceRoom Racing Experience",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzam",
+      "game": "Forza Motorsport",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "forzah",
+      "game": "Forza Horizon",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "pcars",
+      "game": "Project CARS",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ets2",
+      "game": "Euro Truck Simulator 2",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "practice",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "time_trial",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "qualifying",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "race",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "offline",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "online_multiplayer",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "private_server",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "league",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "rally_stage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "online_rally",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "free_roam",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "test_drive",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "pit",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "garage",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "replay",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    },
+    {
+      "gameId": "ats",
+      "game": "American Truck Simulator",
+      "gameVersion": null,
+      "requestedSession": "spectator",
+      "sessionExistsInInstalledVersion": "not_verified",
+      "telemetry": "not_implemented",
+      "buttonBox": "not_implemented",
+      "availableFields": [],
+      "onlineConditions": "Use only telemetry/input permitted by the actual game and event; not verified.",
+      "testStatus": "not_run",
+      "knownIssues": [
+        "No physical test of this game/version/session.",
+        "Source availability does not prove every requested field."
+      ]
+    }
+  ]
+}

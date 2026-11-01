@@ -1,0 +1,568 @@
+{
+  "id": "skoda-fabia-rs-rally2",
+  "name": "Škoda Fabia RS Rally2",
+  "modelYear": 2022,
+  "category": "RALLY2",
+  "color": "#64e69c",
+  "version": "0.1.0",
+  "fidelity": "partial_reference",
+  "fidelityLabel": "Részleges referencia alapján",
+  "gameVehicleAliases": [],
+  "references": [
+    {
+      "url": "https://www.skoda-motorsport.com/en/skoda-fabia-rs-rally2/basic-information/",
+      "checkedOn": "2026-11-01",
+      "scope": "Confirmed: enlarged display, start button on wheel, touch centre panel and integrated intercom. Pixel geometry/other switch positions remain an original design.",
+      "status": "reviewed_primary_or_organiser",
+      "supportsExactGeometry": false
+    },
+    {
+      "url": "https://www.skoda-motorsport.com/en/skoda-fabia-rs-rally2-all-the-essentials-in-60-seconds/",
+      "checkedOn": "2026-11-01",
+      "scope": "2022 introduction: wheel start and touch console; exact pixels not established.",
+      "supportsExactGeometry": false,
+      "status": "reviewed_primary"
+    }
+  ],
+  "knownLimitations": [
+    "Factory pixel geometry, fonts and complete switch labels have NOT been verified.",
+    "Drawing scale and RPM LED thresholds are editable design settings, not live engine-limit telemetry.",
+    "A visible control is usable only after mapping and granting permission in the Bridge.",
+    "Car profiles do not imply that the selected game includes this car or supports every field."
+  ],
+  "dashboard": {
+    "schemaVersion": 1,
+    "id": "skoda-fabia-rs-rally2-dash",
+    "version": "0.1.0",
+    "revision": 1,
+    "name": "Škoda Fabia RS Rally2 · Műszerfal",
+    "vehicleId": "skoda-fabia-rs-rally2",
+    "role": "dashboard",
+    "isBase": true,
+    "width": 1200,
+    "height": 700,
+    "background": "#080a0c",
+    "supportedFields": [
+      "gear",
+      "oilPressure",
+      "rpm",
+      "speed",
+      "stageDistance",
+      "stageTime",
+      "tyrePressure",
+      "tyreTempMiddle",
+      "waterTemp"
+    ],
+    "pages": [
+      {
+        "id": "skoda-fabia-rs-rally2-race",
+        "name": "Verseny",
+        "elements": [
+          {
+            "kind": "leds",
+            "field": "rpm",
+            "x": 85,
+            "y": 45,
+            "w": 1030,
+            "h": 38,
+            "label": "RPM",
+            "max": 8000,
+            "count": 18,
+            "id": "skoda-fabia-rs-rally2-race-1",
+            "color": "#64e69c",
+            "z": 0
+          },
+          {
+            "kind": "gear",
+            "field": "gear",
+            "x": 440,
+            "y": 130,
+            "w": 320,
+            "h": 330,
+            "label": "GEAR",
+            "id": "skoda-fabia-rs-rally2-race-2",
+            "color": "#64e69c",
+            "z": 1
+          },
+          {
+            "kind": "number",
+            "field": "speed",
+            "x": 85,
+            "y": 155,
+            "w": 280,
+            "h": 170,
+            "label": "SPEED",
+            "id": "skoda-fabia-rs-rally2-race-3",
+            "color": "#64e69c",
+            "z": 2
+          },
+          {
+            "kind": "number",
+            "field": "rpm",
+            "x": 835,
+            "y": 155,
+            "w": 280,
+            "h": 170,
+            "label": "RPM",
+            "id": "skoda-fabia-rs-rally2-race-4",
+            "color": "#64e69c",
+            "z": 3
+          },
+          {
+            "kind": "number",
+            "field": "waterTemp",
+            "x": 70,
+            "y": 365,
+            "w": 310,
+            "h": 100,
+            "label": "WATER",
+            "id": "skoda-fabia-rs-rally2-race-5",
+            "color": "#64e69c",
+            "z": 4
+          },
+          {
+            "kind": "number",
+            "field": "oilPressure",
+            "x": 820,
+            "y": 365,
+            "w": 310,
+            "h": 100,
+            "label": "OIL PRESS",
+            "decimals": 1,
+            "id": "skoda-fabia-rs-rally2-race-6",
+            "color": "#64e69c",
+            "z": 5
+          },
+          {
+            "kind": "number",
+            "field": "stageTime",
+            "x": 85,
+            "y": 525,
+            "w": 480,
+            "h": 120,
+            "label": "STAGE",
+            "id": "skoda-fabia-rs-rally2-race-7",
+            "color": "#64e69c",
+            "z": 6
+          },
+          {
+            "kind": "number",
+            "field": "stageDistance",
+            "x": 645,
+            "y": 525,
+            "w": 470,
+            "h": 120,
+            "label": "DISTANCE",
+            "id": "skoda-fabia-rs-rally2-race-8",
+            "color": "#64e69c",
+            "z": 7
+          },
+          {
+            "kind": "text",
+            "field": "",
+            "x": 200,
+            "y": 665,
+            "w": 800,
+            "h": 30,
+            "label": "ŠKODA FABIA RS RALLY2 / 2022",
+            "fontSize": 16,
+            "color": "#64e69c",
+            "id": "skoda-fabia-rs-rally2-race-9",
+            "z": 8
+          }
+        ]
+      },
+      {
+        "id": "skoda-fabia-rs-rally2-systems",
+        "name": "Rendszerek",
+        "elements": [
+          {
+            "kind": "tyres",
+            "field": "tyrePressure",
+            "x": 60,
+            "y": 100,
+            "w": 480,
+            "h": 350,
+            "label": "PRESSURE",
+            "id": "skoda-fabia-rs-rally2-systems-1",
+            "color": "#64e69c",
+            "z": 0
+          },
+          {
+            "kind": "tyres",
+            "field": "tyreTempMiddle",
+            "x": 660,
+            "y": 100,
+            "w": 480,
+            "h": 350,
+            "label": "TEMPERATURE",
+            "id": "skoda-fabia-rs-rally2-systems-2",
+            "color": "#64e69c",
+            "z": 1
+          },
+          {
+            "kind": "pedals",
+            "field": "",
+            "x": 100,
+            "y": 500,
+            "w": 320,
+            "h": 130,
+            "label": "",
+            "id": "skoda-fabia-rs-rally2-systems-3",
+            "color": "#64e69c",
+            "z": 2
+          },
+          {
+            "kind": "gForce",
+            "field": "",
+            "x": 510,
+            "y": 480,
+            "w": 180,
+            "h": 180,
+            "label": "",
+            "id": "skoda-fabia-rs-rally2-systems-4",
+            "color": "#64e69c",
+            "z": 3
+          },
+          {
+            "kind": "number",
+            "field": "waterTemp",
+            "x": 770,
+            "y": 500,
+            "w": 330,
+            "h": 130,
+            "label": "WATER",
+            "id": "skoda-fabia-rs-rally2-systems-5",
+            "color": "#64e69c",
+            "z": 4
+          }
+        ]
+      }
+    ]
+  },
+  "panel": {
+    "schemaVersion": 1,
+    "id": "skoda-fabia-rs-rally2-panel",
+    "version": "0.1.0",
+    "revision": 1,
+    "name": "Škoda Fabia RS Rally2 · Kezelőpanel",
+    "vehicleId": "skoda-fabia-rs-rally2",
+    "role": "panel",
+    "isBase": true,
+    "width": 1200,
+    "height": 700,
+    "background": "#080a0c",
+    "supportedFields": [
+      "gear"
+    ],
+    "pages": [
+      {
+        "id": "skoda-fabia-rs-rally2-wheel",
+        "name": "Kormány",
+        "elements": [
+          {
+            "kind": "svg",
+            "field": "",
+            "x": 0,
+            "y": 0,
+            "w": 1200,
+            "h": 700,
+            "label": "",
+            "assetId": "wheel-body",
+            "border": false,
+            "z": -20,
+            "id": "skoda-fabia-rs-rally2-wheel-1",
+            "color": "#64e69c"
+          },
+          {
+            "kind": "gear",
+            "field": "gear",
+            "x": 465,
+            "y": 135,
+            "w": 270,
+            "h": 120,
+            "label": "GEAR",
+            "fontSize": 80,
+            "border": false,
+            "id": "skoda-fabia-rs-rally2-wheel-2",
+            "color": "#64e69c",
+            "z": 1
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 130,
+            "y": 205,
+            "w": 175,
+            "h": 110,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-wheel-3",
+            "color": "#64e69c",
+            "z": 2
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 870,
+            "y": 205,
+            "w": 175,
+            "h": 110,
+            "label": "LIGHT",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-wheel-4",
+            "color": "#64e69c",
+            "z": 3
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 470,
+            "y": 335,
+            "w": 175,
+            "h": 110,
+            "label": "START",
+            "action": "starter",
+            "shape": "circle",
+            "id": "skoda-fabia-rs-rally2-wheel-5",
+            "color": "#64e69c",
+            "z": 4
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 130,
+            "y": 460,
+            "w": 175,
+            "h": 110,
+            "label": "INTERCOM",
+            "action": "intercom",
+            "shape": "circle",
+            "id": "skoda-fabia-rs-rally2-wheel-6",
+            "color": "#64e69c",
+            "z": 5
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 870,
+            "y": 460,
+            "w": 175,
+            "h": 110,
+            "label": "PAGE",
+            "action": "displayNext",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-wheel-7",
+            "color": "#64e69c",
+            "z": 6
+          }
+        ]
+      },
+      {
+        "id": "skoda-fabia-rs-rally2-console",
+        "name": "Középkonzol",
+        "elements": [
+          {
+            "kind": "text",
+            "field": "",
+            "x": 120,
+            "y": 40,
+            "w": 960,
+            "h": 45,
+            "label": "TOUCH CONTROL / INTERCOM",
+            "fontSize": 24,
+            "id": "skoda-fabia-rs-rally2-console-1",
+            "color": "#64e69c",
+            "z": 0
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 90,
+            "y": 140,
+            "w": 310,
+            "h": 140,
+            "label": "IGNITION",
+            "action": "ignition",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-console-2",
+            "color": "#64e69c",
+            "z": 1
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 445,
+            "y": 140,
+            "w": 310,
+            "h": 140,
+            "label": "START",
+            "action": "starter",
+            "shape": "circle",
+            "id": "skoda-fabia-rs-rally2-console-3",
+            "color": "#64e69c",
+            "z": 2
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 800,
+            "y": 140,
+            "w": 310,
+            "h": 140,
+            "label": "LIGHTS",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-console-4",
+            "color": "#64e69c",
+            "z": 3
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 90,
+            "y": 340,
+            "w": 310,
+            "h": 135,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-console-5",
+            "color": "#64e69c",
+            "z": 4
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 445,
+            "y": 340,
+            "w": 310,
+            "h": 135,
+            "label": "INTERCOM",
+            "action": "intercom",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-console-6",
+            "color": "#64e69c",
+            "z": 5
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 800,
+            "y": 340,
+            "w": 310,
+            "h": 135,
+            "label": "PAGE",
+            "action": "displayNext",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-console-7",
+            "color": "#64e69c",
+            "z": 6
+          }
+        ]
+      },
+      {
+        "id": "skoda-fabia-rs-rally2-combined",
+        "name": "Kombinált mobilpanel",
+        "elements": [
+          {
+            "kind": "button",
+            "field": "",
+            "x": 50,
+            "y": 90,
+            "w": 330,
+            "h": 140,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-combined-1",
+            "color": "#64e69c",
+            "z": 0
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 410,
+            "y": 90,
+            "w": 330,
+            "h": 140,
+            "label": "LIGHT",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-combined-2",
+            "color": "#64e69c",
+            "z": 1
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 770,
+            "y": 90,
+            "w": 330,
+            "h": 140,
+            "label": "START",
+            "action": "starter",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-combined-3",
+            "color": "#64e69c",
+            "z": 2
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 50,
+            "y": 270,
+            "w": 330,
+            "h": 140,
+            "label": "INTERCOM",
+            "action": "intercom",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-combined-4",
+            "color": "#64e69c",
+            "z": 3
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 410,
+            "y": 270,
+            "w": 330,
+            "h": 140,
+            "label": "PAGE",
+            "action": "displayNext",
+            "shape": "rounded",
+            "id": "skoda-fabia-rs-rally2-combined-5",
+            "color": "#64e69c",
+            "z": 4
+          },
+          {
+            "kind": "text",
+            "field": "",
+            "x": 50,
+            "y": 650,
+            "w": 1100,
+            "h": 30,
+            "label": "EGYÉNI ELRENDEZÉS / EREDETI AUTÓ ÁLTAL INSPIRÁLT",
+            "fontSize": 14,
+            "id": "skoda-fabia-rs-rally2-combined-6",
+            "color": "#64e69c",
+            "z": 5
+          }
+        ]
+      },
+      {
+        "id": "skoda-fabia-rs-rally2-custom",
+        "name": "Egyéni vezérlők",
+        "elements": []
+      }
+    ],
+    "assets": {
+      "wheel-body": {
+        "type": "svg",
+        "base64": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDcwMCI+PHBhdGggZD0iTTYwMCA2MCBBMjg1IDI4NSAwIDEgMSA1OTkgNjAgTTYwMCAxMjAgQTIyNSAyMjUgMCAxIDAgNjAxIDEyMCIgZmlsbD0iIzE2MWIyMiIgc3Ryb2tlPSIjM2Q0NjU0IiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cmVjdCB4PSIzNTAiIHk9IjEzMCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iIzA3MDkwZCIgc3Ryb2tlPSIjNjRlNjljIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4="
+      }
+    }
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "id": "ford-puma-rally1",
+  "name": "Ford Puma Rally1",
+  "modelYear": 2026,
+  "category": "RALLY1",
+  "color": "#79b8ff",
+  "version": "0.1.0",
+  "fidelity": "inspired",
+  "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
+  "gameVehicleAliases": [],
+  "references": [
+    {
+      "url": "https://www.m-sport.co.uk/post/m-sport-crews-bid-farewell-to-rally1-cars-on-rally-italia-sardegna",
+      "checkedOn": "2026-11-01",
+      "scope": "2026 model identity; exact control geometry not established. No assumed hybrid control.",
+      "status": "reviewed_primary_or_organiser",
+      "supportsExactGeometry": false
+    }
+  ],
+  "knownLimitations": [
+    "Factory pixel geometry, fonts and complete switch labels have NOT been verified.",
+    "Drawing scale and RPM LED thresholds are editable design settings, not live engine-limit telemetry.",
+    "A visible control is usable only after mapping and granting permission in the Bridge.",
+    "Car profiles do not imply that the selected game includes this car or supports every field."
+  ],
+  "dashboard": {
+    "schemaVersion": 1,
+    "id": "ford-puma-rally1-dash",
+    "version": "0.1.0",
+    "revision": 1,
+    "name": "Ford Puma Rally1 · Műszerfal",
+    "vehicleId": "ford-puma-rally1",
+    "role": "dashboard",
+    "isBase": true,
+    "width": 1200,
+    "height": 700,
+    "background": "#080a0c",
+    "supportedFields": [
+      "gear",
+      "rpm",
+      "speed",
+      "stageTime",
+      "turbo",
+      "tyrePressure",
+      "tyreTempMiddle",
+      "waterTemp"
+    ],
+    "pages": [
+      {
+        "id": "ford-puma-rally1-race",
+        "name": "Verseny",
+        "elements": [
+          {
+            "kind": "analog",
+            "field": "rpm",
+            "x": 75,
+            "y": 110,
+            "w": 430,
+            "h": 430,
+            "label": "",
+            "max": 8500,
+            "id": "ford-puma-rally1-race-1",
+            "color": "#79b8ff",
+            "z": 0
+          },
+          {
+            "kind": "gear",
+            "field": "gear",
+            "x": 650,
+            "y": 115,
+            "w": 370,
+            "h": 320,
+            "label": "GEAR",
+            "id": "ford-puma-rally1-race-2",
+            "color": "#79b8ff",
+            "z": 1
+          },
+          {
+            "kind": "leds",
+            "field": "rpm",
+            "x": 610,
+            "y": 475,
+            "w": 500,
+            "h": 35,
+            "label": "RPM",
+            "max": 8000,
+            "count": 16,
+            "id": "ford-puma-rally1-race-3",
+            "color": "#79b8ff",
+            "z": 2
+          },
+          {
+            "kind": "number",
+            "field": "speed",
+            "x": 625,
+            "y": 545,
+            "w": 240,
+            "h": 110,
+            "label": "SPEED",
+            "id": "ford-puma-rally1-race-4",
+            "color": "#79b8ff",
+            "z": 3
+          },
+          {
+            "kind": "number",
+            "field": "stageTime",
+            "x": 60,
+            "y": 575,
+            "w": 500,
+            "h": 85,
+            "label": "STAGE",
+            "id": "ford-puma-rally1-race-5",
+            "color": "#79b8ff",
+            "z": 4
+          },
+          {
+            "kind": "number",
+            "field": "turbo",
+            "x": 905,
+            "y": 545,
+            "w": 215,
+            "h": 110,
+            "label": "BOOST",
+            "decimals": 1,
+            "id": "ford-puma-rally1-race-6",
+            "color": "#79b8ff",
+            "z": 5
+          },
+          {
+            "kind": "text",
+            "field": "",
+            "x": 200,
+            "y": 665,
+            "w": 800,
+            "h": 30,
+            "label": "FORD PUMA RALLY1 / 2026",
+            "fontSize": 16,
+            "color": "#79b8ff",
+            "id": "ford-puma-rally1-race-7",
+            "z": 6
+          }
+        ]
+      },
+      {
+        "id": "ford-puma-rally1-systems",
+        "name": "Rendszerek",
+        "elements": [
+          {
+            "kind": "tyres",
+            "field": "tyrePressure",
+            "x": 60,
+            "y": 100,
+            "w": 480,
+            "h": 350,
+            "label": "PRESSURE",
+            "id": "ford-puma-rally1-systems-1",
+            "color": "#79b8ff",
+            "z": 0
+          },
+          {
+            "kind": "tyres",
+            "field": "tyreTempMiddle",
+            "x": 660,
+            "y": 100,
+            "w": 480,
+            "h": 350,
+            "label": "TEMPERATURE",
+            "id": "ford-puma-rally1-systems-2",
+            "color": "#79b8ff",
+            "z": 1
+          },
+          {
+            "kind": "pedals",
+            "field": "",
+            "x": 100,
+            "y": 500,
+            "w": 320,
+            "h": 130,
+            "label": "",
+            "id": "ford-puma-rally1-systems-3",
+            "color": "#79b8ff",
+            "z": 2
+          },
+          {
+            "kind": "gForce",
+            "field": "",
+            "x": 510,
+            "y": 480,
+            "w": 180,
+            "h": 180,
+            "label": "",
+            "id": "ford-puma-rally1-systems-4",
+            "color": "#79b8ff",
+            "z": 3
+          },
+          {
+            "kind": "number",
+            "field": "waterTemp",
+            "x": 770,
+            "y": 500,
+            "w": 330,
+            "h": 130,
+            "label": "WATER",
+            "id": "ford-puma-rally1-systems-5",
+            "color": "#79b8ff",
+            "z": 4
+          }
+        ]
+      }
+    ]
+  },
+  "panel": {
+    "schemaVersion": 1,
+    "id": "ford-puma-rally1-panel",
+    "version": "0.1.0",
+    "revision": 1,
+    "name": "Ford Puma Rally1 · Kezelőpanel",
+    "vehicleId": "ford-puma-rally1",
+    "role": "panel",
+    "isBase": true,
+    "width": 1200,
+    "height": 700,
+    "background": "#080a0c",
+    "supportedFields": [
+      "gear"
+    ],
+    "pages": [
+      {
+        "id": "ford-puma-rally1-wheel",
+        "name": "Kormány",
+        "elements": [
+          {
+            "kind": "svg",
+            "field": "",
+            "x": 0,
+            "y": 0,
+            "w": 1200,
+            "h": 700,
+            "label": "",
+            "assetId": "wheel-body",
+            "border": false,
+            "z": -20,
+            "id": "ford-puma-rally1-wheel-1",
+            "color": "#79b8ff"
+          },
+          {
+            "kind": "gear",
+            "field": "gear",
+            "x": 465,
+            "y": 135,
+            "w": 270,
+            "h": 120,
+            "label": "GEAR",
+            "fontSize": 80,
+            "border": false,
+            "id": "ford-puma-rally1-wheel-2",
+            "color": "#79b8ff",
+            "z": 1
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 460,
+            "y": 345,
+            "w": 175,
+            "h": 110,
+            "label": "START",
+            "action": "starter",
+            "shape": "circle",
+            "id": "ford-puma-rally1-wheel-3",
+            "color": "#79b8ff",
+            "z": 2
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 125,
+            "y": 190,
+            "w": 175,
+            "h": 110,
+            "label": "LIGHT",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-wheel-4",
+            "color": "#79b8ff",
+            "z": 3
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 895,
+            "y": 190,
+            "w": 175,
+            "h": 110,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-wheel-5",
+            "color": "#79b8ff",
+            "z": 4
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 125,
+            "y": 455,
+            "w": 175,
+            "h": 110,
+            "label": "RADIO",
+            "action": "radio",
+            "shape": "circle",
+            "id": "ford-puma-rally1-wheel-6",
+            "color": "#79b8ff",
+            "z": 5
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 895,
+            "y": 455,
+            "w": 175,
+            "h": 110,
+            "label": "PAGE",
+            "action": "displayNext",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-wheel-7",
+            "color": "#79b8ff",
+            "z": 6
+          },
+          {
+            "kind": "stepper",
+            "field": "",
+            "x": 460,
+            "y": 520,
+            "w": 220,
+            "h": 110,
+            "label": "MAP",
+            "action": "engineMapUp",
+            "minusAction": "engineMapDown",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-wheel-8",
+            "color": "#79b8ff",
+            "z": 7
+          }
+        ]
+      },
+      {
+        "id": "ford-puma-rally1-console",
+        "name": "Középkonzol",
+        "elements": [
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 80,
+            "y": 95,
+            "w": 480,
+            "h": 135,
+            "label": "IGNITION",
+            "action": "ignition",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-console-1",
+            "color": "#79b8ff",
+            "z": 0
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 595,
+            "y": 95,
+            "w": 480,
+            "h": 135,
+            "label": "START",
+            "action": "starter",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-console-2",
+            "color": "#79b8ff",
+            "z": 1
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 80,
+            "y": 260,
+            "w": 480,
+            "h": 135,
+            "label": "LIGHTS",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-console-3",
+            "color": "#79b8ff",
+            "z": 2
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 595,
+            "y": 260,
+            "w": 480,
+            "h": 135,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-console-4",
+            "color": "#79b8ff",
+            "z": 3
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 80,
+            "y": 425,
+            "w": 480,
+            "h": 135,
+            "label": "INTERCOM",
+            "action": "intercom",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-console-5",
+            "color": "#79b8ff",
+            "z": 4
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 595,
+            "y": 425,
+            "w": 480,
+            "h": 135,
+            "label": "PAGE",
+            "action": "displayNext",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-console-6",
+            "color": "#79b8ff",
+            "z": 5
+          }
+        ]
+      },
+      {
+        "id": "ford-puma-rally1-combined",
+        "name": "Kombinált mobilpanel",
+        "elements": [
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 50,
+            "y": 90,
+            "w": 330,
+            "h": 140,
+            "label": "START",
+            "action": "starter",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-combined-1",
+            "color": "#79b8ff",
+            "z": 0
+          },
+          {
+            "kind": "toggle",
+            "field": "",
+            "x": 410,
+            "y": 90,
+            "w": 330,
+            "h": 140,
+            "label": "LIGHT",
+            "action": "lights",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-combined-2",
+            "color": "#79b8ff",
+            "z": 1
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 770,
+            "y": 90,
+            "w": 330,
+            "h": 140,
+            "label": "WIPER",
+            "action": "wiper",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-combined-3",
+            "color": "#79b8ff",
+            "z": 2
+          },
+          {
+            "kind": "hold",
+            "field": "",
+            "x": 50,
+            "y": 270,
+            "w": 330,
+            "h": 140,
+            "label": "RADIO",
+            "action": "radio",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-combined-4",
+            "color": "#79b8ff",
+            "z": 3
+          },
+          {
+            "kind": "button",
+            "field": "",
+            "x": 410,
+            "y": 270,
+            "w": 330,
+            "h": 140,
+            "label": "PAGE",
+            "action": "displayNext",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-combined-5",
+            "color": "#79b8ff",
+            "z": 4
+          },
+          {
+            "kind": "stepper",
+            "field": "",
+            "x": 770,
+            "y": 270,
+            "w": 330,
+            "h": 140,
+            "label": "MAP",
+            "action": "engineMapUp",
+            "minusAction": "engineMapDown",
+            "shape": "rounded",
+            "id": "ford-puma-rally1-combined-6",
+            "color": "#79b8ff",
+            "z": 5
+          },
+          {
+            "kind": "text",
+            "field": "",
+            "x": 50,
+            "y": 650,
+            "w": 1100,
+            "h": 30,
+            "label": "EGYÉNI ELRENDEZÉS / EREDETI AUTÓ ÁLTAL INSPIRÁLT",
+            "fontSize": 14,
+            "id": "ford-puma-rally1-combined-7",
+            "color": "#79b8ff",
+            "z": 6
+          }
+        ]
+      },
+      {
+        "id": "ford-puma-rally1-custom",
+        "name": "Egyéni vezérlők",
+        "elements": []
+      }
+    ],
+    "assets": {
+      "wheel-body": {
+        "type": "svg",
+        "base64": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDcwMCI+PHBhdGggZD0iTTYwMCA2NSBBMjgwIDI4MCAwIDEgMSA1OTkgNjUgTTYwMCAxMjUgQTIyMCAyMjAgMCAxIDAgNjAxIDEyNSIgZmlsbD0iIzE2MWIyMiIgc3Ryb2tlPSIjM2Q0NjU0IiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cmVjdCB4PSIzNTAiIHk9IjEzMCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIxMzAiIHJ4PSIxMiIgZmlsbD0iIzA3MDkwZCIgc3Ryb2tlPSIjNzliOGZmIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4="
+      }
+    }
+  }
+}

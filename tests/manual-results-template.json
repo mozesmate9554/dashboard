@@ -1,0 +1,21 @@
+{
+  "application": "SIM CONTROL STUDIO",
+  "version": "0.1.0",
+  "status": "not_run",
+  "executedAt": null,
+  "windowsVersion": null,
+  "gameVersion": null,
+  "gameExecutable": null,
+  "mobileDevices": [],
+  "tests": [
+    {"id":"A","name":"Valódi Rally sebesség/RPM/fokozat","status":"not_run","observations":null},
+    {"id":"B","name":"Két fizikai mobil és újracsatlakozás","status":"not_run","observations":null},
+    {"id":"C","name":"Tényleges játékvezérlés és felengedés","status":"not_run","observations":null},
+    {"id":"D","name":"Škoda profilpár, szerkesztés és mentés","status":"not_run","observations":null},
+    {"id":"E","name":"20 profilpár natív megjelenítése és szerkesztése","status":"not_run","observations":null},
+    {"id":"F","name":"Valóban létező játékmódok közötti váltás","status":"not_run","observations":null},
+    {"id":"G","name":"Hálózati, alkalmazás- és profilhibák","status":"not_run","observations":null}
+  ],
+  "diagnosticFiles": [],
+  "note": "Sablon, nem elvégzett teszt. Titkokat, PFX-et és keystore-t ne mellékelj."
+}
