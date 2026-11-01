@@ -6,7 +6,7 @@ namespace SimControlStudio;
 public static class Protocol
 {
     public const int Version = 1;
-    public const string AppVersion = "0.2.0";
+    public const string AppVersion = "0.3.0";
     public const int MaxMessageBytes = 16 * 1024;
     public static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web)
     {

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-const appVersion = '0.2.0';
+const appVersion = '0.3.0';
 const widgetKinds = <String>{
   'number', 'gear', 'bar', 'leds', 'analog', 'pedals', 'gForce', 'tyres',
   'text', 'image', 'svg', 'button', 'hold', 'toggle', 'threeState', 'multiState',

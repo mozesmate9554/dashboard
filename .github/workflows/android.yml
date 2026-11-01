@@ -1,4 +1,4 @@
-name: Android APK and project checks
+name: Native builds and project checks
 
 on:
   push:
@@ -109,7 +109,7 @@ jobs:
         run: rm -f "$RUNNER_TEMP/simcontrol-release.jks"
 
   release:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release SIM CONTROL STUDIO 0.2.0')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release SIM CONTROL STUDIO 0.3.0')
     needs: [android, windows]
     runs-on: ubuntu-24.04
     permissions:
@@ -137,15 +137,15 @@ jobs:
       - name: Package only actual verified build outputs
         run: |
           mkdir -p _staging/Windows
-          unzip -q _release-input/Windows/SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip -d _staging/Windows
+          unzip -q _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip -d _staging/Windows
           cp _release-input/Android-checks/mobile_flutter/pubspec.lock mobile_flutter/pubspec.lock
           cp _release-input/Android-checks/tests/results/profile-tests.json tests/results/profile-tests.json
           python3 tools/release_status.py --checks _release-input/Android-checks/ci-results
-          python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results
-      - name: Publish downloadable 0.2.0 release
+          python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results
+      - name: Publish downloadable 0.3.0 release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create v0.2.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.2.0" --notes-file documentation/RELEASE_0.2.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/SHA256SUMS.txt
+        run: gh release create v0.3.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.3.0" --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/SHA256SUMS.txt
 
   windows:
     runs-on: windows-2025
@@ -171,15 +171,15 @@ jobs:
           if (-not (Test-Path $compiler)) { choco install nsis --yes --no-progress }
           if (-not (Test-Path $compiler)) { throw 'NSIS compiler unavailable' }
           $appDir = (Resolve-Path _staging/Windows).Path
-          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe'
+          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe'
           & $compiler /WX /V2 "/DAPPDIR=$appDir" "/DOUTPUT=$setupFile" tools/windows-installer.nsi
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path $setupFile)) { throw 'Setup executable missing' }
-          Compress-Archive -Path _staging/Windows/* -DestinationPath SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip
+          Compress-Archive -Path _staging/Windows/* -DestinationPath SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip
       - name: Smoke test installer and WinForms startup on Windows
         shell: pwsh
         run: |
-          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe'
+          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe'
           $install = Start-Process $setupFile -ArgumentList '/S' -Wait -PassThru
           if ($install.ExitCode -ne 0) { throw 'Silent installation failed' }
           $installDir = Join-Path $env:LOCALAPPDATA 'Programs\SimControlStudio'
@@ -193,8 +193,8 @@ jobs:
               if ($app.HasExited) { throw 'Bridge exited during startup' }
               if ($app.MainWindowHandle -ne 0) { break }
             }
-            if ($app.MainWindowTitle -notlike '*SIM CONTROL STUDIO 0.2.0*') { throw "Unexpected application window: $($app.MainWindowTitle)" }
-            @{ version = '0.2.0'; install = 'passed'; winFormsStartup = 'passed'; windowTitle = $app.MainWindowTitle; realGameInput = 'not_tested' } | ConvertTo-Json | Set-Content tests/results/windows-installer-smoke.json
+            if ($app.MainWindowTitle -notlike '*SIM CONTROL STUDIO 0.3.0*') { throw "Unexpected application window: $($app.MainWindowTitle)" }
+            @{ version = '0.3.0'; install = 'passed'; winFormsStartup = 'passed'; windowTitle = $app.MainWindowTitle; realGameInput = 'not_tested' } | ConvertTo-Json | Set-Content tests/results/windows-installer-smoke.json
           } finally { if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force } }
           Get-Content tests/results/windows-installer-smoke.json
           Start-Process (Join-Path $installDir 'Uninstall.exe') -ArgumentList '/S' -Wait
@@ -203,8 +203,8 @@ jobs:
         with:
           name: SIM_CONTROL_STUDIO-Windows-${{ github.sha }}
           path: |
-            SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip
-            SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe
+            SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip
+            SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe
           if-no-files-found: error
           retention-days: 30
       - name: Upload Windows check results
@@ -213,4 +213,62 @@ jobs:
         with:
           name: Windows-check-results-${{ github.sha }}
           path: tests/results/windows-*.json
+          retention-days: 30
+
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: mobile_flutter
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: '3.35.7'
+          channel: stable
+          cache: true
+      - name: Record actual Apple build environment
+        run: |
+          mkdir -p ../ios-ci
+          xcodebuild -version | tee ../ios-ci/xcode-version.txt
+          xcodebuild -showsdks > ../ios-ci/apple-sdks.txt
+          flutter --version --machine > ../ios-ci/flutter-version.json
+          flutter pub get
+          plutil -lint ios/Runner/Info.plist ios/Runner/Runner.entitlements ios/Runner.xcodeproj/project.pbxproj
+      - name: Build real iOS Simulator application
+        run: |
+          set -o pipefail
+          flutter build ios --simulator --debug --no-pub 2>&1 | tee ../ios-ci/simulator-build.log
+          test -d build/ios/iphonesimulator/Runner.app
+          ditto -c -k --sequesterRsrc --keepParent build/ios/iphonesimulator/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip
+      - name: Install and launch on an available iPhone simulator
+        run: |
+          xcrun simctl list devices available --json > ../ios-ci/simulator-devices.json
+          studio_simulator=$(python3 -c 'import json; j=json.load(open("../ios-ci/simulator-devices.json")); devices=[d for runtime,ds in sorted(j["devices"].items(),reverse=True) if "iOS" in runtime for d in ds if d.get("isAvailable") and "iPhone" in d["name"]]; assert devices,"No iPhone simulator available"; print(devices[0]["udid"])')
+          echo "STUDIO_SIMULATOR=$studio_simulator" >> "$GITHUB_ENV"
+          xcrun simctl boot "$studio_simulator" || true
+          xcrun simctl bootstatus "$studio_simulator" -b
+          xcrun simctl install "$studio_simulator" build/ios/iphonesimulator/Runner.app
+          launch_output=$(xcrun simctl launch "$studio_simulator" hu.simcontrol.studio)
+          printf '%s\n' "$launch_output" | tee ../ios-ci/simulator-launch.txt
+          studio_process=$(printf '%s' "$launch_output" | sed -E 's/.*: ([0-9]+).*/\1/')
+          sleep 5
+          kill -0 "$studio_process"
+          xcrun simctl io "$studio_simulator" screenshot ../ios-ci/iphone-startup.png
+          python3 -c 'import os,json; json.dump({"version":"0.3.0","commit":os.environ["GITHUB_SHA"],"runUrl":"https://github.com/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"],"simulatorInstall":"passed","simulatorLaunch":"passed","physicalIphoneTest":False,"signedIpa":False,"testFlight":False},open("../ios-ci/provenance.json","w"),indent=2)'
+      - name: Build iPhone ARM64 release without signing
+        run: |
+          set -o pipefail
+          flutter build ios --release --no-codesign --no-pub 2>&1 | tee ../ios-ci/device-unsigned-build.log
+          test -d build/ios/iphoneos/Runner.app
+          ditto -c -k --sequesterRsrc --keepParent build/ios/iphoneos/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip
+      - name: Upload actual iOS outputs and evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-iOS-${{ github.sha }}
+          path: ios-ci/
+          if-no-files-found: error
           retention-days: 30

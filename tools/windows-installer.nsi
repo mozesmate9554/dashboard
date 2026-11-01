@@ -5,18 +5,18 @@ Unicode true
   !error "Pass APPDIR containing the published self-contained Windows build"
 !endif
 !ifndef OUTPUT
-  !define OUTPUT "SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe"
+  !define OUTPUT "SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe"
 !endif
-Name "SIM CONTROL STUDIO 0.2.0"
+Name "SIM CONTROL STUDIO 0.3.0"
 OutFile "${OUTPUT}"
 InstallDir "$LOCALAPPDATA\Programs\SimControlStudio"
 InstallDirRegKey HKCU "Software\SimControlStudio" "InstallDir"
 RequestExecutionLevel user
 SetCompressor /SOLID lzma
-VIProductVersion "0.2.0.0"
+VIProductVersion "0.3.0.0"
 VIAddVersionKey /LANG=1038 "ProductName" "SIM CONTROL STUDIO"
 VIAddVersionKey /LANG=1038 "FileDescription" "SIM CONTROL STUDIO Windows Bridge telepítő"
-VIAddVersionKey /LANG=1038 "FileVersion" "0.2.0.0"
+VIAddVersionKey /LANG=1038 "FileVersion" "0.3.0.0"
 VIAddVersionKey /LANG=1038 "LegalCopyright" "SIM CONTROL STUDIO"
 !define MUI_ABORTWARNING
 !insertmacro MUI_PAGE_WELCOME
@@ -38,8 +38,8 @@ Section "Windows Bridge"
   File /r "${APPDIR}\*"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   WriteRegStr HKCU "Software\SimControlStudio" "InstallDir" "$INSTDIR"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "DisplayName" "SIM CONTROL STUDIO 0.2.0"
-  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "DisplayVersion" "0.2.0"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "DisplayName" "SIM CONTROL STUDIO 0.3.0"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "DisplayVersion" "0.3.0"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "UninstallString" '"$INSTDIR\Uninstall.exe"'
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "InstallLocation" "$INSTDIR"
   WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "NoModify" 1

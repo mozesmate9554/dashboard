@@ -81,7 +81,7 @@ class _StudioShellState extends State<StudioShell> {
     } catch (error) { _error(error); }
   }
   Future<void> _newLayout(String role) async {
-    final layout = StudioLayout({'schemaVersion':1,'id':newId(),'version':'0.2.0','revision':1,'name':role == 'panel' ? 'Új kezelőpanel' : 'Új műszerfal',
+    final layout = StudioLayout({'schemaVersion':1,'id':newId(),'version':'0.3.0','revision':1,'name':role == 'panel' ? 'Új kezelőpanel' : 'Új műszerfal',
       'vehicleId':store.vehicleId,'role':role,'isBase':false,'width':1200,'height':700,'background':'#080a0c','supportedFields':<String>[],
       'pages':[{'id':newId(),'name':'Főoldal','elements':<Map<String,dynamic>>[]}]});
     await _edit(layout);
@@ -112,7 +112,7 @@ class _StudioShellState extends State<StudioShell> {
   ]));
   Widget _home() => _scroll([
     SwitchListTile(title: const Text('DEMO mód'), subtitle: const Text('Szimulált adatok · PC és játék nélkül kipróbálható'), value: connection.localDemo, onChanged: connection.setDemo),
-    _title('SIM CONTROL STUDIO / 0.2.0', tr('A pilótafülkéd. Minden kijelzőn.','Your cockpit. Every display.'), tr('Helyi hálózat. Élő telemetria. Saját elrendezések.','Local network. Live telemetry. Your layouts.')),
+    _title('SIM CONTROL STUDIO / 0.3.0', tr('A pilótafülkéd. Minden kijelzőn.','Your cockpit. Every display.'), tr('Helyi hálózat. Élő telemetria. Saját elrendezések.','Local network. Live telemetry. Your layouts.')),
     LayoutBuilder(builder: (context,constraints) => Wrap(spacing: 12, runSpacing: 12, children: [
       for (final (title,value,icon) in [
         (tr('PC BRIDGE','PC BRIDGE'),connection.connected ? connection.bridgeVersion : '—',Icons.computer),
@@ -217,7 +217,7 @@ class _StudioShellState extends State<StudioShell> {
     DropdownButtonFormField<int>(initialValue:store.hz,decoration:InputDecoration(labelText:tr('Kért telemetria-gyakoriság','Requested telemetry rate')),items:[20,30,60].map((hz)=>DropdownMenuItem(value:hz,child:Text('$hz Hz'))).toList(),onChanged:(value)async{await store.set('hz',value!);await connection.refreshSettings();}),
     const SizedBox(height:18),TextFormField(initialValue:store.prefs.getString('deviceName')??'',maxLength:60,decoration:InputDecoration(labelText:tr('Készülék neve','Device name')),onFieldSubmitted:(value)async{if(value.trim().isNotEmpty){await store.set('deviceName',value.trim());await connection.refreshSettings();}}),
     SwitchListTile(title:Text(tr('Érintéses rezgés','Haptic feedback')),value:store.haptic,onChanged:(value)=>store.set('haptic',value)),
-    const SizedBox(height:24),const Text('SIM CONTROL STUDIO 0.2.0\nNatív Flutter / helyi TLS-kapcsolat\nNincs regisztráció, előfizetés vagy felhőszolgáltatás.',style:TextStyle(color:Colors.white54)),
+    const SizedBox(height:24),const Text('SIM CONTROL STUDIO 0.3.0\nNatív Flutter / helyi TLS-kapcsolat\nNincs regisztráció, előfizetés vagy felhőszolgáltatás.',style:TextStyle(color:Colors.white54)),
     const SizedBox(height:18),OutlinedButton(onPressed:()async{await store.set('onboarded',false);if(mounted){Navigator.pushReplacement(context,MaterialPageRoute<void>(builder:(_)=>FirstRunWizard(store:store,connection:connection)));}},child:Text(tr('Konfigurációs varázsló újraindítása','Run setup wizard'))),
   ]);
 }

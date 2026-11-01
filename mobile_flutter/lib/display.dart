@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -47,6 +48,16 @@ class LayoutCanvas extends StatelessWidget {
               if (editing) const Positioned.fill(child: CustomPaint(painter: _GridPainter())),
               for (final element in elements)
                 if (editing || visibleElement(element, frame)) _position(context, element, scale),
+              if (editing)
+                for (final element in elements)
+                  if (element['id'] == selectedId && element['locked'] != true)
+                    Positioned(left: (element['x'] as num).toDouble(), top: (element['y'] as num).toDouble(),
+                      width: (element['w'] as num).toDouble(), height: (element['h'] as num).toDouble(),
+                      child: Transform.rotate(angle: ((element['rotation'] as num?)?.toDouble() ?? 0) * math.pi / 180,
+                        child: Stack(clipBehavior: Clip.none, children: [Positioned(right: 0, bottom: 0, width: 44, height: 44,
+                          child: GestureDetector(behavior: HitTestBehavior.opaque, dragStartBehavior: DragStartBehavior.down,
+                            onPanUpdate: (d) => onResize?.call(element, d.delta),
+                            child: const ColoredBox(color: Color(0xff53c9ff), child: Icon(Icons.open_in_full, color: Colors.black))))]))),
             ])))))));
     });
   }
@@ -65,9 +76,6 @@ class LayoutCanvas extends StatelessWidget {
               layout: layout, frame: frame, connection: connection))),
             if (selected) Positioned.fill(child: IgnorePointer(child: DecoratedBox(
               decoration: BoxDecoration(border: Border.all(color: const Color(0xff53c9ff), width: 3))))),
-            if (selected && !locked) Positioned(right: 0, bottom: 0, width: 36, height: 36,
-              child: GestureDetector(onPanUpdate: (d) => onResize?.call(e, d.delta),
-                child: const ColoredBox(color: Color(0xff53c9ff), child: Icon(Icons.open_in_full, size: 24, color: Colors.black)))),
             if (selected && locked) const Positioned(right: 2, top: 2, child: Icon(Icons.lock, color: Colors.lightBlue, size: 22)),
           ]))));
   }

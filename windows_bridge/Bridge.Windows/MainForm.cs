@@ -45,7 +45,7 @@ public sealed class MainForm : Form
         }
         _registry = new(Path.Combine(_directory, "devices.json"));
         _certificate = BridgeCertificate.LoadOrCreate(_directory);
-        Text = "SIM CONTROL STUDIO 0.2.0 · PC Bridge";
+        Text = "SIM CONTROL STUDIO 0.3.0 · PC Bridge";
         Size = new Size(1030, 780); MinimumSize = new Size(860, 650);
         BackColor = Color.FromArgb(19, 21, 25); ForeColor = Color.WhiteSmoke;
         Font = new Font("Segoe UI", 10);
