@@ -1,7 +1,7 @@
 name: Skoda reference comparison evidence
 on:
   push:
-    branches: [main, 'release/**']
+    branches: [main, 'release/**', 'reference/**']
     paths: ['tools/build_reference_evidence.py', '.github/workflows/skoda-references.yml']
   workflow_dispatch:
 permissions:

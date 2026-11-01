@@ -2,7 +2,8 @@
 """Build the user-requested, attributed Škoda reference evidence document in CI.
 The source photographs are research evidence, never application backgrounds.
 """
-import base64, hashlib, json, urllib.request
+import base64, hashlib, json, urllib.request, io
+from PIL import Image
 from pathlib import Path
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
@@ -29,7 +30,11 @@ for name,url,credit in sources:
     c.drawString(40,62,'Source photographs for comparison; reconstruction and live data are separate deliverables.')
     c.showPage()
     # Machine-readable review channel; public source image bytes, no credentials.
-    if len(raw)<2*1024*1024: print('REFERENCE_IMAGE_BASE64:'+name+':'+base64.b64encode(raw).decode())
+    preview=Image.open(io.BytesIO(raw)).convert('RGB')
+    preview.thumbnail((3000,3000))
+    buffer=io.BytesIO();preview.save(buffer,format='JPEG',quality=92)
+    review=buffer.getvalue();(out/(name+'-review.jpg')).write_bytes(review)
+    print('REFERENCE_IMAGE_BASE64:'+name+':'+base64.b64encode(review).decode())
 c.save()
 (out/'sources.json').write_text(json.dumps(records,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({'referenceDocument':'reference-evidence/SKODA_REFERENCE_EVIDENCE.pdf','sources':records}))
