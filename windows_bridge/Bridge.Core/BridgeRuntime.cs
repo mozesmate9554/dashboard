@@ -24,6 +24,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
     private readonly ConcurrentDictionary<string, ClientSession> _clients = [];
     private readonly ConcurrentQueue<object> _events = [];
     private readonly ConcurrentDictionary<string, (long Window, int Count)> _authAttempts = [];
+    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<TelemetryFrame, byte[]> _wireFrames = new();
     private readonly HashSet<string> _profiles;
     private WebApplication? _web;
     private Task? _pump;
@@ -237,7 +238,8 @@ public sealed class BridgeRuntime : IAsyncDisposable
                 var frame = Latest;
                 if (frame != null && (frame.Sequence != lastSequence || frame.State != lastState))
                 {
-                    await client.SendAsync(new { type = "telemetry", frame }, cancellation);
+                    var payload = _wireFrames.GetValue(frame, static sample => JsonSerializer.SerializeToUtf8Bytes(new { type = "telemetry", frame = sample }, Protocol.Json));
+                    await client.SendBytesAsync(payload, cancellation);
                     lastSequence = frame.Sequence; lastState = frame.State;
                 }
                 var now = Environment.TickCount64;
@@ -326,12 +328,14 @@ public sealed class BridgeRuntime : IAsyncDisposable
             Pending[id] = task;
             _ = task.ContinueWith(completed => Pending.TryRemove(id, out _), TaskScheduler.Default);
         }
-        public async Task SendAsync(object value, CancellationToken cancellation)
+        public Task SendAsync(object value, CancellationToken cancellation) =>
+            SendBytesAsync(JsonSerializer.SerializeToUtf8Bytes(value, Protocol.Json), cancellation);
+        public async Task SendBytesAsync(byte[] value, CancellationToken cancellation)
         {
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
             timeout.CancelAfter(2000);
             await _sendGate.WaitAsync(timeout.Token);
-            try { await socket.SendAsync(Encoding.UTF8.GetBytes(Protocol.Serialize(value)), WebSocketMessageType.Text, true, timeout.Token); }
+            try { await socket.SendAsync(value, WebSocketMessageType.Text, true, timeout.Token); }
             catch (OperationCanceledException) when (!cancellation.IsCancellationRequested) { Close(); }
             finally { _sendGate.Release(); }
         }

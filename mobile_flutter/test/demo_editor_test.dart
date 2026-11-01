@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sim_control_studio/connection.dart';
 import 'package:sim_control_studio/demo.dart';
 import 'package:sim_control_studio/display.dart';
+import 'package:sim_control_studio/editor.dart';
 import 'package:sim_control_studio/layout_geometry.dart';
 import 'package:sim_control_studio/models.dart';
 import 'package:sim_control_studio/storage.dart';
@@ -89,6 +90,29 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: Scaffold(body: LayoutCanvas(layout: layout, page: 1, frame: connection.telemetry.value, connection: connection))));
     await gesture.up(); await tester.pump(const Duration(seconds: 2));
     expect(connection.commandHistory.where((c) => c['action'] == action && c['phase'] == 'down').length, 1);
+    await tester.pumpWidget(const SizedBox()); connection.dispose();
+  });
+  testWidgets('Editor touch move, undo and save preserve the shipped base layout', (tester) async {
+    tester.view.devicePixelRatio = 1; tester.view.physicalSize = const Size(1400, 900);
+    addTearDown(tester.view.resetPhysicalSize); addTearDown(tester.view.resetDevicePixelRatio);
+    final connection = BridgeConnection(store); await connection.setDemo(true);
+    final base = store.vehicle.dashboard, original = jsonEncode(store.vehicle.dashboard.data);
+    await tester.pumpWidget(MaterialApp(theme: ThemeData.dark(), home: LayoutEditor(store: store, connection: connection, layout: base)));
+    final field = base.elements(0).firstWhere((e) => e['field'] == 'speed');
+    final finder = find.byWidgetPredicate((w) => w is Instrument && w.element['id'] == field['id']);
+    await tester.tap(finder); await tester.pump();
+    final before = tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'];
+    await tester.drag(finder, const Offset(30, 0)); await tester.pump();
+    expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], isNot(before));
+    await tester.tap(find.byTooltip('Visszavonás')); await tester.pump();
+    expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], before);
+    await tester.tap(find.byTooltip('Mentés')); await tester.pump();
+    await tester.runAsync(() async { await Future<void>.delayed(const Duration(milliseconds: 100)); });
+    await tester.pump();
+    expect(store.personal.single.isBase, false);
+    expect(jsonEncode(store.vehicle.dashboard.data), original);
+    expect(find.byType(DemoBadge), findsOneWidget);
+    expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox()); connection.dispose();
   });
 }

@@ -37,6 +37,7 @@ jobs:
           mkdir -p ../ci-results
           flutter --version --machine > ../ci-results/flutter-version.json
           flutter pub get
+          python3 -c 'import os,json; json.dump({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"url":"https://github.com/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"]},open("../ci-results/provenance.json","w"))'
       - name: Profile and native-project data validation
         working-directory: .
         run: python3 tests/validate_profiles.py
@@ -80,6 +81,9 @@ jobs:
           flutter build apk --release 2>&1 | tee ../ci-results/android-build.log
           test -s build/app/outputs/flutter-apk/app-release.apk
           sha256sum build/app/outputs/flutter-apk/app-release.apk > ../ci-results/APK-SHA256.txt
+          build_tools=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)
+          "$build_tools/apksigner" verify --verbose --print-certs build/app/outputs/flutter-apk/app-release.apk | tee ../ci-results/APK-SIGNATURE.txt
+          "$build_tools/aapt" dump badging build/app/outputs/flutter-apk/app-release.apk > ../ci-results/APK-BADGING.txt
       - name: Upload installable APK
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -101,6 +105,44 @@ jobs:
       - name: Remove signing material
         if: always()
         run: rm -f "$RUNNER_TEMP/simcontrol-release.jks"
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release SIM CONTROL STUDIO 0.2.0')
+    needs: [android, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-Android-${{ github.sha }}
+          path: _release-input/Android
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-Windows-${{ github.sha }}
+          path: _release-input/Windows
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Android-check-results-${{ github.sha }}
+          path: _release-input/Android-checks
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Windows-check-results-${{ github.sha }}
+          path: tests/results
+      - name: Package only actual verified build outputs
+        run: |
+          mkdir -p _staging/Windows
+          unzip -q _release-input/Windows/SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip -d _staging/Windows
+          cp _release-input/Android-checks/mobile_flutter/pubspec.lock mobile_flutter/pubspec.lock
+          python3 tools/release_status.py --checks _release-input/Android-checks/ci-results
+          python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results
+      - name: Publish downloadable 0.2.0 release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create v0.2.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.2.0" --notes-file documentation/RELEASE_0.2.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/SHA256SUMS.txt
 
   windows:
     runs-on: windows-2025
@@ -125,10 +167,31 @@ jobs:
           if (-not (Test-Path $compiler)) { throw 'NSIS compiler unavailable' }
           $appDir = (Resolve-Path _staging/Windows).Path
           $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe'
-          & $compiler /V2 "/DAPPDIR=$appDir" "/DOUTPUT=$setupFile" tools/windows-installer.nsi
+          & $compiler /WX /V2 "/DAPPDIR=$appDir" "/DOUTPUT=$setupFile" tools/windows-installer.nsi
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path $setupFile)) { throw 'Setup executable missing' }
           Compress-Archive -Path _staging/Windows/* -DestinationPath SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip
+      - name: Smoke test installer and WinForms startup on Windows
+        shell: pwsh
+        run: |
+          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe'
+          $install = Start-Process $setupFile -ArgumentList '/S' -Wait -PassThru
+          if ($install.ExitCode -ne 0) { throw 'Silent installation failed' }
+          $installDir = Join-Path $env:LOCALAPPDATA 'Programs\SimControlStudio'
+          $exe = Join-Path $installDir 'SimControlStudio.Bridge.exe'
+          if (-not (Test-Path $exe)) { throw 'Installed executable missing' }
+          $app = Start-Process $exe -PassThru
+          try {
+            for ($i = 0; $i -lt 40; $i++) {
+              Start-Sleep -Milliseconds 300
+              $app.Refresh()
+              if ($app.HasExited) { throw 'Bridge exited during startup' }
+              if ($app.MainWindowHandle -ne 0) { break }
+            }
+            if ($app.MainWindowTitle -notlike '*SIM CONTROL STUDIO 0.2.0*') { throw "Unexpected application window: $($app.MainWindowTitle)" }
+            @{ version = '0.2.0'; install = 'passed'; winFormsStartup = 'passed'; windowTitle = $app.MainWindowTitle; realGameInput = 'not_tested' } | ConvertTo-Json | Set-Content tests/results/windows-installer-smoke.json
+          } finally { if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force } }
+          Start-Process (Join-Path $installDir 'Uninstall.exe') -ArgumentList '/S' -Wait
       - name: Upload Windows executables
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

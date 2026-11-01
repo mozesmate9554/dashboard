@@ -262,6 +262,7 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
   Future<void> forget() async {
+    if (localDemo) { _wantConnection = false; await setDemo(false); }
     _wantConnection = false; releaseAll(); _generation++; _retry?.cancel(); _ping?.cancel();
     await _socket?.close(); _client?.close(force: true);
     await _secure.delete(key: secretKey); await store.prefs.remove('bridgeTarget');

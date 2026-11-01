@@ -1,76 +1,90 @@
 #!/usr/bin/env python3
-"""Package existing artifacts; no placeholders named APK/IPA and no fabricated tests."""
-import hashlib,json,shutil,subprocess,sys,zipfile
+"""Package verified executables, tests, profiles and Git history. Never creates placeholder apps."""
+import argparse, hashlib, json, shutil, subprocess, zipfile
 from pathlib import Path
-from datetime import datetime,timezone
+from datetime import datetime, timezone
 
-ROOT=Path(__file__).resolve().parents[1]
-OUTPUT=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else ROOT/'releases'
-WINDOWS=Path(sys.argv[2]).resolve() if len(sys.argv)>2 else ROOT/'releases/Windows'
-release=OUTPUT/'SIM_CONTROL_STUDIO_RELEASE'
-if release.exists():
-    raise SystemExit('Destination already exists. Choose a fresh release output directory.')
-exe=WINDOWS/'SimControlStudio.Bridge.exe'
-if not exe.is_file() or exe.read_bytes()[:2]!=b'MZ':raise SystemExit('A real Windows PE build is required before packaging.')
-report=json.loads((ROOT/'documentation/STATUS.json').read_text())
-if report['tests']['bridge']['failed'] or report['tests']['profiles']['failed']:raise SystemExit('Failed checks; release not packaged.')
-for name in ['Android','iOS','Windows','Source','Profiles','Documentation','Tests']:(release/name).mkdir(parents=True,exist_ok=True)
-excluded={'.git','bin','obj','build','.dart_tool','.gradle','Pods','.symlinks','releases','__pycache__'}
-def ignore(directory,names):return [name for name in names if name in excluded or name.endswith(('.pfx','.jks','.keystore','.pyc')) or name in {'local.properties','key.properties'}]
-source=release/'Source/sim-control-studio'
-shutil.copytree(ROOT,source,ignore=ignore)
-for name in ['SimControlStudio.Bridge.exe','profiles.json']:shutil.copy2(WINDOWS/name,release/'Windows'/name)
-shutil.copy2(ROOT/'tools/Install-SimControlStudio.ps1',release/'Windows/Install-SimControlStudio.ps1')
-shutil.copytree(ROOT/'documentation/licenses',release/'Windows/Licenses')
-shutil.copytree(ROOT/'vehicle_profiles',release/'Profiles',dirs_exist_ok=True)
-shutil.copytree(ROOT/'documentation',release/'Documentation',dirs_exist_ok=True)
-shutil.copytree(ROOT/'mobile_flutter/ios',release/'iOS/ios-project',ignore=ignore)
-shutil.copytree(ROOT/'tests/results',release/'Tests',dirs_exist_ok=True)
-shutil.copy2(ROOT/'tests/manual-results-template.json',release/'Tests/manual-results-template.json')
-shutil.copy2(ROOT/'documentation/ANDROID.md',release/'Android/BUILD_STATUS.md')
-shutil.copy2(ROOT/'documentation/IOS.md',release/'iOS/BUILD_AND_SIGN.md')
-readme='''# SIM CONTROL STUDIO 0.1.0 – átadási csomag
+ROOT = Path(__file__).resolve().parents[1]
+p = argparse.ArgumentParser()
+p.add_argument('--output', type=Path, required=True)
+p.add_argument('--windows', type=Path, required=True)
+p.add_argument('--apk', type=Path, required=True)
+p.add_argument('--installer', type=Path, required=True)
+p.add_argument('--checks', type=Path, required=True)
+a = p.parse_args()
+version = (ROOT/'VERSION').read_text().strip()
+output = a.output.resolve(); output.mkdir(parents=True, exist_ok=True)
+release = output/f'SIM_CONTROL_STUDIO_{version}'
+if release.exists(): raise SystemExit('Choose a new output directory; existing release is preserved.')
+for path in [a.windows/'SimControlStudio.Bridge.exe', a.installer]:
+    if not path.is_file() or path.read_bytes()[:2] != b'MZ': raise SystemExit(f'Windows PE missing: {path}')
+with zipfile.ZipFile(a.apk) as apk:
+    names = apk.namelist()
+    if 'AndroidManifest.xml' not in names or not any(n.endswith('.dex') for n in names) or not any(n.endswith('/libflutter.so') for n in names):
+        raise SystemExit('APK is not a built Flutter Android application.')
+    if apk.testzip(): raise SystemExit('Corrupt APK.')
+bridge_path = ROOT/'tests/results/windows-bridge-tests.json'
+if not bridge_path.is_file(): bridge_path = ROOT/'tests/results/bridge-tests.json'
+bridge = json.loads(bridge_path.read_text())
+profiles = json.loads((ROOT/'tests/results/profile-tests.json').read_text())
+if bridge['failed'] or profiles['failed']: raise SystemExit('Regression checks failed.')
+flutter = [json.loads(line) for line in (a.checks/'flutter-tests.jsonl').read_text().splitlines() if line.startswith('{')]
+if not any(e.get('type') == 'done' and e.get('success') is True for e in flutter): raise SystemExit('No successful real Flutter test completion.')
+for name in ['Android','iOS','Windows','Source','Profiles','Documentation','Tests']:
+    (release/name).mkdir(parents=True)
+excluded = {'.git','bin','obj','build','.dart_tool','.gradle','Pods','.symlinks','releases','__pycache__','_staging','_release-input','_release-output'}
+def ignore(directory, names):
+    return [n for n in names if n in excluded or n.endswith(('.pfx','.jks','.keystore','.pyc')) or n in {'local.properties','key.properties'}]
+shutil.copytree(ROOT, release/'Source/sim-control-studio', ignore=ignore)
+shutil.copytree(a.windows, release/'Windows', dirs_exist_ok=True)
+shutil.copy2(a.installer, release/'Windows'/a.installer.name)
+shutil.copy2(a.apk, release/'Android'/f'SIM_CONTROL_STUDIO_{version}.apk')
+shutil.copytree(ROOT/'vehicle_profiles', release/'Profiles', dirs_exist_ok=True)
+shutil.copytree(ROOT/'documentation', release/'Documentation', dirs_exist_ok=True)
+shutil.copytree(ROOT/'mobile_flutter/ios', release/'iOS/ios-project', ignore=ignore)
+shutil.copytree(ROOT/'tests/results', release/'Tests', dirs_exist_ok=True)
+shutil.copytree(a.checks, release/'Tests/Android-CI', dirs_exist_ok=True)
+shutil.copy2(ROOT/'documentation/IOS.md', release/'iOS/BUILD_AND_SIGN.md')
+(release/'KEZDD_ITT.md').write_text(f'''# SIM CONTROL STUDIO {version}
 
-**Fejlesztői részkiadás. A teljes specifikáció elfogadása még nem teljesült.**
+Android: `Android/SIM_CONTROL_STUDIO_{version}.apk`.
+Windows: `Windows/{a.installer.name}` vagy a hordozható `Windows/SimControlStudio.Bridge.exe`.
 
-Elindítható Windows x64 Bridge: `Windows/SimControlStudio.Bridge.exe`, a `profiles.json` fájllal együtt. Önálló .NET futtatókörnyezetet tartalmaz. Nem volt Windows GUI/élő játék futtatási teszt.
+Első indítás és DEMO: `Documentation/ELSO_INDITAS.md`.
+A teljes forrás, az eredeti 20 autó / 40 egyedi elrendezés és a Git-előzmény a csomag része.
+Visszaállítás: `git clone Source/sim-control-studio.bundle sim-control-studio`.
 
-**Android APK és aláírt iOS IPA nincs ebben a csomagban.** Flutter SDK letöltési korlát, illetve macOS/Xcode/aláírás hiánya miatt ezek nem kerültek lefordításra. A teljes mobilforrás és natív projektek a `Source/sim-control-studio/mobile_flutter` könyvtárban vannak.
+Valódi CI-fordítás és automatizált tesztek: `Tests/Android-CI`, `Tests/windows-bridge-tests.json`.
+A DEMO-adatok szimuláltak. A két hálózati tesztkliens nem két fizikai mobil.
+A konkrét Rally-verzió, Windows játékbemenet, telefonos telepítés és Wi-Fi még fizikai ellenőrzést igényel.
+iOS IPA nincs. A profilok grafikai hűsége: 1 részleges referencia, 19 inspirált; nincs hitelesített gyári replika.
 
-18 Bridge-teszt és 25 adat/projektellenőrzés sikeres. A Dart szintaxis ellenőrizve, de Flutter analyze/test/build nem futott. Futó Rally és két fizikai telefon nem volt elérhető.
-
-A 20 autó 40 külön elrendezése a Profiles könyvtárban. Egy részleges és 19 inspirált referenciaállapot; a teljes gyári grafikai hűség nincs igazolva. Vektoros áttekintő: `Documentation/PROFILE_CATALOGUE.pdf`.
-
-Kezdd a `Documentation/ELSO_INDITAS.md` útmutatóval, majd nézd meg az `ALLAPOT.md` és a gépi `STATUS.json` fájlt. Éles ellenőrzés: `TESZTELES.md`. A kompatibilitási mátrix sem állít nem végzett online/játékmódtesztet.
-
-A teljes forrás mellett a helyi Git-előzmény a `Source/sim-control-studio.bundle` fájlból állítható vissza: `git clone sim-control-studio.bundle sim-control-studio`.
-'''
-(release/'KEZDD_ITT.md').write_text(readme)
-commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-subprocess.run(['git','bundle','create',str(release/'Source/sim-control-studio.bundle'),'--all'],cwd=ROOT,check=True)
+Részletes állapot: `Documentation/FUNKCIOMATRIX_0.2.0.md` és `STATUS.json`.
+A preview APK CI-aláírása futásonként eltérhet; frissítés előtt exportáld személyes profiljaidat.
+''', encoding='utf-8')
+commit = subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip()
+subprocess.run(['git','bundle','create',str(release/'Source/sim-control-studio.bundle'),'--all'], cwd=ROOT, check=True)
 def sha(path):
-    h=hashlib.sha256()
+    h = hashlib.sha256()
     with path.open('rb') as file:
-        for chunk in iter(lambda:file.read(1024*1024),b''):h.update(chunk)
+        for chunk in iter(lambda:file.read(1024*1024),b''): h.update(chunk)
     return h.hexdigest()
-manifest={'application':'SIM CONTROL STUDIO','version':'0.1.0','generatedAtUtc':datetime.now(timezone.utc).isoformat(),
- 'releaseKind':'partial_development_release','sourceCommit':commit,'windowsArchitecture':'win-x64',
- 'androidApkIncluded':False,'signedIosIpaIncluded':False,'physicalTestsPerformed':False,
- 'files':[{'path':str(p.relative_to(release)),'bytes':p.stat().st_size,'sha256':sha(p)} for p in sorted(release.rglob('*')) if p.is_file()]}
-(release/'MANIFEST.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-def archive(folder,path,prefix):
-    with zipfile.ZipFile(path,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
-        for file in sorted(folder.rglob('*')):
-            if file.is_file():z.write(file,Path(prefix)/file.relative_to(folder))
+manifest = {'application':'SIM CONTROL STUDIO','version':version,'generatedAtUtc':datetime.now(timezone.utc).isoformat(),
+    'sourceCommit':commit,'releaseKind':'installable_preview','androidApkIncluded':True,'windowsInstallerIncluded':True,
+    'signedIosIpaIncluded':False,'physicalTestsPerformed':False,
+    'files':[{'path':str(f.relative_to(release)),'bytes':f.stat().st_size,'sha256':sha(f)} for f in sorted(release.rglob('*')) if f.is_file()]}
+(release/'MANIFEST.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n')
+def archive(folder, path):
+    with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:
+        for f in sorted(folder.rglob('*')):
+            if f.is_file(): z.write(f, Path(folder.name)/f.relative_to(folder))
     with zipfile.ZipFile(path) as z:
-        failure=z.testzip()
-        if failure:raise RuntimeError('Corrupt ZIP member: '+failure)
-    return {'file':path.name,'bytes':path.stat().st_size,'sha256':sha(path)}
-archives=[archive(release,OUTPUT/'SIM_CONTROL_STUDIO_0.1.0_RELEASE.zip','SIM_CONTROL_STUDIO_RELEASE'),
-    archive(release/'Windows',OUTPUT/'SIM_CONTROL_STUDIO_0.1.0_Windows_x64.zip','SIM_CONTROL_STUDIO_Windows'),
-    archive(release/'Source',OUTPUT/'SIM_CONTROL_STUDIO_0.1.0_Source.zip','SIM_CONTROL_STUDIO_Source')]
-(OUTPUT/'SHA256SUMS.txt').write_text(''.join(f'{a["sha256"]}  {a["file"]}\n' for a in archives))
-shutil.copy2(release/'Documentation/ALLAPOT.md',OUTPUT/'ALLAPOT.md')
-shutil.copy2(release/'Documentation/STATUS.json',OUTPUT/'STATUS.json')
-shutil.copy2(release/'Documentation/PROFILE_CATALOGUE.pdf',OUTPUT/'PROFILE_CATALOGUE.pdf')
-print(json.dumps({'output':str(OUTPUT),'sourceCommit':commit,'archives':archives},indent=2))
+        if z.testzip(): raise RuntimeError('Corrupt release archive')
+    return path
+assets = [archive(release, output/f'SIM_CONTROL_STUDIO_{version}_RELEASE.zip'),
+    archive(release/'Source', output/f'SIM_CONTROL_STUDIO_{version}_Source.zip'),
+    archive(release/'Windows', output/f'SIM_CONTROL_STUDIO_{version}_Windows_x64.zip')]
+for src, name in [(a.apk, f'SIM_CONTROL_STUDIO_{version}.apk'), (a.installer,a.installer.name)]:
+    dest=output/name; shutil.copy2(src,dest); assets.append(dest)
+(output/'SHA256SUMS.txt').write_text(''.join(f'{sha(f)}  {f.name}\n' for f in assets))
+print(json.dumps({'sourceCommit':commit,'assets':[{'file':f.name,'bytes':f.stat().st_size,'sha256':sha(f)} for f in assets]}, indent=2))

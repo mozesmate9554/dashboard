@@ -43,7 +43,7 @@ try
         var frames = new int[2]; var bytes = new long[2]; var rtts = new List<double>(); var simulated = 0;
         var clock = Stopwatch.StartNew(); var process = Process.GetCurrentProcess(); var cpu = process.TotalProcessorTime;
         var alloc = GC.GetTotalAllocatedBytes();
-        using var duration = new CancellationTokenSource(5200);
+        using var duration = new CancellationTokenSource(6200);
         async Task Read(ClientWebSocket socket, int index)
         {
             try
@@ -51,6 +51,7 @@ try
                 while (!duration.IsCancellationRequested)
                 {
                     var text = await BridgeRuntime.ReadMessageAsync(socket, duration.Token); if (text == null) break;
+                    if (clock.ElapsedMilliseconds < 1000) continue;
                     bytes[index] += Encoding.UTF8.GetByteCount(text);
                     using var doc = JsonDocument.Parse(text); var root = doc.RootElement;
                     switch (root.GetProperty("type").GetString())
@@ -58,7 +59,7 @@ try
                         case "telemetry":
                             if (root.GetProperty("frame").GetProperty("mode").GetString() != "demo") throw new Exception("Unlabeled synthetic sample");
                             frames[index]++; break;
-                        case "pong": rtts.Add(clock.Elapsed.TotalMilliseconds - root.GetProperty("sentMs").GetDouble()); break;
+                        case "pong": if (index == 1) rtts.Add(clock.Elapsed.TotalMilliseconds - root.GetProperty("sentMs").GetDouble()); break;
                         case "ack": if (root.GetProperty("stage").GetString() == "simulated") simulated++; break;
                     }
                 }
@@ -66,16 +67,19 @@ try
             catch (OperationCanceledException) when (duration.IsCancellationRequested) { }
         }
         var readers = Task.WhenAll(Read(dashboard, 0), Read(panel, 1));
+        await Task.Delay(1000); cpu = process.TotalProcessorTime; alloc = GC.GetTotalAllocatedBytes();
+        var measurementStart = clock.Elapsed;
         for (var i = 1; i <= 50; i++)
         {
+            await Send(dashboard, new { type = "ping", sentMs = clock.ElapsedMilliseconds });
             await Send(panel, new { type = "ping", sentMs = clock.ElapsedMilliseconds });
             await Send(panel, new { type = "command", id = "b" + i, sequence = i, action = "lights", phase = "press" });
             await Task.Delay(100);
         }
         await readers; clock.Stop(); rtts.Sort();
         double Percentile(double p) => rtts.Count == 0 ? double.NaN : rtts[(int)Math.Ceiling((rtts.Count - 1) * p)];
-        var measured = clock.Elapsed.TotalSeconds;
-        results.Add(new { requestedHz = hz, seconds = measured, clientCount = 2, frames,
+        var measured = (clock.Elapsed - measurementStart).TotalSeconds;
+        results.Add(new { requestedHz = hz, warmupSeconds = 1, seconds = measured, clientCount = 2, frames,
             receivedHz = frames.Select(f => f / measured).ToArray(), payloadBytes = bytes,
             roundTrips = rtts.Count, rttMedianMs = Percentile(.5), rttP95Ms = Percentile(.95), rttMaxMs = rtts.LastOrDefault(),
             simulatedCommandAcks = simulated, cpuMilliseconds = (process.TotalProcessorTime - cpu).TotalMilliseconds,
