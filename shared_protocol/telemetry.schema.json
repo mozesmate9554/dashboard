@@ -3,35 +3,128 @@
   "$id": "urn:simcontrol:telemetry:v1",
   "title": "SIM CONTROL STUDIO telemetry frame v1",
   "type": "object",
-  "required": ["type", "frame"],
+  "required": [
+    "type",
+    "frame"
+  ],
   "properties": {
-    "type": {"const": "telemetry"},
+    "type": {
+      "const": "telemetry"
+    },
     "frame": {
       "type": "object",
-      "required": ["sequence", "timestampMs", "gameId", "adapter", "state", "fields"],
+      "required": [
+        "sequence",
+        "timestampMs",
+        "gameId",
+        "adapter",
+        "state",
+        "fields"
+      ],
       "properties": {
-        "sequence": {"type": "integer", "minimum": 0},
-        "timestampMs": {"type": "integer"},
-        "gameId": {"type": "string"},
-        "adapter": {"type": "string"},
-        "state": {"enum": ["live", "stale"]},
-        "vehicleId": {"type": "string"},
-        "gameVersion": {"type": "string"},
-        "fields": {"type": "object", "additionalProperties": {"$ref": "#/$defs/datum"}}
-      }
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timestampMs": {
+          "type": "integer"
+        },
+        "gameId": {
+          "type": "string"
+        },
+        "adapter": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "live",
+            "stale",
+            "demo"
+          ]
+        },
+        "vehicleId": {
+          "type": "string"
+        },
+        "gameVersion": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/datum"
+          }
+        },
+        "mode": {
+          "enum": [
+            "live",
+            "demo"
+          ],
+          "default": "live"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "demo"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "mode"
+            ],
+            "properties": {
+              "mode": {
+                "const": "demo"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "$defs": {
     "datum": {
       "type": "object",
-      "required": ["unit", "source", "timestampMs", "validity", "derived"],
+      "required": [
+        "unit",
+        "source",
+        "timestampMs",
+        "validity",
+        "derived"
+      ],
       "properties": {
-        "value": {"type": ["number", "string", "boolean", "array", "null"]},
-        "unit": {"type": "string"},
-        "source": {"type": "string"},
-        "timestampMs": {"type": "integer"},
-        "validity": {"enum": ["valid", "stale", "unsupported", "invalid"]},
-        "derived": {"type": "boolean"}
+        "value": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "array",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "timestampMs": {
+          "type": "integer"
+        },
+        "validity": {
+          "enum": [
+            "valid",
+            "stale",
+            "unsupported",
+            "invalid"
+          ]
+        },
+        "derived": {
+          "type": "boolean"
+        }
       }
     }
   }

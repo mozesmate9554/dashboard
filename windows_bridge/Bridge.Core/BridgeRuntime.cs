@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace SimControlStudio;
 
 public sealed record ConnectedDevice(string DeviceId, string Name, string Role, string? ProfileId,
-    int Hz, int? LatencyMs, string ConnectionQuality);
+    int Hz, int? LatencyMs, string ConnectionQuality, string? LayoutId);
 
 public sealed class BridgeRuntime : IAsyncDisposable
 {
@@ -39,7 +39,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
     public string Fingerprint => BridgeCertificate.Fingerprint(_certificate);
     public IReadOnlyList<object> Events => _events.ToArray();
     public IReadOnlyList<ConnectedDevice> Clients => _clients.Values.Select(c => new ConnectedDevice(c.DeviceId, c.Name, c.Role,
-        c.ProfileId, c.Hz, c.LatencyMs, c.LatencyMs is null ? "mérésre vár" : c.LatencyMs <= 20 ? "kiváló" : c.LatencyMs <= 60 ? "jó" : c.LatencyMs <= 150 ? "közepes" : "gyenge")).ToArray();
+        c.ProfileId, c.Hz, c.LatencyMs, c.LatencyMs is null ? "mérésre vár" : c.LatencyMs <= 20 ? "kiváló" : c.LatencyMs <= 60 ? "jó" : c.LatencyMs <= 150 ? "közepes" : "gyenge", c.LayoutId)).ToArray();
     public bool IsRunning => _web != null;
     public BridgeRuntime(BridgeConfiguration config, DeviceRegistry registry, X509Certificate2 certificate,
         IGameAdapter adapter, IGameProbe probe, IKeySink sink, IEnumerable<string>? profiles = null)
@@ -128,7 +128,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
             authTimeout.CancelAfter(5000);
             var raw = await ReadMessageAsync(socket, authTimeout.Token);
             var hello = raw == null ? null : Protocol.Deserialize<Hello>(raw);
-            if (hello == null || hello.ProfileId?.Length > 100) { await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "invalid_hello", lifetime.Token); return; }
+            if (hello == null || hello.ProfileId?.Length > 100 || !ValidLayoutId(hello.LayoutId)) { await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "invalid_hello", lifetime.Token); return; }
             var authentication = Registry.Authenticate(hello);
             if (authentication == null) { await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "authentication_failed", lifetime.Token); return; }
             session = new(socket, hello, lifetime);
@@ -163,9 +163,10 @@ public sealed class BridgeRuntime : IAsyncDisposable
                         case "releaseAll": Release(session); break;
                         case "profile":
                             var profile = root.GetProperty("profileId").GetString();
-                            if (profile != null && _profiles.Contains(profile))
+                            var layoutId = root.TryGetProperty("layoutId", out var layout) ? layout.GetString() : null;
+                            if (profile != null && _profiles.Contains(profile) && ValidLayoutId(layoutId))
                             {
-                                Release(session); session.ProfileId = profile;
+                                Release(session); session.ProfileId = profile; session.LayoutId = layoutId;
                                 _suggestedProfile = profile; Registry.RememberProfile(session.DeviceId, profile);
                                 foreach (var client in _clients.Values)
                                     await client.SendAsync(new { type = "profileSuggestion", profileId = profile, sourceDevice = session.DeviceId }, lifetime.Token);
@@ -205,6 +206,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
         }
     }
     private string[] MappedActions(string? profile) => _adapter.IsDemo ? ActionCatalog.Actions.ToArray() : _config.ResolveBindings(profile).Keys.ToArray();
+    private static bool ValidLayoutId(string? id) => id == null || id.Length is >= 1 and <= 100 && !id.Any(char.IsControl);
     private void Release(ClientSession client)
     {
         Controls.ReleaseOwner(client.Owner);
@@ -319,6 +321,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
         public string Role => hello.Role;
         public int Hz => hello.Hz;
         public string? ProfileId { get; set; } = hello.ProfileId;
+        public string? LayoutId { get; set; } = hello.LayoutId;
         public ConcurrentDictionary<string, Task> Pending { get; } = [];
         public string Owner { get; } = hello.DeviceId + "/" + Guid.NewGuid().ToString("N");
         public long LastSeenTicks { get; set; } = Environment.TickCount64;

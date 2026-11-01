@@ -37,8 +37,10 @@ for item in audit['features']:
   row.update(status=D,evidence='NSIS telepítő; Windows CI csendes telepítés és WinForms-ablak indítás; tests/results/windows-installer-smoke.json',remaining='Interaktív tálca-, QR- és játékvezérlési ellenőrzés még szükséges.')
  if n==18:
   row.update(status=P,evidence='Windows CI-ben telepítés és főablak-indítás automatizált smoke tesztje.',remaining='Teljes interaktív WinForms/tálca használat nincs manuálisan ellenőrizve.')
- if n in {27,28,37,38,39,42,44,48}:
+ if n in {27,28,37,38,39,40,42,44,48}:
   row.update(status=P,evidence='A forrás lefordult; modell-, mentési és renderelési tesztek futottak.',remaining='A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.')
+ if n==25:
+  row.update(status=P,evidence='Android: valódi release build és Flutter-tesztek. iOS: projektfájlok statikus ellenőrzése.',remaining='iOS Xcode-fordítás és aláírás nincs; ez nem teljes körű kétplatformos buildigazolás.')
  if n==32:
   row.update(evidence='20 megőrzött autópár; 1 részleges referencia, 19 inspirált. PROFILE_COMPLETENESS_0.2.0.md.',remaining='Nincs hitelesített gyári pixelgeometria vagy teljes kapcsolókiosztás.')
  if n in {34,57,58}:row['remaining']='A konkrét játékban elérhető funkciók és munkamenetek éles ellenőrzése hiányzik; további adapterek nem készültek.'

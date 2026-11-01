@@ -92,6 +92,20 @@ void main() {
     expect(connection.commandHistory.where((c) => c['action'] == action && c['phase'] == 'down').length, 1);
     await tester.pumpWidget(const SizedBox()); connection.dispose();
   });
+  testWidgets('Three and multi-position selectors bound requests without inventing game state', (tester) async {
+    final connection = BridgeConnection(store); await connection.setDemo(true);
+    for (final kind in ['threeState', 'multiState']) {
+      final maximum = kind == 'threeState' ? 2 : 3;
+      final before = connection.commandHistory.length;
+      final element = <String,dynamic>{'id':kind,'kind':kind,'label':'ABS','action':'absUp','minusAction':'absDown','field':'absLevel','positions':4};
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: Center(child: SizedBox(width:300,height:160,
+        child: PanelControl(key: ValueKey(kind), element:element, frame:connection.telemetry.value, connection:connection))))));
+      for (var i=0; i<6; i++) { await tester.tap(find.text('+')); await tester.pump(); }
+      expect(connection.commandHistory.length - before, maximum);
+      expect(find.text('kért pozíció: ${maximum+1}/${maximum+1}'), findsOneWidget);
+    }
+    await tester.pumpWidget(const SizedBox()); connection.dispose();
+  });
   testWidgets('Editor touch move, undo and save preserve the shipped base layout', (tester) async {
     tester.view.devicePixelRatio = 1; tester.view.physicalSize = const Size(1400, 900);
     addTearDown(tester.view.resetPhysicalSize); addTearDown(tester.view.resetDevicePixelRatio);
@@ -107,6 +121,10 @@ void main() {
     expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], isNot(before));
     await tester.tap(find.byTooltip('Visszavonás')); await tester.pump();
     expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], before);
+    await tester.tap(finder); await tester.pump();
+    final oldWidth = tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['w'];
+    await tester.drag(find.byIcon(Icons.open_in_full), const Offset(20, 20)); await tester.pump();
+    expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['w'], isNot(oldWidth));
     await tester.runAsync(() async {
       await tester.tap(find.byTooltip('Mentés'));
       for (var i = 0; i < 100 && store.personal.isEmpty; i++) { await Future<void>.delayed(const Duration(milliseconds: 20)); }

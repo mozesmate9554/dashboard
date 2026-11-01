@@ -1,0 +1,63 @@
+{
+  "appVersion": "0.2.0",
+  "measuredAtUtc": "2026-11-01T21:23:09.1192324+00:00",
+  "environment": "Microsoft Windows 10.0.26100",
+  "runtime": ".NET 10.0.14",
+  "scope": "Real loopback TLS/WebSocket, two software clients, synthetic DEMO; not Wi-Fi, physical phones, FPS or game-input latency",
+  "results": [
+    {
+      "requestedHz": 30,
+      "warmupSeconds": 1,
+      "seconds": 5.6506464,
+      "clientCount": 2,
+      "frames": [
+        170,
+        141
+      ],
+      "receivedHz": [
+        30.085053632094194,
+        24.95289742426636
+      ],
+      "payloadBytes": [
+        1742117,
+        1456770
+      ],
+      "roundTrips": 50,
+      "rttMedianMs": 1.2507999999997992,
+      "rttP95Ms": 2.08829999999989,
+      "rttMaxMs": 3.2350999999999885,
+      "simulatedCommandAcks": 50,
+      "cpuMilliseconds": 2437.5,
+      "cpuPercentOfOneCore": 43.136657781311534,
+      "managedAllocatedBytes": 22843184,
+      "workingSetBytes": 106840064
+    },
+    {
+      "requestedHz": 60,
+      "warmupSeconds": 1,
+      "seconds": 5.5695763,
+      "clientCount": 2,
+      "frames": [
+        314,
+        347
+      ],
+      "receivedHz": [
+        56.377717637156714,
+        62.30276439520184
+      ],
+      "payloadBytes": [
+        3210519,
+        3557513
+      ],
+      "roundTrips": 50,
+      "rttMedianMs": 0.6309000000001106,
+      "rttP95Ms": 1.1790000000000873,
+      "rttMaxMs": 1.2007000000003245,
+      "simulatedCommandAcks": 50,
+      "cpuMilliseconds": 625,
+      "cpuPercentOfOneCore": 11.22167946599457,
+      "managedAllocatedBytes": 41858056,
+      "workingSetBytes": 104628224
+    }
+  ]
+}

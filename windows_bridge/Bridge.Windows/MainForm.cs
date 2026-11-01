@@ -276,6 +276,6 @@ public sealed class MainForm : Form
     }
     private sealed record DeviceDisplay(PairedDevice Device, ConnectedDevice? Session)
     {
-        public override string ToString() => $"{Device.Name} · {Device.Role} · {(Device.CanControl ? "vezérlés engedélyezve" : "csak olvasás")} · {Session?.ProfileId ?? Device.ProfileId} · {Session?.LatencyMs?.ToString() ?? "—"} ms · {Session?.ConnectionQuality ?? "offline"} · {Device.Id}";
+        public override string ToString() => $"{Device.Name} · {Device.Role} · {(Device.CanControl ? "vezérlés engedélyezve" : "csak olvasás")} · {Session?.ProfileId ?? Device.ProfileId} / {Session?.LayoutId ?? "—"} · {Session?.LatencyMs?.ToString() ?? "—"} ms · {Session?.ConnectionQuality ?? "offline"} · {Device.Id}";
     }
 }

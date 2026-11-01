@@ -74,16 +74,16 @@ manifest = {'application':'SIM CONTROL STUDIO','version':version,'generatedAtUtc
     'signedIosIpaIncluded':False,'physicalTestsPerformed':False,
     'files':[{'path':str(f.relative_to(release)),'bytes':f.stat().st_size,'sha256':sha(f)} for f in sorted(release.rglob('*')) if f.is_file()]}
 (release/'MANIFEST.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n')
-def archive(folder, path):
+def archive(folder, path, exclude=()):
     with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         for f in sorted(folder.rglob('*')):
-            if f.is_file(): z.write(f, Path(folder.name)/f.relative_to(folder))
+            if f.is_file() and f.name not in exclude: z.write(f, Path(folder.name)/f.relative_to(folder))
     with zipfile.ZipFile(path) as z:
         if z.testzip(): raise RuntimeError('Corrupt release archive')
     return path
 assets = [archive(release, output/f'SIM_CONTROL_STUDIO_{version}_RELEASE.zip'),
     archive(release/'Source', output/f'SIM_CONTROL_STUDIO_{version}_Source.zip'),
-    archive(release/'Windows', output/f'SIM_CONTROL_STUDIO_{version}_Windows_x64.zip')]
+    archive(release/'Windows', output/f'SIM_CONTROL_STUDIO_{version}_Windows_x64.zip', exclude={a.installer.name})]
 for src, name in [(a.apk, f'SIM_CONTROL_STUDIO_{version}.apk'), (a.installer,a.installer.name)]:
     dest=output/name; shutil.copy2(src,dest); assets.append(dest)
 (output/'SHA256SUMS.txt').write_text(''.join(f'{sha(f)}  {f.name}\n' for f in assets))

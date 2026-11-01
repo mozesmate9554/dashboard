@@ -1,34 +1,11 @@
-# Fejlesztési állapot 0.1.0
+# Funkciómátrix – SIM CONTROL STUDIO 0.2.0
 
-A teljes specifikáció elfogadási feltétele **még nem teljesült**. Futó Rally és két fizikai mobil nem állt rendelkezésre. A Windows kiadás lefordult, APK/IPA nem készült.
+Az eredeti audit: AUDIT_0.1.0_TO_0.2.0.md. Az alábbi állapotok az automatizált bizonyíték megadott körére érvényesek.
 
-Automatizált ellenőrzések: 18 Bridge + 25 adat/projekt, 9 Dart fájl szintaxis. A Dart szintaxis nem Flutter analyzer vagy futtatott widgetteszt.
+CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902
+Forrás: `76dc048f17152709c2114ea2579a5876dcda0e9f`
+Tesztek: 22 Bridge, 25 adat/projekt, 13 Flutter; Dart analyzer: nincs jelzés.
 
-| Funkció | Állapot |
-|---|---|
-| Önálló Windows x64 Bridge | Elkészült, valós eszközön még tesztelendő |
-| Assetto Corsa Rally valódi shared-memory adapter | Elkészült, valós eszközön még tesztelendő |
-| Egységes mezőmodell és elavulás | Elkészült és automatizáltan tesztelt |
-| Többklienses kétirányú kapcsolat, bontás és újracsatlakozás | Elkészült és automatizáltan tesztelt |
-| TLS, párosítás, hash-tárolás, visszavonás, sebességkorlát | Elkészült és automatizáltan tesztelt |
-| Billentyűk, kombinációk, hold/repeat, fókusz- és beragadásvédelem | Elkészült és automatizáltan tesztelt |
-| Windows felület, tálca, QR, kiosztásimport és diagnosztika | Elkészült, valós eszközön még tesztelendő |
-| Natív Flutter Android/iOS kliens | Részlegesen elkészült |
-| Műszerfal, kezelőpanel és külön menthető hibrid | Részlegesen elkészült |
-| 20 autó / 40 eltérő, verziózott alapelrendezés | Elkészült és automatizáltan tesztelt |
-| Gyári műszerfalak és kapcsolópanelek hű rekonstrukciója | Részlegesen elkészült |
-| Más készüléktől érkező profilajánlás | Elkészült és automatizáltan tesztelt |
-| Játékazonosítóból automatikus autóprofil-váltás | Nem készült el |
-| Érintéses vizuális szerkesztő, csoport, réteg, undo/redo és feltételek | Részlegesen elkészült |
-| JSON/SVG/PNG import-export és helyi mentés | Részlegesen elkészült |
-| Assetto Corsa, ACC és BeamNG OutGauge adapterek | Részlegesen elkészült |
-| A többi megnevezett játék integrációja | Nem készült el |
-| Minden játékmód és online használat igazolása | Nem készült el |
-| Android release APK | Nem készült el |
-| Aláírt iOS IPA | Nem készült el |
-| Magyar felület és angol nyelv | Részlegesen elkészült |
-| Magyar útmutatók, napló és gépi állapotjelentés | Elkészült és automatizáltan tesztelt |
+| ID | Funkció | Állapot | Bizonyíték és korlát |
 
-Részletek és a bizonyítékok határai: `STATUS.json`. A 40 elrendezésből 1 részleges referencia, 19 inspirált; nincs 20 hitelesített gyári replika készre jelentve.
-
-Az Android build hiányának konkrét oka: a hivatalos Flutter SDK célállomását a környezet hálózati szabályzata 403-mal tiltotta. Az iOS buildhez macOS, Xcode és aláírás hiányzott. A forrás és a natív projektek átadásra kerülnek.
+Telepíthető Android APK, Windows EXE és NSIS telepítő. A fizikai játék-/telefonos elfogadás még nem teljesült. Részletek: FUNKCIOMATRIX_0.2.0.md, STATUS.json, ISMERT_HIBAK.md.

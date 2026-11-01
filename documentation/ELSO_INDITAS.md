@@ -2,7 +2,7 @@
 
 ## 1. Windows
 
-1. Csomagold ki a `Windows` könyvtárat egy írható helyre. A `SimControlStudio.Bridge.exe` és `profiles.json` maradjon együtt.
+1. Futtasd a `SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe` telepítőt, vagy csomagold ki a `Windows` könyvtárat egy írható helyre. A `SimControlStudio.Bridge.exe` és `profiles.json` maradjon együtt.
 2. Indítsd el a Bridge EXE-t. A mellékelt kiadás önálló, nem igényel külön .NET fejlesztői környezetet.
 3. Válaszd az **Assetto Corsa Rally** adaptert. Alapértelmezett TCP-port: **19760**.
 4. Válaszd ki a PC tényleges Ethernet/Wi-Fi IPv4-címét, majd jelöld be a **Helyi hálózat engedélyezése** mezőt. Az első alapbeállítás csak `127.0.0.1` címen figyel; ezt a mobil nem éri el.
@@ -13,7 +13,9 @@ Helyi állományok: `%LOCALAPPDATA%\SimControlStudio`. A `bridge.json` a kioszt�
 
 ## 2. Android és iOS
 
-Ebben az átadásban nincs APK vagy aláírt IPA. A mobilforrás fordításának feltételei és lépései: `ANDROID.md`, `IOS.md`. Ne próbálj egy átnevezett forrásfájlt telepítőként használni.
+Android APK: a GitHub kiadási oldal Assets listájában `SIM_CONTROL_STUDIO_0.2.0.apk`. A letöltés és az aláírás/frissítés részletei: `ANDROID.md`. iOS-hez forrás és Xcode-útmutató van (`IOS.md`), aláírt IPA nincs.
+
+PC nélküli kipróbálás: a varázslóban válaszd a **DEMO** gombot; később a Kezdőlap DEMO kapcsolójával is bekapcsolhatod. A teljes képernyőn és a szerkesztőben is látható a DEMO jelölés. A szimulált parancs nem jut a Windows bemenetéhez. Valódi játékhoz kapcsold ki a DEMO módot.
 
 A ténylegesen elkészített, aláírt mobilkiadás telepítése után:
 
@@ -47,7 +49,7 @@ A játékból kapott autóazonosító megjelenik a telemetriában. Az automatiku
 
 1. Először olvasási módban ellenőrizd a telemetriát.
 2. A játékban rendelj egy egyszerű billentyűt az ott ténylegesen létező funkcióhoz.
-3. A Bridge **Játékvezérlés** lapján rendeld ugyanazt a billentyűt az adott művelethez, például `lights → L`. A példában az L nem gyári Rally-kiosztás: neked kell a játékban is beállítani.
+3. A Bridge **Játékvezérlés** lapján rendeld ugyanazt a billentyűt az adott művelethez, például `lights → L`. A lap tetején választhatsz játékalapértelmezést vagy konkrét autóazonosítót. Az elmentett autókiosztás a teljes alapértelmezést felülírja; új autókiosztás induláskor a játék aktuális sorait mutatja, mentéskor lesz külön példány. A példában az L nem gyári Rally-kiosztás: neked kell a játékban is beállítani.
 4. `press`: egyszeri billentyű; `hold`: lenyomás/felengedés; `repeat`: legfeljebb 3 másodperces, helyileg konfigurált ismétlés. A mobil `hold` eleméhez `hold` vagy `repeat` Bridge-kiosztás tartozzon.
 5. A Bridge **Eszközök** lapján engedélyezd a második készülék vezérlését. Ezután jelöld be a globális Mobilvezérlés mezőt.
 6. Vidd előtérbe a valódi játékot, majd nyomd meg a mobilgombot. A diagnosztikában először `received`, majd `executed` vagy indokolt `rejected` jelenik meg.

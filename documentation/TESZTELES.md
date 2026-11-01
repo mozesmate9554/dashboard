@@ -1,23 +1,14 @@
-# Tesztelési állapot és felhasználói átvétel
+# Tesztelési állapot – 0.2.0
 
-## Ténylegesen futtatva
+A kiadáshoz tartozó pontos futás, forráscommit és eredmény: `STATUS.json`, `FUNKCIOMATRIX_0.2.0.md`, illetve a teljes csomag `Tests/Android-CI/provenance.json` fájlja.
 
-- C# Bridge.Core és Bridge.Headless Release build .NET 10 SDK-val: sikeres, 0 figyelmeztetés/hiba.
-- Windows WinForms Release build és self-contained win-x64 publish: sikeres; a kiadáshoz tartozó napló `Tests/windows-build.log`.
-- **18 Bridge-teszt**, Linux x64 .NET futtatással, determinisztikus bináris tesztmintákkal és valódi helyi TLS/WebSocket kapcsolatokkal. Eredmény: `bridge-tests.json`.
-- **25 statikus adat/projektellenőrzés**: 20 autó/40 azonosító, minden elrendezés határai, mezői, vezérlőműveletei, különböző geometriai aláírása, SVG-k, Škoda nézetek, Android/iOS XML, PBX hivatkozások, verziók. Eredmény: `profile-tests.json`.
-- Dart fájlok tree-sitter szintaktikai ellenőrzése: `dart-syntax.json`. Ez nem típusellenőrzés és nem futtatott Flutter-teszt.
+Automatizált ellenőrzések: 22 Bridge-regresszió Linuxon és Windows CI-ben, 25 profil-/projektellenőrzés, Flutter analyzer és unit/widget tesztek, release APK és aláírásellenőrzés, Windows self-contained EXE és NSIS telepítő. A Windows CI csendes telepítést és a WinForms főablak megjelenését is ellenőrzi. A teljes interaktív felület vizsgálatát ez nem helyettesíti.
 
-## Nem futtatva
+A Flutter teszt minden alapprofil minden oldalát és a 20 hibridet 360×800, 900×420 és 1366×1024 méreten rendereli, hiányzó és DEMO-adatokkal. További tesztek: hibás SVG/kép/geometria, alapok megőrzése, hibrid másolás, személyes mentés/visszatöltés/törlés, sérült fájl megőrzése, DEMO hálózati izoláció, szerepkörök, tartott gomb nézetváltása, szerkesztőbeli mozgatás/visszavonás/mentés.
 
-- Dart analyzer, Flutter unit/widget tesztek, Android APK build/telepítés.
-- Xcode build, iOS aláírás és telepítés.
-- Windows EXE grafikus futtatás; valódi Windows named mapping / SendInput.
-- Futó Assetto Corsa Rally, annak konkrét játékverziója, tényleges billentyűhatás.
-- Két fizikai telefon/tablet, valós Wi-Fi-késleltetés, 20/30/60 Hz-es fizikai teljesítménymérés.
-- Online, replay, spectator vagy további játékmód ellenőrzése.
+A Bridge-tesztek valódi helyi TLS/WebSocket kapcsolatot használnak; a játékbájtok és a bemeneti sink tesztminták. A DEMO-s kétklienses benchmark 30 és 60 Hz kéréssel, 1 másodperc bemelegítéssel mér. Eredmény: `transport-benchmark.json`, Windows CI-n `windows-transport-benchmark.json`. Ezek nem fizikai telefonos FPS- vagy Wi-Fi-mérések.
 
-Ezekhez nem tartozik kitalált sikeres eredmény. A mobiltesztek forrása mellékelve van, de státuszuk `not_run`.
+Nem történt futó Assetto Corsa Rally-, két fizikai mobil-, valódi játékhatás-, iOS/Xcode/IPA- vagy online munkamenetteszt. A 0.1.0 audit és bizonyítékok a `history/0.1.0` mappában megmaradtak.
 
 ## A – Valódi Rally-telemetria (felhasználónál)
 

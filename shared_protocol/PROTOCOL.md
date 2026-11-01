@@ -21,6 +21,7 @@ First WebSocket message (no `type` is required for the initial message):
   "name": "My tablet",
   "role": "panel",
   "profileId": "skoda-fabia-rs-rally2",
+  "layoutId": "skoda-fabia-rs-rally2-panel",
   "hz": 30,
   "pairingToken": "<48-hex-token>"
 }
@@ -74,8 +75,18 @@ The Bridge requires global local arming, a controller-enabled paired device, pan
 {"type":"profile","profileId":"skoda-fabia-rs-rally2"}
 ```
 
-Pong echoes sentMs; the client computes RTT with a monotonic clock and sends `latency`. Profile changes broadcast a `profileSuggestion` with the source device; recipients accept explicitly and retain manual override. Unknown profile IDs are ignored. No verified game-car alias table is provided in 0.1.0.
+Pong echoes sentMs; the client computes RTT with a monotonic clock and sends `latency`. Profile changes broadcast a `profileSuggestion` with the source device; recipients accept explicitly and retain manual override. Unknown profile IDs are ignored. No verified game-car alias table is provided in 0.2.0.
 
 ## Discovery
 
 Optional UDP request to port 19761: `SIMCONTROL_DISCOVER_V1 <nonce>`. Response contains service=simcontrol, protocol=1, port, name, pin and matching nonce. It contains neither pairing token nor device secret. Broadcast discovery is unauthenticated; the fingerprint must be checked against the PC screen. The bridge rate-limits replies per address. Manual IPv4 and QR work without discovery.
+
+## Backward-compatible 0.2.0 fields
+
+`mode` is `live` (default for old frames) or `demo`. A DEMO frame uses `state=demo`, `mode=demo`, `gameId=demo`, and `demo:` field sources. The mobile accepts a fresh DEMO only with the explicit mode, and displays a persistent badge. DEMO command acknowledgments have `stage=simulated`; they never claim Windows or game execution. Remote DEMO still requires pairing and panel/hybrid role, and cannot invoke `IKeySink`.
+
+Hello and profile messages may include an opaque `layoutId` (1–100 characters, no control characters), identifying the actual base/personal layout. `profileId` remains the vehicle ID used for local keymap selection and cross-device suggestions. Health includes sanitized `clients` with deviceId, name, role, profileId, layoutId, requested Hz, nullable measured RTT and connection quality. It never includes pairing credentials.
+
+Keymap schema 2: `{"schemaVersion":2,"bindings":{"acr":{}},"profileBindings":{"acr/vehicle-id":{}}}`. A present profile map completely overrides the game's default, including an intentionally empty map. Legacy game-map JSON remains importable. A mapping is local configuration, never supplied as a raw keyboard request over the socket.
+
+Command receive loops do not await press duration. Each session has at most 16 pending commands; key-up stays exempt. Same-action pulses serialize; session release/profile change/permission loss cancels queued pulses as well as held leases.

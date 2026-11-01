@@ -172,6 +172,7 @@ class _PanelControlState extends State<PanelControl> {
   int _requested = 0;
   double _steps = 0;
   Timer? _renew;
+  int? _holdPointer;
   String get _kind => widget.element['kind'] as String;
   String get _action => widget.element['action'] as String? ?? '';
   bool get _enabled => widget.connection?.mayControl == true && widget.connection!.supportedActions.contains(_action) &&
@@ -206,7 +207,7 @@ class _PanelControlState extends State<PanelControl> {
     if (['rotary', 'stepper', 'threeState', 'multiState'].contains(_kind)) {
       final minus = widget.element['minusAction'] as String? ?? '';
       final selector = _kind == 'threeState' || _kind == 'multiState';
-      final maximum = _kind == 'threeState' ? 2 : (widget.element['positions'] as num?)?.toInt() ?? 5;
+      final maximum = _kind == 'threeState' ? 2 : ((widget.element['positions'] as num?)?.toInt() ?? 6) - 1;
       child = Column(children: [
         Text(label, style: TextStyle(fontSize: 15, color: color, fontWeight: FontWeight.w700)),
         Expanded(child: Row(children: [button('−', _enabled && (!selector || _requested > 0) && widget.connection!.supportedActions.contains(minus) ? () { _emit(minus); setState(() => _requested--); } : null),
@@ -230,7 +231,10 @@ class _PanelControlState extends State<PanelControl> {
       final holding = _kind == 'hold';
       final observed = widget.frame?.value(widget.element['field'] as String? ?? '');
       child = Material(color: _pressed ? color.withValues(alpha: .35) : observed == true ? color.withValues(alpha: .2) : Colors.transparent,
-        child: GestureDetector(onTapDown: holding ? (_) => _down() : null, onTapUp: holding ? (_) => _up() : null, onTapCancel: holding ? _up : null,
+        child: Listener(behavior: HitTestBehavior.opaque,
+          onPointerDown: holding ? (event) { if (_holdPointer == null) { _holdPointer = event.pointer; _down(); } } : null,
+          onPointerUp: holding ? (event) { if (_holdPointer == event.pointer) { _holdPointer = null; _up(); } } : null,
+          onPointerCancel: holding ? (event) { if (_holdPointer == event.pointer) { _holdPointer = null; _up(); } } : null,
           child: InkWell(onTap: !holding && _enabled ? () {
             _emit(_action); setState(() => _requested++);
           } : null, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -257,7 +261,7 @@ class _LiveDisplayState extends State<LiveDisplay> {
   @override void initState() {
     super.initState(); unawaited(WakelockPlus.enable());
     unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky));
-    widget.connection.selectProfile(widget.store.vehicleId);
+    widget.connection.selectProfile(widget.store.vehicleId, layoutId: (widget.layout ?? widget.store.selected(widget.role)).id);
   }
   @override void dispose() {
     widget.connection.releaseAll(); unawaited(WakelockPlus.disable());

@@ -89,7 +89,7 @@ class _StudioShellState extends State<StudioShell> {
   @override Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width >= 1050 && MediaQuery.sizeOf(context).height >= 800;
     final names = store.language == 'en' ? _en : _hu;
-    return AnimatedBuilder(animation: Listenable.merge([connection, connection.telemetry]), builder: (context, _) => Scaffold(
+    return AnimatedBuilder(animation: connection, builder: (context, _) => Scaffold(
       appBar: AppBar(title: Row(children: [const _BrandMark(), const SizedBox(width: 12), Text(names[_page], style: const TextStyle(fontWeight: FontWeight.w700))]),
         actions: [if (connection.isDemo) const DemoBadge(), Padding(padding: const EdgeInsets.only(right: 14), child: Chip(avatar: Icon(connection.connected ? Icons.link : Icons.link_off,
           size: 16, color: connection.connected ? Colors.greenAccent : Colors.amber), label: Text(connection.connected ? '${connection.latencyMs} ms' : tr('Nincs kapcsolat','Disconnected'))))]),
@@ -136,7 +136,7 @@ class _StudioShellState extends State<StudioShell> {
       Text(tr('AKTÍV AUTÓPROFIL','ACTIVE VEHICLE'),style: const TextStyle(color:Colors.white54,letterSpacing:2,fontSize:11)),const SizedBox(height:8),
       Text(store.vehicle.name,style: const TextStyle(fontSize:24,fontWeight:FontWeight.w800)),const SizedBox(height:8),
       Text('${store.vehicle.data['modelYear']} · ${store.vehicle.category} · ${store.vehicle.data['fidelityLabel']}',style:const TextStyle(color:Colors.white54,fontSize:12)),
-      const SizedBox(height:16), SizedBox(height:210,child: LayoutCanvas(layout:store.selected(store.role),frame:connection.telemetry.value)),
+      const SizedBox(height:16), SizedBox(height:210,child: ValueListenableBuilder<TelemetryFrame?>(valueListenable:connection.telemetry,builder:(context,frame,_)=>LayoutCanvas(layout:store.selected(store.role),frame:frame))),
       const SizedBox(height:16), Wrap(spacing:10,runSpacing:10,children:[
         for (final (role,label,icon) in [('dashboard',tr('Műszerfal','Dashboard'),Icons.speed),('panel',tr('Kezelőpanel','Button box'),Icons.grid_view),('hybrid',tr('Hibrid','Hybrid'),Icons.view_column_outlined)])
           FilledButton.tonalIcon(onPressed:()=>_use(store.vehicle,role),icon:Icon(icon),label:Text(label)),
@@ -154,7 +154,7 @@ class _StudioShellState extends State<StudioShell> {
       return SliverGrid(delegate:SliverChildBuilderDelegate((context,index){
         final vehicle=store.vehicles[index];final layout=role=='panel'?vehicle.panel:vehicle.dashboard;
         return Card(child:Padding(padding:const EdgeInsets.all(14),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-          Expanded(child:LayoutCanvas(layout:layout,frame:connection.localDemo?connection.telemetry.value:null)),const SizedBox(height:10),Text(vehicle.name,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w700,fontSize:16)),
+          Expanded(child:ValueListenableBuilder<TelemetryFrame?>(valueListenable:connection.telemetry,builder:(context,frame,_)=>LayoutCanvas(layout:layout,frame:connection.localDemo?frame:null))),const SizedBox(height:10),Text(vehicle.name,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w700,fontSize:16)),
           Text('${vehicle.category} / ${vehicle.data['modelYear']} · ${vehicle.fidelity=='partial_reference'?'Részleges referencia':'Autó által inspirált'}',style:const TextStyle(color:Colors.white38,fontSize:11)),
           const SizedBox(height:10),Row(children:[Expanded(child:FilledButton.tonal(onPressed:()=>_use(vehicle,role=='panel'?'panel':'dashboard'),child:Text(tr('Használat','Use')))),
             IconButton(onPressed:()=>_edit(layout),icon:const Icon(Icons.edit_outlined),tooltip:tr('Szerkesztés másolatként','Edit copy')),
@@ -194,7 +194,7 @@ class _StudioShellState extends State<StudioShell> {
     Card(child:ListTile(leading:const Icon(Icons.smartphone),title:Text(store.prefs.getString('deviceName')??'Ez a készülék'),subtitle:Text('${store.role} · ${store.vehicle.name}\n${connection.connected?'Csatlakoztatva':'Nincs kapcsolat'}'),isThreeLine:true)),
     const SizedBox(height:18),const Text('Műszerfalhoz olvasási jogosultság elegendő. A kezelőpanel vezérlését a PC-n eszközönként kell engedélyezni.',style:TextStyle(color:Colors.white54)),
     const SizedBox(height:18),for(final role in ['dashboard','panel','hybrid'])ListTile(title:Text(role),leading:Icon(store.role==role?Icons.radio_button_checked:Icons.radio_button_off),onTap:()async{await store.set('role',role);await connection.refreshSettings();}),
-    for(final device in connection.clients)Card(child:ListTile(leading:const Icon(Icons.devices), title:Text(device['name']?.toString()??''),subtitle:Text('${device['role']} · ${device['profileId']} · ${device['hz']} Hz · ${device['latencyMs']??'—'} ms · ${device['connectionQuality']}'))),
+    for(final device in connection.clients)Card(child:ListTile(leading:const Icon(Icons.devices), title:Text(device['name']?.toString()??''),subtitle:Text('${device['role']} · ${device['profileId']} / ${device['layoutId']??'—'} · ${device['hz']} Hz · ${device['latencyMs']??'—'} ms · ${device['connectionQuality']}'))),
     const SizedBox(height:12),SwitchListTile(title:Text(tr('Profilajánlások más készülékektől','Profile suggestions')),value:store.suggestions,onChanged:(v)=>store.set('suggestions',v)),
     const SizedBox(height:18),const Text('Az összes párosított készülék kezelése és a jogosultságok visszavonása a Windows Bridge Eszközök oldalán érhető el.'),
   ]);

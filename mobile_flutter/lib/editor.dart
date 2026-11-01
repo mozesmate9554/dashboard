@@ -175,6 +175,7 @@ class _LayoutEditorState extends State<LayoutEditor> {
       input('Kiemelőszín #RRGGBB', 'color'), input('Szövegszín #RRGGBB', 'foreground'), input('Háttérszín #RRGGBB', 'background'),
       input('Betűméret', 'fontSize', numeric: true), choose('Betűstílus', 'font', ['monospace', 'sans']),
       choose('Forma', 'shape', ['rectangle','rounded','circle']), input('Skála maximum', 'max', numeric: true), input('Tizedesek', 'decimals', numeric: true),
+      input('Választó pozícióinak száma (2–12)', 'positions', numeric: true),
       input('Figyelmeztetés e fölött', 'warningAbove', numeric: true),
       SwitchListTile(title: const Text('Figyelmeztetés villogása'), value: e['animate'] == true, onChanged: (v) => update('animate', v)),
       SwitchListTile(title: const Text('Elem zárolása'), value: e['locked'] == true, onChanged: (v) => update('locked', v)),

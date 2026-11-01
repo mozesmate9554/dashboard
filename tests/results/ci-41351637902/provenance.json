@@ -1,0 +1,31 @@
+{
+  "commit": "76dc048f17152709c2114ea2579a5876dcda0e9f",
+  "runId": "41351637902",
+  "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
+  "artifacts": [
+    {
+      "id": 13101786578,
+      "name": "SIM_CONTROL_STUDIO-Android-76dc048f17152709c2114ea2579a5876dcda0e9f",
+      "bytes": 37686722,
+      "digest": "sha256:d931d349bfa9ba0d17a5b5905e4f8f7dceb9cc96d66e8ff3195a5cf21a738f4f"
+    },
+    {
+      "id": 13101463643,
+      "name": "SIM_CONTROL_STUDIO-Windows-76dc048f17152709c2114ea2579a5876dcda0e9f",
+      "bytes": 101589386,
+      "digest": "sha256:cc608d0b836f01e14197379c483aeb8a4fbeec88db28ff4c42138c744212e4b6"
+    },
+    {
+      "id": 13101388983,
+      "name": "Windows-check-results-76dc048f17152709c2114ea2579a5876dcda0e9f",
+      "bytes": 2342,
+      "digest": "sha256:01530a35af0bd298580bc0c6e233c94ad0506295ee3152e74f2d425f19a6d6be"
+    },
+    {
+      "id": 13101319841,
+      "name": "Android-check-results-76dc048f17152709c2114ea2579a5876dcda0e9f",
+      "bytes": 11392,
+      "digest": "sha256:630001b7962d04dfa133cf99cec75dc8c7b2a65fbb0f639fa8e87c27f22f4e09"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "appVersion": "0.2.0",
+  "environment": "Microsoft Windows 10.0.26100; .NET 10.0.14; binary fixtures and real local TLS; no live game",
+  "sourceCommit": "76dc048f17152709c2114ea2579a5876dcda0e9f",
+  "runUrl": "https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
+  "passed": 22,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "Rally byte layout: speed/RPM/gear/pedals/G-force",
+      "status": "passed"
+    },
+    {
+      "name": "Rally does not invent extended ACC or timing fields",
+      "status": "passed"
+    },
+    {
+      "name": "Reverse and neutral wire convention",
+      "status": "passed"
+    },
+    {
+      "name": "Short, NaN and impossible telemetry rejected",
+      "status": "passed"
+    },
+    {
+      "name": "Statics UTF16 offsets and RPM limit",
+      "status": "passed"
+    },
+    {
+      "name": "Stale fields retain original sample timestamp",
+      "status": "passed"
+    },
+    {
+      "name": "First packet id zero, duplicates and game exit/restart",
+      "status": "passed"
+    },
+    {
+      "name": "Key binding validation prevents system commands",
+      "status": "passed"
+    },
+    {
+      "name": "Pairing, hashed persistence, wrong secret and revocation",
+      "status": "passed"
+    },
+    {
+      "name": "Session replay and throttling; key-up exempt",
+      "status": "passed"
+    },
+    {
+      "name": "Foreground, explicit arming and per-device permission",
+      "status": "passed"
+    },
+    {
+      "name": "Two devices share modifier ownership; disconnect and focus watchdog",
+      "status": "passed"
+    },
+    {
+      "name": "Repeat reports a failed first input honestly and stops on key-up",
+      "status": "passed"
+    },
+    {
+      "name": "Read-only unsupported action and invalid phase never inject input",
+      "status": "passed"
+    },
+    {
+      "name": "BeamNG OutGauge header, unit conversion and invalid packet",
+      "status": "passed"
+    },
+    {
+      "name": "TLS pin, two WebSocket clients, control ack, disconnect/reconnect, stale and revoke",
+      "status": "passed"
+    },
+    {
+      "name": "TLS pin rejection, revoked credentials, malformed messages and disconnect releases held input",
+      "status": "passed"
+    },
+    {
+      "name": "Configuration validation and control is disarmed after restart",
+      "status": "passed"
+    },
+    {
+      "name": "Car-specific maps, legacy import and empty overrides persist without cross-car leakage",
+      "status": "passed"
+    },
+    {
+      "name": "Queued presses cancel on release; other actions and key-up remain responsive",
+      "status": "passed"
+    },
+    {
+      "name": "DEMO is labeled, synthesizes fields and hard-blocks all real input",
+      "status": "passed"
+    },
+    {
+      "name": "DEMO through real TLS: role permissions, profile change and never SendInput",
+      "status": "passed"
+    }
+  ]
+}

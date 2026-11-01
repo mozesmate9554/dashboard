@@ -183,7 +183,7 @@ try
         var memory = new FixtureMemory { AutoIncrement = true }; var probe = new FixtureProbe(); var sink = new FixtureSink();
         await using var runtime = new BridgeRuntime(config, registry, certificate, new AcSharedMemoryAdapter("acr", memory, probe), probe, sink, ["skoda-fabia-rs-rally2"]);
         await runtime.StartAsync(); var token = registry.OpenPairingWindow();
-        var a = HelloFor(token, "dashboard"); var b = HelloFor(token);
+        var a = HelloFor(token, "dashboard") with { LayoutId = "dash-personal" }; var b = HelloFor(token) with { LayoutId = "panel-personal" };
         using var clientA = Client(certificate); using var clientB = Client(certificate);
         await clientA.ConnectAsync(new Uri($"wss://127.0.0.1:{port}/ws"), default); await Send(clientA, a);
         var welcomeA = await ReceiveType(clientA, "welcome"); var secretA = welcomeA.GetProperty("secret").GetString();
@@ -194,6 +194,7 @@ try
         var frameB = (await ReceiveType(clientB, "telemetry")).GetProperty("frame");
         Assert(frameA.GetProperty("fields").GetProperty("speed").GetProperty("value").GetDouble() == 137.25);
         Assert(frameB.GetProperty("gameId").GetString() == "acr" && runtime.Clients.Count == 2);
+        Assert(runtime.Clients.Any(c => c.LayoutId == "dash-personal") && runtime.Clients.Any(c => c.LayoutId == "panel-personal"));
         await Send(clientB, new { type = "command", id = "lights-1", sequence = 1, action = "lights", phase = "press" });
         Assert((await ReceiveType(clientB, "ack")).GetProperty("stage").GetString() == "received");
         Assert((await ReceiveType(clientB, "ack")).GetProperty("stage").GetString() == "executed");

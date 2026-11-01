@@ -77,7 +77,9 @@ try
             await Send(panel, new { type = "command", id = "b" + i, sequence = i, action = "lights", phase = "press" });
             await Task.Delay(100);
         }
-        await Task.Delay(200); clock.Stop(); duration.Cancel(); await readers; rtts.Sort();
+        var ackDeadline = clock.ElapsedMilliseconds + 3000;
+        while ((simulated < 50 || rtts.Count < 50) && clock.ElapsedMilliseconds < ackDeadline) await Task.Delay(10);
+        clock.Stop(); duration.Cancel(); await readers; rtts.Sort();
         double Percentile(double p) => rtts.Count == 0 ? double.NaN : rtts[(int)Math.Ceiling((rtts.Count - 1) * p)];
         var measured = (clock.Elapsed - measurementStart).TotalSeconds;
         results.Add(new { requestedHz = hz, warmupSeconds = 1, seconds = measured, clientCount = 2, frames,
@@ -86,7 +88,7 @@ try
             simulatedCommandAcks = simulated, cpuMilliseconds = (process.TotalProcessorTime - cpu).TotalMilliseconds,
             cpuPercentOfOneCore = (process.TotalProcessorTime - cpu).TotalSeconds / measured * 100,
             managedAllocatedBytes = GC.GetTotalAllocatedBytes() - alloc, workingSetBytes = process.WorkingSet64 });
-        if (frames.Any(f => f < hz * 3) || simulated != 50 || rtts.Count != 50) throw new Exception("Transport benchmark lost too many frames or acknowledgments");
+        if (frames.Any(f => f < hz * 3) || simulated != 50 || rtts.Count != 50) throw new Exception($"Transport benchmark: Hz={hz}, seconds={measured:0.00}, frames={string.Join(",", frames)}, simulated={simulated}, pongs={rtts.Count}");
         dashboard.Abort(); panel.Abort();
     }
     AtomicFile.Write(output, Protocol.Serialize(new { appVersion = Protocol.AppVersion, measuredAtUtc = DateTimeOffset.UtcNow,

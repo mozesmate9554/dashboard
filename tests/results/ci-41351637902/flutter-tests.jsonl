@@ -1,0 +1,41 @@
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":2627,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/home/runner/work/dashboard/dashboard/mobile_flutter/test/widget_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading /home/runner/work/dashboard/dashboard/mobile_flutter/test/widget_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":1}
+{"suite":{"id":2,"platform":"vm","path":"/home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"suite","time":5}
+{"test":{"id":3,"name":"loading /home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":5}
+{"count":3,"time":6,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":8532}
+{"group":{"id":4,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":null,"column":null,"url":null},"type":"group","time":8535}
+{"test":{"id":5,"name":"All base and hybrid pages render in portrait, landscape and tablet, with missing and DEMO data","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":11,"root_column":3,"root_url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/widget_test.dart"},"type":"testStart","time":8535}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":9570}
+{"group":{"id":6,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":6,"line":null,"column":null,"url":null},"type":"group","time":9571}
+{"test":{"id":7,"name":"Local DEMO commands change only simulated state and never send network messages","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":24,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"testStart","time":9572}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9720}
+{"test":{"id":8,"name":"DEMO freshness requires an explicit mode and releases expired holds","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":45,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"testStart","time":9721}
+{"testID":8,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9756}
+{"test":{"id":9,"name":"Alignment keeps group spacing and original layout; opacity validates","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":52,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"testStart","time":9759}
+{"testID":9,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9783}
+{"test":{"id":10,"name":"Personal layout survives save, load and delete; broken file remains intact","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":64,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"testStart","time":9784}
+{"testID":10,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":9985}
+{"test":{"id":11,"name":"Changing panel page releases a held action and never renews it","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":79,"root_column":3,"root_url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"testStart","time":9986}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10737}
+{"test":{"id":12,"name":"Editor touch move, undo and save preserve the shipped base layout","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":174,"column":5,"url":"package:flutter_test/src/widget_tester.dart","root_line":95,"root_column":3,"root_url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/demo_editor_test.dart"},"type":"testStart","time":10738}
+{"testID":12,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11741}
+{"suite":{"id":13,"platform":"vm","path":"/home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"suite","time":11772}
+{"test":{"id":14,"name":"loading /home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart","suiteID":13,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":11772}
+{"testID":14,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":12526}
+{"group":{"id":15,"suiteID":13,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":6,"line":null,"column":null,"url":null},"type":"group","time":12526}
+{"test":{"id":16,"name":"All 40 base layouts validate and remain unchanged when copied","suiteID":13,"groupIDs":[15],"metadata":{"skip":false,"skipReason":null},"line":10,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"testStart","time":12526}
+{"testID":16,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12652}
+{"test":{"id":17,"name":"Missing and stale telemetry can never become a numeric zero","suiteID":13,"groupIDs":[15],"metadata":{"skip":false,"skipReason":null},"line":24,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"testStart","time":12652}
+{"testID":17,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12659}
+{"test":{"id":18,"name":"Each hybrid is a separately editable role and preserves its source layouts","suiteID":13,"groupIDs":[15],"metadata":{"skip":false,"skipReason":null},"line":32,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"testStart","time":12660}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12699}
+{"test":{"id":19,"name":"Unsafe remote pairing target and invalid certificate pins are rejected","suiteID":13,"groupIDs":[15],"metadata":{"skip":false,"skipReason":null},"line":44,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"testStart","time":12701}
+{"testID":19,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12707}
+{"test":{"id":20,"name":"SVG external references and oversized images are rejected","suiteID":13,"groupIDs":[15],"metadata":{"skip":false,"skipReason":null},"line":50,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"testStart","time":12708}
+{"testID":20,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12712}
+{"test":{"id":21,"name":"Invalid geometry, decimals and LED counts are rejected","suiteID":13,"groupIDs":[15],"metadata":{"skip":false,"skipReason":null},"line":55,"column":3,"url":"file:///home/runner/work/dashboard/dashboard/mobile_flutter/test/profile_test.dart"},"type":"testStart","time":12712}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":12721}
+{"testID":5,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":15358}
+{"success":true,"type":"done","time":15379}

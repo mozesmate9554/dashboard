@@ -1,0 +1,15 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+V2 Signer: certificate DN: CN=SIM CONTROL STUDIO Preview
+V2 Signer: certificate SHA-256 digest: 4a882a1a93876c0b9b96144edf94d19b978dcc10f4bd33a1615f7557cd6bec3d
+V2 Signer: certificate SHA-1 digest: 0610a2b5499260c07735ee178d071a0a50e8f81c
+V2 Signer: certificate MD5 digest: 1b13e87cc183d5088478aba43e6d0ace
+V2 Signer: key algorithm: RSA
+V2 Signer: key size (bits): 3072

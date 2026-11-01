@@ -34,7 +34,7 @@ public sealed record TelemetryFrame(long Sequence, long TimestampMs, string Game
     };
 }
 public sealed record Hello(int Protocol, string DeviceId, string Name, string Role, string? ProfileId,
-    int Hz = 30, string? PairingToken = null, string? Secret = null);
+    int Hz = 30, string? PairingToken = null, string? Secret = null, string? LayoutId = null);
 public sealed record ControlRequest(string Id, long Sequence, string Action, string Phase);
 public sealed record ControlAck(string Type, string Id, string Stage, string? Reason = null,
     string? Detail = null, long? TimestampMs = null);

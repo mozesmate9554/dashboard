@@ -119,7 +119,7 @@ class StudioLayout {
         if (e['opacity'] != null && (e['opacity'] is! num || !(e['opacity'] as num).toDouble().isFinite || (e['opacity'] as num) < 0 || (e['opacity'] as num) > 1)) {
           throw const FormatException('Az átlátszóság 0 és 1 közötti érték lehet.');
         }
-        if (e['positions'] != null && (e['positions'] is! int || (e['positions'] as int) < 2 || (e['positions'] as int) > 12)) {
+        if (e['positions'] != null && (e['positions'] is! num || !(e['positions'] as num).toDouble().isFinite || (e['positions'] as num) % 1 != 0 || (e['positions'] as num) < 2 || (e['positions'] as num) > 12)) {
           throw const FormatException('A választó pozícióinak száma 2 és 12 közötti egész szám lehet.');
         }
         for (final key in ['label', 'field', 'assetId', 'font', 'group']) {

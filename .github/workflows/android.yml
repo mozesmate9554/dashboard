@@ -3,6 +3,7 @@ name: Android APK and project checks
 on:
   push:
     branches: [main, 'release/**']
+    paths-ignore: ['documentation/**', 'tests/results/**', 'README.md']
   pull_request:
   workflow_dispatch:
 
@@ -138,6 +139,7 @@ jobs:
           mkdir -p _staging/Windows
           unzip -q _release-input/Windows/SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip -d _staging/Windows
           cp _release-input/Android-checks/mobile_flutter/pubspec.lock mobile_flutter/pubspec.lock
+          cp _release-input/Android-checks/tests/results/profile-tests.json tests/results/profile-tests.json
           python3 tools/release_status.py --checks _release-input/Android-checks/ci-results
           python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results
       - name: Publish downloadable 0.2.0 release
@@ -153,6 +155,8 @@ jobs:
       - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           dotnet-version: '10.0.x'
+      - name: Remove earlier Windows reports
+        run: Remove-Item tests/results/windows-*.json -ErrorAction SilentlyContinue
       - name: Bridge tests on Windows
         run: dotnet run --project tests/Bridge.Tests -c Release -- tests/results/windows-bridge-tests.json
       - name: Real TLS transport benchmark with synthetic DEMO

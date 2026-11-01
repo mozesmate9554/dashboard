@@ -1,50 +1,54 @@
 {
-  "scope": "tree-sitter syntax only; NOT dart analyze or flutter test",
+  "version": "0.2.0",
+  "scope": "syntax only; real Flutter analyzer/test evidence is recorded separately by CI",
   "files": [
     {
       "file": "mobile_flutter/lib/connection.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
+    },
+    {
+      "file": "mobile_flutter/lib/demo.dart",
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/lib/display.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/lib/editor.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/lib/hybrid.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
+    },
+    {
+      "file": "mobile_flutter/lib/layout_geometry.dart",
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/lib/main.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/lib/models.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/lib/storage.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
+    },
+    {
+      "file": "mobile_flutter/test/demo_editor_test.dart",
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/test/profile_test.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
     },
     {
       "file": "mobile_flutter/test/widget_test.dart",
-      "status": "passed",
-      "errors": []
+      "status": "passed"
     }
   ]
 }

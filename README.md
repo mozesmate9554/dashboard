@@ -1,10 +1,14 @@
-# SIM CONTROL STUDIO 0.1.0
+# SIM CONTROL STUDIO 0.2.0
 
-Natív Flutter műszerfal és kezelőpanel, külön C# / .NET 10 LTS Windows PC Bridge-dzsel. A futó rendszer helyi hálózaton működik, felhő, előfizetés és regisztráció nélkül.
+Natív Flutter műszerfal és kezelőpanel, külön .NET 10 Windows Bridge-dzsel. A rendszer helyi hálózaton működik. Az eredeti 0.1.0 forrás és Git-előzmény megmaradt; a kiadás 20 autót és 40 külön alapelrendezést tartalmaz.
 
-**Ez ellenőrizhető fejlesztői kiadás, nem a teljes specifikáció minden pontjának készre jelentése.** A Windows x64 kiadás lefordult. A Bridge automatizált tesztjei valódi helyi TLS/WebSocket kapcsolaton is futnak. Az Android/iOS forrás és natív projektek elkészültek, de ebben a környezetben Flutter fordítás nem történt. APK és aláírt IPA nincs a csomagban.
+**Letöltés:** https://github.com/mozesmate9554/dashboard/releases/tag/v0.2.0
 
-Az átadás tényleges tartalmát a `documentation/STATUS.json`, az elvégzett ellenőrzéseket a `tests/results/` rögzíti. A `documentation/ELSO_INDITAS.md` vezeti végig az első éles tesztet.
+Android APK, Windows x64 telepítő és hordozható ZIP, teljes kiadási ZIP, forrás/Git bundle és SHA-256 ellenőrzőösszegek. A végleges kiadás az Android- és Windows CI sikeréhez kötött; futások: https://github.com/mozesmate9554/dashboard/actions
+
+Új funkciók: külön jelölt DEMO PC nélkül; autónkénti billentyűkiosztás; folyamatos parancsfogadás hosszabb lenyomás közben; stabil gomb-életciklus; aktív autó/elrendezés és késleltetés az eszközlistában; szerkesztőbeli igazítás, átlátszóság és élő előnézet.
+
+Első használat: `documentation/ELSO_INDITAS.md`. A kiadás pontos bizonyítékai: `STATUS.json`, `FUNKCIOMATRIX_0.2.0.md`, a teljes csomag `Tests` mappája. Fizikai játék-/telefonos elfogadás még szükséges; a DEMO és a két szoftveres TLS-kliens tesztje nem ilyen bizonyíték. iOS-forrás van, aláírt IPA nincs. A gyári grafikai hűség nem hitelesített.
 
 ## Könyvtárak
 
@@ -23,7 +27,7 @@ Az átadás tényleges tartalmát a `documentation/STATUS.json`, az elvégzett e
 
 ## Rövid műszaki állapot
 
-- Rally: valódi Windows shared memory olvasó; a két megadott projekt tényleges forrása ellenőrizve, rögzített commitokkal. Nincs véletlenadat-generátor a termékben.
+- Rally: valódi Windows shared memory olvasó; a két megadott projekt tényleges forrása ellenőrizve, rögzített commitokkal. A valós adapter nem használ szimulált értékeket. A külön DEMO mindig megjelölt szintetikus forrás.
 - Alapmezők: sebesség, RPM, fokozat, gáz, fék, nyers kormányérték, G-vektor. Staticsból autó/pálya/verzió/RPM-limit, ha rendelkezésre állnak. Minden mező saját érvényességet és időbélyeget kap.
 - A Rally további ACC-szerű mezői **nem válnak automatikusan támogatottá**. ABS/TC/fékerőelosztás/szakaszidő visszaolvasása jelenleg nem igazolt.
 - Több kliens, visszacsatlakozás, profilajánlás, tanúsítványhoz rögzített TLS, 120 másodperces párosítás, visszavonható készülékjogosultságok.
@@ -58,4 +62,4 @@ flutter analyze
 flutter test
 ```
 
-Az utolsó három parancs a kiadási környezetben **nem futott le**. A Dart szintaxis tree-sitter ellenőrzése nem típusellenőrzés, nem Flutter-fordítás és nem widgetteszt.
+A GitHub workflow ugyanezeket az ellenőrzéseket futtatja, majd aláírt release APK-t készít. Windows alatt a natív tesztek, self-contained fordítás, NSIS telepítés és főablak-indítás is ellenőrzött. A részletes korlátok a `documentation/ISMERT_HIBAK.md` fájlban szerepelnek. A preview APK más CI-futásból történő frissítéséhez lásd az `ANDROID.md` aláírási megjegyzését.

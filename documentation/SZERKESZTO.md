@@ -33,3 +33,9 @@ A billentyű-javaslat mező a mobilon szerkeszthető. A PC kiosztás export a j�
 ## Aktuális ellenőrzési korlát
 
 A Dart forrás szintaktikai ellenőrzése és az összes JSON-profil geometriai/adatkapcsolati tesztje lefutott. Flutter analyze, widgetteszt, érintéses szerkesztés és mobilos fájlmegosztás fizikai ellenőrzése még nem történt; nem minősül készre tesztelt mobilfunkciónak. A mellékelt widgetteszt minden alapoldalt telefon- és tabletméretben ellenőriz, amikor rendelkezésre áll a Flutter SDK.
+
+## 0.2.0
+
+Az elem tulajdonságai között az átlátszatlanság 0–100%-os csúszkával állítható. A hat igazító ikon a vászon bal/közép/jobb, illetve felső/közép/alsó határához igazít; név szerinti csoport esetén a zárolatlan csoport együtt mozog. Ezek a műveletek visszavonhatók.
+
+Az előnézet a beérkező telemetriát követi. PC nélkül a Kezdőlapon kapcsold be a DEMO módot, majd nyisd meg a szerkesztőt: a DEMO felirat itt is látható. A szerkesztés közben a vezérlőgomb nem küld játékparancsot. A PC kiosztás export a 2-es JSON-sémában az adott autóhoz kötött hozzárendeléseket adja át.

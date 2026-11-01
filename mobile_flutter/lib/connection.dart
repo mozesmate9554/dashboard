@@ -134,7 +134,7 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
       final secret = await _secure.read(key: secretKey);
       if (_disposed || generation != _generation) { await socket.close(); return; }
       _send({'protocol': 1, 'deviceId': deviceId, 'name': store.prefs.getString('deviceName') ?? 'Mobil ${deviceId.substring(0, 4)}',
-        'role': store.role, 'profileId': store.vehicleId, 'hz': store.hz, 'secret': secret, if (secret == null) 'pairingToken': t.token});
+        'role': store.role, 'profileId': store.vehicleId, 'layoutId': store.selected(store.role).id, 'hz': store.hz, 'secret': secret, if (secret == null) 'pairingToken': t.token});
       socket.listen((event) {
         if (generation == _generation) unawaited(_message(event, generation));
       }, onError: (Object error) {
@@ -246,7 +246,7 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
     notifyListeners(); return id;
   }
   void releaseAll() { if (localDemo) { _demo!.releaseAll(); } else { _send({'type': 'releaseAll'}); } }
-  void selectProfile(String profileId) { if (!localDemo) { _send({'type': 'profile', 'profileId': profileId}); } }
+  void selectProfile(String profileId, {String? layoutId}) { if (!localDemo) { _send({'type': 'profile', 'profileId': profileId, 'layoutId': layoutId ?? store.selected(store.role).id}); } }
   Future<void> refreshSettings() async {
     if (localDemo) { releaseAll(); _startDemo(); notifyListeners(); return; }
     releaseAll(); _generation++; _socket?.close(); _client?.close(force: true); _ping?.cancel(); _connecting = false;
