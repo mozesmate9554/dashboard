@@ -35,8 +35,12 @@ VEHICLES = [
  ('dallara-ir18','Dallara IR-18 IndyCar',2024,'INDYCAR','#8bbdff','https://www.indycar.com/News/2024/07/07-29-Steering-Wheels','Series primary reference: team-specific wheel controls. Not a universal factory wheel; P2P/neutral/radio concept only, no DRS.'),
 ]
 
+CONTROL_FIELDS = {'ignition':'ignition','starter':'starterActive','lights':'lights','flash':'lights',
+    'wiper':'wiperLevel','radio':'radioActive','intercom':'intercomActive','pitLimiter':'inPit',
+    'brakeBiasUp':'brakeBias','absUp':'absLevel','tcUp':'tcLevel','diffUp':'differential',
+    'engineMapUp':'engineMap','drs':'drs','ers':'ers','p2p':'battery','neutral':'gear','reverse':'gear'}
 def element(kind, field, x,y,w,h, label='', **extra):
-    return dict(kind=kind,field=field,x=x,y=y,w=w,h=h,label=label,**extra)
+    return dict(kind=kind,field=field or CONTROL_FIELDS.get(extra.get('action'),''),x=x,y=y,w=w,h=h,label=label,**extra)
 def n(field,x,y,w,h,label=None,**extra): return element('gear' if field=='gear' else 'number',field,x,y,w,h,label or field.upper(),**extra)
 def leds(x,y,w,h,**kw): return element('leds','rpm',x,y,w,h,'RPM',max=8000,**kw)
 def text(label,x,y,w,h,size=22,**kw): return element('text','',x,y,w,h,label,fontSize=size,**kw)

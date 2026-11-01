@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -8,6 +7,7 @@ import 'connection.dart';
 import 'display.dart';
 import 'models.dart';
 import 'storage.dart';
+import 'layout_geometry.dart';
 
 Future<void> shareJson(BuildContext context, StudioStore store, String name, Object json) async {
   final file = File('${store.directory.path}/$name');
@@ -168,6 +168,10 @@ class _LayoutEditorState extends State<LayoutEditor> {
       Row(children: [Expanded(child: input('X', 'x', numeric: true)), const SizedBox(width: 8), Expanded(child: input('Y', 'y', numeric: true))]),
       Row(children: [Expanded(child: input('Szélesség', 'w', numeric: true)), const SizedBox(width: 8), Expanded(child: input('Magasság', 'h', numeric: true))]),
       input('Forgatás °', 'rotation', numeric: true), input('Rétegsorrend', 'z', numeric: true), input('Csoport neve', 'group'),
+      Text('Átlátszatlanság ${(((e['opacity'] as num?)?.toDouble() ?? 1) * 100).round()}%'),
+      Slider(value: (e['opacity'] as num?)?.toDouble() ?? 1, min: 0, max: 1, divisions: 20, onChanged: (v) => update('opacity', v)),
+      Wrap(spacing: 4, children: [for (final (alignment, icon) in [('left', Icons.align_horizontal_left), ('center', Icons.align_horizontal_center), ('right', Icons.align_horizontal_right), ('top', Icons.align_vertical_top), ('middle', Icons.align_vertical_center), ('bottom', Icons.align_vertical_bottom)])
+        IconButton(tooltip: 'Vászonhoz igazítás: $alignment', onPressed: e['locked'] == true ? null : () { _change(() => alignToCanvas(_layout, _page, e['id'] as String, alignment)); refresh(); }, icon: Icon(icon))]),
       input('Kiemelőszín #RRGGBB', 'color'), input('Szövegszín #RRGGBB', 'foreground'), input('Háttérszín #RRGGBB', 'background'),
       input('Betűméret', 'fontSize', numeric: true), choose('Betűstílus', 'font', ['monospace', 'sans']),
       choose('Forma', 'shape', ['rectangle','rounded','circle']), input('Skála maximum', 'max', numeric: true), input('Tizedesek', 'decimals', numeric: true),
@@ -212,7 +216,8 @@ class _LayoutEditorState extends State<LayoutEditor> {
         }
       }
     }
-    await shareJson(context, widget.store, 'sim-control-bindings.json', {widget.connection.gameId.isEmpty ? 'acr' : widget.connection.gameId: map});
+    final game = widget.connection.gameId.isEmpty || widget.connection.isDemo ? 'acr' : widget.connection.gameId;
+    await shareJson(context, widget.store, 'sim-control-bindings.json', {'schemaVersion': 2, 'bindings': <String,dynamic>{}, 'profileBindings': {'$game/${_layout.vehicleId}': map}});
   }
   @override Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width > 1000;
@@ -243,10 +248,11 @@ class _LayoutEditorState extends State<LayoutEditor> {
         }), tooltip: 'Új oldal', icon: const Icon(Icons.post_add)),
         IconButton(onPressed: _layout.pages.length == 1 ? null : () => _change(() { _layout.pages.removeAt(_page); _page = 0; _selected = null; }), tooltip: 'Oldal törlése', icon: const Icon(Icons.delete_sweep_outlined)),
       ])),
-      Expanded(child: Row(children: [Expanded(child: Listener(
+      if (widget.connection.isDemo) const DemoBadge(),
+      Expanded(child: Row(children: [Expanded(child: AnimatedBuilder(animation: Listenable.merge([widget.connection.telemetry, widget.connection.ticks]), builder: (context, _) => Listener(
         onPointerDown: (_) => _dragBefore = deepCopy(_layout.data), onPointerUp: (_) => _endDrag(), onPointerCancel: (_) => _endDrag(),
         child: LayoutCanvas(layout: _layout, page: _page, editing: true, frame: widget.connection.telemetry.value,
-          selectedId: _selected, onSelect: (e) => setState(() => _selected = e['id'] as String), onMove: _move, onResize: _resize))),
+          selectedId: _selected, onSelect: (e) => setState(() => _selected = e['id'] as String), onMove: _move, onResize: _resize)))),
         if (wide) SizedBox(width: 310, child: SingleChildScrollView(padding: const EdgeInsets.all(16), child: _properties(() {}))),
       ])),
       Padding(padding: const EdgeInsets.all(8), child: Text('SZEMÉLYES MÁSOLAT · ${_layout.elements(_page).length} elem · ${_layout.width.toInt()} × ${_layout.height.toInt()} · Húzás / sarokfogantyú', style: const TextStyle(color: Colors.white38, fontSize: 11))),

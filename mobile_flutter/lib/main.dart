@@ -89,9 +89,9 @@ class _StudioShellState extends State<StudioShell> {
   @override Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width >= 1050 && MediaQuery.sizeOf(context).height >= 800;
     final names = store.language == 'en' ? _en : _hu;
-    return AnimatedBuilder(animation: connection, builder: (context, _) => Scaffold(
+    return AnimatedBuilder(animation: Listenable.merge([connection, connection.telemetry]), builder: (context, _) => Scaffold(
       appBar: AppBar(title: Row(children: [const _BrandMark(), const SizedBox(width: 12), Text(names[_page], style: const TextStyle(fontWeight: FontWeight.w700))]),
-        actions: [Padding(padding: const EdgeInsets.only(right: 14), child: Chip(avatar: Icon(connection.connected ? Icons.link : Icons.link_off,
+        actions: [if (connection.isDemo) const DemoBadge(), Padding(padding: const EdgeInsets.only(right: 14), child: Chip(avatar: Icon(connection.connected ? Icons.link : Icons.link_off,
           size: 16, color: connection.connected ? Colors.greenAccent : Colors.amber), label: Text(connection.connected ? '${connection.latencyMs} ms' : tr('Nincs kapcsolat','Disconnected'))))]),
       drawer: wide ? null : Drawer(child: SafeArea(child: ListView(children: [const Padding(padding: EdgeInsets.all(20), child: Text('SIM CONTROL\nSTUDIO', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900))),
         for (var i = 0; i < names.length; i++) ListTile(selected: i == _page, leading: Icon(_icons[i]), title: Text(names[i]),
@@ -111,6 +111,7 @@ class _StudioShellState extends State<StudioShell> {
     Text(title, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800, height: 1.1)), if (subtitle != null) Padding(padding: const EdgeInsets.only(top: 10), child: Text(subtitle, style: const TextStyle(color: Colors.white54))),
   ]));
   Widget _home() => _scroll([
+    SwitchListTile(title: const Text('DEMO mód'), subtitle: const Text('Szimulált adatok · PC és játék nélkül kipróbálható'), value: connection.localDemo, onChanged: connection.setDemo),
     _title('SIM CONTROL STUDIO / 0.2.0', tr('A pilótafülkéd. Minden kijelzőn.','Your cockpit. Every display.'), tr('Helyi hálózat. Élő telemetria. Saját elrendezések.','Local network. Live telemetry. Your layouts.')),
     LayoutBuilder(builder: (context,constraints) => Wrap(spacing: 12, runSpacing: 12, children: [
       for (final (title,value,icon) in [
@@ -153,7 +154,7 @@ class _StudioShellState extends State<StudioShell> {
       return SliverGrid(delegate:SliverChildBuilderDelegate((context,index){
         final vehicle=store.vehicles[index];final layout=role=='panel'?vehicle.panel:vehicle.dashboard;
         return Card(child:Padding(padding:const EdgeInsets.all(14),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-          Expanded(child:LayoutCanvas(layout:layout)),const SizedBox(height:10),Text(vehicle.name,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w700,fontSize:16)),
+          Expanded(child:LayoutCanvas(layout:layout,frame:connection.localDemo?connection.telemetry.value:null)),const SizedBox(height:10),Text(vehicle.name,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w700,fontSize:16)),
           Text('${vehicle.category} / ${vehicle.data['modelYear']} · ${vehicle.fidelity=='partial_reference'?'Részleges referencia':'Autó által inspirált'}',style:const TextStyle(color:Colors.white38,fontSize:11)),
           const SizedBox(height:10),Row(children:[Expanded(child:FilledButton.tonal(onPressed:()=>_use(vehicle,role=='panel'?'panel':'dashboard'),child:Text(tr('Használat','Use')))),
             IconButton(onPressed:()=>_edit(layout),icon:const Icon(Icons.edit_outlined),tooltip:tr('Szerkesztés másolatként','Edit copy')),
@@ -192,7 +193,8 @@ class _StudioShellState extends State<StudioShell> {
     _title('MULTI DEVICE',tr('Egy PC. Több szerepkör.','One PC. Multiple roles.')),
     Card(child:ListTile(leading:const Icon(Icons.smartphone),title:Text(store.prefs.getString('deviceName')??'Ez a készülék'),subtitle:Text('${store.role} · ${store.vehicle.name}\n${connection.connected?'Csatlakoztatva':'Nincs kapcsolat'}'),isThreeLine:true)),
     const SizedBox(height:18),const Text('Műszerfalhoz olvasási jogosultság elegendő. A kezelőpanel vezérlését a PC-n eszközönként kell engedélyezni.',style:TextStyle(color:Colors.white54)),
-    const SizedBox(height:18),for(final role in ['dashboard','panel','hybrid'])RadioListTile<String>(title:Text(role),value:role,groupValue:store.role,onChanged:(v)async{await store.set('role',v!);await connection.refreshSettings();}),
+    const SizedBox(height:18),for(final role in ['dashboard','panel','hybrid'])ListTile(title:Text(role),leading:Icon(store.role==role?Icons.radio_button_checked:Icons.radio_button_off),onTap:()async{await store.set('role',role);await connection.refreshSettings();}),
+    for(final device in connection.clients)Card(child:ListTile(leading:const Icon(Icons.devices), title:Text(device['name']?.toString()??''),subtitle:Text('${device['role']} · ${device['profileId']} · ${device['hz']} Hz · ${device['latencyMs']??'—'} ms · ${device['connectionQuality']}'))),
     const SizedBox(height:12),SwitchListTile(title:Text(tr('Profilajánlások más készülékektől','Profile suggestions')),value:store.suggestions,onChanged:(v)=>store.set('suggestions',v)),
     const SizedBox(height:18),const Text('Az összes párosított készülék kezelése és a jogosultságok visszavonása a Windows Bridge Eszközök oldalán érhető el.'),
   ]);
@@ -209,6 +211,7 @@ class _StudioShellState extends State<StudioShell> {
     ]);
   });
   Widget _settings()=>_scroll([
+    SwitchListTile(title: const Text('DEMO mód'), subtitle: const Text('Szimulált forrás; nem küld PC-bemenetet'), value: connection.localDemo, onChanged: connection.setDemo),
     _title('SETTINGS',tr('A saját eszközödre hangolva.','Tune your device.')),
     DropdownButtonFormField<String>(initialValue:store.language,decoration:const InputDecoration(labelText:'Nyelv / Language'),items:const[DropdownMenuItem(value:'hu',child:Text('Magyar')),DropdownMenuItem(value:'en',child:Text('English'))],onChanged:(value)=>store.set('language',value!)),const SizedBox(height:18),
     DropdownButtonFormField<int>(initialValue:store.hz,decoration:InputDecoration(labelText:tr('Kért telemetria-gyakoriság','Requested telemetry rate')),items:[20,30,60].map((hz)=>DropdownMenuItem(value:hz,child:Text('$hz Hz'))).toList(),onChanged:(value)async{await store.set('hz',value!);await connection.refreshSettings();}),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'models.dart';
 import 'storage.dart';
+import 'demo.dart';
 
 String newId() {
   final random = Random.secure();
@@ -54,6 +55,11 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
   WebSocket? _socket;
   HttpClient? _client;
   Timer? _ping, _retry, _freshness;
+  Timer? _demoTimer;
+  DemoSimulator? _demo;
+  String mode = 'live';
+  int outboundMessageCount = 0;
+  List<Map<String, dynamic>> clients = [];
   BridgeTarget? target;
   String deviceId = '', status = 'disconnected', lastError = '', bridgeVersion = '', gameId = '';
   bool canControl = false, mobileControlEnabled = false, _wantConnection = false, _connecting = false, _paused = false, _disposed = false;
@@ -65,7 +71,28 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
   String? suggestionSource;
   BridgeConnection(this.store) { WidgetsBinding.instance.addObserver(this); }
   bool get connected => status == 'connected';
-  bool get mayControl => connected && canControl && mobileControlEnabled && store.role != 'dashboard';
+  bool get isDemo => mode == 'demo';
+  bool get localDemo => _demo != null;
+  bool get mayControl => (localDemo || connected && (isDemo || canControl && mobileControlEnabled)) && store.role != 'dashboard' && !_paused;
+  Future<void> setDemo(bool enabled) async {
+    releaseAll();
+    _generation++; _retry?.cancel(); _ping?.cancel(); _demoTimer?.cancel();
+    await _socket?.close(); _socket = null; _client?.close(force: true); _connecting = false;
+    telemetry.value = null; canControl = false; mobileControlEnabled = false;
+    clients = []; health = {}; supportedActions = {}; lastError = '';
+    mode = enabled ? 'demo' : 'live'; _demo = enabled ? DemoSimulator() : null;
+    status = enabled ? 'demo' : 'disconnected'; gameId = enabled ? 'demo' : '';
+    if (enabled) { supportedActions = {...actions}; _startDemo(); }
+    else if (_wantConnection) { unawaited(connect()); }
+    notifyListeners();
+  }
+  void _startDemo() {
+    _demoTimer?.cancel();
+    if (_paused || _demo == null) return;
+    void update() { telemetry.value = _demo!.frame(_watch.elapsedMilliseconds); ticks.value++; }
+    update();
+    _demoTimer = Timer.periodic(Duration(microseconds: (1000000 / store.hz).round()), (_) => update());
+  }
   String get secretKey => 'bridge:${target?.pin}:$deviceId';
   Future<void> initialize() async {
     deviceId = store.prefs.getString('deviceId') ?? newId();
@@ -86,12 +113,13 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
     });
   }
   Future<void> pair(BridgeTarget value) async {
+    if (localDemo) { _wantConnection = false; await setDemo(false); }
     _wantConnection = false; _generation++; _socket?.close(); _client?.close(force: true);
     _retry?.cancel(); _ping?.cancel(); target = value; _attempt = 0; _connecting = false;
     _wantConnection = true; await connect();
   }
   Future<void> connect() async {
-    if (_connecting || _paused || _disposed || !_wantConnection || target == null) return;
+    if (localDemo || _connecting || _paused || _disposed || !_wantConnection || target == null) return;
     _retry?.cancel(); _connecting = true; status = 'connecting'; lastError = ''; notifyListeners();
     final generation = ++_generation;
     try {
@@ -144,6 +172,7 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
           // Never retain the temporary pairing token after authentication.
           target = BridgeTarget(target!.host, target!.port, target!.pin);
           bridgeVersion = json['bridgeVersion'] as String? ?? ''; gameId = json['gameId'] as String? ?? '';
+          mode = json['mode'] as String? ?? 'live';
           canControl = json['canControl'] == true; mobileControlEnabled = json['mobileControlEnabled'] == true;
           supportedActions = (json['supportedActions'] as List? ?? []).cast<String>().toSet();
           suggestedProfile = json['suggestedProfile'] as String?; status = 'connected'; _attempt = 0;
@@ -153,6 +182,8 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
           telemetry.value = frame;
           return;
         case 'health':
+          mode = json['mode'] as String? ?? 'live';
+          clients = (json['clients'] as List? ?? []).cast<Map<String, dynamic>>();
           health = json['health'] as Map<String, dynamic>; canControl = json['canControl'] == true;
           mobileControlEnabled = json['mobileControlEnabled'] == true;
           supportedActions = (json['supportedActions'] as List? ?? []).cast<String>().toSet();
@@ -178,18 +209,27 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
   bool _send(Map<String, dynamic> json) {
     try {
       if (_socket?.readyState != WebSocket.open) return false;
-      _socket!.add(jsonEncode(json)); return true;
+      _socket!.add(jsonEncode(json)); outboundMessageCount++; return true;
     } on WebSocketException { return false; }
       on StateError { return false; }
   }
   String command(String action, {String phase = 'press'}) {
     final id = newId();
-    final permitted = phase == 'up' || mayControl && supportedActions.contains(action);
+    final permitted = actions.contains(action) && (phase == 'up' || mayControl && supportedActions.contains(action));
     final entry = <String, dynamic>{'id': id, 'action': action, 'phase': phase,
       'timestampMs': DateTime.now().millisecondsSinceEpoch, 'stage': permitted ? 'requested' : 'rejected',
       'requestedAtMs': DateTime.now().millisecondsSinceEpoch,
       if (!permitted) 'reason': supportedActions.contains(action) ? 'device_read_only' : 'unsupported_or_unmapped'};
     commandHistory.add(entry); if (commandHistory.length > 100) commandHistory.removeAt(0);
+    if (localDemo) {
+      if (permitted) {
+        _demo!.apply(action, phase, _watch.elapsedMilliseconds);
+        entry['stage'] = 'simulated'; entry['mode'] = 'demo';
+        entry['detail'] = 'Csak helyi DEMO-állapot; nem küld PC-bemenetet.';
+        telemetry.value = _demo!.frame(_watch.elapsedMilliseconds);
+      }
+      notifyListeners(); return id;
+    }
     if (permitted) {
       final sent = _send({'type': 'command', 'id': id, 'sequence': ++_sequence, 'action': action, 'phase': phase});
       if (!sent) { entry['stage'] = 'rejected'; entry['reason'] = 'disconnected'; notifyListeners(); return id; }
@@ -205,15 +245,16 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
     }
     notifyListeners(); return id;
   }
-  void releaseAll() { _send({'type': 'releaseAll'}); }
-  void selectProfile(String profileId) { _send({'type': 'profile', 'profileId': profileId}); }
+  void releaseAll() { if (localDemo) { _demo!.releaseAll(); } else { _send({'type': 'releaseAll'}); } }
+  void selectProfile(String profileId) { if (!localDemo) { _send({'type': 'profile', 'profileId': profileId}); } }
   Future<void> refreshSettings() async {
+    if (localDemo) { releaseAll(); _startDemo(); notifyListeners(); return; }
     releaseAll(); _generation++; _socket?.close(); _client?.close(force: true); _ping?.cancel(); _connecting = false;
     telemetry.value = null; status = 'disconnected'; _wantConnection = target != null; await connect();
   }
   void dismissSuggestion() { suggestedProfile = null; notifyListeners(); }
   void _lost(String reason) {
-    if (_disposed) return;
+    if (_disposed || localDemo) return;
     status = 'disconnected'; lastError = reason; canControl = false; mobileControlEnabled = false;
     telemetry.value = null; _ping?.cancel(); _client?.close(force: true); _connecting = false; notifyListeners();
     if (_wantConnection && !_paused && _retry?.isActive != true) {
@@ -227,21 +268,21 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
     target = null; status = 'disconnected'; telemetry.value = null; notifyListeners();
   }
   @override void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) { _paused = false; if (_wantConnection) unawaited(connect()); }
+    if (state == AppLifecycleState.resumed) { _paused = false; if (localDemo) { _startDemo(); notifyListeners(); } else if (_wantConnection) { unawaited(connect()); } }
     else if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       _paused = true; releaseAll(); _generation++; _socket?.close(); _ping?.cancel(); _retry?.cancel();
-      _connecting = false; status = 'disconnected'; telemetry.value = null; notifyListeners();
+      _demoTimer?.cancel(); _connecting = false; status = localDemo ? 'demo' : 'disconnected'; telemetry.value = null; notifyListeners();
     }
   }
   Map<String, dynamic> diagnosticReport() => {'application': 'SIM CONTROL STUDIO', 'version': appVersion,
     'bridgeVersion': bridgeVersion, 'exportedAt': DateTime.now().toUtc().toIso8601String(), 'state': status,
-    'latencyMs': latencyMs, 'health': health, 'commands': commandHistory, 'lastError': lastError,
+    'mode': mode, 'latencyMs': localDemo ? null : latencyMs, 'health': health, 'clients': clients, 'commands': commandHistory, 'lastError': lastError,
     'fields': telemetry.value?.fields.map((key, d) => MapEntry(key, {'value': d.value, 'source': d.source,
       'timestampMs': d.timestampMs, 'validity': d.validity, 'derived': d.derived, 'unit': d.unit}))};
   @override void dispose() {
     _disposed = true; _wantConnection = false; releaseAll(); _generation++;
     WidgetsBinding.instance.removeObserver(this); _socket?.close(); _client?.close(force: true);
-    _ping?.cancel(); _retry?.cancel(); _freshness?.cancel(); telemetry.dispose(); ticks.dispose(); super.dispose();
+    _ping?.cancel(); _retry?.cancel(); _freshness?.cancel(); _demoTimer?.cancel(); telemetry.dispose(); ticks.dispose(); super.dispose();
   }
 }
 

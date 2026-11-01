@@ -222,7 +222,14 @@
     "height": 700,
     "background": "#080a0c",
     "supportedFields": [
-      "gear"
+      "engineMap",
+      "gear",
+      "ignition",
+      "intercomActive",
+      "lights",
+      "radioActive",
+      "starterActive",
+      "wiperLevel"
     ],
     "pages": [
       {
@@ -259,7 +266,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "starterActive",
             "x": 460,
             "y": 345,
             "w": 175,
@@ -273,7 +280,7 @@
           },
           {
             "kind": "toggle",
-            "field": "",
+            "field": "lights",
             "x": 125,
             "y": 190,
             "w": 175,
@@ -287,7 +294,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 895,
             "y": 190,
             "w": 175,
@@ -301,7 +308,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "radioActive",
             "x": 125,
             "y": 455,
             "w": 175,
@@ -329,7 +336,7 @@
           },
           {
             "kind": "stepper",
-            "field": "",
+            "field": "engineMap",
             "x": 460,
             "y": 520,
             "w": 220,
@@ -350,7 +357,7 @@
         "elements": [
           {
             "kind": "toggle",
-            "field": "",
+            "field": "ignition",
             "x": 80,
             "y": 95,
             "w": 480,
@@ -364,7 +371,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "starterActive",
             "x": 595,
             "y": 95,
             "w": 480,
@@ -378,7 +385,7 @@
           },
           {
             "kind": "toggle",
-            "field": "",
+            "field": "lights",
             "x": 80,
             "y": 260,
             "w": 480,
@@ -392,7 +399,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 595,
             "y": 260,
             "w": 480,
@@ -406,7 +413,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "intercomActive",
             "x": 80,
             "y": 425,
             "w": 480,
@@ -440,7 +447,7 @@
         "elements": [
           {
             "kind": "hold",
-            "field": "",
+            "field": "starterActive",
             "x": 50,
             "y": 90,
             "w": 330,
@@ -454,7 +461,7 @@
           },
           {
             "kind": "toggle",
-            "field": "",
+            "field": "lights",
             "x": 410,
             "y": 90,
             "w": 330,
@@ -468,7 +475,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 770,
             "y": 90,
             "w": 330,
@@ -482,7 +489,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "radioActive",
             "x": 50,
             "y": 270,
             "w": 330,
@@ -510,7 +517,7 @@
           },
           {
             "kind": "stepper",
-            "field": "",
+            "field": "engineMap",
             "x": 770,
             "y": 270,
             "w": 330,

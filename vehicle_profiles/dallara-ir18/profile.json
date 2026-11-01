@@ -247,7 +247,16 @@
     "height": 700,
     "background": "#080a0c",
     "supportedFields": [
-      "gear"
+      "battery",
+      "brakeBias",
+      "engineMap",
+      "gear",
+      "ignition",
+      "inPit",
+      "lights",
+      "radioActive",
+      "starterActive",
+      "wiperLevel"
     ],
     "pages": [
       {
@@ -284,7 +293,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "battery",
             "x": 95,
             "y": 165,
             "w": 175,
@@ -298,7 +307,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "radioActive",
             "x": 915,
             "y": 165,
             "w": 175,
@@ -312,7 +321,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "gear",
             "x": 95,
             "y": 310,
             "w": 175,
@@ -326,7 +335,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "inPit",
             "x": 915,
             "y": 310,
             "w": 175,
@@ -340,7 +349,7 @@
           },
           {
             "kind": "stepper",
-            "field": "",
+            "field": "brakeBias",
             "x": 170,
             "y": 485,
             "w": 220,
@@ -355,7 +364,7 @@
           },
           {
             "kind": "rotary",
-            "field": "",
+            "field": "engineMap",
             "x": 480,
             "y": 485,
             "w": 220,
@@ -390,7 +399,7 @@
         "elements": [
           {
             "kind": "toggle",
-            "field": "",
+            "field": "ignition",
             "x": 80,
             "y": 95,
             "w": 320,
@@ -404,7 +413,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "starterActive",
             "x": 435,
             "y": 95,
             "w": 320,
@@ -418,7 +427,7 @@
           },
           {
             "kind": "toggle",
-            "field": "",
+            "field": "lights",
             "x": 790,
             "y": 95,
             "w": 320,
@@ -432,7 +441,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 80,
             "y": 340,
             "w": 320,
@@ -480,7 +489,7 @@
         "elements": [
           {
             "kind": "hold",
-            "field": "",
+            "field": "battery",
             "x": 50,
             "y": 90,
             "w": 250,
@@ -494,7 +503,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "radioActive",
             "x": 330,
             "y": 90,
             "w": 250,
@@ -508,7 +517,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "gear",
             "x": 610,
             "y": 90,
             "w": 250,
@@ -522,7 +531,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "inPit",
             "x": 890,
             "y": 90,
             "w": 250,
@@ -536,7 +545,7 @@
           },
           {
             "kind": "stepper",
-            "field": "",
+            "field": "brakeBias",
             "x": 50,
             "y": 270,
             "w": 250,
@@ -551,7 +560,7 @@
           },
           {
             "kind": "rotary",
-            "field": "",
+            "field": "engineMap",
             "x": 330,
             "y": 270,
             "w": 250,

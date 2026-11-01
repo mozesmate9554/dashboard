@@ -72,6 +72,23 @@ public static class AtomicFile
     }
 }
 
+public sealed class BindingBundle
+{
+    public int SchemaVersion { get; set; } = 2;
+    public Dictionary<string, Dictionary<string, KeyBinding>> Bindings { get; set; } = [];
+    public Dictionary<string, Dictionary<string, KeyBinding>> ProfileBindings { get; set; } = [];
+    public static BindingBundle Parse(string json)
+    {
+        using var doc = System.Text.Json.JsonDocument.Parse(json);
+        var wrapped = doc.RootElement.TryGetProperty("schemaVersion", out var version);
+        if (wrapped && version.GetInt32() != 2) throw new ArgumentException("Nem támogatott kiosztásséma.");
+        var result = wrapped ? Protocol.Deserialize<BindingBundle>(json)! : new BindingBundle
+        { Bindings = Protocol.Deserialize<Dictionary<string, Dictionary<string, KeyBinding>>>(json)! };
+        new BridgeConfiguration { Bindings = result.Bindings, ProfileBindings = result.ProfileBindings }.Validate();
+        return result;
+    }
+}
+
 public sealed record KeyBinding(string Keys, string Mode = "press", int DurationMs = 80, int RepeatMs = 150)
 {
     public void Validate()

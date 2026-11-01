@@ -41,7 +41,7 @@ public sealed class DemoAdapter : IDemoSource
             bool Held(string action) => _holds.Values.Any(h => h.Action == action);
             Set("speed", speed); Set("gear", gear); Set("rpm", _engine ? 900 + speed % 34 * 170 : 0); Set("rpmLimit", 8000);
             Set("throttle", _engine && phase < 10 ? .65 : 0); Set("brake", phase >= 10 ? .45 : 0); Set("clutch", gear == 0 ? 1d : 0d);
-            Set("steering", Math.Sin(t * .6) * 35); Set("handbrake", false); Set("ignition", _ignition); Set("engineRunning", _engine);
+            Set("steering", Math.Sin(t * .6) * 35); Set("handbrake", 0d); Set("ignition", _ignition); Set("engineRunning", _engine);
             Set("lights", _lights || Held("flash")); Set("wiperLevel", _wiper); Set("radioActive", Held("radio"));
             Set("intercomActive", Held("intercom")); Set("starterActive", Held("starter"));
             Set("waterTemp", 84 + Math.Sin(t * .1) * 3); Set("oilTemp", 96 + Math.Sin(t * .13) * 4); Set("oilPressure", _engine ? 4.2 : 0);

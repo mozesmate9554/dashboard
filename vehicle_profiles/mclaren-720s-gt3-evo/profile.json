@@ -221,7 +221,16 @@
     "height": 700,
     "background": "#080a0c",
     "supportedFields": [
-      "gear"
+      "absLevel",
+      "brakeBias",
+      "gear",
+      "ignition",
+      "inPit",
+      "lights",
+      "radioActive",
+      "starterActive",
+      "tcLevel",
+      "wiperLevel"
     ],
     "pages": [
       {
@@ -258,7 +267,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "radioActive",
             "x": 100,
             "y": 180,
             "w": 175,
@@ -272,7 +281,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "inPit",
             "x": 900,
             "y": 180,
             "w": 175,
@@ -286,7 +295,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "lights",
             "x": 100,
             "y": 335,
             "w": 175,
@@ -300,7 +309,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 900,
             "y": 335,
             "w": 175,
@@ -314,7 +323,7 @@
           },
           {
             "kind": "rotary",
-            "field": "",
+            "field": "brakeBias",
             "x": 195,
             "y": 500,
             "w": 220,
@@ -329,7 +338,7 @@
           },
           {
             "kind": "stepper",
-            "field": "",
+            "field": "tcLevel",
             "x": 495,
             "y": 500,
             "w": 220,
@@ -344,7 +353,7 @@
           },
           {
             "kind": "rotary",
-            "field": "",
+            "field": "absLevel",
             "x": 795,
             "y": 500,
             "w": 220,
@@ -365,7 +374,7 @@
         "elements": [
           {
             "kind": "toggle",
-            "field": "",
+            "field": "ignition",
             "x": 80,
             "y": 95,
             "w": 480,
@@ -379,7 +388,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "starterActive",
             "x": 595,
             "y": 95,
             "w": 480,
@@ -393,7 +402,7 @@
           },
           {
             "kind": "toggle",
-            "field": "",
+            "field": "lights",
             "x": 80,
             "y": 260,
             "w": 480,
@@ -407,7 +416,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 595,
             "y": 260,
             "w": 480,
@@ -455,7 +464,7 @@
         "elements": [
           {
             "kind": "hold",
-            "field": "",
+            "field": "radioActive",
             "x": 50,
             "y": 90,
             "w": 330,
@@ -469,7 +478,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "inPit",
             "x": 410,
             "y": 90,
             "w": 330,
@@ -483,7 +492,7 @@
           },
           {
             "kind": "hold",
-            "field": "",
+            "field": "lights",
             "x": 770,
             "y": 90,
             "w": 330,
@@ -497,7 +506,7 @@
           },
           {
             "kind": "button",
-            "field": "",
+            "field": "wiperLevel",
             "x": 50,
             "y": 270,
             "w": 330,
@@ -511,7 +520,7 @@
           },
           {
             "kind": "rotary",
-            "field": "",
+            "field": "brakeBias",
             "x": 410,
             "y": 270,
             "w": 330,
@@ -526,7 +535,7 @@
           },
           {
             "kind": "stepper",
-            "field": "",
+            "field": "tcLevel",
             "x": 770,
             "y": 270,
             "w": 330,
@@ -541,7 +550,7 @@
           },
           {
             "kind": "rotary",
-            "field": "",
+            "field": "absLevel",
             "x": 50,
             "y": 450,
             "w": 330,

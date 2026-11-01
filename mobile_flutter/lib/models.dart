@@ -31,19 +31,21 @@ class TelemetryDatum {
 class TelemetryFrame {
   static final Stopwatch _arrivalClock = Stopwatch()..start();
   final int sequence, timestampMs;
-  final String gameId, state;
+  final String gameId, state, mode;
   final String? vehicleId;
   final Map<String, TelemetryDatum> fields;
   final int receivedAtTicks;
   TelemetryFrame(this.sequence, this.timestampMs, this.gameId, this.state,
-      this.vehicleId, this.fields) : receivedAtTicks = _arrivalClock.elapsedMilliseconds;
+      this.vehicleId, this.fields, {this.mode = 'live'}) : receivedAtTicks = _arrivalClock.elapsedMilliseconds;
   factory TelemetryFrame.fromJson(Map<String, dynamic> json) => TelemetryFrame(
     (json['sequence'] as num).toInt(), (json['timestampMs'] as num).toInt(),
     json['gameId'] as String, json['state'] as String,
     json['vehicleId'] as String?, (json['fields'] as Map<String, dynamic>).map(
       (key, value) => MapEntry(key, TelemetryDatum.fromJson(value as Map<String, dynamic>))),
+    mode: json['mode'] as String? ?? 'live',
   );
-  bool get fresh => state == 'live' && _arrivalClock.elapsedMilliseconds - receivedAtTicks <= 600;
+  bool get isDemo => mode == 'demo';
+  bool get fresh => (state == 'live' || isDemo && state == 'demo') && _arrivalClock.elapsedMilliseconds - receivedAtTicks <= 600;
   Object? value(String field) => fresh && fields[field]?.validity == 'valid' ? fields[field]?.value : null;
   double? number(String field) => value(field) is num ? (value(field) as num).toDouble() : null;
   String formatted(String field, {int decimals = 0}) {
@@ -113,6 +115,9 @@ class StudioLayout {
         }
         if (e['rotation'] != null && (e['rotation'] is! num || !(e['rotation'] as num).toDouble().isFinite)) {
           throw const FormatException('Hibás forgatás.');
+        }
+        if (e['opacity'] != null && (e['opacity'] is! num || !(e['opacity'] as num).toDouble().isFinite || (e['opacity'] as num) < 0 || (e['opacity'] as num) > 1)) {
+          throw const FormatException('Az átlátszóság 0 és 1 közötti érték lehet.');
         }
         for (final key in ['label', 'field', 'assetId', 'font', 'group']) {
           if (e[key] != null && (e[key] is! String || (e[key] as String).length > 200)) {

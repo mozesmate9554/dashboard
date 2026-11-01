@@ -29,6 +29,7 @@ public sealed class BridgeRuntime : IAsyncDisposable
     private Task? _pump;
     private Task? _discovery;
     private TelemetryFrame? _latest;
+    private long _lastArrivalTicks;
     private string? _suggestedProfile;
     public DeviceRegistry Registry { get; }
     public ControlEngine Controls { get; }
@@ -84,10 +85,10 @@ public sealed class BridgeRuntime : IAsyncDisposable
                 try
                 {
                     var frame = await _adapter.PollAsync(cancellation);
-                    if (frame != null) Volatile.Write(ref _latest, frame);
+                    if (frame != null) { Volatile.Write(ref _latest, frame); _lastArrivalTicks = Environment.TickCount64; }
                     var latest = Latest;
                     var now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-                    if (latest != null && (now - latest.TimestampMs > 500 || Health.State is not ("live" or "demo")) && latest.State != "stale")
+                    if (latest != null && (Environment.TickCount64 - _lastArrivalTicks > 500 || Health.State is not ("live" or "demo")) && latest.State != "stale")
                         Volatile.Write(ref _latest, latest.Stale(now));
                     Controls.Watchdog();
                     foreach (var client in _clients.Values)

@@ -53,7 +53,7 @@ class LayoutCanvas extends StatelessWidget {
   Widget _position(BuildContext context, Map<String, dynamic> e, double scale) {
     final selected = editing && selectedId == e['id'];
     final locked = e['locked'] == true;
-    return Positioned(left: (e['x'] as num).toDouble(), top: (e['y'] as num).toDouble(),
+    return Positioned(key: ValueKey('${layout.id}:$page:${e['id']}'), left: (e['x'] as num).toDouble(), top: (e['y'] as num).toDouble(),
       width: (e['w'] as num).toDouble(), height: (e['h'] as num).toDouble(),
       child: Transform.rotate(angle: ((e['rotation'] as num?)?.toDouble() ?? 0) * math.pi / 180,
         child: GestureDetector(behavior: HitTestBehavior.opaque,
@@ -152,7 +152,7 @@ class Instrument extends StatelessWidget {
     }
     final shape = e['shape'] as String? ?? 'rectangle';
     final faded = warning && e['animate'] == true && (connection?.ticks.value ?? 0).isEven;
-    return Opacity(opacity: faded ? .5 : 1, child: Container(
+    return Opacity(opacity: ((e['opacity'] as num?)?.toDouble() ?? 1) * (faded ? .5 : 1), child: Container(
       decoration: BoxDecoration(color: studioColor(e['background'], Colors.transparent),
         borderRadius: BorderRadius.circular(shape == 'circle' ? 200 : shape == 'rounded' ? 20 : 3),
         border: e['border'] == false || kind == 'leds' || kind == 'text' ? null : Border.all(color: color.withValues(alpha: .5), width: 1.5)),
@@ -191,7 +191,9 @@ class _PanelControlState extends State<PanelControl> {
   }
   @override void didUpdateWidget(covariant PanelControl oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!_enabled && _pressed) { _renew?.cancel(); _pressed = false; widget.connection?.releaseAll(); }
+    if (_pressed && (!_enabled || oldWidget.element['id'] != widget.element['id'] || oldWidget.element['action'] != _action || oldWidget.connection != widget.connection)) {
+      _renew?.cancel(); _pressed = false; oldWidget.connection?.releaseAll();
+    }
   }
   @override Widget build(BuildContext context) {
     final label = widget.element['label'] as String? ?? '';
@@ -203,14 +205,16 @@ class _PanelControlState extends State<PanelControl> {
     Widget child;
     if (['rotary', 'stepper', 'threeState', 'multiState'].contains(_kind)) {
       final minus = widget.element['minusAction'] as String? ?? '';
+      final selector = _kind == 'threeState' || _kind == 'multiState';
+      final maximum = _kind == 'threeState' ? 2 : (widget.element['positions'] as num?)?.toInt() ?? 5;
       child = Column(children: [
         Text(label, style: TextStyle(fontSize: 15, color: color, fontWeight: FontWeight.w700)),
-        Expanded(child: Row(children: [button('−', _enabled && widget.connection!.supportedActions.contains(minus) ? () { _emit(minus); setState(() => _requested--); } : null),
-          Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Expanded(child: Row(children: [button('−', _enabled && (!selector || _requested > 0) && widget.connection!.supportedActions.contains(minus) ? () { _emit(minus); setState(() => _requested--); } : null),
+          Expanded(child: FittedBox(fit: BoxFit.scaleDown, child: Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
             if (_kind == 'rotary') Icon(Icons.tune, color: color),
             Text(actual == null || actual == '—' ? '—' : actual, style: const TextStyle(fontSize: 24, fontFamily: 'monospace')),
-            Text('kért lépés: $_requested', style: const TextStyle(color: Colors.white38, fontSize: 10)),
-          ])), button('+', _enabled ? () { _emit(_action); setState(() => _requested++); } : null)])),
+            Text(selector ? 'kért pozíció: ${_requested + 1}/${maximum + 1}' : 'kért lépés: $_requested', style: const TextStyle(color: Colors.white38, fontSize: 10)),
+          ]))), button('+', _enabled && (!selector || _requested < maximum) ? () { _emit(_action); setState(() => _requested++); } : null)])),
       ]);
     } else if (_kind == 'slider') {
       child = Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text(label, style: TextStyle(color: color)),
@@ -273,9 +277,18 @@ class _LiveDisplayState extends State<LiveDisplay> {
           ]))),
           if (frame?.fresh != true) const Positioned(bottom: 12, left: 65, right: 65,
             child: IgnorePointer(child: Center(child: Chip(avatar: Icon(Icons.sensors_off, color: Colors.amber), label: Text('NINCS FRISS TELEMETRIA'))))),
+          if (widget.connection.isDemo || frame?.isDemo == true) const Positioned(bottom: 8, right: 8,
+            child: IgnorePointer(child: DemoBadge())),
         ]);
       }));
   }
+}
+
+class DemoBadge extends StatelessWidget {
+  const DemoBadge({super.key});
+  @override Widget build(BuildContext context) => const Chip(backgroundColor: Color(0xff633b00),
+    avatar: Icon(Icons.science_outlined, color: Colors.amber),
+    label: Text('DEMO · SZIMULÁLT', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)));
 }
 
 class _GridPainter extends CustomPainter {

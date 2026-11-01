@@ -14,9 +14,9 @@ class StudioStore extends ChangeNotifier {
   List<Map<String, dynamic>> games = [];
   List<StudioLayout> personal = [];
   String? loadError;
-  Future<void> load() async {
+  Future<void> load({Directory? documentsDirectory}) async {
     prefs = await SharedPreferences.getInstance();
-    directory = await getApplicationDocumentsDirectory();
+    directory = documentsDirectory ?? await getApplicationDocumentsDirectory();
     final catalog = jsonDecode(await rootBundle.loadString('assets/catalog.json')) as Map<String, dynamic>;
     vehicles = (catalog['vehicles'] as List).map((v) => VehicleProfile(v as Map<String, dynamic>)).toList();
     games = (catalog['games'] as List).cast<Map<String, dynamic>>();
@@ -57,11 +57,13 @@ class StudioStore extends ChangeNotifier {
     personal = next; notifyListeners();
   }
   Future<void> deleteLayout(String id) async {
-    personal = personal.where((p) => p.id != id).toList();
+    if (loadError != null) throw const FormatException('A sérült személyes profil eredeti fájlját előbb javítsd.');
+    final next = personal.where((p) => p.id != id).toList();
     final file = File('${directory.path}/personal-layouts.json');
     final temporary = File('${file.path}.tmp');
-    await temporary.writeAsString(jsonEncode(personal.map((p) => p.data).toList()), flush: true);
-    await temporary.rename(file.path); notifyListeners();
+    await temporary.writeAsString(jsonEncode(next.map((p) => p.data).toList()), flush: true);
+    if (await file.exists()) await file.copy('${file.path}.bak');
+    await temporary.rename(file.path); personal = next; notifyListeners();
   }
   StudioLayout selected(String role) {
     final personalId = prefs.getString('layout:$role:$vehicleId');

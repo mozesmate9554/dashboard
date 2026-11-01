@@ -1,0 +1,94 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sim_control_studio/connection.dart';
+import 'package:sim_control_studio/demo.dart';
+import 'package:sim_control_studio/display.dart';
+import 'package:sim_control_studio/layout_geometry.dart';
+import 'package:sim_control_studio/models.dart';
+import 'package:sim_control_studio/storage.dart';
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  late StudioStore store;
+  late Directory directory;
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({'role': 'panel', 'haptic': false});
+    directory = await Directory.systemTemp.createTemp('sim-control-test-');
+    store = StudioStore(); await store.load(documentsDirectory: directory);
+  });
+  tearDown(() async { store.dispose(); await directory.delete(recursive: true); });
+  test('Local DEMO commands change only simulated state and never send network messages', () async {
+    final connection = BridgeConnection(store);
+    await connection.setDemo(true);
+    expect(connection.telemetry.value!.isDemo, true);
+    expect(connection.telemetry.value!.fields.values.every((v) => v.source.startsWith('demo:')), true);
+    connection.command('lights');
+    expect(connection.telemetry.value!.value('lights'), true);
+    connection.command('radio', phase: 'down');
+    expect(connection.telemetry.value!.value('radioActive'), true);
+    connection.releaseAll(); connection.command('camera');
+    expect(connection.telemetry.value!.value('radioActive'), false);
+    expect(connection.commandHistory.last['stage'], 'simulated');
+    expect(connection.outboundMessageCount, 0);
+    connection.didChangeAppLifecycleState(AppLifecycleState.paused);
+    expect(connection.mayControl, false);
+    connection.didChangeAppLifecycleState(AppLifecycleState.resumed);
+    await store.set('role', 'dashboard'); connection.command('lights');
+    expect(connection.commandHistory.last['stage'], 'rejected');
+    await connection.setDemo(false); expect(connection.telemetry.value, null);
+    connection.dispose();
+  });
+  test('DEMO freshness requires an explicit mode and releases expired holds', () {
+    final demo = DemoSimulator();
+    demo.apply('radio', 'down', 0);
+    expect(demo.frame(100).value('radioActive'), true);
+    expect(demo.frame(3101).value('radioActive'), false);
+    expect(TelemetryFrame(1, 1, 'demo', 'demo', null, {}).fresh, false);
+  });
+  test('Alignment keeps group spacing and original layout; opacity validates', () {
+    final base = store.vehicle.dashboard, before = jsonEncode(store.vehicle.dashboard.data);
+    final copy = base.personalCopy(newId(), 'Alignment');
+    final first = copy.elements(0).first;
+    first['group'] = 'test'; final second = copy.elements(0)[1]; second['group'] = 'test';
+    final separation = (first['x'] as num) - (second['x'] as num);
+    alignToCanvas(copy, 0, first['id'] as String, 'right');
+    expect((first['x'] as num) - (second['x'] as num), closeTo(separation, .01));
+    first['opacity'] = 1.1; expect(copy.validate, throwsFormatException);
+    first['opacity'] = .4; copy.validate();
+    expect(jsonEncode(store.vehicle.dashboard.data), before);
+  });
+  test('Personal layout survives save, load and delete; broken file remains intact', () async {
+    final copy = store.vehicle.dashboard.personalCopy(newId(), 'Saved');
+    copy.elements(0).first['opacity'] = .5;
+    await store.saveLayout(copy); await store.selectLayout(copy);
+    final reload = StudioStore(); await reload.load(documentsDirectory: directory);
+    expect(reload.selected('dashboard').elements(0).first['opacity'], .5);
+    await reload.deleteLayout(copy.id); expect(reload.personal, isEmpty); reload.dispose();
+    final file = File('${directory.path}/personal-layouts.json');
+    await file.writeAsString('damaged');
+    final broken = StudioStore(); await broken.load(documentsDirectory: directory);
+    expect(broken.loadError, isNotNull);
+    await expectLater(broken.saveLayout(copy), throwsFormatException);
+    await expectLater(broken.deleteLayout(copy.id), throwsFormatException);
+    expect(await file.readAsString(), 'damaged'); broken.dispose();
+  });
+  testWidgets('Changing panel page releases a held action and never renews it', (tester) async {
+    final connection = BridgeConnection(store); await connection.setDemo(true);
+    final layout = store.vehicle.panel;
+    final index = layout.elements(0).indexWhere((e) => e['kind'] == 'hold');
+    expect(index, greaterThanOrEqualTo(0));
+    final id = layout.elements(0)[index]['id'];
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: LayoutCanvas(layout: layout, page: 0, frame: connection.telemetry.value, connection: connection))));
+    final action = layout.elements(0)[index]['action'];
+    final finder = find.byWidgetPredicate((w) => w is PanelControl && w.element['id'] == id);
+    final gesture = await tester.startGesture(tester.getCenter(finder)); await tester.pump();
+    expect(connection.commandHistory.where((c) => c['action'] == action && c['phase'] == 'down').length, 1);
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: LayoutCanvas(layout: layout, page: 1, frame: connection.telemetry.value, connection: connection))));
+    await gesture.up(); await tester.pump(const Duration(seconds: 2));
+    expect(connection.commandHistory.where((c) => c['action'] == action && c['phase'] == 'down').length, 1);
+    await tester.pumpWidget(const SizedBox()); connection.dispose();
+  });
+}

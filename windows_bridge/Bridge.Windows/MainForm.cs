@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using QRCoder;
@@ -28,9 +29,11 @@ public sealed class MainForm : Form
     private readonly ListBox _devices = new() { Width = 860, Height = 220 };
     private readonly DataGridView _bindings = new() { Dock = DockStyle.Fill, AllowUserToAddRows = true, AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill };
     private readonly TextBox _diagnostic = new() { ReadOnly = true, Multiline = true, ScrollBars = ScrollBars.Vertical, Dock = DockStyle.Fill, Font = new Font("Consolas", 10) };
+    private readonly ComboBox _profileMap = new() { DropDownStyle = ComboBoxStyle.DropDownList, Width = 280 };
+    private string? MappingProfile => _profileMap.SelectedIndex > 0 ? _profileMap.SelectedItem?.ToString() : null;
     private bool _exiting;
     private bool _starting;
-    private readonly string[] _ids = ["acr", "ac", "acc", "beamng"];
+    private readonly string[] _ids = ["acr", "ac", "acc", "beamng", "demo"];
     public MainForm()
     {
         Directory.CreateDirectory(_directory);
@@ -42,7 +45,7 @@ public sealed class MainForm : Form
         }
         _registry = new(Path.Combine(_directory, "devices.json"));
         _certificate = BridgeCertificate.LoadOrCreate(_directory);
-        Text = "SIM CONTROL STUDIO 0.1.0 · PC Bridge";
+        Text = "SIM CONTROL STUDIO 0.2.0 · PC Bridge";
         Size = new Size(1030, 780); MinimumSize = new Size(860, 650);
         BackColor = Color.FromArgb(19, 21, 25); ForeColor = Color.WhiteSmoke;
         Font = new Font("Segoe UI", 10);
@@ -52,7 +55,7 @@ public sealed class MainForm : Form
         var flow = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown, WrapContents = false, AutoScroll = true, Padding = new Padding(18) };
         connection.Controls.Add(flow);
         flow.Controls.Add(new Label { Text = "PC BRIDGE / HELYI HÁLÓZAT", AutoSize = true, Font = new Font(Font.FontFamily, 19, FontStyle.Bold) });
-        _game.Items.AddRange(["Assetto Corsa Rally", "Assetto Corsa", "Assetto Corsa Competizione", "BeamNG.drive · OutGauge"]);
+        _game.Items.AddRange(["Assetto Corsa Rally", "Assetto Corsa", "Assetto Corsa Competizione", "BeamNG.drive · OutGauge", "DEMO · szimulált adatok (nincs PC-bemenet)"]);
         _game.SelectedIndex = Math.Max(0, Array.IndexOf(_ids, _config.GameId));
         _address.Items.Add("127.0.0.1");
         foreach (var ip in NetworkInterface.GetAllNetworkInterfaces().Where(n => n.OperationalStatus == OperationalStatus.Up)
@@ -89,7 +92,12 @@ public sealed class MainForm : Form
         var importMapping = new Button { Text = "Import JSON", AutoSize = true };
         var release = new Button { Text = "MINDEN BILLENTYŰ FELENGEDÉSE", AutoSize = true };
         var testCommand = new Button { Text = "Kijelölt parancs tesztje · 3 s", AutoSize = true };
-        mappingTools.Controls.AddRange([saveMapping, exportMapping, importMapping, release, testCommand]);
+        _profileMap.Items.Add("Játék alapértelmezett kiosztása");
+        var mappingProfiles = Path.Combine(AppContext.BaseDirectory, "profiles.json");
+        if (File.Exists(mappingProfiles)) _profileMap.Items.AddRange(Protocol.Deserialize<string[]>(File.ReadAllText(mappingProfiles)) ?? []);
+        _profileMap.SelectedIndex = 0;
+        _profileMap.SelectedIndexChanged += (_, _) => LoadMappings();
+        mappingTools.Controls.AddRange([_profileMap, saveMapping, exportMapping, importMapping, release, testCommand]);
         mapping.Controls.Add(_bindings); mapping.Controls.Add(mappingTools);
         _bindings.Columns.Add(new DataGridViewComboBoxColumn { Name = "Action", HeaderText = "Művelet", DataSource = ActionCatalog.Actions.Order().ToArray() });
         _bindings.Columns.Add("Keys", "Billentyűk (pl. CTRL+L)");
@@ -98,28 +106,29 @@ public sealed class MainForm : Form
         _bindings.BackgroundColor = Color.FromArgb(32, 35, 42); _bindings.ForeColor = Color.Black;
         _bindings.DataError += (_, e) => { e.ThrowException = false; };
         saveMapping.Click += (_, _) => SaveMappings();
-        exportMapping.Click += (_, _) => { if (SaveMappings()) ExportJson("bindings.json", _config.Bindings); };
+        exportMapping.Click += (_, _) => { if (SaveMappings()) ExportJson("bindings.json", new BindingBundle { Bindings = _config.Bindings, ProfileBindings = _config.ProfileBindings }); };
         importMapping.Click += (_, _) => ImportMappings();
         release.Click += (_, _) => _bridge?.Controls.ReleaseAll();
         testCommand.Click += async (_, _) =>
         {
-            if (_bridge == null || !_config.MobileControlEnabled)
+            if (_bridge == null || !_config.MobileControlEnabled || _config.GameId == "demo")
             { MessageBox.Show("Indítsd el a Bridge-et és engedélyezd a mobilvezérlést. A teszt alatt vidd előtérbe a játékot."); return; }
             if (!SaveMappings() || _bindings.CurrentRow?.Cells[0].Value is not string action) return;
+            var testBridge = _bridge; var testProfile = MappingProfile;
             testCommand.Enabled = false;
             try
             {
                 for (var seconds = 3; seconds > 0; seconds--) { testCommand.Text = $"Vidd előtérbe a játékot · {seconds}"; await Task.Delay(1000); }
-                if (_bridge != null)
+                if (_bridge == testBridge)
                 {
-                    var ack = await _bridge.Controls.ExecuteAsync("local-test", true, new(Guid.NewGuid().ToString("N"), 1, action, "press"));
+                    var ack = await testBridge.Controls.ExecuteAsync("local-test", true, new(Guid.NewGuid().ToString("N"), 1, action, "press"), profileId: testProfile);
                     _bridge.Log("local_input_test", $"{action} / {ack.Stage} / {ack.Reason}");
                     testCommand.Text = ack.Stage == "executed" ? "Teszt elküldve" : $"Teszt: {ack.Reason}";
                 }
             }
             finally { testCommand.Enabled = true; }
         };
-        _game.SelectedIndexChanged += (_, _) => { _config.GameId = _ids[_game.SelectedIndex]; LoadMappings(); };
+        _game.SelectedIndexChanged += (_, _) => { _config.GameId = _ids[_game.SelectedIndex]; _control.Enabled = _config.GameId != "demo"; if (!_control.Enabled) _control.Checked = false; LoadMappings(); };
         LoadMappings();
         var diagnostics = Page(tabs, "Rally diagnosztika");
         var exportReport = new Button { Text = "Diagnosztikai jelentés exportálása", Dock = DockStyle.Top, Height = 42 };
@@ -197,13 +206,13 @@ public sealed class MainForm : Form
         if (_registry.PairingSecondsRemaining == 0 && _pairUri.Text.Length > 0)
         { _pairUri.Clear(); var old = _qr.Image; _qr.Image = null; old?.Dispose(); }
         var selectedId = SelectedDevice()?.Id;
-        var list = _registry.Devices.Select(d => new DeviceDisplay(d)).ToArray();
+        var list = _registry.Devices.Select(d => new DeviceDisplay(d, _bridge?.Clients.FirstOrDefault(c => c.DeviceId == d.Id))).ToArray();
         if (!_devices.Items.Cast<DeviceDisplay>().Select(d => d.ToString()).SequenceEqual(list.Select(d => d.ToString())))
         { _devices.Items.Clear(); _devices.Items.AddRange(list); _devices.SelectedItem = list.FirstOrDefault(d => d.Device.Id == selectedId); }
         if (_bridge == null) { _status.Text = "Bridge leállítva."; return; }
         var h = _bridge.Health; var f = _bridge.Latest;
         string Value(string field) => f?.Fields.TryGetValue(field, out var datum) == true && datum.Validity == Validity.Valid ? datum.Value?.ToString() ?? "—" : "—";
-        _status.Text = $"{h.GameId.ToUpperInvariant()} · játék: {(h.GameDetected ? "felismerve" : "nem fut")} · memória: {(h.MemoryAvailable ? "elérhető" : "nem elérhető")}\n" +
+        _status.Text = (_config.GameId == "demo" ? "DEMO · SZIMULÁLT ADATOK · NINCS PC-BEMENET\n" : "") + $"{h.GameId.ToUpperInvariant()} · játék: {(h.GameDetected ? "felismerve" : "nem fut")} · memória: {(h.MemoryAvailable ? "elérhető" : "nem elérhető")}\n" +
             $"{h.State} · {h.ActualHz:0.0} Hz · mobilok: {_bridge.Clients.Count} · utolsó adat: {h.LastPacketMs}\n" +
             $"Sebesség: {Value("speed")} km/h · RPM: {Value("rpm")} · fokozat: {Value("gear")}\n{h.Error}";
         _diagnostic.Text = System.Text.Json.JsonSerializer.Serialize(_bridge.DiagnosticReport(), new System.Text.Json.JsonSerializerOptions(Protocol.Json) { WriteIndented = true });
@@ -213,7 +222,7 @@ public sealed class MainForm : Form
     private void LoadMappings()
     {
         _bindings.Rows.Clear();
-        foreach (var (action, binding) in _config.Bindings.GetValueOrDefault(_config.GameId) ?? [])
+        foreach (var (action, binding) in _config.ResolveBindings(MappingProfile))
             _bindings.Rows.Add(action, binding.Keys, binding.Mode, binding.DurationMs, binding.RepeatMs);
     }
     private bool SaveMappings()
@@ -232,7 +241,9 @@ public sealed class MainForm : Form
                 binding.Validate(); if (!map.TryAdd(action, binding)) throw new ArgumentException("Egy művelet csak egyszer szerepelhet.");
             }
             _bridge?.Controls.ReleaseAll();
-            _config.Bindings = new(_config.Bindings) { [_config.GameId] = map }; _config.Save(ConfigPath);
+            if (MappingProfile is { } profile) _config.ProfileBindings = new(_config.ProfileBindings) { [_config.GameId + "/" + profile] = map };
+            else _config.Bindings = new(_config.Bindings) { [_config.GameId] = map };
+            _config.Save(ConfigPath);
             return true;
         }
         catch (ArgumentException e) { MessageBox.Show(e.Message, "Hibás kiosztás"); return false; }
@@ -243,9 +254,12 @@ public sealed class MainForm : Form
         if (dialog.ShowDialog() != DialogResult.OK) return;
         try
         {
-            var imported = Protocol.Deserialize<Dictionary<string, Dictionary<string, KeyBinding>>>(File.ReadAllText(dialog.FileName)) ?? throw new InvalidDataException("Üres JSON.");
-            var check = new BridgeConfiguration { Bindings = imported }; check.Validate();
-            _bridge?.Controls.ReleaseAll(); _config.Bindings = imported; _config.Save(ConfigPath); LoadMappings();
+            if (new FileInfo(dialog.FileName).Length > 1024 * 1024) throw new ArgumentException("A kiosztás legfeljebb 1 MB lehet.");
+            var imported = BindingBundle.Parse(File.ReadAllText(dialog.FileName));
+            _bridge?.Controls.ReleaseAll();
+            foreach (var (game, map) in imported.Bindings) _config.Bindings[game] = map;
+            foreach (var (profile, map) in imported.ProfileBindings) _config.ProfileBindings[profile] = map;
+            _config.Save(ConfigPath); LoadMappings();
         }
         catch (Exception e) when (e is ArgumentException or System.Text.Json.JsonException or IOException) { MessageBox.Show(e.Message, "Importálási hiba"); }
     }
@@ -260,8 +274,8 @@ public sealed class MainForm : Form
         if (_bridge != null) { await _bridge.DisposeAsync(); _bridge = null; }
         _tray.Visible = false; _tray.Dispose(); _certificate.Dispose(); Close();
     }
-    private sealed record DeviceDisplay(PairedDevice Device)
+    private sealed record DeviceDisplay(PairedDevice Device, ConnectedDevice? Session)
     {
-        public override string ToString() => $"{Device.Name} · {Device.Role} · {(Device.CanControl ? "vezérlés engedélyezve" : "csak olvasás")} · {Device.Id}";
+        public override string ToString() => $"{Device.Name} · {Device.Role} · {(Device.CanControl ? "vezérlés engedélyezve" : "csak olvasás")} · {Session?.ProfileId ?? Device.ProfileId} · {Session?.LatencyMs?.ToString() ?? "—"} ms · {Session?.ConnectionQuality ?? "offline"} · {Device.Id}";
     }
 }
