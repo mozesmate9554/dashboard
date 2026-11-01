@@ -4,7 +4,7 @@
   "modelYear": 2022,
   "category": "RALLY2",
   "color": "#64e69c",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "partial_reference",
   "fidelityLabel": "Részleges referencia alapján",
   "gameVehicleAliases": [],
@@ -33,7 +33,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "skoda-fabia-rs-rally2-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Škoda Fabia RS Rally2 · Műszerfal",
     "vehicleId": "skoda-fabia-rs-rally2",
@@ -243,7 +243,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "skoda-fabia-rs-rally2-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Škoda Fabia RS Rally2 · Kezelőpanel",
     "vehicleId": "skoda-fabia-rs-rally2",

@@ -32,7 +32,7 @@ for v in vehicles:
         assert v['fidelity'] in ('inspired','partial_reference')
         for role,key in [('dashboard','dashboard'),('panel','panel')]:
             layout=v[key];assert layout['vehicleId']==v['id'] and layout['role']==role
-            assert layout['schemaVersion']==1 and layout['version']=='0.1.0' and layout['isBase']
+            assert layout['schemaVersion']==1 and layout['version']=='0.2.0' and layout['isBase']
             ids=set();signature=[]
             assert 1<=len(layout['pages'])<=8
             for p in layout['pages']:
@@ -77,8 +77,8 @@ def xcode():
 check('Xcode project object references and iPhone/iPad deployment settings',xcode)
 def version_identity():
     pub=(ROOT/'mobile_flutter/pubspec.yaml').read_text()
-    assert 'version: 0.1.0+1' in pub
-    assert '<Version>0.1.0</Version>' in (ROOT/'Directory.Build.props').read_text()
+    assert 'version: 0.2.0+1' in pub
+    assert '<Version>0.2.0</Version>' in (ROOT/'Directory.Build.props').read_text()
     assert json.loads((ROOT/'windows_bridge/Bridge.Windows/profiles.json').read_text())==[v['id'] for v in vehicles]
 check('Cross-platform version and profile ID consistency',version_identity)
 target=ROOT/'tests/results/profile-tests.json';target.parent.mkdir(parents=True,exist_ok=True)

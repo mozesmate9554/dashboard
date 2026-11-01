@@ -4,7 +4,7 @@
   "modelYear": 2024,
   "category": "GT3",
   "color": "#8edc86",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "aston-vantage-gt3-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Aston Martin Vantage GT3 · Műszerfal",
     "vehicleId": "aston-vantage-gt3",
@@ -221,7 +221,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "aston-vantage-gt3-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Aston Martin Vantage GT3 · Kezelőpanel",
     "vehicleId": "aston-vantage-gt3",

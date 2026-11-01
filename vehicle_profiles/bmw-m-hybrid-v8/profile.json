@@ -4,7 +4,7 @@
   "modelYear": 2024,
   "category": "HYPERCAR",
   "color": "#ba89ff",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "bmw-m-hybrid-v8-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "BMW M Hybrid V8 · Műszerfal",
     "vehicleId": "bmw-m-hybrid-v8",
@@ -253,7 +253,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "bmw-m-hybrid-v8-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "BMW M Hybrid V8 · Kezelőpanel",
     "vehicleId": "bmw-m-hybrid-v8",

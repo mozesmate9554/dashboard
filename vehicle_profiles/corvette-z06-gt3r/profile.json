@@ -4,7 +4,7 @@
   "modelYear": 2024,
   "category": "GT3",
   "color": "#f3d43c",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "corvette-z06-gt3r-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Corvette Z06 GT3.R · Műszerfal",
     "vehicleId": "corvette-z06-gt3r",
@@ -225,7 +225,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "corvette-z06-gt3r-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Corvette Z06 GT3.R · Kezelőpanel",
     "vehicleId": "corvette-z06-gt3r",

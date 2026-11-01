@@ -4,7 +4,7 @@
   "modelYear": 2023,
   "category": "GT3",
   "color": "#ffcf32",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "ferrari-296-gt3-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Ferrari 296 GT3 · Műszerfal",
     "vehicleId": "ferrari-296-gt3",
@@ -226,7 +226,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "ferrari-296-gt3-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Ferrari 296 GT3 · Kezelőpanel",
     "vehicleId": "ferrari-296-gt3",

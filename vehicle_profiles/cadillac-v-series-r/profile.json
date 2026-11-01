@@ -4,7 +4,7 @@
   "modelYear": 2023,
   "category": "HYPERCAR",
   "color": "#65b3ff",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "cadillac-v-series-r-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Cadillac V-Series.R · Műszerfal",
     "vehicleId": "cadillac-v-series-r",
@@ -225,7 +225,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "cadillac-v-series-r-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Cadillac V-Series.R · Kezelőpanel",
     "vehicleId": "cadillac-v-series-r",

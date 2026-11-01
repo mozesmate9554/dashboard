@@ -4,7 +4,7 @@
   "modelYear": 2025,
   "category": "RALLY1",
   "color": "#76cbe9",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "hyundai-i20-rally1-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Hyundai i20 N Rally1 · Műszerfal",
     "vehicleId": "hyundai-i20-rally1",
@@ -209,7 +209,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "hyundai-i20-rally1-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Hyundai i20 N Rally1 · Kezelőpanel",
     "vehicleId": "hyundai-i20-rally1",

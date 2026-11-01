@@ -4,7 +4,7 @@
   "modelYear": 2023,
   "category": "HYPERCAR",
   "color": "#ffe05b",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "ferrari-499p-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Ferrari 499P · Műszerfal",
     "vehicleId": "ferrari-499p",
@@ -224,7 +224,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "ferrari-499p-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Ferrari 499P · Kezelőpanel",
     "vehicleId": "ferrari-499p",

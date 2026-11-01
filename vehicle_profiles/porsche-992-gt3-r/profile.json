@@ -4,7 +4,7 @@
   "modelYear": 2023,
   "category": "GT3",
   "color": "#ef4444",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "porsche-992-gt3-r-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Porsche 911 GT3 R (992) · Műszerfal",
     "vehicleId": "porsche-992-gt3-r",
@@ -223,7 +223,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "porsche-992-gt3-r-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Porsche 911 GT3 R (992) · Kezelőpanel",
     "vehicleId": "porsche-992-gt3-r",

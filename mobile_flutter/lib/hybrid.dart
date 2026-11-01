@@ -28,7 +28,7 @@ StudioLayout composeHybrid(String vehicleId, String name, StudioLayout dashboard
   add(dashboard, 'dash', 0, 1200, 0);
   add(panel, 'panel', 1200, 800, panel.pages.length >= 3 ? 2 : 0);
   return StudioLayout({'schemaVersion': 1, 'id': '$vehicleId-hybrid', 'name': '$name · Hibrid', 'vehicleId': vehicleId,
-    'role': 'hybrid', 'version': '0.1.0', 'revision': 1, 'isBase': true, 'width': 2000, 'height': 700,
+    'role': 'hybrid', 'version': '0.2.0', 'revision': 1, 'isBase': true, 'width': 2000, 'height': 700,
     'background': '#080a0c', 'assets': assets, 'supportedFields': elements.map((e) => e['field']).whereType<String>().where((v) => v.isNotEmpty).toSet().toList(),
     'pages': [{'id': '$vehicleId-hybrid-main', 'name': 'Hibrid', 'elements': elements}]});
 }

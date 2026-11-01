@@ -4,7 +4,7 @@
   "modelYear": 2023,
   "category": "HYPERCAR",
   "color": "#ff4e5e",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "porsche-963-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Porsche 963 · Műszerfal",
     "vehicleId": "porsche-963",
@@ -251,7 +251,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "porsche-963-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Porsche 963 · Kezelőpanel",
     "vehicleId": "porsche-963",

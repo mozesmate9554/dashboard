@@ -4,7 +4,7 @@
   "modelYear": 2023,
   "category": "GT3",
   "color": "#a1e63f",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "lamborghini-huracan-gt3-evo2-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Lamborghini Huracán GT3 EVO2 · Műszerfal",
     "vehicleId": "lamborghini-huracan-gt3-evo2",
@@ -239,7 +239,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "lamborghini-huracan-gt3-evo2-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Lamborghini Huracán GT3 EVO2 · Kezelőpanel",
     "vehicleId": "lamborghini-huracan-gt3-evo2",

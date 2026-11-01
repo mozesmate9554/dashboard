@@ -4,7 +4,7 @@
   "modelYear": 2017,
   "category": "GT3",
   "color": "#6dc9ee",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "lexus-rcf-gt3-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Lexus RC F GT3 · Műszerfal",
     "vehicleId": "lexus-rcf-gt3",
@@ -222,7 +222,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "lexus-rcf-gt3-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Lexus RC F GT3 · Kezelőpanel",
     "vehicleId": "lexus-rcf-gt3",

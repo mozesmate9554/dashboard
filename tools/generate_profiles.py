@@ -142,7 +142,7 @@ def assign_ids(elements, prefix, accent):
 def page(name,elements,prefix,accent): return {'id':prefix,'name':name,'elements':assign_ids(elements,prefix,accent)}
 def layout(identifier, name, car, role, pages, **extra):
     fields=sorted({e.get('field') for p in pages for e in p['elements'] if e.get('field')})
-    return dict(schemaVersion=1,id=identifier,version='0.1.0',revision=1,name=name,vehicleId=car,role=role,
+    return dict(schemaVersion=1,id=identifier,version='0.2.0',revision=1,name=name,vehicleId=car,role=role,
         isBase=True,width=W,height=H,background='#080a0c',supportedFields=fields,pages=pages,**extra)
 
 catalog=[]
@@ -200,7 +200,7 @@ for index,(car,name,year,category,accent,source,scope) in enumerate(VEHICLES):
         'supportsExactGeometry':False}]
     if car=='skoda-fabia-rs-rally2': references.append({'url':'https://www.skoda-motorsport.com/en/skoda-fabia-rs-rally2-all-the-essentials-in-60-seconds/','checkedOn':'2026-11-01','scope':'2022 introduction: wheel start and touch console; exact pixels not established.','supportsExactGeometry':False,'status':'reviewed_primary'})
     fidelity='partial_reference' if car=='skoda-fabia-rs-rally2' else 'inspired'
-    profile=dict(id=car,name=name,modelYear=year,category=category,color=accent,version='0.1.0',fidelity=fidelity,
+    profile=dict(id=car,name=name,modelYear=year,category=category,color=accent,version='0.2.0',fidelity=fidelity,
         fidelityLabel='Részleges referencia alapján' if fidelity=='partial_reference' else 'Eredeti autó által inspirált kiegészített változat',
         gameVehicleAliases=[],references=references,knownLimitations=[
           'Factory pixel geometry, fonts and complete switch labels have NOT been verified.',
@@ -221,7 +221,7 @@ for index,(car,name,year,category,accent,source,scope) in enumerate(VEHICLES):
 GAME_NAMES=[('acr','Assetto Corsa Rally'),('acevo','Assetto Corsa EVO'),('ac','Assetto Corsa'),('beamng','BeamNG.drive'),('acc','Assetto Corsa Competizione'),('iracing','iRacing'),('ams2','Automobilista 2'),('rf2','rFactor 2'),('lmu','Le Mans Ultimate'),('f1','EA SPORTS F1'),('eawrc','EA SPORTS WRC'),('dirt2','DiRT Rally 2.0'),('raceroom','RaceRoom Racing Experience'),('forzam','Forza Motorsport'),('forzah','Forza Horizon'),('pcars','Project CARS'),('ets2','Euro Truck Simulator 2'),('ats','American Truck Simulator')]
 games=[dict(id=i,name=n,implemented=i in ('acr','ac','acc','beamng'),physicalTested=False,
     status='Adapter implementálva; valós játékban még tesztelendő' if i in ('acr','ac','acc','beamng') else 'Bővítési pont dokumentálva; adapter még nem készült el') for i,n in GAME_NAMES]
-payload={'schemaVersion':1,'version':'0.1.0','vehicles':catalog,'games':games}
+payload={'schemaVersion':1,'version':'0.2.0','vehicles':catalog,'games':games}
 dest=ROOT/'mobile_flutter/assets/catalog.json'; dest.parent.mkdir(parents=True,exist_ok=True)
 dest.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n')
 (ROOT/'windows_bridge/Bridge.Windows/profiles.json').write_text(json.dumps([v['id'] for v in catalog])+'\n')

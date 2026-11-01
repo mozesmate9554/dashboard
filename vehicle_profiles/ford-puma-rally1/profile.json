@@ -4,7 +4,7 @@
   "modelYear": 2026,
   "category": "RALLY1",
   "color": "#79b8ff",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "fidelity": "inspired",
   "fidelityLabel": "Eredeti autó által inspirált kiegészített változat",
   "gameVehicleAliases": [],
@@ -26,7 +26,7 @@
   "dashboard": {
     "schemaVersion": 1,
     "id": "ford-puma-rally1-dash",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Ford Puma Rally1 · Műszerfal",
     "vehicleId": "ford-puma-rally1",
@@ -212,7 +212,7 @@
   "panel": {
     "schemaVersion": 1,
     "id": "ford-puma-rally1-panel",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "revision": 1,
     "name": "Ford Puma Rally1 · Kezelőpanel",
     "vehicleId": "ford-puma-rally1",
