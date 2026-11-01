@@ -277,12 +277,83 @@ try
         Throws<ArgumentException>(() => new BridgeConfiguration { GameId = "not_implemented" }.Validate());
         return Task.CompletedTask;
     });
+    await Test("Car-specific maps, legacy import and empty overrides persist without cross-car leakage", async () =>
+    {
+        var config = new BridgeConfiguration { MobileControlEnabled = true };
+        config.Bindings["acr"]["lights"] = new("L");
+        config.ProfileBindings["acr/car-a"] = new() { ["lights"] = new("K") };
+        config.ProfileBindings["acr/car-b"] = [];
+        var sink = new FixtureSink(); using var engine = new ControlEngine(config, new FixtureProbe(), sink);
+        await engine.ExecuteAsync("a", true, new("a", 1, "lights", "press"), profileId: "car-a");
+        Assert(sink.Events.SequenceEqual(new[] { "down:75", "up:75" }));
+        Assert((await engine.ExecuteAsync("b", true, new("b", 1, "lights", "press"), profileId: "car-b")).Reason == "unsupported_or_unmapped");
+        var path = Path.Combine(temporary, "profile-maps.json"); config.Save(path);
+        Assert(BridgeConfiguration.Load(path).ResolveBindings("car-a")["lights"].Keys == "K");
+        Assert(BindingBundle.Parse(Protocol.Serialize(config.Bindings)).Bindings["acr"]["lights"].Keys == "L");
+        var bundle = BindingBundle.Parse(Protocol.Serialize(new BindingBundle { ProfileBindings = config.ProfileBindings }));
+        Assert(bundle.ProfileBindings["acr/car-b"].Count == 0 && bundle.Bindings.Count == 0);
+        Throws<ArgumentException>(() => BindingBundle.Parse("{\"schemaVersion\":99}"));
+    });
+    await Test("Queued presses cancel on release; other actions and key-up remain responsive", async () =>
+    {
+        var config = new BridgeConfiguration { MobileControlEnabled = true };
+        config.Bindings["acr"]["lights"] = new("L", DurationMs: 1000);
+        config.Bindings["acr"]["radio"] = new("R", "hold");
+        var sink = new FixtureSink(); using var engine = new ControlEngine(config, new FixtureProbe(), sink);
+        var first = engine.ExecuteAsync("a", true, new("a1", 1, "lights", "press"));
+        var queued = engine.ExecuteAsync("a", true, new("a2", 2, "lights", "press"));
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        await engine.ExecuteAsync("b", true, new("b1", 1, "radio", "down"));
+        await engine.ExecuteAsync("b", true, new("b2", 2, "radio", "up"));
+        Assert(clock.ElapsedMilliseconds < 300, "An unrelated hold/up waited for a long press");
+        engine.ReleaseOwner("a");
+        Assert((await first).Reason == "cancelled" && (await queued).Reason == "cancelled");
+        Assert(engine.HeldKeyCount == 0 && sink.Events.Count(e => e == "down:76") == 1);
+    });
+    await Test("DEMO is labeled, synthesizes fields and hard-blocks all real input", async () =>
+    {
+        var config = new BridgeConfiguration { GameId = "demo", MobileControlEnabled = true };
+        config.Bindings["demo"] = new() { ["lights"] = new("L") };
+        var sink = new FixtureSink(); using var engine = new ControlEngine(config, new FixtureProbe(), sink);
+        Assert((await engine.ExecuteAsync("a", true, new("1", 1, "lights", "press"))).Stage == "rejected");
+        using var demo = new DemoAdapter();
+        demo.Apply("a", new("d", 1, "lights", "press"));
+        demo.Apply("a", new("r", 2, "radio", "down"));
+        var frame = (await demo.PollAsync(default))!;
+        Assert(frame.Mode == "demo" && frame.State == "demo" && frame.Fields["lights"].Value is true);
+        Assert(frame.Fields["radioActive"].Value is true && !demo.Health.GameDetected);
+        Assert(frame.Fields.Values.All(f => f.Source.StartsWith("demo:", StringComparison.Ordinal)));
+        demo.ReleaseOwner("a"); Assert((await demo.PollAsync(default))!.Fields["radioActive"].Value is false);
+        Assert(sink.Events.Count == 0);
+    });
+    await Test("DEMO through real TLS: role permissions, profile change and never SendInput", async () =>
+    {
+        var listener = new TcpListener(IPAddress.Loopback, 0); listener.Start(); var port = ((IPEndPoint)listener.LocalEndpoint).Port; listener.Stop();
+        var config = new BridgeConfiguration { GameId = "demo", Port = port };
+        var registry = new DeviceRegistry(Path.Combine(temporary, "demo-devices.json"));
+        using var certificate = BridgeCertificate.LoadOrCreate(Path.Combine(temporary, "demo-cert"));
+        var sink = new FixtureSink();
+        await using var runtime = new BridgeRuntime(config, registry, certificate, new DemoAdapter(), new FixtureProbe(), sink);
+        await runtime.StartAsync(); var token = registry.OpenPairingWindow();
+        using var dash = Client(certificate); using var panel = Client(certificate);
+        await dash.ConnectAsync(new Uri($"wss://127.0.0.1:{port}/ws"), default); await Send(dash, HelloFor(token, "dashboard"));
+        Assert((await ReceiveType(dash, "welcome")).GetProperty("mode").GetString() == "demo");
+        await panel.ConnectAsync(new Uri($"wss://127.0.0.1:{port}/ws"), default); await Send(panel, HelloFor(token)); await ReceiveType(panel, "welcome");
+        await Send(panel, new { type = "command", id = "demo-radio", sequence = 1, action = "radio", phase = "down" });
+        await ReceiveType(panel, "ack"); Assert((await ReceiveType(panel, "ack")).GetProperty("stage").GetString() == "simulated");
+        await Send(dash, new { type = "command", id = "denied", sequence = 1, action = "lights", phase = "press" });
+        await ReceiveType(dash, "ack"); Assert((await ReceiveType(dash, "ack")).GetProperty("reason").GetString() == "dashboard_read_only");
+        Assert(runtime.Clients.Count == 2 && runtime.Clients.All(c => c.ProfileId == "skoda-fabia-rs-rally2"));
+        Assert((await ReceiveType(panel, "telemetry")).GetProperty("frame").GetProperty("mode").GetString() == "demo");
+        Assert(sink.Events.Count == 0 && runtime.Controls.HeldKeyCount == 0);
+    });
+
 }
 finally
 {
     Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(output))!);
-    AtomicFile.Write(output, Protocol.Serialize(new { appVersion = "0.1.0", executedAtUtc = DateTimeOffset.UtcNow,
-        environment = "Linux x64 .NET; synthetic binary fixtures and real local TLS/WebSocket transport; no physical game or device",
+    AtomicFile.Write(output, Protocol.Serialize(new { appVersion = Protocol.AppVersion, executedAtUtc = DateTimeOffset.UtcNow,
+        environment = System.Runtime.InteropServices.RuntimeInformation.OSDescription + " .NET; synthetic binary fixtures and real local TLS/WebSocket transport; no physical game or device",
         passed = results.Count - failures, failed = failures, tests = results }));
     Directory.Delete(temporary, true);
 }

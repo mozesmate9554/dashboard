@@ -84,7 +84,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: Scaffold(body: LayoutCanvas(layout: layout, page: 0, frame: connection.telemetry.value, connection: connection))));
     final action = layout.elements(0)[index]['action'];
     final finder = find.byWidgetPredicate((w) => w is PanelControl && w.element['id'] == id);
-    final gesture = await tester.startGesture(tester.getCenter(finder)); await tester.pump();
+    final gesture = await tester.startGesture(tester.getCenter(finder)); await tester.pump(const Duration(milliseconds: 150));
     expect(connection.commandHistory.where((c) => c['action'] == action && c['phase'] == 'down').length, 1);
     await tester.pumpWidget(MaterialApp(home: Scaffold(body: LayoutCanvas(layout: layout, page: 1, frame: connection.telemetry.value, connection: connection))));
     await gesture.up(); await tester.pump(const Duration(seconds: 2));

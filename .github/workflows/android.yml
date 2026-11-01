@@ -43,7 +43,7 @@ jobs:
       - name: Dart analyzer
         run: |
           set -o pipefail
-          flutter analyze --no-fatal-infos 2>&1 | tee ../ci-results/flutter-analyze.log
+          flutter analyze 2>&1 | tee ../ci-results/flutter-analyze.log
       - name: Flutter tests
         run: |
           set -o pipefail
@@ -101,3 +101,47 @@ jobs:
       - name: Remove signing material
         if: always()
         run: rm -f "$RUNNER_TEMP/simcontrol-release.jks"
+
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Bridge tests on Windows
+        run: dotnet run --project tests/Bridge.Tests -c Release -- tests/results/windows-bridge-tests.json
+      - name: Real TLS transport benchmark with synthetic DEMO
+        run: dotnet run --project tests/Bridge.Benchmarks -c Release -- tests/results/windows-transport-benchmark.json
+      - name: Publish self-contained Windows x64 application
+        run: dotnet publish windows_bridge/Bridge.Windows -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o _staging/Windows
+      - name: Build actual Windows installer
+        shell: pwsh
+        run: |
+          Copy-Item documentation/licenses _staging/Windows/Licenses -Recurse
+          $compiler = 'C:\Program Files (x86)\NSIS\makensis.exe'
+          if (-not (Test-Path $compiler)) { choco install nsis --yes --no-progress }
+          if (-not (Test-Path $compiler)) { throw 'NSIS compiler unavailable' }
+          $appDir = (Resolve-Path _staging/Windows).Path
+          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe'
+          & $compiler /V2 "/DAPPDIR=$appDir" "/DOUTPUT=$setupFile" tools/windows-installer.nsi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path $setupFile)) { throw 'Setup executable missing' }
+          Compress-Archive -Path _staging/Windows/* -DestinationPath SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip
+      - name: Upload Windows executables
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-Windows-${{ github.sha }}
+          path: |
+            SIM_CONTROL_STUDIO_0.2.0_Windows_x64.zip
+            SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload Windows check results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Windows-check-results-${{ github.sha }}
+          path: tests/results/windows-*.json
+          retention-days: 30

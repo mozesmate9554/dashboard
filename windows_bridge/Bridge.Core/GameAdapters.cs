@@ -194,7 +194,7 @@ public sealed class AcSharedMemoryAdapter(string gameId, IMemorySource memory, I
 {
     private int? _lastPacket;
     private long _sequence;
-    private long? _lastMs;
+    private long? _lastTicks;
     private long _windowMs = Environment.TickCount64;
     private int _windowFrames;
     private double _actualHz;
@@ -223,7 +223,7 @@ public sealed class AcSharedMemoryAdapter(string gameId, IMemorySource memory, I
         var packet = BinaryPrimitives.ReadInt32LittleEndian(bytes);
         if (packet == _lastPacket)
         {
-            if (now - (_lastMs ?? 0) > 500)
+            if (Environment.TickCount64 - (_lastTicks ?? 0) > 500)
             {
                 Health = Health with { State = "stale", ActualHz = 0 };
                 // Reopen handles after a silent/closed mapping to recover when the game recreates it.
@@ -236,7 +236,7 @@ public sealed class AcSharedMemoryAdapter(string gameId, IMemorySource memory, I
             var statics = memory.Read("Local\\acpmf_static", AcMemoryDecoder.StaticBytes, false);
             var graphics = memory.Read("Local\\acpmf_graphics", AcMemoryDecoder.GraphicsPrefixBytes, true);
             var frame = AcMemoryDecoder.Decode(bytes, statics, graphics, gameId, now, ++_sequence);
-            _lastPacket = packet; _lastMs = now; _windowFrames++;
+            _lastPacket = packet; _lastTicks = Environment.TickCount64; _windowFrames++;
             var elapsed = Environment.TickCount64 - _windowMs;
             if (elapsed >= 1000) { _actualHz = _windowFrames * 1000d / elapsed; _windowFrames = 0; _windowMs = Environment.TickCount64; }
             Health = Health with { GameDetected = true, MemoryAvailable = true, State = "live", Error = null,

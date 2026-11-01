@@ -194,8 +194,8 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
           break;
         case 'ack':
           final index = commandHistory.indexWhere((c) => c['id'] == json['id']);
-          if (index >= 0) commandHistory[index] = {...commandHistory[index], ...json,
-            '${json['stage']}AtBridgeMs': json['timestampMs']};
+          if (index >= 0) { commandHistory[index] = {...commandHistory[index], ...json,
+            '${json['stage']}AtBridgeMs': json['timestampMs']}; }
           break;
         case 'profileSuggestion':
           if (store.suggestions && json['sourceDevice'] != deviceId) {

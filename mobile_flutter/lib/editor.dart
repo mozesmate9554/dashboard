@@ -225,13 +225,13 @@ class _LayoutEditorState extends State<LayoutEditor> {
       if (popped) return;
       final leave = await showDialog<bool>(context: context, builder: (context) => AlertDialog(title: const Text('Nem mentett módosítások'), content: const Text('Elhagyod a szerkesztőt a módosítások mentése nélkül?'),
         actions: [TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Maradok')), FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Elhagyás'))]));
-      if (leave == true && mounted) { setState(() => _dirty = false); Navigator.pop(context); }
+      if (leave == true && context.mounted) { setState(() => _dirty = false); Navigator.pop(context); }
     }, child: Scaffold(appBar: AppBar(title: Text('${_dirty ? '• ' : ''}${_layout.name}'), actions: [
       IconButton(onPressed: _undo.isEmpty ? null : () => _history(false), tooltip: 'Visszavonás', icon: const Icon(Icons.undo)),
       IconButton(onPressed: _redo.isEmpty ? null : () => _history(true), tooltip: 'Ismétlés', icon: const Icon(Icons.redo)),
       IconButton(onPressed: _save, tooltip: 'Mentés', icon: const Icon(Icons.save_outlined)),
       PopupMenuButton<String>(onSelected: (value) async {
-        if (value == 'rename') await _rename();
+        if (value == 'rename') { await _rename(); return; }
         if (value == 'export') await shareJson(context, widget.store, 'sim-control-profile.json', _layout.data);
         if (value == 'keys') await _exportKeys();
         if (value == 'canvas') await _canvasSettings();
