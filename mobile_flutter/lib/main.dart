@@ -186,7 +186,7 @@ class _StudioShellState extends State<StudioShell> {
   Widget _games()=>_scroll([
     _title('GAME ADAPTERS',tr('A forrás határozza meg az adatokat.','The source determines the data.'),tr('Valós játékban még egyik integráció sem kapott tesztigazolást ebben a kiadásban.','No physical game verification has been performed for this release.')),
     for(final game in store.games)Card(child:ListTile(leading:Icon(game['implemented']==true?Icons.cable:Icons.extension_outlined,color:game['implemented']==true?Colors.greenAccent:Colors.white24),title:Text(game['name'] as String),
-      subtitle:Text(game['status'] as String),trailing:game['implemented']==true?const Chip(label:Text('Éles teszt szükséges')):null)),
+      subtitle:Text('${game['status']}${game['implemented']==true?'\nÉles teszt szükséges':''}'))),
     const SizedBox(height:18),const Text('A játékválasztást és a PC-billentyűkiosztást a Bridge felületén állítsd be. Az internetes és online módok támogatása csak az adott játék által kiadott telemetriára terjedhet ki.',style:TextStyle(color:Colors.white54)),
   ]);
   Widget _devices()=>_scroll([

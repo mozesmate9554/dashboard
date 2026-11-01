@@ -125,7 +125,7 @@ void main() {
     }
     await tester.pumpWidget(const SizedBox()); connection.dispose();
   });
-  testWidgets('Editor touch move, undo and save preserve the shipped base layout', (tester) async {
+  testWidgets('Editor touch move, resize, undo and save preserve the shipped base layout', (tester) async {
     tester.view.devicePixelRatio = 1; tester.view.physicalSize = const Size(1400, 900);
     addTearDown(tester.view.resetPhysicalSize); addTearDown(tester.view.resetDevicePixelRatio);
     final connection = BridgeConnection(store); await connection.setDemo(true);
@@ -142,7 +142,7 @@ void main() {
     expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], before);
     await tester.tap(finder); await tester.pump();
     final oldWidth = tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['w'];
-    await tester.drag(find.byIcon(Icons.open_in_full), const Offset(20, 20)); await tester.pump();
+    await tester.drag(find.byIcon(Icons.open_in_full), const Offset(60, 60)); await tester.pump();
     expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['w'], isNot(oldWidth));
     await tester.runAsync(() async {
       await tester.tap(find.byTooltip('Mentés'));
