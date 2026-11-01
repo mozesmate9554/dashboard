@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sim_control_studio/connection.dart';
@@ -8,7 +9,7 @@ import 'package:sim_control_studio/display.dart';
 import 'package:sim_control_studio/storage.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final binding=IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets('Native pinned TLS, secure pairing, telemetry, touch command and reconnect', (tester) async {
     final store = StudioStore(); await store.load();
     await store.set('role', 'panel'); await store.set('haptic', false);
@@ -41,6 +42,22 @@ void main() {
       await until(() => connection.connected && connection.telemetry.value?.fresh == true);
       expect(connection.deviceId, identity);
       expect(connection.target!.token, isNull); // Reconnect used persisted Keychain/Keystore credentials.
+      for(final (orientation,orientations) in [
+        ('portrait',[DeviceOrientation.portraitUp]),
+        ('landscape',[DeviceOrientation.landscapeLeft]),
+      ]){
+        for(final role in ['dashboard','panel','hybrid']){
+          await tester.pumpWidget(const SizedBox());await Future<void>.delayed(const Duration(milliseconds:400));
+          await SystemChrome.setPreferredOrientations(orientations);
+          await store.set('role',role);await connection.refreshSettings();
+          await until(()=>connection.connected && connection.telemetry.value?.fresh==true);
+          await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:LiveDisplay(store:store,connection:connection,role:role)));
+          await Future<void>.delayed(const Duration(milliseconds:500));await tester.pump();
+          expect(tester.takeException(),isNull,reason:'$role $orientation');
+          expect(find.byKey(const ValueKey('cockpit-options')),findsOneWidget);
+          await binding.takeScreenshot('ios-$role-$orientation');
+        }
+      }
       await tester.pumpWidget(const SizedBox());
     } finally { http.close(force:true); connection.dispose(); store.dispose(); }
   });

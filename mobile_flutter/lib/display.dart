@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
+import 'adaptive_layout.dart';
+import 'fullscreen.dart';
 import 'connection.dart';
 import 'models.dart';
 import 'storage.dart';
@@ -265,35 +266,96 @@ class LiveDisplay extends StatefulWidget {
   @override State<LiveDisplay> createState() => _LiveDisplayState();
 }
 class _LiveDisplayState extends State<LiveDisplay> {
-  int _page = 0;
+  int _page = 0, _mobilePage = 0, _interactionEpoch = 0;
+  String? _roleOverride;
+  late bool _adaptive, _toolbar;
+  final _fullscreen = StudioFullscreen();
+  StudioLayout? _cachedPresentation;
+  String? _presentationKey;
+  String get _role => _roleOverride ?? widget.role;
   @override void initState() {
-    super.initState(); unawaited(WakelockPlus.enable());
-    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky));
-    widget.connection.selectProfile(widget.store.vehicleId, layoutId: (widget.layout ?? widget.store.selected(widget.role)).id);
+    super.initState();
+    _adaptive=widget.store.prefs.getBool('displayAdaptive') ?? true;
+    _toolbar=widget.store.prefs.getBool('displayToolbar') ?? true;
+    unawaited(_fullscreen.enter());
+    widget.connection.selectProfile(widget.store.vehicleId, layoutId: (widget.layout ?? widget.store.selected(_role)).id);
+  }
+  void _releaseContext() { widget.connection.releaseAll(); setState(()=>_interactionEpoch++); }
+  Future<void> _options() async {
+    _releaseContext();
+    final choice=await showModalBottomSheet<String>(context:context,isScrollControlled:true,useSafeArea:true,builder:(sheetContext)=>
+      SizedBox(height:MediaQuery.sizeOf(sheetContext).height*.78,child:ListView(padding:const EdgeInsets.all(16),children:[
+        const ListTile(title:Text('Kijelző beállításai',style:TextStyle(fontWeight:FontWeight.bold,fontSize:22))),
+        ListTile(leading:const Icon(Icons.close),title:const Text('Kijelző bezárása'),onTap:()=>Navigator.pop(sheetContext,'close')),
+        ListTile(leading:Icon(_adaptive?Icons.check_circle:Icons.crop_free),title:const Text('Adaptív mobilnézet'),subtitle:const Text('Nagyobb műszerek és gombok; kitölti a biztonságos kijelzőterületet.'),onTap:()=>Navigator.pop(sheetContext,'adaptive')),
+        ListTile(leading:Icon(!_adaptive?Icons.check_circle:Icons.aspect_ratio),title:const Text('Eredeti arány és elrendezés'),subtitle:const Text('Az autó referenciához rajzolt vagy a saját szerkesztett geometriája.'),onTap:()=>Navigator.pop(sheetContext,'original')),
+        ListTile(leading:const Icon(Icons.visibility),title:Text(_toolbar?'Eszköztár elrejtése':'Eszköztár megjelenítése'),onTap:()=>Navigator.pop(sheetContext,'toolbar')),
+        if(widget.layout==null) ...[
+          const Divider(),
+          for(final (role,label) in [('dashboard','Műszerfal'),('panel','Kezelőpanel'),('hybrid','Hibrid')])
+            ListTile(leading:Icon(_role==role?Icons.radio_button_checked:Icons.radio_button_off),title:Text(label),onTap:()=>Navigator.pop(sheetContext,'role:$role')),
+        ],
+        const Divider(),
+        for(final (value,label) in [('auto','Automatikus tájolás'),('portrait','Álló helyzet'),('landscape','Fekvő helyzet')])
+          ListTile(leading:const Icon(Icons.screen_rotation),title:Text(label),onTap:()=>Navigator.pop(sheetContext,'orientation:$value')),
+      ])));
+    if(!mounted || choice==null)return;
+    if(choice=='close'){Navigator.pop(context);return;}
+    if(choice=='adaptive' || choice=='original'){
+      setState((){_adaptive=choice=='adaptive';_mobilePage=0;});await widget.store.set('displayAdaptive',_adaptive);
+    } else if(choice=='toolbar'){
+      setState(()=>_toolbar=!_toolbar);await widget.store.set('displayToolbar',_toolbar);
+    } else if(choice.startsWith('orientation:')){
+      await _fullscreen.orientation(choice.substring(12));
+    } else if(choice.startsWith('role:')){
+      final role=choice.substring(5);
+      await widget.store.set('role',role);await widget.connection.refreshSettings();
+      if(!mounted)return;
+      setState((){_roleOverride=role;_page=0;_mobilePage=0;_interactionEpoch++;});
+      widget.connection.selectProfile(widget.store.vehicleId,layoutId:widget.store.selected(role).id);
+    }
   }
   @override void dispose() {
-    widget.connection.releaseAll(); unawaited(WakelockPlus.disable());
-    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge)); super.dispose();
+    widget.connection.releaseAll();unawaited(_fullscreen.leave());super.dispose();
   }
   @override Widget build(BuildContext context) {
-    final layout = widget.layout ?? widget.store.selected(widget.role);
-    return Scaffold(backgroundColor: Colors.black, body: AnimatedBuilder(
-      animation: Listenable.merge([widget.connection, widget.connection.telemetry, widget.connection.ticks]),
-      builder: (context, _) {
-        final frame = widget.connection.telemetry.value;
-        return Stack(children: [
-          Positioned.fill(child: LayoutCanvas(layout: layout, page: _page, frame: frame, connection: widget.connection)),
-          Positioned(left: 8, top: 8, child: SafeArea(child: Row(children: [
-            IconButton.filledTonal(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
-            if (layout.pages.length > 1) IconButton.filledTonal(onPressed: () { widget.connection.releaseAll(); setState(() => _page = (_page + 1) % layout.pages.length); }, icon: const Icon(Icons.layers_outlined)),
-          ]))),
-          if (frame?.fresh != true) const Positioned(bottom: 12, left: 65, right: 65,
-            child: IgnorePointer(child: Center(child: Chip(avatar: Icon(Icons.sensors_off, color: Colors.amber), label: Text('NINCS FRISS TELEMETRIA'))))),
-          if (widget.connection.isDemo || frame?.isDemo == true) const Positioned(bottom: 8, right: 8,
-            child: IgnorePointer(child: DemoBadge())),
+    final layout=widget.layout ?? widget.store.selected(_role);
+    return Scaffold(backgroundColor:studioColor(layout.data['background'],Colors.black),body:SafeArea(child:LayoutBuilder(builder:(context,constraints){
+      final size=Size(constraints.maxWidth,constraints.maxHeight-26-(_toolbar?48:0));
+      if(size.width<=0 || size.height<100)return const SizedBox();
+      final key='${layout.id}:${layout.data['revision']}:$_page:${size.width}:${size.height}:$_adaptive';
+      if(key!=_presentationKey){
+        _cachedPresentation=_adaptive?adaptLayout(layout,_page,size):layout;
+        _presentationKey=key;
+      }
+      final presentation=_cachedPresentation!;
+      _mobilePage=_mobilePage.clamp(0,presentation.pages.length-1).toInt();
+      return AnimatedBuilder(animation:Listenable.merge([widget.connection,widget.connection.telemetry,widget.connection.ticks]),builder:(context,_){
+        final frame=widget.connection.telemetry.value;
+        return Column(children:[
+          if(_toolbar) SizedBox(height:48,child:Row(children:[
+            IconButton(tooltip:'Kijelző bezárása',onPressed:()=>Navigator.pop(context),icon:const Icon(Icons.close)),
+            Expanded(child:Text(layout.name,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontSize:12,color:Colors.white54))),
+            if(layout.pages.length>1 || _adaptive && presentation.pages.length>1) IconButton(tooltip:'Következő oldal',onPressed:(){
+              _releaseContext();
+              setState((){
+                if(_adaptive && _mobilePage+1<presentation.pages.length){_mobilePage++;}
+                else{_mobilePage=0;_page=(_page+1)%layout.pages.length;}
+              });
+            },icon:const Icon(Icons.layers_outlined)),
+            IconButton(key:const ValueKey('cockpit-options'),tooltip:'Kijelző beállításai',onPressed:_options,icon:const Icon(Icons.more_horiz)),
+          ])),
+          Expanded(child:Stack(children:[
+            Positioned.fill(child:LayoutCanvas(key:ValueKey('$_role:$_page:$_mobilePage:$_interactionEpoch'),layout:presentation,page:_adaptive?_mobilePage:_page,frame:frame,connection:widget.connection)),
+            if(!_toolbar) Positioned(top:0,right:0,child:IconButton.filledTonal(key:const ValueKey('cockpit-options'),tooltip:'Kijelző beállításai',onPressed:_options,icon:const Icon(Icons.more_horiz))),
+          ])),
+          SizedBox(height:26,child:Center(child:Text(widget.connection.isDemo?'DEMO · SZIMULÁLT ADATOK':frame?.fresh==true?'ÉLŐ TELEMETRIA · ${widget.connection.latencyMs} ms':'NINCS FRISS TELEMETRIA',
+            style:TextStyle(fontSize:11,fontWeight:FontWeight.w700,letterSpacing:1,color:widget.connection.isDemo?Colors.amber:frame?.fresh==true?Colors.greenAccent:Colors.amber)))),
         ]);
-      }));
+      });
+    })));
   }
+
 }
 
 class DemoBadge extends StatelessWidget {
