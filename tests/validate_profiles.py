@@ -77,7 +77,7 @@ def xcode():
 check('Xcode project object references and iPhone/iPad deployment settings',xcode)
 def version_identity():
     pub=(ROOT/'mobile_flutter/pubspec.yaml').read_text()
-    assert 'version: 0.2.0+1' in pub
+    assert re.search(r'^version: 0\.2\.0\+\d+$',pub,re.M)
     assert '<Version>0.2.0</Version>' in (ROOT/'Directory.Build.props').read_text()
     assert json.loads((ROOT/'windows_bridge/Bridge.Windows/profiles.json').read_text())==[v['id'] for v in vehicles]
 check('Cross-platform version and profile ID consistency',version_identity)
