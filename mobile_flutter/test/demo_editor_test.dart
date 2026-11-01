@@ -10,6 +10,7 @@ import 'package:sim_control_studio/editor.dart';
 import 'package:sim_control_studio/layout_geometry.dart';
 import 'package:sim_control_studio/models.dart';
 import 'package:sim_control_studio/storage.dart';
+import 'package:sim_control_studio/main.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -103,6 +104,24 @@ void main() {
       for (var i=0; i<6; i++) { await tester.tap(find.text('+')); await tester.pump(); }
       expect(connection.commandHistory.length - before, maximum);
       expect(find.text('kért pozíció: ${maximum+1}/${maximum+1}'), findsOneWidget);
+    }
+    await tester.pumpWidget(const SizedBox()); connection.dispose();
+  });
+  testWidgets('All main navigation screens fit portrait and landscape phones in DEMO', (tester) async {
+    final connection = BridgeConnection(store); await connection.setDemo(true);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize); addTearDown(tester.view.resetDevicePixelRatio);
+    for (final size in [const Size(360,800), const Size(900,420)]) {
+      tester.view.physicalSize = size;
+      await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(), home:StudioShell(key:ValueKey(size),store:store,connection:connection)));
+      await tester.pump(); expect(tester.takeException(),isNull,reason:'Home at $size');
+      for (final page in ['Műszerfalak','Kezelőpanelek','Autóprofilok','Szerkesztő','Játékok','Csatlakozás','Eszközök','Telemetria','Beállítások']) {
+        await tester.tap(find.byIcon(Icons.menu)); await tester.pump(const Duration(milliseconds:300));
+        final link = find.descendant(of:find.byType(Drawer),matching:find.text(page));
+        await tester.ensureVisible(link); await tester.pump();
+        await tester.tap(link); await tester.pump(const Duration(milliseconds:300));
+        expect(tester.takeException(),isNull,reason:'$page at $size');
+      }
     }
     await tester.pumpWidget(const SizedBox()); connection.dispose();
   });

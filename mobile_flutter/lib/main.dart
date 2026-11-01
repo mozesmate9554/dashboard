@@ -90,8 +90,8 @@ class _StudioShellState extends State<StudioShell> {
     final wide = MediaQuery.sizeOf(context).width >= 1050 && MediaQuery.sizeOf(context).height >= 800;
     final names = store.language == 'en' ? _en : _hu;
     return AnimatedBuilder(animation: connection, builder: (context, _) => Scaffold(
-      appBar: AppBar(title: Row(children: [const _BrandMark(), const SizedBox(width: 12), Text(names[_page], style: const TextStyle(fontWeight: FontWeight.w700))]),
-        actions: [if (connection.isDemo) const DemoBadge(), Padding(padding: const EdgeInsets.only(right: 14), child: Chip(avatar: Icon(connection.connected ? Icons.link : Icons.link_off,
+      appBar: AppBar(title: Row(children: [const _BrandMark(), const SizedBox(width: 12), Expanded(child: Text(names[_page], maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700)))]),
+        actions: [if (connection.isDemo) const DemoBadge() else Padding(padding: const EdgeInsets.only(right: 14), child: Chip(avatar: Icon(connection.connected ? Icons.link : Icons.link_off,
           size: 16, color: connection.connected ? Colors.greenAccent : Colors.amber), label: Text(connection.connected ? '${connection.latencyMs} ms' : tr('Nincs kapcsolat','Disconnected'))))]),
       drawer: wide ? null : Drawer(child: SafeArea(child: ListView(children: [const Padding(padding: EdgeInsets.all(20), child: Text('SIM CONTROL\nSTUDIO', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900))),
         for (var i = 0; i < names.length; i++) ListTile(selected: i == _page, leading: Icon(_icons[i]), title: Text(names[i]),
