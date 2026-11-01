@@ -1,0 +1,6 @@
+  Determining projects to restore...
+  Restored /workspace/work/sim-control-studio/windows_bridge/Bridge.Core/Bridge.Core.csproj (in 306 ms).
+  1 of 2 projects are up-to-date for restore.
+  Bridge.Core -> /workspace/work/sim-control-studio/windows_bridge/Bridge.Core/bin/Release/net10.0/Bridge.Core.dll
+  Bridge.Windows -> /workspace/work/sim-control-studio/windows_bridge/Bridge.Windows/bin/Release/net10.0-windows/win-x64/SimControlStudio.Bridge.dll
+  Bridge.Windows -> /workspace/work/staging/Windows/

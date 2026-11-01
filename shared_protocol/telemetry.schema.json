@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:simcontrol:telemetry:v1",
+  "title": "SIM CONTROL STUDIO telemetry frame v1",
+  "type": "object",
+  "required": ["type", "frame"],
+  "properties": {
+    "type": {"const": "telemetry"},
+    "frame": {
+      "type": "object",
+      "required": ["sequence", "timestampMs", "gameId", "adapter", "state", "fields"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 0},
+        "timestampMs": {"type": "integer"},
+        "gameId": {"type": "string"},
+        "adapter": {"type": "string"},
+        "state": {"enum": ["live", "stale"]},
+        "vehicleId": {"type": "string"},
+        "gameVersion": {"type": "string"},
+        "fields": {"type": "object", "additionalProperties": {"$ref": "#/$defs/datum"}}
+      }
+    }
+  },
+  "$defs": {
+    "datum": {
+      "type": "object",
+      "required": ["unit", "source", "timestampMs", "validity", "derived"],
+      "properties": {
+        "value": {"type": ["number", "string", "boolean", "array", "null"]},
+        "unit": {"type": "string"},
+        "source": {"type": "string"},
+        "timestampMs": {"type": "integer"},
+        "validity": {"enum": ["valid", "stale", "unsupported", "invalid"]},
+        "derived": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "scope": "JSON data and native project static validation; not a Flutter runtime test",
+  "passed": 25,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "20 required vehicles / 40 separately identified layouts",
+      "status": "passed",
+      "durationMs": 0.01
+    },
+    {
+      "name": "Porsche 911 GT3 R (992) pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.5
+    },
+    {
+      "name": "BMW M4 GT3 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.45
+    },
+    {
+      "name": "Mercedes-AMG GT3 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.35
+    },
+    {
+      "name": "Ferrari 296 GT3 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.34
+    },
+    {
+      "name": "Audi R8 LMS GT3 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.39
+    },
+    {
+      "name": "Lamborghini Huracán GT3 EVO2 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.36
+    },
+    {
+      "name": "McLaren 720S GT3 Evo pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.33
+    },
+    {
+      "name": "Aston Martin Vantage GT3 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.37
+    },
+    {
+      "name": "Lexus RC F GT3 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.34
+    },
+    {
+      "name": "Corvette Z06 GT3.R pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.34
+    },
+    {
+      "name": "Porsche 963 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.41
+    },
+    {
+      "name": "Ferrari 499P pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.34
+    },
+    {
+      "name": "Toyota GR010 Hybrid pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.37
+    },
+    {
+      "name": "Cadillac V-Series.R pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.34
+    },
+    {
+      "name": "BMW M Hybrid V8 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.35
+    },
+    {
+      "name": "Toyota GR Yaris Rally1 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.34
+    },
+    {
+      "name": "Hyundai i20 N Rally1 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.31
+    },
+    {
+      "name": "Ford Puma Rally1 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.31
+    },
+    {
+      "name": "Škoda Fabia RS Rally2 pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.36
+    },
+    {
+      "name": "Dallara IR-18 IndyCar pair, bindings, bounds, SVG and provenance",
+      "status": "passed",
+      "durationMs": 0.33
+    },
+    {
+      "name": "Skoda wheel starter / touch-console intercom / three views",
+      "status": "passed",
+      "durationMs": 0.01
+    },
+    {
+      "name": "Android manifests / iOS plist, entitlement, storyboard and workspace XML",
+      "status": "passed",
+      "durationMs": 2.4
+    },
+    {
+      "name": "Xcode project object references and iPhone/iPad deployment settings",
+      "status": "passed",
+      "durationMs": 0.53
+    },
+    {
+      "name": "Cross-platform version and profile ID consistency",
+      "status": "passed",
+      "durationMs": 0.3
+    }
+  ]
+}

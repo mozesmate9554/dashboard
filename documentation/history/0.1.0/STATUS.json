@@ -1,0 +1,390 @@
+{
+  "application": "SIM CONTROL STUDIO",
+  "version": "0.1.0",
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-11-01T20:27:49.351412+00:00",
+  "releaseKind": "partial_development_release",
+  "fullSpecificationAccepted": false,
+  "physicalTestsPerformed": false,
+  "productionSimulatedTelemetry": false,
+  "tests": {
+    "bridge": {
+      "passed": 18,
+      "failed": 0
+    },
+    "profiles": {
+      "passed": 25,
+      "failed": 0
+    },
+    "dartSyntax": {
+      "passed": 9,
+      "kind": "syntax_only"
+    },
+    "flutterAnalyze": "not_run",
+    "flutterTests": "not_run",
+    "realGameTests": "not_run"
+  },
+  "permittedStatusValues": [
+    "Elkészült és automatizáltan tesztelt",
+    "Elkészült, valós eszközön tesztelt",
+    "Elkészült, valós eszközön még tesztelendő",
+    "Részlegesen elkészült",
+    "Nem készült el"
+  ],
+  "features": [
+    {
+      "id": "windows_release",
+      "name": "Önálló Windows x64 Bridge",
+      "status": "Elkészült, valós eszközön még tesztelendő",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Windows"
+      ],
+      "verification": {
+        "crossBuild": "passed",
+        "physicalWindowsRun": "not_run",
+        "log": "tests/results/windows-build.log"
+      },
+      "limitations": [
+        "A grafikus felület és a Windows API-k tényleges futtatása Windows-gépen még szükséges."
+      ]
+    },
+    {
+      "id": "rally_adapter",
+      "name": "Assetto Corsa Rally valódi shared-memory adapter",
+      "status": "Elkészült, valós eszközön még tesztelendő",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/GameAdapters.cs"
+      ],
+      "verification": {
+        "binaryFixtures": "passed",
+        "realRallyGame": "not_run",
+        "referencesPinned": true
+      },
+      "limitations": [
+        "Konkrét játékverzió és named mapping fizikai tesztje hiányzik.",
+        "Rally ABS/TC/fékerőelosztás/szakaszidő és további mezők nincsenek igazoltnak jelentve.",
+        "A nyers fokozat és G-tengely konvenció éles ellenőrzést igényel."
+      ]
+    },
+    {
+      "id": "telemetry_contract",
+      "name": "Egységes mezőmodell és elavulás",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/Protocol.cs",
+        "mobile_flutter/lib/models.dart"
+      ],
+      "verification": {
+        "dotnetTests": "passed",
+        "mobileRuntime": "not_run"
+      },
+      "limitations": [
+        "A mobil parser és megjelenítő Flutter runtime tesztje nem futott."
+      ]
+    },
+    {
+      "id": "multi_client",
+      "name": "Többklienses kétirányú kapcsolat, bontás és újracsatlakozás",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/BridgeRuntime.cs"
+      ],
+      "verification": {
+        "localTlsWebSocketTwoClients": "passed",
+        "twoPhysicalMobiles": "not_run"
+      },
+      "limitations": [
+        "A valódi Wi-Fi és két fizikai készülék nincs kipróbálva."
+      ]
+    },
+    {
+      "id": "pairing_security",
+      "name": "TLS, párosítás, hash-tárolás, visszavonás, sebességkorlát",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/Pairing.cs",
+        "windows_bridge/Bridge.Core/InputControl.cs"
+      ],
+      "verification": {
+        "serverTests": "passed",
+        "mobileKeychainKeystore": "not_run"
+      },
+      "limitations": [
+        "A mobil biztonságos tárolója és QR-kamerája csak forrásként készült el."
+      ]
+    },
+    {
+      "id": "control_engine",
+      "name": "Billentyűk, kombinációk, hold/repeat, fókusz- és beragadásvédelem",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/InputControl.cs"
+      ],
+      "verification": {
+        "fixtureSinkAndTransport": "passed",
+        "realSendInputGameEffect": "not_run"
+      },
+      "limitations": [
+        "A tényleges Windows SendInput és játékreakció még ellenőrizendő.",
+        "A játékfunkciók csak helyileg beállított kiosztással válnak elérhetővé."
+      ]
+    },
+    {
+      "id": "windows_ui",
+      "name": "Windows felület, tálca, QR, kiosztásimport és diagnosztika",
+      "status": "Elkészült, valós eszközön még tesztelendő",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Windows/MainForm.cs"
+      ],
+      "verification": {
+        "compiled": "passed",
+        "guiRun": "not_run"
+      },
+      "limitations": [
+        "A Windows grafikus teszt nem történt meg."
+      ]
+    },
+    {
+      "id": "mobile_native",
+      "name": "Natív Flutter Android/iOS kliens",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "mobile_flutter/lib",
+        "mobile_flutter/android",
+        "mobile_flutter/ios"
+      ],
+      "verification": {
+        "syntaxOnly": "passed",
+        "dartAnalyze": "not_run",
+        "flutterTest": "not_run",
+        "flutterBuild": "not_run"
+      },
+      "limitations": [
+        "A Flutter SDK hivatalos letöltési célállomását a hálózati szabályzat tiltja.",
+        "A forrás nincs lefordított vagy eszközön igazolt mobilalkalmazásként jelentve."
+      ]
+    },
+    {
+      "id": "mobile_roles",
+      "name": "Műszerfal, kezelőpanel és külön menthető hibrid",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "mobile_flutter/lib/display.dart",
+        "mobile_flutter/lib/hybrid.dart"
+      ],
+      "verification": {
+        "sourceImplemented": true,
+        "flutterRuntime": "not_run"
+      },
+      "limitations": []
+    },
+    {
+      "id": "profiles_40",
+      "name": "20 autó / 40 eltérő, verziózott alapelrendezés",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "vehicle_profiles",
+        "mobile_flutter/assets/catalog.json"
+      ],
+      "verification": {
+        "jsonGeometryBindingsSvgUniqueness": "passed",
+        "flutterRender": "not_run"
+      },
+      "limitations": [
+        "Ez az állapot az adatfájlokra és sémájukra vonatkozik, nem gyári grafikai hűségre vagy natív megjelenítési tesztre."
+      ]
+    },
+    {
+      "id": "factory_fidelity",
+      "name": "Gyári műszerfalak és kapcsolópanelek hű rekonstrukciója",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "vehicle_profiles/*/REFERENCES.md"
+      ],
+      "verification": {
+        "documentedFactoryReplicas": 0,
+        "partialReferenceProfiles": 1,
+        "inspiredProfiles": 19
+      },
+      "limitations": [
+        "A gyári pixelgeometria, betűk és kapcsolóhelyek teljes hitelesítése hiányzik.",
+        "Ferrari 499P forrásjelölt nem volt lekérhető; nincs hiteles gyári layoutként feltüntetve."
+      ]
+    },
+    {
+      "id": "profile_pairing",
+      "name": "Más készüléktől érkező profilajánlás",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/BridgeRuntime.cs",
+        "mobile_flutter/lib/main.dart"
+      ],
+      "verification": {
+        "serverProtocol": "passed",
+        "mobileAcceptUi": "not_run"
+      },
+      "limitations": [
+        "Játékból automatikus autóváltáshoz nincs igazolt autóalias-lista."
+      ]
+    },
+    {
+      "id": "auto_game_vehicle",
+      "name": "Játékazonosítóból automatikus autóprofil-váltás",
+      "status": "Nem készült el",
+      "sourcePaths": [
+        "vehicle_profiles/*/profile.json"
+      ],
+      "verification": {
+        "vehicleIdRead": "implemented",
+        "verifiedAliasTable": "missing"
+      },
+      "limitations": [
+        "A kézi kiválasztás és párosított eszközajánlás működési útja külön implementált."
+      ]
+    },
+    {
+      "id": "editor",
+      "name": "Érintéses vizuális szerkesztő, csoport, réteg, undo/redo és feltételek",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "mobile_flutter/lib/editor.dart"
+      ],
+      "verification": {
+        "sourceImplemented": true,
+        "flutterRuntime": "not_run"
+      },
+      "limitations": [
+        "Az érintéses mozgatás/méretezés, fájlválasztó és megosztás valós eszköztesztje hiányzik.",
+        "Két beépített betűstílus, legfeljebb 8 oldal, 250 elem és korlátozott képméret."
+      ]
+    },
+    {
+      "id": "profile_io",
+      "name": "JSON/SVG/PNG import-export és helyi mentés",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "mobile_flutter/lib/storage.dart",
+        "mobile_flutter/lib/models.dart",
+        "mobile_flutter/lib/editor.dart"
+      ],
+      "verification": {
+        "baseDataChecks": "passed",
+        "mobilePersistenceAndSharing": "not_run"
+      },
+      "limitations": []
+    },
+    {
+      "id": "other_adapters",
+      "name": "Assetto Corsa, ACC és BeamNG OutGauge adapterek",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "windows_bridge/Bridge.Core/GameAdapters.cs"
+      ],
+      "verification": {
+        "outgaugeBinaryFixture": "passed",
+        "acAccStructure": "implemented",
+        "physicalGames": "not_run"
+      },
+      "limitations": [
+        "Nem teljeskörűen élesben tesztelt játékkompatibilitás."
+      ]
+    },
+    {
+      "id": "remaining_games",
+      "name": "A többi megnevezett játék integrációja",
+      "status": "Nem készült el",
+      "sourcePaths": [
+        "game_adapters/README.md"
+      ],
+      "verification": {
+        "extensionPoints": "documented",
+        "workingAdapters": "missing"
+      },
+      "limitations": []
+    },
+    {
+      "id": "modes_online",
+      "name": "Minden játékmód és online használat igazolása",
+      "status": "Nem készült el",
+      "sourcePaths": [
+        "documentation/COMPATIBILITY.json"
+      ],
+      "verification": {
+        "physicalSessionTests": "not_run"
+      },
+      "limitations": [
+        "A mátrix kifejezetten nem állítja, hogy minden felsorolt munkamenet az adott játékverzióban létezik."
+      ]
+    },
+    {
+      "id": "android_apk",
+      "name": "Android release APK",
+      "status": "Nem készült el",
+      "sourcePaths": [
+        "mobile_flutter/android",
+        "tools/build-android.ps1"
+      ],
+      "verification": {
+        "apkArtifactExists": false,
+        "reason": "Flutter SDK absent; official storage.googleapis.com destination denied by environment policy (HTTP 403)."
+      },
+      "limitations": []
+    },
+    {
+      "id": "ios_ipa",
+      "name": "Aláírt iOS IPA",
+      "status": "Nem készült el",
+      "sourcePaths": [
+        "mobile_flutter/ios",
+        "tools/build-ios.sh"
+      ],
+      "verification": {
+        "ipaArtifactExists": false,
+        "reason": "Linux environment, no macOS/Xcode/Apple signing."
+      },
+      "limitations": []
+    },
+    {
+      "id": "localization",
+      "name": "Magyar felület és angol nyelv",
+      "status": "Részlegesen elkészült",
+      "sourcePaths": [
+        "mobile_flutter/lib/main.dart"
+      ],
+      "verification": {
+        "hungarian": "sourceImplemented",
+        "englishMainNavigation": "sourceImplemented",
+        "completeEnglishEditor": "missing"
+      },
+      "limitations": []
+    },
+    {
+      "id": "docs_diagnostics",
+      "name": "Magyar útmutatók, napló és gépi állapotjelentés",
+      "status": "Elkészült és automatizáltan tesztelt",
+      "sourcePaths": [
+        "documentation",
+        "tests/results"
+      ],
+      "verification": {
+        "reportsGenerated": true,
+        "secretValuesExcluded": true
+      },
+      "limitations": []
+    }
+  ],
+  "missingPrerequisites": [
+    "Flutter/Dart SDK and Android SDK build access",
+    "macOS/Xcode and Apple signing for iOS",
+    "Windows running ACR",
+    "two physical mobiles"
+  ],
+  "nextAcceptanceSteps": [
+    "Build and analyze Flutter app with supplied tests",
+    "Install on two actual devices",
+    "Verify ACR memory layout and field conventions against the installed version",
+    "Map and test allowed game controls",
+    "Complete primary cockpit reference verification",
+    "Record actual session/online compatibility"
+  ]
+}
