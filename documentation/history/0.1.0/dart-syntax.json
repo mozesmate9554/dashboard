@@ -1,0 +1,50 @@
+{
+  "scope": "tree-sitter syntax only; NOT dart analyze or flutter test",
+  "files": [
+    {
+      "file": "mobile_flutter/lib/connection.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/lib/display.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/lib/editor.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/lib/hybrid.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/lib/main.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/lib/models.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/lib/storage.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/test/profile_test.dart",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "file": "mobile_flutter/test/widget_test.dart",
+      "status": "passed",
+      "errors": []
+    }
+  ]
+}
