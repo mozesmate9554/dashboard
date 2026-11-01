@@ -17,3 +17,5 @@
 key.properties
 releases/
 .DS_Store
+
+**/__pycache__/

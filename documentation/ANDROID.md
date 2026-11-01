@@ -1,37 +1,29 @@
-# Android build és telepítés
+# Android – build, letöltés és telepítés
 
-## Az átadott állapot
+A projekt verziója **0.2.0+2**, alkalmazásazonosítója `hu.simcontrol.studio`; minimum Android 7.0 / API 24. A natív Flutter-projekt a `mobile_flutter` könyvtárban maradt.
 
-Natív Flutter Android projekt: `mobile_flutter/android`. Kiadási verzió `0.1.0+1`, application ID `hu.simcontrol.studio`, minimum Android API 24. A QR-kamera opcionális, a hálózat és kézi párosítás kamera nélkül is használható.
+A letölthető alkalmazás kiadási oldala: https://github.com/mozesmate9554/dashboard/releases/tag/v0.2.0
 
-**APK nem készült.** A futtatókörnyezetben nem volt Flutter/Dart/Android SDK. A hivatalos Flutter SDK `storage.googleapis.com` letöltését a felügyelt környezet kimenő hálózati szabályzata HTTP 403-mal tiltotta; az általános hálózati engedély ezt a célállomás-szabályt nem változtatta meg. Nem került megkerülésre a tiltás, nem lett hamis APK vagy sikeres mobilteszt jelentve.
+Az **Assets** listából a `SIM_CONTROL_STUDIO_0.2.0.apk` fájlt töltsd le. Telefonon nyisd meg, és a saját fájlkezelődnek/böngésződnek engedélyezd az alkalmazástelepítést. A fejlesztői változat kézi telepítésű; nincs Google Play regisztráció vagy előfizetés.
 
-## Build saját gépen
+## Igazolható build
 
-1. Telepíts kompatibilis Flutter stable SDK-t (legalább 3.35 / Dart 3.9), JDK 17+-t és az Android SDK-t. Az első dependency-letöltés internetet igényel; az alkalmazás használata nem.
-2. Futtasd: `flutter doctor -v` és `flutter doctor --android-licenses`.
-3. A projekt gyökerében PowerShellből futtasd: `./tools/build-android.ps1`.
-4. Az első kiadáshoz a szkript saját helyi keystore-t hoz létre. A jelszót helyben, rejtett bevitellel kéri. Őrizd meg a kulcsot és a jelszót; ezek nélkül ugyanaz a telepítés nem frissíthető.
-5. A szkript sorban futtatja a `flutter pub get`, `flutter analyze`, `flutter test`, `flutter build apk --release` parancsokat, és csak sikeres lépések után másolja az APK-t a `releases/Android` könyvtárba. Hibánál leáll; a jelen kiadást nem nyilvánítja visszamenőleg sikeresen fordítottnak.
+Workflow: `.github/workflows/android.yml`, GitHubon: https://github.com/mozesmate9554/dashboard/actions
 
-Meglévő kulcs esetén állítsd be helyben a `SIMCONTROL_KEYSTORE` és `SIMCONTROL_KEYSTORE_PASSWORD` környezeti változókat. A kulcsalias `simcontrol`. Titkot ne írj a forrásba vagy a kiosztás-exportba.
+A build Flutter **3.35.7**, JDK 17 és GitHub által biztosított Android SDK alatt fut. A műveletsor: függőségek, 25 profil-/projektellenőrzés, szigorú `flutter analyze`, valódi `flutter test`, release APK, `apksigner verify`, APK-metaadatok és SHA-256, majd artifact-feltöltés. Sikertelen ellenőrzés után nem kerül készre jelentésre APK. A verziózott kiadás csak sikeres Android- és Windows-job után csomagol.
 
-Kézi build esetén:
+Köztes futásból: nyisd meg az adott sikeres **Android APK and project checks** futást; az **Artifacts** szakaszban a `SIM_CONTROL_STUDIO-Android-<commit>` ZIP tartalmazza az `app-release.apk` fájlt. Az artifact letöltéséhez GitHub-bejelentkezés kellhet, és 30 napig őrződik. A kiadási oldalon közzétett APK állandóbb letöltési hely.
 
-```powershell
-cd mobile_flutter
-flutter pub get
-flutter analyze
-flutter test
-flutter build apk --release
-```
+A helyi Linux környezetben nincs Flutter/Android SDK; a hivatalos SDK-letöltést a hálózati szabályzat tiltja. A tényleges buildet az engedélyezett GitHub CI végzi. A pontos sikeres futást és forráscommitot a kiadási csomag `Tests/Android-CI/provenance.json` rögzíti.
 
-Az `android/app/build.gradle.kts` a környezeti változókból olvassa az aláírást. A kiadási projekt nem a debug kulcsot használja.
+## Aláírás és frissítés
 
-## Telepítés és frissítés
+Ha nincs beállított repository secret, a CI egy futáson belül használt preview kulcsot hoz létre. Ez valódi, ellenőrzött APK-aláírás, de másik futás másik kulcsot használhat. Az előző app ilyenkor nem frissíthető helyben: előbb **exportáld a személyes profiljaidat**, majd távolítsd el az előző appot, és telepítsd az újat. Az eltávolítás törli az app saját adatait.
 
-A tényleges build után másold az APK-t a telefonra és engedélyezd a telepítést a saját fájlkezelődből, vagy használd az `adb install -r` parancsot. Az alkalmazásnak helyi hálózati és opcionális kameraengedély szükséges. Nem kér névjegy-, SMS- vagy mikrofonhozzáférést. Az interkomgomb a PC felé küldött játékparancs, nem hangfelvétel.
+Tartós, saját kulcshoz a repository Actions secrets közé állítsd be az `ANDROID_KEYSTORE_BASE64` és `ANDROID_KEYSTORE_PASSWORD` értékeket. Kulcsalias: `simcontrol`; a kulcs és keystore jelszava egyezzen. A privát kulcs nem kerül a forrásba, artifactba vagy kiadási ZIP-be. Helyi buildnél a `tools/build-android.ps1` és a `SIMCONTROL_KEYSTORE`, `SIMCONTROL_KEYSTORE_PASSWORD` környezeti változók használhatók.
 
-A gyártó által korlátozott Wi-Fi / vendéghálózat esetén az automatikus felderítés helyett használd a QR-kódot és a kézi IP-címet. Előtérben a teljes képernyős megjelenítés ébren tartja a készüléket. Háttérbe lépéskor a kliens felengedést küld és bontja a vezérlőkapcsolatot; visszatéréskor újracsatlakozik.
+## Első használat
 
-Az éles ellenőrzések listája: `TESZTELES.md`. Az itt mellékelt Dart- és widgettesztek jelenleg nem futtatott tesztek.
+A beállítási varázslóban választható a **DEMO** PC és játék nélkül. Később a Kezdőlapon és a Beállításokban kapcsolható. A DEMO felirata a teljes képernyős műszeren és a szerkesztőben is látható; a parancsok szimulált állapotot módosítanak.
+
+Valódi használathoz ugyanazon a privát LAN-on futó Windows Bridge szükséges. A QR-kamera opcionális: kézi IP/tanúsítvány/token-párosítás is van. A hiányzó játékadat helyén `—` látható. Az interkomgomb PC-parancsot küld, nem készít hangfelvételt. A tényleges fizikai mobil-, kamera-, biztonságos tároló- és Wi-Fi-teszt külön elfogadási lépés; lásd `TESZTELES.md`.

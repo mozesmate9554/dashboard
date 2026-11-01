@@ -16,7 +16,11 @@ class DemoSimulator {
       throw const FormatException('Ismeretlen DEMO parancs.');
     }
     if (phase == 'up') { _heldUntil.remove(action); return; }
-    if (phase == 'down') { _heldUntil[action] = nowMs + 3000; return; }
+    if (phase == 'down') {
+      _heldUntil[action] = nowMs + 3000;
+      if (action == 'starter' && _state['ignition'] == true) _state['engineRunning'] = true;
+      return;
+    }
     switch (action) {
       case 'starter': if (_state['ignition'] == true) _state['engineRunning'] = true; break;
       case 'ignition':
@@ -43,7 +47,8 @@ class DemoSimulator {
     final rpm = _state['engineRunning'] == true ? 1100 + speed % 35 * 165 : 0.0;
     final now = timestampMs ?? DateTime.now().millisecondsSinceEpoch;
     final values = <String, Object>{
-      ..._state, 'speed': speed, 'gear': gear, 'rpm': rpm, 'rpmLimit': 7500,
+      ..._state, 'lights': _state['lights'] == true || _heldUntil.containsKey('flash'),
+      'speed': speed, 'gear': gear, 'rpm': rpm, 'rpmLimit': 7500,
       'throttle': cycle < 10 ? .72 : .12, 'brake': cycle < 10 ? 0.0 : .45,
       'clutch': 0.0, 'handbrake': 0.0, 'steering': math.sin(t / 2) * .3,
       'gX': math.sin(t) * .8, 'gY': .0, 'gZ': cycle < 10 ? .45 : -.65,
@@ -60,7 +65,7 @@ class DemoSimulator {
       'damage': [0, 0, 0, 0, 0], 'faults': 'none', 'sessionStatus': 'demo',
       'stageState': 'synthetic_demo', 'stageId': 'DEMO-STAGE', 'vehicleId': 'DEMO-SYNTHETIC',
       'navigation': 'Szimulált bemutató', 'absActive': cycle > 15, 'tcActive': cycle < 4,
-      'timeRemaining': 1200 - t % 1200, 'inPit': false, 'pitLimit': 60,
+      'timeRemaining': 1200 - t % 1200, 'inPit': _state['pitLimiter'] == true, 'pitLimit': 60,
       'wheelLock': false, 'wheelSpeed': [10.0, 10.0, 10.0, 10.0], 'wheelSlip': [.01, .02, .01, .02],
       'yaw': math.sin(t) * .1, 'pitch': .01, 'roll': .03, 'suspension': [.04, .05, .04, .05],
       'sectors': [28900, 30200, 29720], 'stageSplits': [30120, 32040],

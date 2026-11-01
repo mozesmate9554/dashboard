@@ -99,15 +99,18 @@ void main() {
     final base = store.vehicle.dashboard, original = jsonEncode(store.vehicle.dashboard.data);
     await tester.pumpWidget(MaterialApp(theme: ThemeData.dark(), home: LayoutEditor(store: store, connection: connection, layout: base)));
     final field = base.elements(0).firstWhere((e) => e['field'] == 'speed');
-    final finder = find.byWidgetPredicate((w) => w is Instrument && w.element['id'] == field['id']);
+    final instrument = find.byWidgetPredicate((w) => w is Instrument && w.element['id'] == field['id']);
+    final finder = find.ancestor(of: instrument, matching: find.byType(GestureDetector)).first;
     await tester.tap(finder); await tester.pump();
     final before = tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'];
     await tester.drag(finder, const Offset(30, 0)); await tester.pump();
     expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], isNot(before));
     await tester.tap(find.byTooltip('Visszavonás')); await tester.pump();
     expect(tester.widget<LayoutCanvas>(find.byType(LayoutCanvas)).layout.elements(0).firstWhere((e) => e['id'] == field['id'])['x'], before);
-    await tester.tap(find.byTooltip('Mentés')); await tester.pump();
-    await tester.runAsync(() async { await Future<void>.delayed(const Duration(milliseconds: 100)); });
+    await tester.runAsync(() async {
+      await tester.tap(find.byTooltip('Mentés'));
+      for (var i = 0; i < 100 && store.personal.isEmpty; i++) { await Future<void>.delayed(const Duration(milliseconds: 20)); }
+    });
     await tester.pump();
     expect(store.personal.single.isBase, false);
     expect(jsonEncode(store.vehicle.dashboard.data), original);

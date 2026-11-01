@@ -13,7 +13,7 @@ pdfmetrics.registerFont(TTFont('StudioSans','/usr/share/fonts/truetype/dejavu/De
 pdfmetrics.registerFont(TTFont('StudioBold','/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'))
 destination=ROOT/'documentation/PROFILE_CATALOGUE.pdf'
 c=canvas.Canvas(str(destination),pagesize=A4)
-c.setTitle('SIM CONTROL STUDIO 0.1.0 – 20 profilpár áttekintése')
+c.setTitle('SIM CONTROL STUDIO 0.2.0 – 20 profilpár áttekintése')
 c.setAuthor('SIM CONTROL STUDIO')
 PW,PH=A4
 def color(hexvalue,fallback='#ef3340'):

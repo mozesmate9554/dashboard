@@ -37,6 +37,7 @@ jobs:
           mkdir -p ../ci-results
           flutter --version --machine > ../ci-results/flutter-version.json
           flutter pub get
+          python3 -c 'import json,pathlib; print(json.dumps({"dependencyLock":pathlib.Path("pubspec.lock").read_text()}))'
           python3 -c 'import os,json; json.dump({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"url":"https://github.com/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"]},open("../ci-results/provenance.json","w"))'
       - name: Profile and native-project data validation
         working-directory: .
@@ -191,6 +192,7 @@ jobs:
             if ($app.MainWindowTitle -notlike '*SIM CONTROL STUDIO 0.2.0*') { throw "Unexpected application window: $($app.MainWindowTitle)" }
             @{ version = '0.2.0'; install = 'passed'; winFormsStartup = 'passed'; windowTitle = $app.MainWindowTitle; realGameInput = 'not_tested' } | ConvertTo-Json | Set-Content tests/results/windows-installer-smoke.json
           } finally { if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force } }
+          Get-Content tests/results/windows-installer-smoke.json
           Start-Process (Join-Path $installDir 'Uninstall.exe') -ArgumentList '/S' -Wait
       - name: Upload Windows executables
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

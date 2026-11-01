@@ -8,7 +8,7 @@ import 'package:sim_control_studio/demo.dart';
 import 'package:sim_control_studio/hybrid.dart';
 
 void main() {
-  testWidgets('Every base page renders at phone and tablet sizes with unavailable data', (tester) async {
+  testWidgets('All base and hybrid pages render in portrait, landscape and tablet, with missing and DEMO data', (tester) async {
     final json = jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String, dynamic>;
     for (final size in [const Size(360, 800), const Size(900, 420), const Size(1366, 1024)]) {
       tester.view.devicePixelRatio = 1;
