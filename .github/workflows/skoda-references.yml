@@ -1,0 +1,23 @@
+name: Skoda reference comparison evidence
+on:
+  push:
+    branches: [main, 'release/**']
+    paths: ['tools/build_reference_evidence.py', '.github/workflows/skoda-references.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  references:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build attributed source-photo evidence document
+        run: |
+          python3 -m pip install reportlab==4.4.9
+          python3 tools/build_reference_evidence.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SKODA-reference-evidence-${{ github.sha }}
+          path: reference-evidence/
+          if-no-files-found: error

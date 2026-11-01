@@ -246,10 +246,9 @@ jobs:
       - name: Install and launch on an available iPhone simulator
         run: |
           xcrun simctl list devices available --json > ../ios-ci/simulator-devices.json
-          studio_simulator=$(python3 -c 'import json; j=json.load(open("../ios-ci/simulator-devices.json")); devices=[d for runtime,ds in sorted(j["devices"].items(),reverse=True) if "iOS" in runtime for d in ds if d.get("isAvailable") and "iPhone" in d["name"]]; assert devices,"No iPhone simulator available"; print(devices[0]["udid"])')
+          studio_simulator=$(python3 -c 'import json; j=json.load(open("../ios-ci/simulator-devices.json")); devices=[d for runtime,ds in sorted(j["devices"].items(),key=lambda item:("iOS-18-5" in item[0],item[0]),reverse=True) if "iOS" in runtime for d in ds if d.get("isAvailable") and "iPhone" in d["name"]]; assert devices,"No iPhone simulator available"; print(devices[0]["udid"])')
           echo "STUDIO_SIMULATOR=$studio_simulator" >> "$GITHUB_ENV"
-          xcrun simctl boot "$studio_simulator" || true
-          xcrun simctl bootstatus "$studio_simulator" -b
+          python3 -c 'import subprocess,sys; subprocess.run(["xcrun","simctl","boot",sys.argv[1]],timeout=60); subprocess.run(["xcrun","simctl","bootstatus",sys.argv[1],"-b"],check=True,timeout=360)' "$studio_simulator"
           xcrun simctl install "$studio_simulator" build/ios/iphonesimulator/Runner.app
           launch_output=$(xcrun simctl launch "$studio_simulator" hu.simcontrol.studio)
           printf '%s\n' "$launch_output" | tee ../ios-ci/simulator-launch.txt
@@ -258,10 +257,26 @@ jobs:
           kill -0 "$studio_process"
           xcrun simctl io "$studio_simulator" screenshot ../ios-ci/iphone-startup.png
           python3 -c 'import os,json; json.dump({"version":"0.3.0","commit":os.environ["GITHUB_SHA"],"runUrl":"https://github.com/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"],"simulatorInstall":"passed","simulatorLaunch":"passed","physicalIphoneTest":False,"signedIpa":False,"testFlight":False},open("../ios-ci/provenance.json","w"),indent=2)'
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Native iOS TLS, Keychain, telemetry and command integration
+        run: |
+          set -o pipefail
+          dotnet run --project ../tests/Mobile.BridgeFixture -c Release > "$RUNNER_TEMP/studio-native-fixture.log" 2>&1 &
+          studio_fixture_pid=$!
+          trap 'kill "$studio_fixture_pid" 2>/dev/null || true' EXIT
+          studio_fixture_ready=0
+          for attempt in $(seq 1 40); do
+            if curl --fail --silent http://127.0.0.1:19759/session > /dev/null; then studio_fixture_ready=1; break; fi
+            sleep 1
+          done
+          if [[ "$studio_fixture_ready" != 1 ]]; then cat "$RUNNER_TEMP/studio-native-fixture.log"; exit 1; fi
+          flutter drive --driver=test_driver/native_driver.dart --target=integration_test/native_bridge_test.dart -d "$STUDIO_SIMULATOR" 2>&1 | tee ../ios-ci/native-bridge-integration.log
       - name: Build iPhone ARM64 release without signing
         run: |
           set -o pipefail
-          flutter build ios --release --no-codesign --no-pub 2>&1 | tee ../ios-ci/device-unsigned-build.log
+          flutter build ios --release --no-codesign --no-pub --target lib/main.dart 2>&1 | tee ../ios-ci/device-unsigned-build.log
           test -d build/ios/iphoneos/Runner.app
           ditto -c -k --sequesterRsrc --keepParent build/ios/iphoneos/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip
       - name: Upload actual iOS outputs and evidence
