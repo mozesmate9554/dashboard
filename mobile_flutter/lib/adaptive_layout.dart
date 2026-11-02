@@ -35,13 +35,15 @@ StudioLayout adaptLayout(StudioLayout source, int page, Size viewport) {
       final instrumentArea=height>width?Rect.fromLTWH(8,8,width-16,height*.48-12):Rect.fromLTWH(8,8,width*.62-12,height-16);
       final controlArea=height>width?Rect.fromLTWH(8,height*.48+4,width-16,height*.52-12):Rect.fromLTWH(width*.62+4,8,width*.38-12,height-16);
       final controlPages=_controlPages(controls,controlArea);
-      final instrumentPages=_instrumentPages(instruments,instrumentArea);
+      final instrumentPages=_instrumentPages(instruments,instrumentArea,repeatPrimary:true);
       mobilePages=[];
       for(var i=0;i<math.max(controlPages.length,instrumentPages.length);i++){
         final copy=instrumentPages[i%instrumentPages.length].map(deepCopy).toList();
         for(final e in copy) { e['id']='${e['id']}@mobile$i'; }
         _dashboard(copy,instrumentArea,height>width);
-        mobilePages.add([...copy,...(i<controlPages.length?controlPages[i]:<Map<String,dynamic>>[])]);
+        final controlsCopy=controlPages[i%controlPages.length].map(deepCopy).toList();
+        for(final e in controlsCopy){e['id']='${e['id']}@group$i';}
+        mobilePages.add([...copy,...controlsCopy]);
       }
     }
   } else {
@@ -59,11 +61,20 @@ StudioLayout adaptLayout(StudioLayout source, int page, Size viewport) {
   return StudioLayout(data);
 }
 
-List<List<Map<String,dynamic>>> _instrumentPages(List<Map<String,dynamic>> items, Rect area){
+List<List<Map<String,dynamic>>> _instrumentPages(List<Map<String,dynamic>> items, Rect area,{bool repeatPrimary=false}){
   final columns=math.max(1,(area.width/148).floor());
   final rows=math.max(1,((area.height-26)/100).floor());
   final capacity=math.max(columns*rows,(items.length/8).ceil());
   final pages=<List<Map<String,dynamic>>>[];
+  if(repeatPrimary && items.length>capacity){
+    final primary=items.where((e)=>{'gear','speed','rpm'}.contains(e['field'])).toList();
+    final rest=items.where((e)=>!primary.contains(e)).toList();
+    final chunk=math.max(2,math.max(capacity-primary.length,(rest.length/8).ceil()));
+    for(var offset=0;offset<rest.length;offset+=chunk){
+      pages.add([...primary,...rest.sublist(offset,math.min(rest.length,offset+chunk))]);
+    }
+    return pages.isEmpty?[items]:pages;
+  }
   for(var offset=0;offset<items.length;offset+=capacity){
     pages.add(items.sublist(offset,math.min(items.length,offset+capacity)));
   }

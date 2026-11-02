@@ -43,6 +43,7 @@ void main() {
       await until(() => connection.connected && connection.telemetry.value?.fresh == true);
       expect(connection.deviceId, identity);
       expect(connection.target!.token, isNull); // Reconnect used persisted Keychain/Keystore credentials.
+      if(Platform.isAndroid){await binding.convertFlutterSurfaceToImage();await tester.pump();}
       for(final (orientation,orientations) in [
         ('portrait',[DeviceOrientation.portraitUp]),
         ('landscape',[DeviceOrientation.landscapeLeft]),

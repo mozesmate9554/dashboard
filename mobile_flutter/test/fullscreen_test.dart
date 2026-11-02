@@ -25,8 +25,8 @@ void main() {
           for(final size in [const Size(360,680),const Size(844,300),const Size(1024,1280)]){
             final adaptive=adaptLayout(layout,page,size);adaptive.validate();
             expect(adaptive.width/adaptive.height,closeTo(size.width/size.height,.001));
-            final originalActions=layout.elements(page).where((e)=>e['action']!=null).map((e)=>e['action']).toList()..sort();
-            final shownActions=adaptive.pages.expand((p)=>(p['elements'] as List).cast<Map<String,dynamic>>()).where((e)=>e['action']!=null).map((e)=>e['action']).toList()..sort();
+            final originalActions=layout.elements(page).where((e)=>e['action']!=null).map((e)=>e['action']).toSet().toList()..sort();
+            final shownActions=adaptive.pages.expand((p)=>(p['elements'] as List).cast<Map<String,dynamic>>()).where((e)=>e['action']!=null).map((e)=>e['action']).toSet().toList()..sort();
             expect(shownActions,originalActions,reason:'${layout.id} page $page');
             for(final e in adaptive.pages.expand((p)=>(p['elements'] as List).cast<Map<String,dynamic>>()).where((e)=>controlKinds.contains(e['kind']))){
               expect((e['w'] as num).toDouble(),greaterThanOrEqualTo(48));
