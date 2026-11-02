@@ -1,592 +1,195 @@
 {
   "application": "SIM CONTROL STUDIO",
-  "version": "0.2.0",
-  "generatedAtUtc": "2026-11-01T21:34:11.283138+00:00",
-  "releaseKind": "installable_preview",
-  "fullSpecificationAccepted": false,
-  "physicalTestsPerformed": false,
-  "buildProvenance": {
-    "commit": "76dc048f17152709c2114ea2579a5876dcda0e9f",
-    "runId": "41351637902",
-    "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-    "artifacts": [
-      {
-        "id": 13101786578,
-        "name": "SIM_CONTROL_STUDIO-Android-76dc048f17152709c2114ea2579a5876dcda0e9f",
-        "bytes": 37686722,
-        "digest": "sha256:d931d349bfa9ba0d17a5b5905e4f8f7dceb9cc96d66e8ff3195a5cf21a738f4f"
-      },
-      {
-        "id": 13101463643,
-        "name": "SIM_CONTROL_STUDIO-Windows-76dc048f17152709c2114ea2579a5876dcda0e9f",
-        "bytes": 101589386,
-        "digest": "sha256:cc608d0b836f01e14197379c483aeb8a4fbeec88db28ff4c42138c744212e4b6"
-      },
-      {
-        "id": 13101388983,
-        "name": "Windows-check-results-76dc048f17152709c2114ea2579a5876dcda0e9f",
-        "bytes": 2342,
-        "digest": "sha256:01530a35af0bd298580bc0c6e233c94ad0506295ee3152e74f2d425f19a6d6be"
-      },
-      {
-        "id": 13101319841,
-        "name": "Android-check-results-76dc048f17152709c2114ea2579a5876dcda0e9f",
-        "bytes": 11392,
-        "digest": "sha256:630001b7962d04dfa133cf99cec75dc8c7b2a65fbb0f639fa8e87c27f22f4e09"
-      }
-    ]
-  },
-  "demoAvailable": true,
-  "syntheticTelemetryIsExplicitlyLabeled": true,
+  "version": "0.3.0",
+  "reportKind": "delivery_summary_from_verified_CI",
+  "generatedAtUtc": "2026-11-02T01:11:57Z",
+  "applicationSourceCommit": "4293ce2be082bf15e150b75b8225a89e3dad1f6a",
+  "sourceTag": "v0.3.0",
+  "nativeBuildRun": "https://github.com/mozesmate9554/dashboard/actions/runs/41368420342",
+  "packagingRun": "https://github.com/mozesmate9554/dashboard/actions/runs/41370703992",
+  "packagingConclusion": "success",
+  "jobs": [
+    {
+      "name": "android-native",
+      "conclusion": "success",
+      "sourceCommit": "4293ce2be082bf15e150b75b8225a89e3dad1f6a",
+      "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41368420342/job/125033752475"
+    },
+    {
+      "name": "ios",
+      "conclusion": "success",
+      "sourceCommit": "4293ce2be082bf15e150b75b8225a89e3dad1f6a",
+      "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41368420342/job/125033752729"
+    },
+    {
+      "name": "android",
+      "conclusion": "success",
+      "sourceCommit": "4293ce2be082bf15e150b75b8225a89e3dad1f6a",
+      "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41368420342/job/125033752736"
+    },
+    {
+      "name": "windows",
+      "conclusion": "success",
+      "sourceCommit": "4293ce2be082bf15e150b75b8225a89e3dad1f6a",
+      "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41368420342/job/125033752857"
+    }
+  ],
   "tests": {
-    "bridge": {
-      "passed": 22,
-      "failed": 0,
-      "environment": "Microsoft Windows 10.0.26100; .NET 10.0.14; binary fixtures and real local TLS; no live game"
-    },
-    "profiles": {
-      "passed": 25,
-      "failed": 0
-    },
-    "flutter": {
-      "passed": 13,
-      "failed": 0,
-      "analyzer": "No issues found",
-      "scope": "Flutter VM/widget; software rendering, not physical device"
-    },
-    "realGameTests": "not_run"
+    "flutter": 21,
+    "profiles": 26,
+    "bridge": 22,
+    "analyzer": "No issues found",
+    "androidNative": "passed; Android 16 / API 36 emulator; TLS, Keystore, telemetry, touch, reconnect, actual bar visibility and all three roles in portrait/landscape",
+    "iosNative": "passed; Xcode 16.4 (16F6), iPhone 16 Pro simulator; TLS, Keychain, telemetry, touch, reconnect and all three roles in portrait/landscape",
+    "windows": "Self-contained executable, silent NSIS install and actual WinForms startup passed"
   },
-  "features": [
+  "android": {
+    "apkBytes": 74703617,
+    "apkSha256": "f8311de93898b32926e94ff762535ef778eb132b5b9b080a2fc8be8db6bab839",
+    "v2SignatureVerified": true,
+    "certificateSha256": "847cc2bed4daff0fe8cefbbe9d662f79f0cf370d780353b3a5c6c450e4b31ed6",
+    "signingKind": "ephemeral_preview_reinstall_may_be_required",
+    "physicalDeviceTestByDeveloper": false
+  },
+  "ios": {
+    "simulatorApplicationIncluded": true,
+    "arm64ReleaseCompiledWithoutSigning": true,
+    "signedIpa": false,
+    "testFlight": false,
+    "physicalIphoneTest": false,
+    "appleDeveloperMembershipProvided": false
+  },
+  "profiles": {
+    "count": 20,
+    "baseLayouts": 40,
+    "other19ByteIdenticalTo020": true,
+    "skodaReconstructionSurfaces": [
+      "driver_display",
+      "central_console"
+    ],
+    "steeringWheelGraphicAdded": false,
+    "editableVectorControls": 16,
+    "fidelity": "Photo-derived reconstruction; unverified geometry/font/LED count/switch functions marked as reconstruction"
+  },
+  "preservation": {
+    "rallyDecoderAndWindowsInputControlFiles": "Byte-identical to cfa4b0d72d266c5112ddf67fd4c76856762147dc; MEGORZES_0.3.0.md",
+    "personalLayouts": "Preserved; export before any Android uninstall",
+    "liveAndroidWindowsRally": "User reports existing production use; new 0.3.0 physical acceptance remains necessary"
+  },
+  "delivery": {
+    "method": "GitHub Actions artifacts",
+    "githubSignInRequired": true,
+    "retentionDays": 90,
+    "githubReleases": "Creation denied with HTTP 403; no published Releases page is claimed",
+    "apkArtifactDownloadedThroughConnector": true,
+    "downloads": {
+      "SIM_CONTROL_STUDIO_0.3.0_COMPLETE_RELEASE": {
+        "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41370703992/artifacts/13109207305",
+        "artifactId": 13109207305,
+        "bytes": 225195789,
+        "expiresAt": "2027-01-31T01:06:38Z",
+        "archiveDigest": "sha256:c292820ae63af5b9ca19b2a3f44d01809aa42cfd07dfc4e9c990fcfbf7604afd"
+      },
+      "SIM_CONTROL_STUDIO_0.3.0_SKODA_PREVIEWS": {
+        "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41370703992/artifacts/13109157611",
+        "artifactId": 13109157611,
+        "bytes": 20923684,
+        "expiresAt": "2027-01-31T01:06:38Z",
+        "archiveDigest": "sha256:960bccf7b52e70031b9cfb9cdf7c009a35b13a069e01a119797410dd3c8f7839"
+      },
+      "SIM_CONTROL_STUDIO_0.3.0_iOS_BUILDS": {
+        "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41370703992/artifacts/13109073070",
+        "artifactId": 13109073070,
+        "bytes": 62349134,
+        "expiresAt": "2027-01-31T01:06:38Z",
+        "archiveDigest": "sha256:3f477bb8e7a94489587b3cce28524ab9f45929c086f66c28a4e579ae7004118a"
+      },
+      "SIM_CONTROL_STUDIO_0.3.0_ANDROID_APK": {
+        "url": "https://github.com/mozesmate9554/dashboard/actions/runs/41370703992/artifacts/13108574855",
+        "artifactId": 13108574855,
+        "bytes": 37899649,
+        "expiresAt": "2027-01-31T01:06:38Z",
+        "archiveDigest": "sha256:f3806865a9f850871a084cb0dd693daab1a6a9aac581d0f15328323f154460e5"
+      }
+    }
+  },
+  "assets": [
     {
-      "id": "A001",
-      "group": "Bridge",
-      "feature": "Rally byte-offset dekóder, sebesség/RPM/fokozat/pedálok",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_RELEASE.zip",
+      "bytes": 225622393,
+      "sha256": "9b05706d24542235b91f7363607dbbd9a0431597be4576a6d382e3c74ce424f9"
     },
     {
-      "id": "A002",
-      "group": "Bridge",
-      "feature": "Hiányzó és elavult mezők megkülönböztetése",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Source.zip",
+      "bytes": 2298386,
+      "sha256": "13b6e4704f6ebfd972365459b83433cafab539d32dc6e27e3489a903772a7a66"
     },
     {
-      "id": "A003",
-      "group": "Bridge",
-      "feature": "Hibás/NaN bináris adatok elutasítása",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip",
+      "bytes": 58026110,
+      "sha256": "f81dd5d7925abb9a37f8e5cc814953b44edaaafc365978d8a69d86377d14103e"
     },
     {
-      "id": "A004",
-      "group": "Bridge",
-      "feature": "Első nulla packet ID, ismétlődés, újraindulás",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Skoda_Previews.zip",
+      "bytes": 20917462,
+      "sha256": "004722677ef12773c6e157243e16f5550a58b6209eb9e5b77c4841fa9d58bd14"
     },
     {
-      "id": "A005",
-      "group": "Bridge",
-      "feature": "TLS WebSocket hitelesítés és ujjlenyomat",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip",
+      "bytes": 8629415,
+      "sha256": "dfdcf095c438f77e25ab26801c1d7d41ff5c8daf39cd6cb2dfe04391074b3c1f"
     },
     {
-      "id": "A006",
-      "group": "Bridge",
-      "feature": "Két hálózati kliens párhuzamos telemetriája",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip",
+      "bytes": 54386782,
+      "sha256": "ddf536510db5445356444364c1b307a9a33a1baef57ee1339aa13f8fa9a8957e"
     },
     {
-      "id": "A007",
-      "group": "Bridge",
-      "feature": "Kliens bontása és hitelesített újracsatlakozása",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SKODA_REFERENCE_COMPARISON_0.3.0.pdf",
+      "bytes": 13928213,
+      "sha256": "5823669d7695e589578a63f98d8cb01315da1736e01cb49e8c09e2660d5d4746"
     },
     {
-      "id": "A008",
-      "group": "Bridge",
-      "feature": "Tokenes párosítás és SHA-256 készüléktitok-tárolás",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "STATUS.json",
+      "bytes": 6823,
+      "sha256": "e0050d740cc39abef32ff5aca9251aab628b7b8681aa760bce112276d7f6cbe3"
     },
     {
-      "id": "A009",
-      "group": "Bridge",
-      "feature": "Jogosultság-visszavonás",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SKODA_DASHBOARD_0.3.0.png",
+      "bytes": 347861,
+      "sha256": "83bc52ebcda5eefbbb16922b19bff29994595c7cad29aa1442c1431ec29879f6"
     },
     {
-      "id": "A010",
-      "group": "Bridge",
-      "feature": "Parancsok ismétlődés- és sorrendvédelme",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SKODA_DASHBOARD_COMPARISON_0.3.0.png",
+      "bytes": 1377216,
+      "sha256": "5ef9fb681598ae3d18e8d3bdff92b77ae1d5233fc9ea9fb91056e19056c09d10"
     },
     {
-      "id": "A011",
-      "group": "Bridge",
-      "feature": "Billentyűfelengedés bontás/fókuszvesztés esetén",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SKODA_PANEL_0.3.0.png",
+      "bytes": 1257508,
+      "sha256": "265341c8dbf7206760e513dac9e7c5e2455d28825aa362ad95ffa0e78686aab5"
     },
     {
-      "id": "A012",
-      "group": "Bridge",
-      "feature": "Módosítóbillentyűk közös tulajdonlása",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SKODA_PANEL_COMPARISON_0.3.0.png",
+      "bytes": 6784906,
+      "sha256": "34e2f9512c3da78953b9cad570c1c857cebb9bd06617f36c0bd99bef748af944"
     },
     {
-      "id": "A013",
-      "group": "Bridge",
-      "feature": "Ismételt input hibavisszajelzése",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
+      "file": "SIM_CONTROL_STUDIO_0.3.0.apk",
+      "bytes": 74703617,
+      "sha256": "f8311de93898b32926e94ff762535ef778eb132b5b9b080a2fc8be8db6bab839"
     },
     {
-      "id": "A014",
-      "group": "Bridge",
-      "feature": "Bridge konfiguráció validálása és tárolása",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
-    },
-    {
-      "id": "A015",
-      "group": "Fizikai ellenőrzés",
-      "feature": "Windows SendInput tényleges játékhatás",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Linux környezet, nincs futó játék vagy fizikai eszköz.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A016",
-      "group": "Fizikai ellenőrzés",
-      "feature": "Rally named mapping és az aktuális játékverzió",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Linux környezet, nincs futó játék vagy fizikai eszköz.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A017",
-      "group": "Fizikai ellenőrzés",
-      "feature": "Két fizikai mobil Wi-Fi-n",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Linux környezet, nincs futó játék vagy fizikai eszköz.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A018",
-      "group": "Fizikai ellenőrzés",
-      "feature": "Windows WinForms felület és tálca futtatása",
-      "status": "Részlegesen működik",
-      "evidence": "Windows CI-ben telepítés és főablak-indítás automatizált smoke tesztje.",
-      "remaining": "Teljes interaktív WinForms/tálca használat nincs manuálisan ellenőrizve.",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A019",
-      "group": "Fizikai ellenőrzés",
-      "feature": "iPhone/iPad natív futás",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Linux környezet, nincs futó játék vagy fizikai eszköz.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A020",
-      "group": "Fizikai ellenőrzés",
-      "feature": "Android fizikai futás",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Linux környezet, nincs futó játék vagy fizikai eszköz.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A021",
-      "group": "Bridge",
-      "feature": "Profillal elkülönített billentyűkiosztások",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A022",
-      "group": "Bridge",
-      "feature": "Parancsfogadás lenyomási idő alatti késleltetése",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A023",
-      "group": "Bridge",
-      "feature": "Eszközlista aktív szerep/profil/késleltetés",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A024",
-      "group": "Bridge",
-      "feature": "Telepítő",
-      "status": "Kész és tesztelt",
-      "evidence": "NSIS telepítő; Windows CI csendes telepítés és WinForms-ablak indítás; tests/results/windows-installer-smoke.json",
-      "remaining": "Interaktív tálca-, QR- és játékvezérlési ellenőrzés még szükséges.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A025",
-      "group": "Mobil",
-      "feature": "Natív Flutter projekt Android/iOS",
-      "status": "Részlegesen működik",
-      "evidence": "Android: valódi release build és Flutter-tesztek. iOS: projektfájlok statikus ellenőrzése.",
-      "remaining": "iOS Xcode-fordítás és aláírás nincs; ez nem teljes körű kétplatformos buildigazolás.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A026",
-      "group": "Mobil",
-      "feature": "Műszerfal / kezelőpanel / hibrid szerep",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A027",
-      "group": "Mobil",
-      "feature": "QR és kézi IP-párosítás",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A028",
-      "group": "Mobil",
-      "feature": "Helyi és biztonságos mobilbeállítás-tárolás",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A029",
-      "group": "Mobil",
-      "feature": "DEMO mód",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A030",
-      "group": "Mobil",
-      "feature": "Élő és szimulált adat egyértelmű elválasztása",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A031",
-      "group": "Profilok",
-      "feature": "20 eredeti autóazonosító és 40 külön elrendezés",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
-    },
-    {
-      "id": "A032",
-      "group": "Profilok",
-      "feature": "Autónkénti gyári grafikai hűség",
-      "status": "Részlegesen működik",
-      "evidence": "20 megőrzött autópár; 1 részleges referencia, 19 inspirált. PROFILE_COMPLETENESS_0.2.0.md.",
-      "remaining": "Nincs hitelesített gyári pixelgeometria vagy teljes kapcsolókiosztás.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A033",
-      "group": "Profilok",
-      "feature": "Minden alapoldal natív megjelenítése",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A034",
-      "group": "Profilok",
-      "feature": "Gombok tényleges játékspecifikus kiosztása",
-      "status": "Részlegesen működik",
-      "evidence": "Alapértelmezésben üres, biztonságos Bridge-kiosztás.",
-      "remaining": "A konkrét játékban elérhető funkciók és munkamenetek éles ellenőrzése hiányzik; további adapterek nem készültek.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A035",
-      "group": "Szerkesztő",
-      "feature": "Új profil és másolat",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A036",
-      "group": "Szerkesztő",
-      "feature": "Mozgatás/méretezés érintéssel",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A037",
-      "group": "Szerkesztő",
-      "feature": "Forgatás és rétegsorrend",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A038",
-      "group": "Szerkesztő",
-      "feature": "Rács, zárolás, név szerinti csoport",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A039",
-      "group": "Szerkesztő",
-      "feature": "Színek, szöveg, betűméret",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A040",
-      "group": "Szerkesztő",
-      "feature": "SVG/PNG import és hordozható JSON",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A041",
-      "group": "Szerkesztő",
-      "feature": "Undo/redo és helyi mentés",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A042",
-      "group": "Szerkesztő",
-      "feature": "Feltételes láthatóság/engedélyezés",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A043",
-      "group": "Szerkesztő",
-      "feature": "Többoldalas panelek",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A044",
-      "group": "Szerkesztő",
-      "feature": "Adatmező és vezérlőművelet hozzárendelése",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Kész, de még nem tesztelt"
-    },
-    {
-      "id": "A045",
-      "group": "Szerkesztő",
-      "feature": "Élő előnézet",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A046",
-      "group": "Szerkesztő",
-      "feature": "Igazítási műveletek",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A047",
-      "group": "Szerkesztő",
-      "feature": "Átlátszóság szerkesztése",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A048",
-      "group": "Kezelőelemek",
-      "feature": "Három-/többállású választó",
-      "status": "Részlegesen működik",
-      "evidence": "A forrás lefordult; modell-, mentési és renderelési tesztek futottak.",
-      "remaining": "A teljes érintéses munkafolyamat, rendszermegosztás, kamera és Keychain/Keystore integráció fizikai tesztje hiányzik. A választók relatív parancsot küldenek; a kért pozíció nem igazolt játékállapot.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A049",
-      "group": "Kezelőelemek",
-      "feature": "Állapot és parancs-visszaigazolás különbsége",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
-    },
-    {
-      "id": "A050",
-      "group": "Kezelőelemek",
-      "feature": "Nézetváltáskor tartott gomb életciklusa",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A051",
-      "group": "Build",
-      "feature": "Windows x64 self-contained build",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Kész és tesztelt"
-    },
-    {
-      "id": "A052",
-      "group": "Build",
-      "feature": "Android APK",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A053",
-      "group": "Build",
-      "feature": "GitHub Actions workflow",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A054",
-      "group": "Build",
-      "feature": "iOS aláírt IPA",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Nincs macOS/Xcode/Apple aláírás.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A055",
-      "group": "Teljesítmény",
-      "feature": "30/60 FPS és Wi-Fi késleltetés",
-      "status": "Külső környezet miatt nem ellenőrizhető",
-      "evidence": "Nincs natív alkalmazás/telefonos mérés.",
-      "remaining": "",
-      "baselineStatus": "Külső környezet miatt nem ellenőrizhető"
-    },
-    {
-      "id": "A056",
-      "group": "Teljesítmény",
-      "feature": "Mérhető helyi hálózati benchmark",
-      "status": "Kész és tesztelt",
-      "evidence": "Bridge regresszió és valódi loopback TLS; Flutter analyzer és futtatott tesztek; CI: https://github.com/mozesmate9554/dashboard/actions/runs/41351637902",
-      "remaining": "Automatizált ellenőrzés a dokumentált környezetben. Fizikai játék-, mobil- és Wi-Fi-teszt ebből nem következik.",
-      "baselineStatus": "Hiányzik"
-    },
-    {
-      "id": "A057",
-      "group": "Integrációk",
-      "feature": "AC/ACC/BeamNG",
-      "status": "Részlegesen működik",
-      "evidence": "Kódolt adapterek, részben bináris tesztek; éles játékellenőrzés nincs.",
-      "remaining": "A konkrét játékban elérhető funkciók és munkamenetek éles ellenőrzése hiányzik; további adapterek nem készültek.",
-      "baselineStatus": "Részlegesen működik"
-    },
-    {
-      "id": "A058",
-      "group": "Integrációk",
-      "feature": "További játékok és online munkamenetek",
-      "status": "Részlegesen működik",
-      "evidence": "Bővítési pontok és not_run mátrix.",
-      "remaining": "A konkrét játékban elérhető funkciók és munkamenetek éles ellenőrzése hiányzik; további adapterek nem készültek.",
-      "baselineStatus": "Részlegesen működik"
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe",
+      "bytes": 41784194,
+      "sha256": "32cf960f052d6eeeec6c35d30a008e632dee5c7f56c72a6e1d215f356a6eaa18"
     }
   ],
   "remaining": [
-    "Actual ACR version/memory/gear conventions and game input effect",
-    "Two physical mobiles over Wi-Fi and measured mobile FPS",
-    "Physical Android install, camera and secure storage",
-    "Signed iOS build with macOS/Xcode/Apple credentials",
-    "Factory cockpit references",
-    "Additional game/mode integrations",
-    "Full English translation"
-  ]
+    "Own Apple signing/macOS before physical iPhone installation; Apple Developer/App Store Connect before TestFlight",
+    "Physical iPhone/Android LAN, QR/camera, safe areas and live Rally regression acceptance",
+    "Actual Wi-Fi latency, phone FPS, heat and two physical mobile devices",
+    "Unverified factory details remain marked reconstruction; other 19 detailed graphics intentionally deferred"
+  ],
+  "nativeBuildRunConclusion": "Four native jobs succeeded; the obsolete in-run packaging job failed. The separate final packagingRun completed successfully."
 }

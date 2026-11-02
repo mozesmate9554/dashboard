@@ -1,0 +1,75 @@
+{
+  "sourceCommit": "4293ce2be082bf15e150b75b8225a89e3dad1f6a",
+  "assets": [
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_RELEASE.zip",
+      "bytes": 225622393,
+      "sha256": "9b05706d24542235b91f7363607dbbd9a0431597be4576a6d382e3c74ce424f9"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Source.zip",
+      "bytes": 2298386,
+      "sha256": "13b6e4704f6ebfd972365459b83433cafab539d32dc6e27e3489a903772a7a66"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip",
+      "bytes": 58026110,
+      "sha256": "f81dd5d7925abb9a37f8e5cc814953b44edaaafc365978d8a69d86377d14103e"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Skoda_Previews.zip",
+      "bytes": 20917462,
+      "sha256": "004722677ef12773c6e157243e16f5550a58b6209eb9e5b77c4841fa9d58bd14"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip",
+      "bytes": 8629415,
+      "sha256": "dfdcf095c438f77e25ab26801c1d7d41ff5c8daf39cd6cb2dfe04391074b3c1f"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip",
+      "bytes": 54386782,
+      "sha256": "ddf536510db5445356444364c1b307a9a33a1baef57ee1339aa13f8fa9a8957e"
+    },
+    {
+      "file": "SKODA_REFERENCE_COMPARISON_0.3.0.pdf",
+      "bytes": 13928213,
+      "sha256": "5823669d7695e589578a63f98d8cb01315da1736e01cb49e8c09e2660d5d4746"
+    },
+    {
+      "file": "STATUS.json",
+      "bytes": 6823,
+      "sha256": "e0050d740cc39abef32ff5aca9251aab628b7b8681aa760bce112276d7f6cbe3"
+    },
+    {
+      "file": "SKODA_DASHBOARD_0.3.0.png",
+      "bytes": 347861,
+      "sha256": "83bc52ebcda5eefbbb16922b19bff29994595c7cad29aa1442c1431ec29879f6"
+    },
+    {
+      "file": "SKODA_DASHBOARD_COMPARISON_0.3.0.png",
+      "bytes": 1377216,
+      "sha256": "5ef9fb681598ae3d18e8d3bdff92b77ae1d5233fc9ea9fb91056e19056c09d10"
+    },
+    {
+      "file": "SKODA_PANEL_0.3.0.png",
+      "bytes": 1257508,
+      "sha256": "265341c8dbf7206760e513dac9e7c5e2455d28825aa362ad95ffa0e78686aab5"
+    },
+    {
+      "file": "SKODA_PANEL_COMPARISON_0.3.0.png",
+      "bytes": 6784906,
+      "sha256": "34e2f9512c3da78953b9cad570c1c857cebb9bd06617f36c0bd99bef748af944"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0.apk",
+      "bytes": 74703617,
+      "sha256": "f8311de93898b32926e94ff762535ef778eb132b5b9b080a2fc8be8db6bab839"
+    },
+    {
+      "file": "SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe",
+      "bytes": 41784194,
+      "sha256": "32cf960f052d6eeeec6c35d30a008e632dee5c7f56c72a6e1d215f356a6eaa18"
+    }
+  ]
+}

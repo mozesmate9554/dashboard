@@ -2,7 +2,7 @@
 
 Natív Flutter műszerfal, kezelőpanel és hibrid kijelző, külön .NET 10 Windows Bridge-dzsel. A meglévő projekt, Git-előzmény, 20 autó és 40 alapelrendezés megmaradt. A másik 19 autó grafikai fájljai változatlanok.
 
-**[Letöltés és kiadási bizonyítékok](https://github.com/mozesmate9554/dashboard/actions/workflows/release-verified.yml)** · [Buildfutások](https://github.com/mozesmate9554/dashboard/actions)
+**[Közvetlen letöltések és kiadási bizonyítékok](documentation/ALLAPOT.md)** · [Buildfutások](https://github.com/mozesmate9554/dashboard/actions)
 
 A 0.3.0 három fejlesztése: valódi iOS-build és szimulátoros natív kapcsolatellenőrzés; Android/iOS teljes képernyő adaptív álló/fekvő nézetekkel; Škoda Fabia RS Rally2 vezetői kijelző és külön középkonzol fotóalapú, interaktív rekonstrukciója. Kormánygrafika nem része az új Škodának. A DEMO, az autónkénti kiosztás, az élő kapcsolat és a személyes elrendezésszerkesztő megmaradt.
 
