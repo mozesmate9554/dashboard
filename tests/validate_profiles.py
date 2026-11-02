@@ -17,8 +17,8 @@ def check(name, action):
 catalog=json.loads((ROOT/'mobile_flutter/assets/catalog.json').read_text())
 vehicles=catalog['vehicles']
 KINDS={'number','gear','bar','leds','analog','pedals','gForce','tyres','text','image','svg','button','hold','toggle','threeState','multiState','rotary','stepper','slider','indicator','icon'}
-ALLOWED={'ignition','starter','lights','flash','wiper','radio','intercom','camera','pitLimiter','brakeBiasUp','brakeBiasDown','absUp','absDown','tcUp','tcDown','diffUp','diffDown','engineMapUp','engineMapDown','drs','ers','p2p','neutral','reverse','displayNext','displayPrevious','acknowledge','drink','fan','rainLight'}
-FIELDS={'speed','rpm','rpmLimit','gear','throttle','brake','clutch','steering','handbrake','ignition','engineRunning','waterTemp','oilTemp','oilPressure','turbo','fuel','consumption','range','engineMap','gearboxTemp','differential','faults','tyrePressure','tyreTempInner','tyreTempMiddle','tyreTempOuter','tyreWear','brakeTemp','wheelSpeed','wheelSlip','wheelLock','absActive','absLevel','tcActive','tcLevel','brakeBias','lapCurrent','lapLast','lapBest','sectors','delta','position','lap','lapsRemaining','timeRemaining','inPit','pitLimit','flags','drs','ers','hybridEnergy','battery','gX','gY','gZ','yaw','pitch','roll','suspension','stageTime','stageSplits','stageDistance','stageState','vehicleId','stageId','navigation','damage','sessionStatus','lights','wiperLevel','radioActive','intercomActive','starterActive'}
+ALLOWED={'ignition','starter','lights','flash','wiper','radio','intercom','camera','pitLimiter','brakeBiasUp','brakeBiasDown','absUp','absDown','tcUp','tcDown','diffUp','diffDown','engineMapUp','engineMapDown','drs','ers','p2p','neutral','reverse','displayNext','displayPrevious','acknowledge','drink','fan','rainLight','electricalMaster','auxMode','hazards','fogLights','demist','callAccept','callEnd','fireExtinguisher','intercomVolumeUp','intercomVolumeDown','radioVolumeUp','radioVolumeDown'}
+FIELDS={'speed','rpm','rpmLimit','gear','throttle','brake','clutch','steering','handbrake','ignition','engineRunning','waterTemp','oilTemp','oilPressure','turbo','fuel','consumption','range','engineMap','gearboxTemp','differential','faults','tyrePressure','tyreTempInner','tyreTempMiddle','tyreTempOuter','tyreWear','brakeTemp','wheelSpeed','wheelSlip','wheelLock','absActive','absLevel','tcActive','tcLevel','brakeBias','lapCurrent','lapLast','lapBest','sectors','delta','position','lap','lapsRemaining','timeRemaining','inPit','pitLimit','flags','drs','ers','hybridEnergy','battery','gX','gY','gZ','yaw','pitch','roll','suspension','stageTime','stageSplits','stageDistance','stageState','vehicleId','stageId','navigation','damage','sessionStatus','lights','wiperLevel','radioActive','intercomActive','starterActive','radioVolume','intercomVolume','sessionClock','driveMode','launchRpmLimit'}
 def counts():
     assert len(vehicles)==20
     assert len({v['id'] for v in vehicles})==20
@@ -32,7 +32,7 @@ for v in vehicles:
         assert v['fidelity'] in ('inspired','partial_reference')
         for role,key in [('dashboard','dashboard'),('panel','panel')]:
             layout=v[key];assert layout['vehicleId']==v['id'] and layout['role']==role
-            assert layout['schemaVersion']==1 and layout['version']=='0.2.0' and layout['isBase']
+            assert layout['schemaVersion']==1 and layout['version']==('0.3.0' if v['id']=='skoda-fabia-rs-rally2' else '0.2.0') and layout['isBase']
             ids=set();signature=[]
             assert 1<=len(layout['pages'])<=8
             for p in layout['pages']:
@@ -59,10 +59,22 @@ for v in vehicles:
     check(v['name']+' pair, bindings, bounds, SVG and provenance',validate)
 def skoda():
     v=next(v for v in vehicles if v['id']=='skoda-fabia-rs-rally2')
-    pages=v['panel']['pages'];assert [p['name'] for p in pages[:3]]==['Kormány','Középkonzol','Kombinált mobilpanel']
-    assert any(e.get('action')=='starter' for e in pages[0]['elements'])
-    assert any(e.get('action')=='intercom' for e in pages[1]['elements'])
-check('Skoda wheel starter / touch-console intercom / three views',skoda)
+    assert v['reconstructionScope']==['driver_display','central_console']
+    assert len(v['panel']['pages'])==1 and len(v['dashboard']['pages'])==3
+    controls=[e for e in v['panel']['pages'][0]['elements'] if e.get('action')]
+    assert len(controls)==16 and all(e.get('artwork') and e.get('assetId') for e in controls)
+    assert all('wheel' not in key for key in v['panel']['assets'])
+    assert all(e.get('action')!='starter' for e in controls)
+    before=json.loads((ROOT/'documentation/history/0.2.0/skoda-profile.json').read_text())
+    old={e['field'] for p in before['dashboard']['pages'] for e in p['elements'] if e.get('field')}
+    assert old<=set(v['dashboard']['supportedFields']),old-set(v['dashboard']['supportedFields'])
+check('Skoda: two photo-derived surfaces, editable artwork and preserved telemetry',skoda)
+def unchanged_profiles():
+    previous=json.loads((ROOT/'documentation/history/0.2.0/profile-sha256.json').read_text())
+    for car,expected in previous.items():
+        if car!='skoda-fabia-rs-rally2':
+            assert hashlib.sha256((ROOT/'vehicle_profiles'/car/'profile.json').read_bytes()).hexdigest()==expected,car
+check('Other 19 profile files remain byte-identical to the 0.2.0 baseline',unchanged_profiles)
 def native_xml():
     paths=list((ROOT/'mobile_flutter/android').rglob('*.xml'))+list((ROOT/'mobile_flutter/ios').rglob('*.plist'))+list((ROOT/'mobile_flutter/ios').rglob('*.storyboard'))+list((ROOT/'mobile_flutter/ios').rglob('*.entitlements'))+list((ROOT/'mobile_flutter/ios').rglob('*.xcscheme'))+list((ROOT/'mobile_flutter/ios').rglob('*.xcworkspacedata'))
     for p in paths:ET.parse(p)

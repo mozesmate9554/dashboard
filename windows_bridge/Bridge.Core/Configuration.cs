@@ -106,6 +106,6 @@ public static class ActionCatalog
         "ignition", "starter", "lights", "flash", "wiper", "radio", "intercom", "camera",
         "pitLimiter", "brakeBiasUp", "brakeBiasDown", "absUp", "absDown", "tcUp", "tcDown",
         "diffUp", "diffDown", "engineMapUp", "engineMapDown", "drs", "ers", "p2p", "neutral",
-        "reverse", "displayNext", "displayPrevious", "acknowledge", "drink", "fan", "rainLight"
+        "reverse", "displayNext", "displayPrevious", "acknowledge", "drink", "fan", "rainLight", "electricalMaster", "auxMode", "hazards", "fogLights", "demist", "callAccept", "callEnd", "fireExtinguisher", "intercomVolumeUp", "intercomVolumeDown", "radioVolumeUp", "radioVolumeDown"
     };
 }

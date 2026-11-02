@@ -55,8 +55,9 @@ class _StudioShellState extends State<StudioShell> {
     Icons.wifi,Icons.devices,Icons.monitor_heart_outlined,Icons.settings_outlined];
   String tr(String hu,String en) => store.language == 'en' ? en : hu;
   void _error(Object error) { if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString()))); }
-  Future<void> _use(VehicleProfile vehicle, String role, {bool open = true}) async {
+  Future<void> _use(VehicleProfile vehicle, String role, {bool open = true, bool useBase = false}) async {
     await store.set('vehicleId', vehicle.id); await store.set('role', role);
+    if(useBase)await store.selectLayout(role=='panel'?vehicle.panel:vehicle.dashboard);
     if (connection.connected) await connection.refreshSettings();
     connection.selectProfile(vehicle.id);
     if (open && mounted) await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => LiveDisplay(store: store, connection: connection, role: role)));
@@ -156,7 +157,7 @@ class _StudioShellState extends State<StudioShell> {
         return Card(child:Padding(padding:const EdgeInsets.all(14),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
           Expanded(child:ValueListenableBuilder<TelemetryFrame?>(valueListenable:connection.telemetry,builder:(context,frame,_)=>LayoutCanvas(layout:layout,frame:connection.localDemo?frame:null))),const SizedBox(height:10),Text(vehicle.name,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(fontWeight:FontWeight.w700,fontSize:16)),
           Text('${vehicle.category} / ${vehicle.data['modelYear']} · ${vehicle.fidelity=='partial_reference'?'Részleges referencia':'Autó által inspirált'}',style:const TextStyle(color:Colors.white38,fontSize:11)),
-          const SizedBox(height:10),Row(children:[Expanded(child:FilledButton.tonal(onPressed:()=>_use(vehicle,role=='panel'?'panel':'dashboard'),child:Text(tr('Használat','Use')))),
+          const SizedBox(height:10),Row(children:[Expanded(child:FilledButton.tonal(onPressed:()=>_use(vehicle,role=='panel'?'panel':'dashboard',useBase:true),child:Text(tr('Használat','Use')))),
             IconButton(onPressed:()=>_edit(layout),icon:const Icon(Icons.edit_outlined),tooltip:tr('Szerkesztés másolatként','Edit copy')),
             IconButton(onPressed:()=>_details(vehicle),icon:const Icon(Icons.info_outline),tooltip:tr('Referenciák','References'))]),
         ])));

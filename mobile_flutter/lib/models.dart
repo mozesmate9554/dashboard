@@ -11,7 +11,7 @@ const actions = <String>{
   'ignition', 'starter', 'lights', 'flash', 'wiper', 'radio', 'intercom', 'camera',
   'pitLimiter', 'brakeBiasUp', 'brakeBiasDown', 'absUp', 'absDown', 'tcUp', 'tcDown',
   'diffUp', 'diffDown', 'engineMapUp', 'engineMapDown', 'drs', 'ers', 'p2p', 'neutral',
-  'reverse', 'displayNext', 'displayPrevious', 'acknowledge', 'drink', 'fan', 'rainLight',
+  'reverse', 'displayNext', 'displayPrevious', 'acknowledge', 'drink', 'fan', 'rainLight', 'electricalMaster', 'auxMode', 'hazards', 'fogLights', 'demist', 'callAccept', 'callEnd', 'fireExtinguisher', 'intercomVolumeUp', 'intercomVolumeDown', 'radioVolumeUp', 'radioVolumeDown',
 };
 
 class TelemetryDatum {
@@ -70,6 +70,7 @@ Map<String, dynamic> deepCopy(Map<String, dynamic> value) {
 
 class StudioLayout {
   final Map<String, dynamic> data;
+  final Map<String,Uint8List> _decodedAssets = {};
   StudioLayout(Map<String, dynamic> value) : data = deepCopy(value) { validate(); }
   String get id => data['id'] as String;
   String get name => data['name'] as String;
@@ -80,6 +81,13 @@ class StudioLayout {
   double get height => (data['height'] as num).toDouble();
   List<Map<String, dynamic>> get pages => (data['pages'] as List).cast<Map<String, dynamic>>();
   List<Map<String, dynamic>> elements(int page) => (pages[page]['elements'] as List).cast<Map<String, dynamic>>();
+  Uint8List? assetBytes(String? id) {
+    if(id==null)return null;
+    final assets=data['assets'] as Map<String,dynamic>?;
+    final asset=assets?[id] as Map<String,dynamic>?;
+    if(asset==null)return null;
+    return _decodedAssets.putIfAbsent(id,()=>base64Decode(asset['base64'] as String));
+  }
   StudioLayout personalCopy(String newId, String newName) {
     final copy = deepCopy(data);
     copy['id'] = newId; copy['name'] = newName; copy['isBase'] = false;
@@ -127,11 +135,12 @@ class StudioLayout {
             throw const FormatException('Hibás műszerfelirat vagy adatkapcsolat.');
           }
         }
-        for (final key in ['fontSize', 'max', 'z', 'warningAbove', 'count', 'decimals']) {
+        for (final key in ['fontSize', 'max', 'z', 'warningAbove', 'count', 'decimals','rows','fontWeight','letterSpacing','activeBelow']) {
           if (e[key] != null && (e[key] is! num || !(e[key] as num).toDouble().isFinite)) {
             throw const FormatException('Érvénytelen műszerparaméter.');
           }
         }
+        if(e['rows'] is num && ((e['rows'] as num)<1 || (e['rows'] as num)>6))throw const FormatException('A LED-sorok száma 1–6 lehet.');
         if (e['fontSize'] is num && ((e['fontSize'] as num) < 1 || (e['fontSize'] as num) > 500) ||
             e['max'] is num && (e['max'] as num) <= 0 ||
             e['count'] is num && ((e['count'] as num) < 1 || (e['count'] as num) > 64) ||

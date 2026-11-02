@@ -230,3 +230,7 @@ dest=ROOT/'mobile_flutter/assets/catalog.json'; dest.parent.mkdir(parents=True,e
 dest.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n')
 (ROOT/'windows_bridge/Bridge.Windows/profiles.json').write_text(json.dumps([v['id'] for v in catalog])+'\n')
 print(f'Generated {len(catalog)} vehicle pairs / {len(catalog)*2} layouts; factory fidelity NOT asserted.')
+
+# Apply the separately maintained photo-derived reconstruction after legacy generation.
+from build_skoda_030 import apply_profile
+apply_profile()

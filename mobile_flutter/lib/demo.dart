@@ -7,7 +7,7 @@ class DemoSimulator {
   final Map<String, Object> _state = {
     'ignition': true, 'engineRunning': true, 'lights': false, 'pitLimiter': false,
     'drs': false, 'ers': false, 'p2p': false, 'rainLight': false, 'fan': false,
-    'tcLevel': 3, 'absLevel': 4, 'brakeBias': 55.0, 'differential': 3, 'engineMap': 2, 'wiperLevel': 0,
+    'radioVolume':6, 'intercomVolume':6, 'tcLevel': 3, 'absLevel': 4, 'brakeBias': 55.0, 'differential': 3, 'engineMap': 2, 'wiperLevel': 0,
   };
   final Map<String, int> _heldUntil = {};
   void releaseAll() => _heldUntil.clear();
@@ -22,6 +22,8 @@ class DemoSimulator {
       return;
     }
     switch (action) {
+      case 'radioVolumeUp': case 'radioVolumeDown': _step('radioVolume',action.endsWith('Up')?1:-1,0,10); break;
+      case 'intercomVolumeUp': case 'intercomVolumeDown': _step('intercomVolume',action.endsWith('Up')?1:-1,0,10); break;
       case 'starter': if (_state['ignition'] == true) _state['engineRunning'] = true; break;
       case 'ignition':
         _state['ignition'] = _state['ignition'] != true;
@@ -64,7 +66,7 @@ class DemoSimulator {
       'consumption': 32.4, 'range': 139, 'turbo': .6, 'gearboxTemp': 89,
       'damage': [0, 0, 0, 0, 0], 'faults': 'none', 'sessionStatus': 'demo',
       'stageState': 'synthetic_demo', 'stageId': 'DEMO-STAGE', 'vehicleId': 'DEMO-SYNTHETIC',
-      'navigation': 'Szimulált bemutató', 'absActive': cycle > 15, 'tcActive': cycle < 4,
+      'navigation': 'Szimulált bemutató', 'launchRpmLimit':5500, 'driveMode':'ROAD', 'sessionClock':'12:${((elapsedMs~/60000)%60).toString().padLeft(2,'0')}:${((elapsedMs~/1000)%60).toString().padLeft(2,'0')}', 'absActive': cycle > 15, 'tcActive': cycle < 4,
       'timeRemaining': 1200 - t % 1200, 'inPit': _state['pitLimiter'] == true, 'pitLimit': 60,
       'wheelLock': false, 'wheelSpeed': [10.0, 10.0, 10.0, 10.0], 'wheelSlip': [.01, .02, .01, .02],
       'yaw': math.sin(t) * .1, 'pitch': .01, 'roll': .03, 'suspension': [.04, .05, .04, .05],

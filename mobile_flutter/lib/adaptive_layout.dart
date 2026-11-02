@@ -21,7 +21,7 @@ StudioLayout adaptLayout(StudioLayout source, int page, Size viewport) {
       e['y'] = (e['y'] as num).clamp(0,height-(e['h'] as num));
     }
   }
-  List<Map<String,dynamic>> visible = items;
+  final List<Map<String,dynamic>> visible = items;
   List<List<Map<String,dynamic>>>? mobilePages;
   if (source.role == 'panel') {
     final controls = items.where((e)=>controlKinds.contains(e['kind'])).toList();
@@ -35,23 +35,39 @@ StudioLayout adaptLayout(StudioLayout source, int page, Size viewport) {
       final instrumentArea=height>width?Rect.fromLTWH(8,8,width-16,height*.48-12):Rect.fromLTWH(8,8,width*.62-12,height-16);
       final controlArea=height>width?Rect.fromLTWH(8,height*.48+4,width-16,height*.52-12):Rect.fromLTWH(width*.62+4,8,width*.38-12,height-16);
       final controlPages=_controlPages(controls,controlArea);
+      final instrumentPages=_instrumentPages(instruments,instrumentArea);
       mobilePages=[];
-      for(var i=0;i<controlPages.length;i++){
-        final copy=instruments.map(deepCopy).toList();
+      for(var i=0;i<math.max(controlPages.length,instrumentPages.length);i++){
+        final copy=instrumentPages[i%instrumentPages.length].map(deepCopy).toList();
         for(final e in copy) { e['id']='${e['id']}@mobile$i'; }
         _dashboard(copy,instrumentArea,height>width);
-        mobilePages.add([...copy,...controlPages[i]]);
+        mobilePages.add([...copy,...(i<controlPages.length?controlPages[i]:<Map<String,dynamic>>[])]);
       }
     }
   } else {
     final instruments=items.where((e)=>!{'text','svg','image'}.contains(e['kind'])).toList();
     if (instruments.isEmpty) { scaleOriginal(); }
-    else { visible=instruments; _dashboard(instruments,Rect.fromLTWH(8,8,width-16,height-16),height>width); }
+    else {
+      final area=Rect.fromLTWH(8,8,width-16,height-16);
+      mobilePages=_instrumentPages(instruments,area);
+      for(final group in mobilePages){_dashboard(group,area,height>width);}
+    }
   }
   data['width']=width;data['height']=height;
   data['pages']=[for(var i=0;i<(mobilePages?.length??1);i++) {'id':'${source.pages[page]['id']}@mobile$i','name':source.pages[page]['name'],'elements':mobilePages?[i]??visible}];
   data['presentation']='adaptive';
   return StudioLayout(data);
+}
+
+List<List<Map<String,dynamic>>> _instrumentPages(List<Map<String,dynamic>> items, Rect area){
+  final columns=math.max(1,(area.width/148).floor());
+  final rows=math.max(1,((area.height-26)/100).floor());
+  final capacity=math.max(columns*rows,(items.length/8).ceil());
+  final pages=<List<Map<String,dynamic>>>[];
+  for(var offset=0;offset<items.length;offset+=capacity){
+    pages.add(items.sublist(offset,math.min(items.length,offset+capacity)));
+  }
+  return pages;
 }
 
 List<List<Map<String,dynamic>>> _controlPages(List<Map<String,dynamic>> controls, Rect area){
@@ -70,6 +86,8 @@ void _place(Map<String,dynamic> item, Rect rect) {
   item['x']=rect.left;item['y']=rect.top;item['w']=rect.width;item['h']=rect.height;
   item['rotation']=0; // Adaptive reading orientation; original rotation stays in the saved layout.
   item['fontSize']=(item['fontSize'] as num? ?? 48).clamp(14,140);
+  if(item['style']=='factoryReadout')item['style']='adaptiveReadout';
+  if(item['style']=='factoryMap')item['style']='adaptiveMap';
 }
 void _grid(List<Map<String,dynamic>> items, Rect area) {
   if (items.isEmpty) return;
@@ -103,7 +121,7 @@ void _dashboard(List<Map<String,dynamic>> items, Rect area, bool portrait) {
     if(gear!=null && primary.length<=3) {
       _place(gear,Rect.fromLTWH(area.left,top,area.width*.5-4,hero-8));
       final others=primary.where((e)=>e!=gear).toList();
-      for(var i=0;i<others.length;i++) _place(others[i],Rect.fromLTWH(area.left+area.width*.5+4,top+i*hero/others.length,area.width*.5-4,hero/others.length-8));
+      for(var i=0;i<others.length;i++) { _place(others[i],Rect.fromLTWH(area.left+area.width*.5+4,top+i*hero/others.length,area.width*.5-4,hero/others.length-8)); }
     } else { _grid(primary,Rect.fromLTWH(area.left,top,area.width,hero-8)); }
   }
   _grid(secondary,Rect.fromLTWH(area.left,primary.isEmpty?top:top+hero,area.width,primary.isEmpty?available:available-hero));

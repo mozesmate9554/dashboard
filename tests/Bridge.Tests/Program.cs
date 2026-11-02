@@ -323,6 +323,11 @@ try
         var frame = (await demo.PollAsync(default))!;
         Assert(frame.Mode == "demo" && frame.State == "demo" && frame.Fields["lights"].Value is true);
         Assert(frame.Fields["radioActive"].Value is true && !demo.Health.GameDetected);
+        demo.Apply("a", new("vol", 3, "radioVolumeUp", "press"));
+        demo.Apply("a", new("vol2", 4, "intercomVolumeDown", "press"));
+        var volumeFrame = (await demo.PollAsync(default))!;
+        Assert(Convert.ToInt32(volumeFrame.Fields["radioVolume"].Value) == 7 && Convert.ToInt32(volumeFrame.Fields["intercomVolume"].Value) == 5);
+        Assert(volumeFrame.Fields["sessionClock"].Value is string && volumeFrame.Fields["driveMode"].Value is "ROAD");
         Assert(frame.Fields.Values.All(f => f.Source.StartsWith("demo:", StringComparison.Ordinal)));
         demo.ReleaseOwner("a"); Assert((await demo.PollAsync(default))!.Fields["radioActive"].Value is false);
         Assert(sink.Events.Count == 0);

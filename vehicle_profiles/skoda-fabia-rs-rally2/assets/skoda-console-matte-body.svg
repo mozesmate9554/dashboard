@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1450">
+<defs><linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3e4245"/><stop offset=".5" stop-color="#272c2e"/><stop offset="1" stop-color="#161b1e"/></linearGradient><pattern id="grain" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".8" fill="#ffffff" opacity=".1"/><circle cx="9" cy="7" r="1.1" fill="#000000" opacity=".25"/></pattern></defs>
+<path d="M92 18H985l63 66v1285l-55 58H67l-42-58V93Z" fill="#080c0e"/>
+<path d="M95 25H976l60 65v1260l-53 58H77l-40-50V96Z" fill="url(#body)" stroke="#575d61" stroke-width="3"/>
+<path d="M95 25H976l60 65v1260l-53 58H77l-40-50V96Z" fill="url(#grain)"/>
+<path d="M91 34H970l54 61M45 100v1245l38 49" fill="none" stroke="#899094" stroke-width="3" opacity=".45"/>
+<rect x="251" y="364" width="562" height="883" rx="39" fill="#131b22" stroke="#0b0e11" stroke-width="6"/>
+<g fill="#080b0e" stroke="#60686c" stroke-width="3"><circle cx="74" cy="103" r="10"/><circle cx="1002" cy="104" r="10"/><circle cx="75" cy="1330" r="10"/><circle cx="999" cy="1330" r="10"/></g>
+<g stroke="#81898e" stroke-width="2"><path d="M68 97l12 12M68 109l12-12M996 98l12 12M996 110l12-12M69 1324l12 12M69 1336l12-12M993 1324l12 12M993 1336l12-12"/></g>
+</svg>

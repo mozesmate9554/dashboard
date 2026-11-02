@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -99,16 +98,26 @@ class Instrument extends StatelessWidget {
     final label = e['label'] as String? ?? '';
     final foreground = studioColor(e['foreground'], Colors.white);
     final unit = frame?.fields[field]?.unit ?? e['unit'] as String? ?? '';
-    final text = frame?.formatted(field, decimals: (e['decimals'] as num?)?.toInt() ?? 0) ?? '—';
-    final font = e['font'] == 'sans' ? null : 'monospace';
+    final text = e['format']=='minutesSeconds' && value!=null ? '${value.toInt()~/60000}:${((value.toInt()~/1000)%60).toString().padLeft(2,'0')}' : frame?.formatted(field, decimals: (e['decimals'] as num?)?.toInt() ?? 0) ?? '—';
+    final font = e['font'] == 'factory' ? 'OemCondensed' : e['font'] == 'sans' ? null : 'monospace';
+    final weight=FontWeight.values[(((e['fontWeight'] as num?)?.toInt() ?? (kind=='text'?400:800)) ~/ 100 - 1).clamp(0,8).toInt()];
     Widget child;
     switch (kind) {
-      case 'text': child = Center(child: Text(label, textAlign: TextAlign.center, style: TextStyle(color: foreground, fontSize: size, letterSpacing: 2, fontFamily: font))); break;
+      case 'text': child = Center(child: Text(label, textAlign: TextAlign.center, style: TextStyle(color: foreground, fontSize: size, letterSpacing: (e['letterSpacing'] as num?)?.toDouble() ?? 2, fontWeight:weight, fontFamily: font))); break;
       case 'number': case 'gear':
+        if(e['style']=='factoryMap' || e['style']=='adaptiveMap'){
+          final row=Row(children:[for(var i=1;i<=5;i++) Expanded(child:Padding(padding:const EdgeInsets.all(2),child:Container(
+            decoration:BoxDecoration(color:value==i?const Color(0xff9bd158):const Color(0xff34383b),borderRadius:BorderRadius.circular(6)),
+            child:Center(child:FittedBox(child:Text('$i',style:TextStyle(fontFamily:font,fontSize:40,color:value==i?Colors.black:Colors.white54)))))))]);
+          child=e['style']=='adaptiveMap'?Column(children:[const Text('Map',style:TextStyle(fontSize:14)),Expanded(child:row)]):row;break;
+        }
+        if(e['style']=='factoryReadout'){
+          child=FittedBox(fit:BoxFit.contain,alignment:Alignment.center,child:Text(text,style:TextStyle(color:foreground,fontFamily:font,fontSize:size,fontWeight:weight,height:1)));break;
+        }
         child = Padding(padding: const EdgeInsets.all(7), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          if (label.isNotEmpty) Text(label.toUpperCase(), style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.w700, letterSpacing: 2)),
-          Expanded(child: FittedBox(fit: BoxFit.contain, child: Text(text, style: TextStyle(color: warning ? color : foreground, fontSize: size, height: 1, fontWeight: FontWeight.w800, fontFamily: font)))),
-          if (kind != 'gear' && unit.isNotEmpty) Text(unit, style: TextStyle(color: Colors.white54, fontSize: 14)),
+          if (label.isNotEmpty) FittedBox(fit:BoxFit.scaleDown, child:Text(label.toUpperCase(),maxLines:1,style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.w700, letterSpacing: 2))),
+          Expanded(child: FittedBox(fit: BoxFit.contain, child: Text(text, style: TextStyle(color: warning ? color : foreground, fontSize: size, height: 1, fontWeight:weight, fontFamily: font)))),
+          if (kind != 'gear' && unit.isNotEmpty) FittedBox(fit:BoxFit.scaleDown,child:Text(unit,maxLines:1,style: const TextStyle(color: Colors.white54, fontSize: 14))),
         ])); break;
       case 'bar':
         final maximum = (e['max'] as num?)?.toDouble() ?? 1.0;
@@ -117,7 +126,7 @@ class Instrument extends StatelessWidget {
           LinearProgressIndicator(value: value == null ? 0 : (value / maximum).clamp(0, 1).toDouble(), color: color, backgroundColor: Colors.white12, minHeight: 16),
         ])); break;
       case 'leds': child = CustomPaint(painter: _LedPainter(value, frame?.number('rpmLimit') ?? (e['max'] as num?)?.toDouble() ?? 8000,
-          (e['count'] as num?)?.toInt() ?? 15, e['vertical'] == true, e['shape'] == 'circle')); break;
+          (e['count'] as num?)?.toInt() ?? 15, e['vertical'] == true, e['shape'] == 'circle', (e['rows'] as num?)?.toInt() ?? 1)); break;
       case 'analog': child = CustomPaint(painter: _AnalogPainter(value, (e['max'] as num?)?.toDouble() ?? 10000, color, text)); break;
       case 'pedals':
         child = Padding(padding: const EdgeInsets.all(8), child: Row(children: [
@@ -138,6 +147,11 @@ class Instrument extends StatelessWidget {
         ]); break;
       case 'indicator':
         final actual = frame?.value(field);
+        if(e['style']=='factorySymbol'){
+          final bytes=layout.assetBytes(e['assetId'] as String?);
+          final active=e['activeBelow'] is num?value!=null && value<(e['activeBelow'] as num):actual==true;
+          child=bytes==null?const SizedBox():SvgPicture.memory(bytes,fit:BoxFit.contain,colorFilter:ColorFilter.mode(active?accent:Colors.white24,BlendMode.srcIn));break;
+        }
         child = Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(Icons.circle, color: actual == true || actual is num && actual != 0 ? color : Colors.white12, size: 28),
           Text(actual == null ? '$label · —' : label, style: const TextStyle(fontSize: 14)),
@@ -147,13 +161,21 @@ class Instrument extends StatelessWidget {
         final asset = assets?[e['assetId']] as Map<String, dynamic>?;
         if (asset == null) { child = const Center(child: Icon(Icons.image_outlined, color: Colors.white24)); }
         else {
-          final bytes = base64Decode(asset['base64'] as String);
+          final bytes = layout.assetBytes(e['assetId'] as String)!;
           child = kind == 'svg' ? SvgPicture.memory(bytes, fit: BoxFit.contain,
             errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image))) : Image.memory(bytes, fit: BoxFit.contain,
             errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image)));
         }
         break;
       default:
+        final artwork=(layout.data['assets'] as Map<String,dynamic>?)?[e['assetId']] as Map<String,dynamic>?;
+        if(e['artwork']==true && artwork!=null){
+          final bytes=layout.assetBytes(e['assetId'] as String)!;
+          child=Stack(fit:StackFit.expand,children:[
+            artwork['type']=='svg'?SvgPicture.memory(bytes,fit:BoxFit.contain):Image.memory(bytes,fit:BoxFit.contain),
+            PanelControl(element:e,frame:frame,connection:connection),
+          ]);break;
+        }
         child = LayoutBuilder(builder: (context, constraints) => FittedBox(fit: BoxFit.contain,
           child: SizedBox(width: math.max(220.0, constraints.maxWidth), height: math.max(110.0, constraints.maxHeight),
             child: PanelControl(element: e, frame: frame, connection: connection))));
@@ -209,6 +231,13 @@ class _PanelControlState extends State<PanelControl> {
     final label = widget.element['label'] as String? ?? '';
     final color = studioColor(widget.element['color']);
     final actual = widget.frame?.formatted(widget.element['field'] as String? ?? '');
+    final artwork=widget.element['artwork']==true;
+    if(artwork && ['stepper','rotary'].contains(_kind)){
+      final minus=widget.element['minusAction'] as String? ?? '';
+      Widget region(String action,String name)=>Expanded(child:Semantics(button:true,label:'$label $name',child:Material(color:Colors.transparent,child:InkWell(onTap:_enabled && widget.connection!.supportedActions.contains(action)?(){_emit(action);setState(()=>_requested++);}:null))));
+      final parts=[region(_action,'növelés'),region(minus,'csökkentés')];
+      return Tooltip(message:'$label · kért lépések: $_requested · visszaolvasott: ${actual??'—'}',child:_kind=='stepper'?Column(children:parts):Row(children:parts.reversed.toList()));
+    }
     Widget button(String text, VoidCallback? tap, {IconData? icon}) => Expanded(child: Material(color: Colors.transparent,
       child: InkWell(onTap: tap, child: Center(child: icon != null ? Icon(icon, color: _enabled ? color : Colors.white24, size: 28)
         : Text(text, textAlign: TextAlign.center, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _enabled ? Colors.white : Colors.white24))))));
@@ -248,8 +277,8 @@ class _PanelControlState extends State<PanelControl> {
             _emit(_action); setState(() => _requested++);
           } : null, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             if (_kind == 'icon') Icon(_action == 'lights' ? Icons.lightbulb_outline : _action == 'radio' ? Icons.mic : Icons.sports_motorsports, size: 30, color: _enabled ? color : Colors.white24),
-            Text(label, textAlign: TextAlign.center, style: TextStyle(color: _enabled ? Colors.white : Colors.white24, fontSize: (widget.element['fontSize'] as num?)?.toDouble() ?? 20, fontWeight: FontWeight.w800, letterSpacing: 1)),
-            if (_kind == 'toggle') Text(observed == null ? 'ÁLLAPOT: —' : observed == true ? 'BE' : 'KI', style: const TextStyle(fontSize: 10, color: Colors.white38)),
+            if(!artwork) Text(label, textAlign: TextAlign.center, style: TextStyle(color: _enabled ? Colors.white : Colors.white24, fontSize: (widget.element['fontSize'] as num?)?.toDouble() ?? 20, fontWeight: FontWeight.w800, letterSpacing: 1)),
+            if (_kind == 'toggle' && !artwork) Text(observed == null ? 'ÁLLAPOT: —' : observed == true ? 'BE' : 'KI', style: const TextStyle(fontSize: 10, color: Colors.white38)),
           ])))));
     }
     return Tooltip(message: _enabled ? label : 'Ez a funkció ebben a játékban nem érhető el, nincs kiosztva vagy nincs engedélyezve.', child: child);
@@ -296,11 +325,13 @@ class _LiveDisplayState extends State<LiveDisplay> {
             ListTile(leading:Icon(_role==role?Icons.radio_button_checked:Icons.radio_button_off),title:Text(label),onTap:()=>Navigator.pop(sheetContext,'role:$role')),
         ],
         const Divider(),
+        if(_role!='dashboard') ListTile(leading:const Icon(Icons.touch_app),title:const Text('Alkalmazás gyorsvezérlői'),subtitle:const Text('Indító, ablaktörlő, rádió és interkom · külön az autó grafikájától.'),onTap:()=>Navigator.pop(sheetContext,'quick')),
         for(final (value,label) in [('auto','Automatikus tájolás'),('portrait','Álló helyzet'),('landscape','Fekvő helyzet')])
           ListTile(leading:const Icon(Icons.screen_rotation),title:Text(label),onTap:()=>Navigator.pop(sheetContext,'orientation:$value')),
       ])));
     if(!mounted || choice==null)return;
     if(choice=='close'){Navigator.pop(context);return;}
+    if(choice=='quick'){await _quickControls();return;}
     if(choice=='adaptive' || choice=='original'){
       setState((){_adaptive=choice=='adaptive';_mobilePage=0;});await widget.store.set('displayAdaptive',_adaptive);
     } else if(choice=='toolbar'){
@@ -314,6 +345,15 @@ class _LiveDisplayState extends State<LiveDisplay> {
       setState((){_roleOverride=role;_page=0;_mobilePage=0;_interactionEpoch++;});
       widget.connection.selectProfile(widget.store.vehicleId,layoutId:widget.store.selected(role).id);
     }
+  }
+  Future<void> _quickControls() async {
+    await showModalBottomSheet<void>(context:context,isScrollControlled:true,useSafeArea:true,builder:(sheetContext)=>
+      FractionallySizedBox(heightFactor:.8,child:ListView(padding:const EdgeInsets.all(16),children:[
+        const ListTile(title:Text('Alkalmazás gyorsvezérlői'),subtitle:Text('Saját alkalmazásvezérlők; nem a gyári középkonzol rekonstrukciójának részei.')),
+        for(final (action,label,kind) in [('starter','INDÍTÓ','hold'),('wiper','ABLAKTÖRLŐ','button'),('intercom','INTERKOM','hold'),('radio','RÁDIÓ','hold'),('engineMapUp','MOTOR MAP +','button'),('engineMapDown','MOTOR MAP −','button')])
+          Padding(padding:const EdgeInsets.symmetric(vertical:6),child:SizedBox(height:90,child:PanelControl(element:{'id':'quick-$action','kind':kind,'action':action,'label':label,'color':'#8fceab'},frame:widget.connection.telemetry.value,connection:widget.connection))),
+      ])));
+    widget.connection.releaseAll();
   }
   @override void dispose() {
     widget.connection.releaseAll();unawaited(_fullscreen.leave());super.dispose();
@@ -375,16 +415,17 @@ class _GridPainter extends CustomPainter {
   @override bool shouldRepaint(covariant _GridPainter oldDelegate) => false;
 }
 class _LedPainter extends CustomPainter {
-  final double? value; final double maximum; final int count; final bool vertical, round;
-  _LedPainter(this.value, this.maximum, this.count, this.vertical, this.round);
+  final double? value; final double maximum; final int count; final bool vertical, round; final int rows;
+  _LedPainter(this.value, this.maximum, this.count, this.vertical, this.round, this.rows);
   @override void paint(Canvas canvas, Size size) {
     final fraction = value == null || maximum <= 0 ? 0 : (value! / maximum).clamp(0, 1);
     for (var i = 0; i < count; i++) {
       final color = i < count * .6 ? const Color(0xff43e078) : i < count * .8 ? const Color(0xffffd640) : const Color(0xffff3a4b);
       final p = Paint()..color = i < fraction * count ? color : const Color(0xff20252a);
-      final w = vertical ? size.width - 4 : size.width / count - 4;
-      final h = vertical ? size.height / count - 4 : size.height - 4;
-      final rect = Rect.fromLTWH(vertical ? 2 : i * size.width / count + 2, vertical ? size.height - (i + 1) * size.height / count + 2 : 2, math.max(1, w), math.max(1, h));
+      final columns=(count/rows).ceil();
+      final w = rows>1?size.width/columns-4:vertical ? size.width - 4 : size.width / count - 4;
+      final h = rows>1?size.height/rows-4:vertical ? size.height / count - 4 : size.height - 4;
+      final rect = Rect.fromLTWH(rows>1?(i%columns)*size.width/columns+2:vertical ? 2 : i * size.width / count + 2, rows>1?(i~/columns)*size.height/rows+2:vertical ? size.height - (i + 1) * size.height / count + 2 : 2, math.max(1, w), math.max(1, h));
       canvas.drawRRect(RRect.fromRectAndRadius(rect, Radius.circular(round ? math.min(w, h) / 2 : 2)), p);
     }
   }

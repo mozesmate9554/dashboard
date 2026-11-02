@@ -65,7 +65,7 @@ public static class TelemetryCatalog
         ["stageTime"]="ms", ["stageSplits"]="ms", ["stageDistance"]="m",
         ["stageState"]="state", ["vehicleId"]="text", ["stageId"]="text", ["navigation"]="text",
         ["damage"]="raw", ["sessionStatus"]="state", ["lights"]="bool", ["wiperLevel"]="level",
-        ["radioActive"]="bool", ["intercomActive"]="bool", ["starterActive"]="bool"
+        ["radioActive"]="bool", ["intercomActive"]="bool", ["starterActive"]="bool", ["radioVolume"]="level", ["intercomVolume"]="level", ["sessionClock"]="text", ["driveMode"]="text", ["launchRpmLimit"]="rpm"
     };
     public static Dictionary<string, Datum> Empty(string source, long timestamp) => Fields.ToDictionary(
         p => p.Key, p => new Datum(null, p.Value, source, timestamp, Validity.Unsupported));

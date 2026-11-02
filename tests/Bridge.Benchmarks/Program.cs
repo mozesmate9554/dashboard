@@ -40,7 +40,7 @@ try
             if (welcome.RootElement.GetProperty("type").GetString() != "welcome") throw new Exception("Missing welcome");
         }
         await Connect(dashboard, "dashboard"); await Connect(panel, "panel");
-        var frames = new int[2]; var bytes = new long[2]; var rtts = new List<double>(); var simulated = 0;
+        var frames = new int[2]; var bytes = new long[2]; var rtts = new List<double>(); var simulated = 0; var measuring = 0;
         var clock = Stopwatch.StartNew(); var process = Process.GetCurrentProcess(); var cpu = process.TotalProcessorTime;
         var alloc = GC.GetTotalAllocatedBytes();
         using var duration = new CancellationTokenSource(20000);
@@ -51,7 +51,7 @@ try
                 while (!duration.IsCancellationRequested)
                 {
                     var text = await BridgeRuntime.ReadMessageAsync(socket, duration.Token); if (text == null) break;
-                    if (clock.ElapsedMilliseconds < 1000) continue;
+                    if (Volatile.Read(ref measuring) == 0) continue;
                     bytes[index] += Encoding.UTF8.GetByteCount(text);
                     using var doc = JsonDocument.Parse(text); var root = doc.RootElement;
                     switch (root.GetProperty("type").GetString())
@@ -70,6 +70,7 @@ try
         var readers = Task.WhenAll(Read(dashboard, 0), Read(panel, 1));
         await Task.Delay(1000); cpu = process.TotalProcessorTime; alloc = GC.GetTotalAllocatedBytes();
         var measurementStart = clock.Elapsed;
+        Volatile.Write(ref measuring, 1);
         for (var i = 1; i <= 50; i++)
         {
             await Send(dashboard, new { type = "ping", sentMs = clock.ElapsedMilliseconds });

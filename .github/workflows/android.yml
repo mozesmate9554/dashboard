@@ -51,6 +51,18 @@ jobs:
         run: |
           set -o pipefail
           flutter test --machine 2>&1 | tee ../ci-results/flutter-tests.jsonl
+      - name: Review actual Flutter Skoda renders
+        working-directory: .
+        run: |
+          python3 -m pip install pillow==12.0.0
+          python3 tools/preview_review.py preview-build
+      - name: Upload high resolution Skoda previews
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Skoda-previews-${{ github.sha }}
+          path: preview-build/
+          if-no-files-found: error
+          retention-days: 30
       - name: Prepare isolated preview signing key
         env:
           STUDIO_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}

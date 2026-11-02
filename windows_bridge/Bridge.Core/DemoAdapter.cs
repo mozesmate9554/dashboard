@@ -15,6 +15,7 @@ public sealed class DemoAdapter : IDemoSource
     private readonly Stopwatch _clock = Stopwatch.StartNew();
     private readonly Dictionary<string, (string Action, long Expires)> _holds = [];
     private bool _ignition = true, _engine = true, _lights;
+    private int _radioVolume = 6, _intercomVolume = 6;
     private int _tc = 3, _abs = 2, _map = 1, _diff = 2, _wiper;
     private double _bias = 58;
     private int? _requestedGear;
@@ -61,7 +62,7 @@ public sealed class DemoAdapter : IDemoSource
             Set("yaw", Math.Sin(t * .6) * .1); Set("pitch", .01); Set("roll", Math.Sin(t * .6) * .03); Set("suspension", new[] { .04, .05, .04, .05 });
             Set("stageTime", (int)(t % 180 * 1000)); Set("stageSplits", new[] { 30120, 32040 }); Set("stageDistance", t % 180 * 22);
             Set("stageState", "synthetic_demo"); Set("vehicleId", "DEMO-SYNTHETIC"); Set("stageId", "DEMO-STAGE");
-            Set("navigation", "Szimulált bemutató, nem játékadat"); Set("damage", new[] { 0, 0, 0, 0, 0 }); Set("sessionStatus", "demo");
+            Set("navigation", "Szimulált bemutató, nem játékadat"); Set("damage", new[] { 0, 0, 0, 0, 0 }); Set("sessionStatus", "demo"); Set("radioVolume", _radioVolume); Set("intercomVolume", _intercomVolume); Set("sessionClock", (TimeSpan.FromHours(12) + TimeSpan.FromSeconds(t)).ToString(@"hh\:mm\:ss")); Set("driveMode", "ROAD"); Set("launchRpmLimit", 5500);
             _windowFrames++;
             if (tick - _windowMs >= 1000) { _hz = _windowFrames * 1000d / (tick - _windowMs); _windowFrames = 0; _windowMs = tick; }
             Health = Health with { LastPacketMs = now, ActualHz = _hz };
@@ -80,6 +81,10 @@ public sealed class DemoAdapter : IDemoSource
             _holds[key] = (request.Action, _clock.ElapsedMilliseconds + (request.Phase == "press" ? 180 : 3000));
             if (!alreadyDown || request.Phase == "press") switch (request.Action)
             {
+                case "radioVolumeUp": _radioVolume = Math.Min(10, _radioVolume + 1); break;
+                case "radioVolumeDown": _radioVolume = Math.Max(0, _radioVolume - 1); break;
+                case "intercomVolumeUp": _intercomVolume = Math.Min(10, _intercomVolume + 1); break;
+                case "intercomVolumeDown": _intercomVolume = Math.Max(0, _intercomVolume - 1); break;
                 case "ignition": _ignition = !_ignition; if (!_ignition) _engine = false; break;
                 case "starter": if (_ignition) _engine = true; break;
                 case "lights": _lights = !_lights; break;

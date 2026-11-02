@@ -173,7 +173,8 @@ class _LayoutEditorState extends State<LayoutEditor> {
       Wrap(spacing: 4, children: [for (final (alignment, icon) in [('left', Icons.align_horizontal_left), ('center', Icons.align_horizontal_center), ('right', Icons.align_horizontal_right), ('top', Icons.align_vertical_top), ('middle', Icons.align_vertical_center), ('bottom', Icons.align_vertical_bottom)])
         IconButton(tooltip: 'Vászonhoz igazítás: $alignment', onPressed: e['locked'] == true ? null : () { _change(() => alignToCanvas(_layout, _page, e['id'] as String, alignment)); refresh(); }, icon: Icon(icon))]),
       input('Kiemelőszín #RRGGBB', 'color'), input('Szövegszín #RRGGBB', 'foreground'), input('Háttérszín #RRGGBB', 'background'),
-      input('Betűméret', 'fontSize', numeric: true), choose('Betűstílus', 'font', ['monospace', 'sans']),
+      input('Betűméret', 'fontSize', numeric: true), choose('Betűstílus', 'font', ['monospace', 'sans','factory']),
+      choose('Saját gombgrafika', 'assetId', ((_layout.data['assets'] as Map<String,dynamic>?)?.keys.toList() ?? [])),
       choose('Forma', 'shape', ['rectangle','rounded','circle']), input('Skála maximum', 'max', numeric: true), input('Tizedesek', 'decimals', numeric: true),
       input('Választó pozícióinak száma (2–12)', 'positions', numeric: true),
       input('Figyelmeztetés e fölött', 'warningAbove', numeric: true),

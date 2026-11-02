@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 255">
+<defs><radialGradient id="cap" cx=".35" cy=".25" r=".8"><stop stop-color="#ffffff" stop-opacity=".8"/><stop offset=".25" stop-color="#efd34b"/><stop offset="1" stop-color="#efd34b" stop-opacity=".6"/></radialGradient><linearGradient id="rim" x2="0" y2="1"><stop stop-color="#858b8e"/><stop offset=".4" stop-color="#15191c"/><stop offset="1" stop-color="#020304"/></linearGradient></defs>
+<path d="M48 10h124l17 20v92H31V30Z" fill="#30363a" stroke="#b1e0ff" stroke-width="5"/>
+<g transform="translate(69 18) scale(.82)" fill="white"><g fill="none" stroke="white" stroke-width="5"><path d="M8 29Q50 5 92 29L80 78Q50 64 20 78Z"/><path d="m21 36 10 18 10-18 10 18 10-18 10 18 10-18"/></g></g>
+<ellipse cx="114" cy="177" rx="87" ry="74" fill="#000" opacity=".5"/>
+<circle cx="110" cy="163" r="88" fill="url(#rim)" stroke="#050708" stroke-width="6"/>
+<circle cx="110" cy="160" r="72" fill="url(#cap)" stroke="#b2b8ba" stroke-width="2"/>
+<path d="M57 127Q110 82 163 127" fill="none" stroke="white" stroke-width="5" opacity=".22"/>
+</svg>
