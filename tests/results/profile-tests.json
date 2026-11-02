@@ -11,37 +11,37 @@
     {
       "name": "Škoda Fabia RS Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 2.27
+      "durationMs": 3.54
     },
     {
       "name": "Peugeot 208 Rally4 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.4
+      "durationMs": 1.41
     },
     {
       "name": "Hyundai i20 N Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.34
+      "durationMs": 1.26
     },
     {
       "name": "Volkswagen Polo GTI R5 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.19
+      "durationMs": 0.94
     },
     {
       "name": "Peugeot 206 WRC (1999) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.28
+      "durationMs": 1.1
     },
     {
       "name": "Subaru Impreza 555 Group A (1993) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.67
+      "durationMs": 0.97
     },
     {
       "name": "Skoda: 0.3.0 photo console preserved as a variant, dashboard telemetry preserved",
       "status": "passed",
-      "durationMs": 0.35
+      "durationMs": 0.53
     },
     {
       "name": "ACR cars: separate mechanical button boxes, hold starter, cycle lights, aliases",
@@ -51,22 +51,22 @@
     {
       "name": "Seven short, preloadable switch sounds",
       "status": "passed",
-      "durationMs": 1.28
+      "durationMs": 2.36
     },
     {
       "name": "Android manifests / iOS plist, entitlement, storyboard and workspace XML",
       "status": "passed",
-      "durationMs": 2.7
+      "durationMs": 8.34
     },
     {
       "name": "Xcode project object references and iPhone/iPad deployment settings",
       "status": "passed",
-      "durationMs": 0.8
+      "durationMs": 0.91
     },
     {
       "name": "Cross-platform version and profile ID consistency",
       "status": "passed",
-      "durationMs": 0.52
+      "durationMs": 0.46
     }
   ]
 }

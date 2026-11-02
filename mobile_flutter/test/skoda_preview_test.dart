@@ -14,6 +14,8 @@ void main(){
   testWidgets('Export the 0.4.0 dashboards and button boxes (day and night) through the actual Flutter renderer',(tester)async{
     final loader=FontLoader('OemCondensed')..addFont(rootBundle.load('assets/fonts/BarlowCondensed-Regular.ttf'))..addFont(rootBundle.load('assets/fonts/BarlowCondensed-SemiBold.ttf'));
     await tester.runAsync(loader.load);
+    final icons=FontLoader('MaterialIcons')..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
+    await tester.runAsync(icons.load);
     final json=jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String,dynamic>;
     final out=Directory('../preview-build')..createSync(recursive:true);
     tester.view.devicePixelRatio=1;
