@@ -79,7 +79,7 @@ void main() {
   });
   testWidgets('Changing panel page releases a held action and never renews it', (tester) async {
     final connection = BridgeConnection(store); await connection.setDemo(true);
-    final layout = store.vehicle.panel;
+    final layout = store.vehicles.firstWhere((v)=>v.id=='porsche-992-gt3-r').panel;
     final index = layout.elements(0).indexWhere((e) => e['kind'] == 'hold');
     expect(index, greaterThanOrEqualTo(0));
     final id = layout.elements(0)[index]['id'];
@@ -155,4 +155,30 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox()); connection.dispose();
   });
+  testWidgets('Every Skoda vector control sends its bound DEMO action and volume directions remain distinct',(tester)async{
+    tester.view.devicePixelRatio=1;tester.view.physicalSize=const Size(1100,1450);
+    addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);
+    await store.set('vehicleId','skoda-fabia-rs-rally2');
+    final connection=BridgeConnection(store);await connection.setDemo(true);
+    final layout=store.vehicle.panel;
+    await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:Scaffold(body:LayoutCanvas(layout:layout,connection:connection,frame:connection.telemetry.value))));
+    await tester.pump();
+    for(final e in layout.elements(0).where((e)=>e['action']!=null)){
+      final finder=find.byWidgetPredicate((w)=>w is PanelControl && w.element['id']==e['id']);
+      final rect=tester.getRect(finder);
+      final kind=e['kind'];
+      final point=kind=='stepper'?Offset(rect.center.dx,rect.top+rect.height*.25):kind=='rotary'?Offset(rect.left+rect.width*.75,rect.center.dy):rect.center;
+      final before=connection.commandHistory.length;
+      await tester.tapAt(point);await tester.pump();
+      expect(connection.commandHistory.length,before+1,reason:e['id'] as String);
+      expect(connection.commandHistory.last['action'],e['action']);expect(connection.commandHistory.last['stage'],'simulated');
+      if(e['minusAction']!=null){
+        await tester.tapAt(kind=='stepper'?Offset(rect.center.dx,rect.top+rect.height*.75):Offset(rect.left+rect.width*.25,rect.center.dy));await tester.pump();
+        expect(connection.commandHistory.last['action'],e['minusAction']);
+      }
+    }
+    expect(connection.outboundMessageCount,0);expect(tester.takeException(),isNull);
+    await tester.pumpWidget(const SizedBox());connection.dispose();
+  });
+
 }

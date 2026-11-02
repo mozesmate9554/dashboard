@@ -160,8 +160,8 @@ class _LayoutEditorState extends State<LayoutEditor> {
           else { update(key, text); }
         }));
     Widget choose(String label, String key, List<String> values) => Padding(padding: const EdgeInsets.symmetric(vertical: 5),
-      child: DropdownButtonFormField<String>(initialValue: values.contains(e[key]) ? e[key] as String : null, decoration: InputDecoration(labelText: label),
-        items: values.map((value) => DropdownMenuItem(value: value, child: Text(value))).toList(), onChanged: (value) => update(key, value)));
+      child: DropdownButtonFormField<String>(isExpanded:true,initialValue: values.contains(e[key]) ? e[key] as String : null, decoration: InputDecoration(labelText: label),
+        items: values.map((value) => DropdownMenuItem(value: value, child: Text(value,maxLines:1,overflow:TextOverflow.ellipsis))).toList(), onChanged: (value) => update(key, value)));
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       const Text('MŰSZERELEM', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       choose('Típus', 'kind', widgetKinds.toList()..sort()), input('Felirat', 'label'), input('Adatmező (pl. speed, rpm, stageTime)', 'field'),
@@ -200,7 +200,7 @@ class _LayoutEditorState extends State<LayoutEditor> {
     var op = rule['op'] as String? ?? '>';
     final result = await showDialog<String>(context: context, builder: (context) => AlertDialog(title: const Text('Adatfeltétel'),
       content: Column(mainAxisSize: MainAxisSize.min, children: [TextField(controller: field, decoration: const InputDecoration(labelText: 'Adatmező')),
-        DropdownButtonFormField<String>(initialValue: op, items: ['>','<','>=','<=','=='].map((value) => DropdownMenuItem(value: value, child: Text(value))).toList(), onChanged: (value) => op = value!),
+        DropdownButtonFormField<String>(initialValue: op, items: ['>','<','>=','<=','=='].map((value) => DropdownMenuItem(value: value, child: Text(value,maxLines:1,overflow:TextOverflow.ellipsis))).toList(), onChanged: (value) => op = value!),
         TextField(controller: threshold, decoration: const InputDecoration(labelText: 'Határérték'), keyboardType: TextInputType.number)]),
       actions: [TextButton(onPressed: () => Navigator.pop(context, 'remove'), child: const Text('Törlés')), FilledButton(onPressed: () => Navigator.pop(context, 'save'), child: const Text('Alkalmazás'))]));
     if (result == 'remove') { _change(() => e.remove(key)); }

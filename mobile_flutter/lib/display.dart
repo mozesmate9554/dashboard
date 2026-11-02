@@ -140,9 +140,9 @@ class Instrument extends StatelessWidget {
       case 'tyres':
         final values = frame?.value(field);
         child = Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Text(label, style: TextStyle(color: color, fontSize: 15)),
+          FittedBox(fit:BoxFit.scaleDown,child:Text(label,maxLines:1,style: TextStyle(color: color, fontSize: 15))),
           for (var row = 0; row < 2; row++) Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            for (var column = 0; column < 2; column++) Text('${['FL', 'FR', 'RL', 'RR'][row * 2 + column]}\n${values is List && values.length == 4 && values[row * 2 + column] is num ? (values[row * 2 + column] as num).toStringAsFixed(1) : '—'}', textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, fontFamily: 'monospace')),
+            for (var column = 0; column < 2; column++) Expanded(child:FittedBox(fit:BoxFit.scaleDown,child:Text('${['FL', 'FR', 'RL', 'RR'][row * 2 + column]}\n${values is List && values.length == 4 && values[row * 2 + column] is num ? (values[row * 2 + column] as num).toStringAsFixed(1) : '—'}', textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, fontFamily: 'monospace')))),
           ]),
         ]); break;
       case 'indicator':
