@@ -34,8 +34,17 @@ Function .onInit
   ${EndIf}
 FunctionEnd
 Section "Windows Bridge"
+  ; A running (tray) Bridge keeps its files open: close it first so files can be replaced.
+  nsExec::Exec 'taskkill /IM SimControlStudio.Bridge.exe'
+  Pop $0
+  Sleep 1500
+  nsExec::Exec 'taskkill /F /IM SimControlStudio.Bridge.exe'
+  Pop $0
+  Sleep 500
   SetOutPath "$INSTDIR"
-  File /r "${APPDIR}\*"
+  ; Debug symbols are not needed by users and are the files most often held open.
+  Delete "$INSTDIR\*.pdb"
+  File /r /x *.pdb "${APPDIR}\*"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   WriteRegStr HKCU "Software\SimControlStudio" "InstallDir" "$INSTDIR"
   WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\SimControlStudio" "DisplayName" "SIM CONTROL STUDIO 0.4.0"
