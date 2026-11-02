@@ -1,0 +1,123 @@
+name: Publish verified SIM CONTROL STUDIO 0.3.0
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/release-verified.yml', 'tools/release_status.py', 'tools/package_release.py']
+  workflow_dispatch:
+    inputs:
+      verified_run:
+        description: Native build run with successful android, windows, ios and android-native jobs
+        required: true
+        default: '41368420342'
+        type: string
+permissions:
+  contents: write
+  actions: read
+jobs:
+  package:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Package verified SIM CONTROL STUDIO 0.3.0')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: release-tooling
+      - name: Require all four native build jobs at one source revision
+        id: verified
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_RUN: ${{ inputs.verified_run || '41368420342' }}
+        run: |
+          python3 - <<'PY'
+          import json,os,urllib.request
+          repo=os.environ['GITHUB_REPOSITORY'];run=os.environ['BUILD_RUN']
+          assert run.isdigit()
+          def api(path):
+              request=urllib.request.Request('https://api.github.com/repos/'+repo+path,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(request,timeout=30) as response:return json.load(response)
+          info=api('/actions/runs/'+run)
+          assert info['head_repository']['full_name']==repo and info['head_branch']=='main'
+          assert info['name']=='Native builds and project checks'
+          sha=info['head_sha'];jobs=api('/actions/runs/'+run+'/jobs?per_page=100')['jobs']
+          for name in ['android','windows','ios','android-native']:
+              matches=[j for j in jobs if j['name']==name and j['head_sha']==sha and j['conclusion']=='success']
+              assert len(matches)==1,'Required successful job missing: '+name
+          with open(os.environ['GITHUB_OUTPUT'],'a') as output:output.write('source_sha='+sha+'\nrun_id='+run+'\n')
+          print(json.dumps({'verifiedBuildRun':run,'applicationSourceCommit':sha,'allFourNativeJobs':'passed','packagingCommit':os.environ['GITHUB_SHA']}))
+          PY
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ steps.verified.outputs.source_sha }}
+          fetch-depth: 0
+          path: app
+      - name: Apply only packaging tools and documentation to the tested application tree
+        run: |
+          cp release-tooling/tools/release_status.py release-tooling/tools/package_release.py release-tooling/tools/build_reference_evidence.py release-tooling/tools/build_skoda_comparison.py app/tools/
+          cp -R release-tooling/documentation/. app/documentation/
+          git -C app diff --exit-code -- mobile_flutter/lib mobile_flutter/assets vehicle_profiles windows_bridge
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-Android-${{ steps.verified.outputs.source_sha }}
+          path: app/_release-input/Android
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-Windows-${{ steps.verified.outputs.source_sha }}
+          path: app/_release-input/Windows
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Android-check-results-${{ steps.verified.outputs.source_sha }}
+          path: app/_release-input/Android-checks
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Windows-check-results-${{ steps.verified.outputs.source_sha }}
+          path: app/tests/results
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: SIM_CONTROL_STUDIO-iOS-${{ steps.verified.outputs.source_sha }}
+          path: app/_release-input/iOS
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Android-native-${{ steps.verified.outputs.source_sha }}
+          path: app/_release-input/Android-native
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Skoda-previews-${{ steps.verified.outputs.source_sha }}
+          path: app/_release-input/Previews
+          run-id: ${{ steps.verified.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Compare the two surfaces with attributed source photos
+        working-directory: app
+        run: |
+          python3 -m pip install reportlab==4.4.9 pillow==12.0.0
+          python3 tools/build_reference_evidence.py --no-review --requested-surfaces
+          python3 tools/build_skoda_comparison.py --previews _release-input/Previews --references reference-evidence --output _release-input/Previews
+          cp documentation/SKODA_REKONSTRUKCIO_0.3.0.md _release-input/Previews/
+      - name: Validate evidence and package the actual tested outputs
+        working-directory: app
+        run: |
+          mkdir -p _staging/Windows
+          unzip -q _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip -d _staging/Windows
+          cp _release-input/Android-checks/mobile_flutter/pubspec.lock mobile_flutter/pubspec.lock
+          cp _release-input/Android-checks/tests/results/profile-tests.json tests/results/profile-tests.json
+          cat _release-input/iOS/native-integration-results.json
+          cat _release-input/Android-native/native-integration-results.json
+          python3 tools/release_status.py --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
+          python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
+      - name: Publish the verified application revision
+        working-directory: app
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APP_SOURCE: ${{ steps.verified.outputs.source_sha }}
+        run: gh release create v0.3.0 --target "$APP_SOURCE" --title 'SIM CONTROL STUDIO 0.3.0' --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/*.png _release-output/STATUS.json _release-output/SHA256SUMS.txt

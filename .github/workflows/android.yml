@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   android:
+    if: "!startsWith(github.event.head_commit.message, 'Package verified SIM CONTROL STUDIO 0.3.0')"
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     defaults:
@@ -179,6 +180,7 @@ jobs:
         run: gh release create v0.3.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.3.0" --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/*.png _release-output/STATUS.json _release-output/SHA256SUMS.txt
 
   windows:
+    if: "!startsWith(github.event.head_commit.message, 'Package verified SIM CONTROL STUDIO 0.3.0')"
     runs-on: windows-2025
     timeout-minutes: 25
     steps:
@@ -247,6 +249,7 @@ jobs:
           retention-days: 30
 
   android-native:
+    if: "!startsWith(github.event.head_commit.message, 'Package verified SIM CONTROL STUDIO 0.3.0')"
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     defaults:
@@ -318,6 +321,7 @@ jobs:
           retention-days: 30
 
   ios:
+    if: "!startsWith(github.event.head_commit.message, 'Package verified SIM CONTROL STUDIO 0.3.0')"
     runs-on: macos-15
     timeout-minutes: 45
     defaults:

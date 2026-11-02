@@ -10,7 +10,9 @@ a=p.parse_args();checks=a.checks
 read=lambda path:json.loads(path.read_text())
 events=[]
 for line in (checks/'flutter-tests.jsonl').read_text().splitlines():
-    try:events.append(json.loads(line))
+    try:
+        event=json.loads(line)
+        if isinstance(event,dict):events.append(event)
     except ValueError:pass
 assert any(e.get('type')=='done' and e.get('success') is True for e in events),'Flutter tests did not pass'
 passed=sum(e.get('type')=='testDone' and e.get('result')=='success' and not e.get('hidden') for e in events)
@@ -32,6 +34,7 @@ assert android['orientationAndSystemBars']=='passed'
 comparison=read(a.previews/'comparison-provenance.json');assert len(comparison['surfaces'])==2
 status={'application':'SIM CONTROL STUDIO','version':'0.3.0','generatedAtUtc':datetime.now(timezone.utc).isoformat(),
  'releaseKind':'installable_preview','buildProvenance':provenance,
+ 'packagingProvenance':{'commit':__import__('os').environ.get('GITHUB_SHA'),'runUrl':'https://github.com/'+__import__('os').environ.get('GITHUB_REPOSITORY','mozesmate9554/dashboard')+'/actions/runs/'+__import__('os').environ.get('GITHUB_RUN_ID','local')},
  'android':{'signedReleaseApk':True,'nativeEmulatorApi':36,'nativeTlsSecureStorageTelemetryTouchReconnect':True,'allThreeRolesBothOrientations':True,'actualSystemBarsHidden':True,'physicalDeviceTestByDeveloper':False,'signing':read(checks/'signing.json')},
  'ios':{'xcode':(a.ios/'xcode-version.txt').read_text().strip(),'simulatorBuildInstallLaunch':True,'nativeTlsKeychainTelemetryTouchReconnect':True,'allThreeRolesBothOrientations':True,'arm64ReleaseBuildUnsigned':True,'signedIpa':False,'testFlight':False,'physicalIphoneTest':False,'appleDeveloperMembershipProvided':False},
  'windows':{'selfContainedX64':True,'installerSilentInstallAndWinFormsStartup':True,'externalPublisherCertificate':False},

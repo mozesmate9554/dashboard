@@ -31,7 +31,7 @@ A Bridge helyi parancsteszt gombja 3 másodpercet ad a játék előtérbe hozás
 
 ## D / E – Profilok és szerkesztő
 
-A Škoda műszerfal, kormány, konzol és kombinált nézet, majd mind a 20 autópár következzen. A valódi gyári hűséget külön ellenőrizd: a mellékelt profilok inspirált/részleges rekonstrukciók. Készíts másolatot, mozgasd/forgasd/csoportosítsd az elemeket, ments, indíts újra, exportálj/importálj. A saját hybrid is külön szerepként menthető. Ellenőrizd telefonon és tableten, portréban és fekvő helyzetben.
+A Škoda vezetői kijelzője és külön középkonzolja, majd az ezekből képzett hibrid és mind a 20 autópár következzen. Az új Škodához kormánygrafika nincs. A valódi gyári hűséget külön ellenőrizd: a mellékelt profilok inspirált/részleges rekonstrukciók. Készíts másolatot, mozgasd/forgasd/csoportosítsd az elemeket, ments, indíts újra, exportálj/importálj. A saját hybrid is külön szerepként menthető. Ellenőrizd telefonon és tableten, portréban és fekvő helyzetben.
 
 ## F – Játékmódváltás
 
@@ -48,3 +48,12 @@ Próbáld a Bridge bezárását, Wi-Fi megszakítását, háttérbe lépést, is
 ## 0.3.0 natív és grafikai ellenőrzés
 
 Az Android 16 emulátoron natív Keystore/TLS/parancs/visszacsatlakozás, tényleges tájolás és rendszersáv-láthatóság ellenőrzése fut. iOS-en ugyanez Keychainnel, Xcode-szimulátoron. A loopback tesztfixture nincs a kiadott alkalmazásokban; a Windows input sink azonnal hibázna, ha a DEMO valódi bemenetet kérne. A két Škoda-előnézet tényleges Flutter-render, nem külön mockup. Az eredetjegyzék a gyártói fotó és a preview SHA-256 értékét is megőrzi. A többi 19 profil bájtonként változatlan marad.
+
+## Fizikai elfogadás a saját rendszerben
+
+1. Android frissítése előtt exportáld a személyes elrendezéseket. Ellenőrizd az aláírási útmutatót; szükség esetén újratelepítés és új párosítás kell. Az új alap Škoda a galéria Használat gombjával választható a személyes másolat törlése nélkül.
+2. A valós Windows Bridge és Assetto Corsa Rally mellett hasonlítsd össze a sebességet, RPM-et és fokozatot. A menübe lépés/játékbezárás után ne maradjon frissnek jelölt befagyott adat. A hiányzó mezők ne mutassanak DEMO-értéket.
+3. Azonos játék/autó kiosztással ellenőrizd az eddig használt Android-gombokat és a gyorsvezérlő indítójának lenyomását/felengedését. Nézetváltás, háttérbe lépés és kapcsolatbontás után ne maradjon lenyomva gomb.
+4. Saját Apple-aláírással telepített iPhone-on engedélyezd a helyi hálózatot, párosíts kézi IP-vel vagy QR-rel. Próbáld az app teljes bezárását/újraindítását és az ismételt csatlakozást. A szimulátoros Keychain-teszt ezt a fizikai próbát nem helyettesíti.
+5. Mindhárom nézetben vizsgáld meg az álló és fekvő tájolást, a notch/Home-jelző környezetét, a … kilépőmenüt, a következő oldalt és az érintési célterületeket. Az iOS rendszerjelző gesztusra visszatérhet.
+6. Két fizikai mobillal és Wi-Fi-n ellenőrizd a tartós üzemet, késleltetést, hőmérsékletet és a gyakorlatban érzékelt megjelenítési sebességet. A loopback mérésből nem következik mobil FPS vagy Wi-Fi-latencia.
