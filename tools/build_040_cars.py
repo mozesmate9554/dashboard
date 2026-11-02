@@ -109,8 +109,8 @@ def peugeot_208(m):
         c('p208-horn', 'pushButton', 'Kürt (nincs játékakció)', '', **C(610, 55, 705, 140), icon='horn', color='#f08a1c', **o),
         c('p208-hazard', 'pushButton', 'Warning', 'hazards', **C(610, 175, 705, 270), icon='hazard', color='#f08a1c', **o),
         c('p208-demist', 'pushButton', 'Demister', 'demist', **C(610, 295, 705, 385), icon='demist', color='#2f6bff', **o),
-        c('p208-win-l', 'pushButton', 'Ablak bal (nincs játékakció)', '', **C(30, 130, 115, 340), engraving='▲\n▼', color='#e8e8e8', leds=0, **o),
-        c('p208-win-r', 'pushButton', 'Ablak jobb (nincs játékakció)', '', **C(750, 130, 835, 340), engraving='▲\n▼', color='#e8e8e8', leds=0, **o),
+        c('p208-win-l', 'pushButton', 'Ablak bal (nincs játékakció)', '', **C(30, 130, 115, 340), engraving='FEL\nLE', color='#e8e8e8', leds=0, **o),
+        c('p208-win-r', 'pushButton', 'Ablak jobb (nincs játékakció)', '', **C(750, 130, 835, 340), engraving='FEL\nLE', color='#e8e8e8', leds=0, **o),
     ]
     rubber = dict(material='rubber', ring=True)
     gx, gy, gw, gh = [1090, 1240, 1390], [96, 330, 564], 140, 214
