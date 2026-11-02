@@ -1,14 +1,14 @@
-# Tesztelési állapot – 0.2.0
+# Tesztelési állapot – 0.3.0
 
-A kiadáshoz tartozó pontos futás, forráscommit és eredmény: `STATUS.json`, `FUNKCIOMATRIX_0.2.0.md`, illetve a teljes csomag `Tests/Android-CI/provenance.json` fájlja.
+A kiadáshoz tartozó pontos futás, forráscommit és eredmény: `STATUS.json`, `ALLAPOT.md`, illetve a teljes csomag `Tests/Android-CI/provenance.json` fájlja.
 
-Automatizált ellenőrzések: 22 Bridge-regresszió Linuxon és Windows CI-ben, 25 profil-/projektellenőrzés, Flutter analyzer és unit/widget tesztek, release APK és aláírásellenőrzés, Windows self-contained EXE és NSIS telepítő. A Windows CI csendes telepítést és a WinForms főablak megjelenését is ellenőrzi. A teljes interaktív felület vizsgálatát ez nem helyettesíti.
+Automatizált ellenőrzések: 22 Bridge-regresszió Linuxon és Windows CI-ben, 26 profil-/projektellenőrzés, Flutter analyzer és unit/widget tesztek, release APK és aláírásellenőrzés, Windows self-contained EXE és NSIS telepítő. A Windows CI csendes telepítést és a WinForms főablak megjelenését is ellenőrzi. A teljes interaktív felület vizsgálatát ez nem helyettesíti.
 
 A Flutter teszt minden alapprofil minden oldalát és a 20 hibridet 360×800, 900×420 és 1366×1024 méreten rendereli, hiányzó és DEMO-adatokkal. További tesztek: hibás SVG/kép/geometria, alapok megőrzése, hibrid másolás, személyes mentés/visszatöltés/törlés, sérült fájl megőrzése, DEMO hálózati izoláció, szerepkörök, tartott gomb nézetváltása, szerkesztőbeli mozgatás/visszavonás/mentés.
 
 A Bridge-tesztek valódi helyi TLS/WebSocket kapcsolatot használnak; a játékbájtok és a bemeneti sink tesztminták. A DEMO-s kétklienses benchmark 30 és 60 Hz kéréssel, 1 másodperc bemelegítéssel mér. Eredmény: `transport-benchmark.json`, Windows CI-n `windows-transport-benchmark.json`. Ezek nem fizikai telefonos FPS- vagy Wi-Fi-mérések.
 
-Nem történt futó Assetto Corsa Rally-, két fizikai mobil-, valódi játékhatás-, iOS/Xcode/IPA- vagy online munkamenetteszt. A 0.1.0 audit és bizonyítékok a `history/0.1.0` mappában megmaradtak.
+A felhasználó működő éles Android–Windows–Rally kapcsolatról számolt be; a fejlesztő ebben a körben nem futtatott fizikai játékmenetet. Valódi Xcode-szimulátorbuild, natív iPhone-szimulátoros kapcsolat- és háromnézetes tájolásteszt, valamint aláírás nélküli ARM64 build készült. Fizikai iPhone-, aláírt IPA-, TestFlight-, két fizikai mobil- vagy online munkamenetteszt nem történt. A 0.1.0 audit és bizonyítékok a `history/0.1.0` mappában megmaradtak.
 
 ## A – Valódi Rally-telemetria (felhasználónál)
 
@@ -43,4 +43,8 @@ Próbáld a Bridge bezárását, Wi-Fi megszakítását, háttérbe lépést, is
 
 ## Megismételhetőség
 
-`tools/verify.sh` / `tools/build-windows.ps1`. A hibaesetek determinisztikusak; a teszt-fixture kizárólag a `tests` projektben található. A Flutter-tesztek `flutter test` paranccsal futnak, amint rendelkezésre áll az SDK. A JSON státuszjelentés nem frissül önmagától egy később, más gépen végzett teszt után: őrizd meg az új eredményeket és azok környezetét is.
+`tools/verify.sh` / `tools/build-windows.ps1`. A hibaesetek determinisztikusak; a teszt-fixture kizárólag a `tests` projektben található. A Flutter-tesztek `flutter test` paranccsal futnak, a CI-ben rögzített Flutter SDK-val. A JSON státuszjelentés nem frissül önmagától egy később, más gépen végzett teszt után: őrizd meg az új eredményeket és azok környezetét is.
+
+## 0.3.0 natív és grafikai ellenőrzés
+
+Az Android 16 emulátoron natív Keystore/TLS/parancs/visszacsatlakozás, tényleges tájolás és rendszersáv-láthatóság ellenőrzése fut. iOS-en ugyanez Keychainnel, Xcode-szimulátoron. A loopback tesztfixture nincs a kiadott alkalmazásokban; a Windows input sink azonnal hibázna, ha a DEMO valódi bemenetet kérne. A két Škoda-előnézet tényleges Flutter-render, nem külön mockup. Az eredetjegyzék a gyártói fotó és a preview SHA-256 értékét is megőrzi. A többi 19 profil bájtonként változatlan marad.

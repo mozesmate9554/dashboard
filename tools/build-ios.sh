@@ -7,7 +7,7 @@ if [ "$(uname -s)" != Darwin ]; then
 fi
 cd "$TASK_ROOT/mobile_flutter"
 flutter pub get
-flutter analyze --no-fatal-infos
+flutter analyze
 flutter test
 if [ "${SIMCONTROL_IOS_NO_CODESIGN:-0}" = 1 ]; then
   flutter build ios --release --no-codesign

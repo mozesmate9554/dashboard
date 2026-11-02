@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sim_control_studio/connection.dart';
 import 'package:sim_control_studio/display.dart';
+import 'package:sim_control_studio/fullscreen.dart';
 import 'package:sim_control_studio/storage.dart';
 
 void main() {
@@ -52,10 +53,16 @@ void main() {
           await store.set('role',role);await connection.refreshSettings();
           await until(()=>connection.connected && connection.telemetry.value?.fresh==true);
           await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:LiveDisplay(store:store,connection:connection,role:role)));
-          await Future<void>.delayed(const Duration(milliseconds:500));await tester.pump();
+          await Future<void>.delayed(const Duration(milliseconds:1500));await tester.pump();
           expect(tester.takeException(),isNull,reason:'$role $orientation');
+          final size=tester.view.physicalSize;
+          expect(size.width>size.height,orientation=='landscape',reason:'Actual native orientation: $role $orientation / $size');
           expect(find.byKey(const ValueKey('cockpit-options')),findsOneWidget);
-          await binding.takeScreenshot('ios-$role-$orientation');
+          if(Platform.isAndroid){
+            final bars=await StudioFullscreen().inspect();
+            expect(bars['requested'],true);expect(bars['statusBarVisible'],false);expect(bars['navigationBarVisible'],false);
+          }
+          await binding.takeScreenshot('${Platform.isIOS?'ios':'android'}-$role-$orientation');
         }
       }
       await tester.pumpWidget(const SizedBox());

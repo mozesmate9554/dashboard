@@ -12,7 +12,7 @@ import 'package:sim_control_studio/models.dart';
 void main(){
   testWidgets('Export the two editable Skoda reconstructions through the actual Flutter renderer',(tester)async{
     final loader=FontLoader('OemCondensed')..addFont(rootBundle.load('assets/fonts/BarlowCondensed-Regular.ttf'));
-    await loader.load();
+    await tester.runAsync(loader.load);
     final json=jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String,dynamic>;
     final car=VehicleProfile((json['vehicles'] as List).cast<Map<String,dynamic>>().firstWhere((v)=>v['id']=='skoda-fabia-rs-rally2'));
     final out=Directory('../preview-build')..createSync(recursive:true);
@@ -29,8 +29,8 @@ void main(){
       await tester.pumpAndSettle();
       expect(tester.takeException(),isNull);
       final boundary=key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-      final image=await boundary.toImage(pixelRatio:2);
-      final bytes=await image.toByteData(format:ui.ImageByteFormat.png);
+      final image=(await tester.runAsync(()=>boundary.toImage(pixelRatio:2)))!;
+      final bytes=await tester.runAsync(()=>image.toByteData(format:ui.ImageByteFormat.png));
       File('${out.path}/SKODA_${layout.role.toUpperCase()}_0.3.0.png').writeAsBytesSync(bytes!.buffer.asUint8List());
       image.dispose();
       final copy=layout.personalCopy('preview-edit-${layout.role}','Editable');

@@ -90,3 +90,9 @@ Hello and profile messages may include an opaque `layoutId` (1–100 characters,
 Keymap schema 2: `{"schemaVersion":2,"bindings":{"acr":{}},"profileBindings":{"acr/vehicle-id":{}}}`. A present profile map completely overrides the game's default, including an intentionally empty map. Legacy game-map JSON remains importable. A mapping is local configuration, never supplied as a raw keyboard request over the socket.
 
 Command receive loops do not await press duration. Each session has at most 16 pending commands; key-up stays exempt. Same-action pulses serialize; session release/profile change/permission loss cancels queued pulses as well as held leases.
+
+## Backward-compatible 0.3.0 additions
+
+Protocol version remains 1. Existing transport, pairing, command phases, foreground guards and Rally decoding are unchanged. Additional optional catalog fields: radioVolume, intercomVolume (level), sessionClock, driveMode (text), launchRpmLimit (rpm). Live adapters leave these unsupported unless they provide actual data; DEMO labels all synthetic values. launchRpmLimit is distinct from engine rpmLimit.
+
+Additional configurable logical actions: electricalMaster, auxMode, hazards, fogLights, demist, callAccept, callEnd, fireExtinguisher, intercomVolumeUp/Down, radioVolumeUp/Down. No default game key bindings are implied. Older Bridges expose only their supportedActions; the mobile disables unsupported buttons. Existing action names and per-game/car bindings remain intact.

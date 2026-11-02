@@ -2,7 +2,7 @@
 
 ## 1. Windows
 
-1. Futtasd a `SIM_CONTROL_STUDIO_0.2.0_Setup_x64.exe` telepítőt, vagy csomagold ki a `Windows` könyvtárat egy írható helyre. A `SimControlStudio.Bridge.exe` és `profiles.json` maradjon együtt.
+1. Futtasd a `SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe` telepítőt, vagy csomagold ki a `Windows` könyvtárat egy írható helyre. A `SimControlStudio.Bridge.exe` és `profiles.json` maradjon együtt.
 2. Indítsd el a Bridge EXE-t. A mellékelt kiadás önálló, nem igényel külön .NET fejlesztői környezetet.
 3. Válaszd az **Assetto Corsa Rally** adaptert. Alapértelmezett TCP-port: **19760**.
 4. Válaszd ki a PC tényleges Ethernet/Wi-Fi IPv4-címét, majd jelöld be a **Helyi hálózat engedélyezése** mezőt. Az első alapbeállítás csak `127.0.0.1` címen figyel; ezt a mobil nem éri el.
@@ -13,7 +13,7 @@ Helyi állományok: `%LOCALAPPDATA%\SimControlStudio`. A `bridge.json` a kioszt�
 
 ## 2. Android és iOS
 
-Android APK: a GitHub kiadási oldal Assets listájában `SIM_CONTROL_STUDIO_0.2.0.apk`. A letöltés és az aláírás/frissítés részletei: `ANDROID.md`. iOS-hez forrás és Xcode-útmutató van (`IOS.md`), aláírt IPA nincs.
+Android APK: a GitHub kiadási oldal Assets listájában `SIM_CONTROL_STUDIO_0.3.0.apk`. A letöltés és az aláírás/frissítés részletei: `ANDROID.md`. iOS-hez tényleges szimulátoros és aláírás nélküli ARM64 build, forrás és Xcode-útmutató van (`IOS.md`), aláírt IPA nincs.
 
 PC nélküli kipróbálás: a varázslóban válaszd a **DEMO** gombot; később a Kezdőlap DEMO kapcsolójával is bekapcsolhatod. A teljes képernyőn és a szerkesztőben is látható a DEMO jelölés. A szimulált parancs nem jut a Windows bemenetéhez. Valódi játékhoz kapcsold ki a DEMO módot.
 
@@ -37,7 +37,7 @@ Az automatikus felderítés a hálózat broadcast-támogatásától függ. A fel
 5. A telefonon nyisd meg a műszerfalat. Gázadásra, fékezésre és váltásra az értékeknek a játékkal együtt kell változniuk.
 6. Ellenőrizd külön a fokozatkódolást: a v1 adapter `0=R, 1=N, 2=1` nyers kiosztást használ. Ha az adott Rally-verzió ettől eltér, ne használd megtévesztő értékkel: exportálj diagnosztikát és javítsd az adaptert.
 
-Az éles vizsgálat a felhasználónál még szükséges. Az adapter implementációjának létezése és a bináris mintatesztek sikere nem bizonyítja egy nem futtatott játékverzió működését.
+A felhasználó már működő éles Android–Windows–Rally rendszerről számolt be. A 0.3.0 telepítése utáni regressziós próba a saját környezetében még szükséges. Az adapter implementációjának létezése és a bináris mintatesztek sikere nem bizonyítja egy nem futtatott játékverzió működését.
 
 ## 4. Második mobil és profilpár
 

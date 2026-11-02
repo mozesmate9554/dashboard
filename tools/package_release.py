@@ -11,6 +11,7 @@ p.add_argument('--windows', type=Path, required=True)
 p.add_argument('--apk', type=Path, required=True)
 p.add_argument('--installer', type=Path, required=True)
 p.add_argument('--checks', type=Path, required=True)
+for name in ['ios','android-native','previews']:p.add_argument('--'+name,type=Path,required=True)
 a = p.parse_args()
 version = (ROOT/'VERSION').read_text().strip()
 output = a.output.resolve(); output.mkdir(parents=True, exist_ok=True)
@@ -32,7 +33,7 @@ flutter = [json.loads(line) for line in (a.checks/'flutter-tests.jsonl').read_te
 if not any(e.get('type') == 'done' and e.get('success') is True for e in flutter): raise SystemExit('No successful real Flutter test completion.')
 for name in ['Android','iOS','Windows','Source','Profiles','Documentation','Tests']:
     (release/name).mkdir(parents=True)
-excluded = {'.git','bin','obj','build','.dart_tool','.gradle','Pods','.symlinks','releases','__pycache__','_staging','_release-input','_release-output'}
+excluded = {'.git','bin','obj','build','.dart_tool','.gradle','Pods','.symlinks','releases','__pycache__','_staging','_release-input','_release-output','preview-build','reference-evidence','ios-ci','android-ci','ci-results'}
 def ignore(directory, names):
     return [n for n in names if n in excluded or n.endswith(('.pfx','.jks','.keystore','.pyc')) or n in {'local.properties','key.properties'}]
 shutil.copytree(ROOT, release/'Source/sim-control-studio', ignore=ignore)
@@ -45,6 +46,10 @@ shutil.copytree(ROOT/'mobile_flutter/ios', release/'iOS/ios-project', ignore=ign
 shutil.copytree(ROOT/'tests/results', release/'Tests', dirs_exist_ok=True)
 shutil.copytree(a.checks, release/'Tests/Android-CI', dirs_exist_ok=True)
 shutil.copy2(ROOT/'documentation/IOS.md', release/'iOS/BUILD_AND_SIGN.md')
+shutil.copytree(a.ios, release/'Tests/iOS-CI',ignore=lambda d,n:[v for v in n if v.endswith('.zip')],dirs_exist_ok=True)
+shutil.copytree(a.android_native, release/'Tests/Android-native',dirs_exist_ok=True)
+shutil.copytree(a.previews,release/'Previews',dirs_exist_ok=True)
+for f in a.ios.glob('*.zip'):shutil.copy2(f,release/'iOS'/f.name)
 (release/'KEZDD_ITT.md').write_text(f'''# SIM CONTROL STUDIO {version}
 
 Android: `Android/SIM_CONTROL_STUDIO_{version}.apk`.
@@ -56,10 +61,11 @@ Visszaállítás: `git clone Source/sim-control-studio.bundle sim-control-studio
 
 Valódi CI-fordítás és automatizált tesztek: `Tests/Android-CI`, `Tests/windows-bridge-tests.json`.
 A DEMO-adatok szimuláltak. A két hálózati tesztkliens nem két fizikai mobil.
-A konkrét Rally-verzió, Windows játékbemenet, telefonos telepítés és Wi-Fi még fizikai ellenőrzést igényel.
-iOS IPA nincs. A profilok grafikai hűsége: 1 részleges referencia, 19 inspirált; nincs hitelesített gyári replika.
+A felhasználó működő éles Android–Windows–Rally rendszerről számolt be; a 0.3.0 fizikai regressziós elfogadása még szükséges.
+iOS: tényleges szimulátoros és aláírás nélküli ARM64 build; natív szimulátorteszt. Aláírt IPA / TestFlight nincs, fizikai iPhone-teszt nem történt.
+A két új Škoda-felület fotóalapú rekonstrukció; a többi 19 autó változatlan. A Previews mappában nagy felbontású Flutter-képek és referencia-összehasonlítás vannak.
 
-Részletes állapot: `Documentation/FUNKCIOMATRIX_0.2.0.md` és `STATUS.json`.
+Részletes állapot: `Documentation/ALLAPOT.md` és `Documentation/STATUS.json`.
 A preview APK CI-aláírása futásonként eltérhet; frissítés előtt exportáld személyes profiljaidat.
 ''', encoding='utf-8')
 commit = subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip()
@@ -71,7 +77,7 @@ def sha(path):
     return h.hexdigest()
 manifest = {'application':'SIM CONTROL STUDIO','version':version,'generatedAtUtc':datetime.now(timezone.utc).isoformat(),
     'sourceCommit':commit,'releaseKind':'installable_preview','androidApkIncluded':True,'windowsInstallerIncluded':True,
-    'signedIosIpaIncluded':False,'physicalTestsPerformed':False,
+    'signedIosIpaIncluded':False,'iosSimulatorAppIncluded':True,'iosUnsignedArm64Included':True,'physicalTestsPerformedByDeveloper':False,
     'files':[{'path':str(f.relative_to(release)),'bytes':f.stat().st_size,'sha256':sha(f)} for f in sorted(release.rglob('*')) if f.is_file()]}
 (release/'MANIFEST.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n')
 def archive(folder, path, exclude=()):
@@ -84,6 +90,11 @@ def archive(folder, path, exclude=()):
 assets = [archive(release, output/f'SIM_CONTROL_STUDIO_{version}_RELEASE.zip'),
     archive(release/'Source', output/f'SIM_CONTROL_STUDIO_{version}_Source.zip'),
     archive(release/'Windows', output/f'SIM_CONTROL_STUDIO_{version}_Windows_x64.zip', exclude={a.installer.name})]
+assets += [archive(release/'Previews',output/f'SIM_CONTROL_STUDIO_{version}_Skoda_Previews.zip')]
+for f in a.ios.glob('*.zip'):
+    dest=output/f.name;shutil.copy2(f,dest);assets.append(dest)
+for f in [a.previews/'SKODA_REFERENCE_COMPARISON_0.3.0.pdf',ROOT/'documentation/STATUS.json']:
+    dest=output/f.name;shutil.copy2(f,dest);assets.append(dest)
 for src, name in [(a.apk, f'SIM_CONTROL_STUDIO_{version}.apk'), (a.installer,a.installer.name)]:
     dest=output/name; shutil.copy2(src,dest); assets.append(dest)
 (output/'SHA256SUMS.txt').write_text(''.join(f'{sha(f)}  {f.name}\n' for f in assets))

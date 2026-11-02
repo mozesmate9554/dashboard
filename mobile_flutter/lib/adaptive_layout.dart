@@ -106,7 +106,7 @@ void _dashboard(List<Map<String,dynamic>> items, Rect area, bool portrait) {
   final rest=items.where((e)=>e['kind']!='leds').toList();
   double top=area.top;
   for(final led in leds) {
-    _place(led,Rect.fromLTWH(area.left,top,area.width,20)); led['vertical']=false; top+=26;
+    _place(led,Rect.fromLTWH(area.left,top,area.width,20)); led['vertical']=false;led['rows']=1; top+=26;
   }
   if(area.height<420){
     _grid(rest,Rect.fromLTWH(area.left,top,area.width,area.bottom-top));

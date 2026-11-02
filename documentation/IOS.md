@@ -1,22 +1,51 @@
-# iPhone / iPad build és aláírás
+# iPhone / iPad – 0.3.0 build és telepítés
 
-Az iOS projekt a `mobile_flutter/ios/Runner.xcodeproj`, a CocoaPods workspace a `Runner.xcworkspace`. iPhone és iPad céleszközcsalád beállítva; minimum iOS 15.5 a QR-kódkönyvtár feltételei miatt. Portré és fekvő megjelenítés engedélyezett.
+A 0.3.0 valódi macOS/Xcode-fordítást használ. Az első sikeres ellenőrzés Xcode 16.4 (16F6), Flutter 3.35.7, iPhone 16 Pro / iOS 18.5 szimulátoron futott. A kiadott változat pontos forráscommitját, az ismételt ellenőrzés eredményét és környezetét a kiadási csomag `Tests/iOS-CI/` könyvtára és `Documentation/STATUS.json` tartalmazza. Minimum iOS 15.5; iPhone és iPad céleszközcsalád.
 
-**Nem készült aláírt IPA és nem futott Xcode build.** A kiadási környezet Linux volt, macOS, Xcode és Apple aláírási környezet nélkül. A saját generálású PBX projekt objektumhivatkozásai és az XML fájlok statikusan ellenőrizve lettek; ez nem Xcode-fordítás.
+**Fizikai iPhone-teszt nem történt. Aláírt IPA és TestFlight nincs:** a projekthez jelenleg nincs Apple Developer-tagság és App Store Connect-alkalmazás. A szimulátoros TLS/Keychain/telemetria/érintéses parancs/visszacsatlakozás ellenőrzés valódi natív futás, de loopback hálózaton, egyértelműen jelölt DEMO-forrással. Nem bizonyítja a Wi-Fi, a QR-kamera vagy a fizikai kijelző működését.
 
-## Saját macOS gépen
+## Letölthető iOS-állományok
 
-1. Telepíts kompatibilis Flutter stable SDK-t, Xcode-ot és CocoaPodsot. Futtasd a `flutter doctor -v` parancsot.
-2. A `mobile_flutter` könyvtárban: `flutter pub get`, `flutter analyze`, `flutter test`.
-3. `cd ios && pod install`. A Flutter által előállított `Generated.xcconfig` és `GeneratedPluginRegistrant` fájlok buildtermékek, nem kitaláltan előre kitöltött SDK-útvonalak.
-4. Nyisd meg a `Runner.xcworkspace` fájlt. A Runner → Signing & Capabilities lapon válaszd ki a saját fejlesztői Teamet, és állíts be egyedi Bundle Identifiert. Ha ezt módosítod, frissítsd a `Runner.entitlements` Keychain csoportját is.
-5. Csatlakoztasd az iPhone-t/iPadet; Development buildhez engedélyezd a készüléken a fejlesztői módot és a saját aláírásodat az Apple feltételei szerint.
-6. Indíts Xcode-ból vagy `flutter run` paranccsal. Kiadáshoz `flutter build ipa --release` és saját provisioning szükséges. A buildszkript `tools/build-ios.sh`; aláírás nélküli fordításhoz `SIMCONTROL_IOS_NO_CODESIGN=1` állítható be. Az így elkészülő `.app` nem telepíthető aláírt IPA-ként.
+Kiadás: https://github.com/mozesmate9554/dashboard/releases/tag/v0.3.0
 
-## Helyi hálózat
+- `SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip`: ténylegesen fordított, szimulátoron telepített és elindított `Runner.app`. Csak kompatibilis macOS/Xcode/iOS Simulator környezetben fut.
+- `SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip`: tényleges ARM64 release `.app`, aláírás nélkül. **Nem iPhone-ra telepíthető IPA**, és nem adható TestFlightnak.
+- A teljes kiadási ZIP tartalmazza a forrást, az iOS-projektet, buildnaplókat és tesztbizonyítékot.
 
-A plist tartalmazza a helyi hálózat és kamera érthető indoklását. A kapcsolat TLS és tanúsítványrögzítés alapú. Nincs általános `NSAllowsArbitraryLoads` kivétel vagy HTTP-n továbbított készüléktitok.
+## Szimulátoros telepítés Macen
 
-Az UDP broadcast felderítés iOS-en Apple multicast jogosultságot igényelhet. Ezt a projekt nem állítja automatikusan megszerzettnek. Az alap párosítási út a QR/kézi IPv4; ezt teszteld először. A helyi hálózati engedélyt a készülék beállításai között engedélyezd.
+Xcode és az iOS 18.5 szimulátor futtatókörnyezete szükséges. A `Simulator` alkalmazásban indíts egy kompatibilis iPhone-t. Csomagold ki a Simulator ZIP-et, majd:
 
-Az iOS Keychain a Bridge hitelesítési titkát tárolja. A projekt nem küld adatot Apple vagy más felhőszolgáltatásba. Az aláírás és a build eszközeinek hálózati igénye különbözik a futó alkalmazás működésétől.
+```sh
+xcrun simctl install booted /teljes/utvonal/Runner.app
+xcrun simctl launch booted hu.simcontrol.studio
+```
+
+Vagy húzd a `Runner.app` fájlt a szimulátor ablakára. Apple-fiók és fizetős tagság ehhez nem kell. Ha az adott Mac architektúrája vagy SDK-ja eltér, a forrásból fordítsd újra:
+
+```sh
+cd mobile_flutter
+flutter pub get
+flutter build ios --simulator --debug
+```
+
+## Saját iPhone-ra Xcode-ból
+
+1. Macen telepíts Xcode-ot, CocoaPodsot és Flutter **3.35.7**-et; `flutter doctor -v` jelezze a kész környezetet.
+2. A forrás `mobile_flutter` könyvtárában futtasd: `flutter pub get`, `flutter analyze`, `flutter test`, majd `cd ios && pod install`.
+3. Nyisd meg a **Runner.xcworkspace** fájlt. A Runner → Signing & Capabilities alatt válassz saját Teamet, kapcsold be az automatikus aláírást, és szükség esetén adj meg egyedi Bundle Identifiert. A Keychain-csoport a Team és Bundle Identifier változóiból képződik.
+4. Csatlakoztasd és bízd meg az iPhone-t; a készülék és Xcode utasításai szerint engedélyezd a Developer Mode-ot és a fejlesztői aláírást.
+5. Válaszd ki a készüléket és indíts **Run**-t. Személyes Apple ID-val az Apple által megengedett ideiglenes fejlesztői telepítés használható; annak idő- és eszközkorlátait az Xcode jelzi. A projekt ezt nem kerüli meg.
+6. Első induláskor DEMO-ban ellenőrizd mindhárom nézetet, majd engedélyezd a helyi hálózatot és párosíts a PC Bridge-dzsel. A kamerás QR opcionális; kézi IP/pin/token-párosítás is van.
+
+Az aláírás nélküli kiadási `.app` helyett a saját Teameddel fordított alkalmazást telepítsd. Más Team vagy Bundle Identifier új Keychain-hozzáférést jelenthet: ilyenkor párosíts újra.
+
+## TestFlight később
+
+Aktív Apple Developer-tagság, saját Bundle ID, megfelelő App Store Connect-szerepkör és létrehozott alkalmazás szükséges. Xcode → Product → Archive → Distribute App → App Store Connect, vagy saját provisioning mellett `flutter build ipa --release`. Az App Store Connect feldolgozás és szükséges megfelelőségi adatok után a TestFlight lapon lehet tesztelőket meghívni; külső teszteléshez Apple-ellenőrzés is kellhet. A tagság/aláírás beállítása után kell ténylegesen elvégezni ezt a kiadást. Privát kulcsot és jelszót ne helyezz a repositoryba.
+
+## Hálózat és teljes képernyő
+
+A kapcsolat privát IPv4-en, tanúsítványhoz rögzített TLS/WebSocketen működik; a készüléktitok Keychainbe kerül. A plist helyi hálózati és opcionális kameraindoklást tartalmaz; nincs általános `NSAllowsArbitraryLoads` kivétel. Az UDP-broadcast iOS-en külön multicast-jogosultságot igényelhet: **QR vagy kézi IP az elsődleges párosítás**. A szimulátoros teszt nem ellenőrzi az éles hálózati engedélykérő ablakot.
+
+A műszerfal a státuszsáv elrejtését és a Home-jelző automatikus elhalványítását kéri. Az iOS gesztusra visszahozhatja a rendszerjelzőt; ez rendszerkorlát. A kivágás és a biztonságos érintési terület szabadon marad. iPad multitasking felülírhat tájolási kéréseket. Részletek: [TELJES_KEPERNYO_0.3.0.md](TELJES_KEPERNYO_0.3.0.md).

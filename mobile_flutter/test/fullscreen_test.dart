@@ -59,8 +59,8 @@ void main() {
   });
   testWidgets('All cockpit roles respect iPhone safe areas and keep an exit reachable',(tester)async{
     SharedPreferences.setMockInitialValues({'haptic':false});
-    final directory=await Directory.systemTemp.createTemp('studio-fullscreen-');
-    final store=StudioStore();await store.load(documentsDirectory:directory);
+    final directory=(await tester.runAsync(()=>Directory.systemTemp.createTemp('studio-fullscreen-')))!;
+    final store=StudioStore();await tester.runAsync(()=>store.load(documentsDirectory:directory));
     final connection=BridgeConnection(store);await connection.setDemo(true);
     tester.view.devicePixelRatio=1;tester.view.physicalSize=const Size(393,852);
     addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);

@@ -17,5 +17,10 @@
 key.properties
 releases/
 .DS_Store
+preview-build/
+reference-evidence/
+ios-ci/
+android-ci/
+ci-results/
 
 **/__pycache__/
