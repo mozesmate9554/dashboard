@@ -1,0 +1,21 @@
+name: Native emulator log diagnostics
+on:
+  push:
+    branches: ['reference/emulator-diagnostics']
+    paths: ['.github/workflows/native-diagnostics.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  emulator-log:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: Android-native-c19671c9d8443d1c3bac4fca3c8218ac5be0899a
+          path: evidence
+          run-id: 41367816780
+          github-token: ${{ github.token }}
+      - name: Inspect non-secret emulator startup output
+        run: cat evidence/emulator.log
