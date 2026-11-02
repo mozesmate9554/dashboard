@@ -1,0 +1,55 @@
+# Peugeot 206 WRC · Textures
+
+Játékbeli anyag- és textúranevek (csak nevek, export nélkül).
+
+- Játékbeli azonosító: `Peugeot206WRC`
+- Játékbeli eszközmappa: `Vehicles/WRC/Peugeot206`
+- Utastér-anyagok (név szerint):
+  - `MI_CarbonCockpit`
+  - `MI_DecalsCockpit`
+  - `MI_DecalsCockpit_UserLivery`
+  - `MI_DetailsCockpit`
+  - `MI_FabricBlackCockpit`
+  - `MI_FabricDotsCockpit`
+  - `MI_FlockBlackCockpit`
+  - `MI_FlockGreyCockpit`
+  - `MI_FoamCockpit`
+  - `MI_GripTapeCockpit`
+  - `MI_InternalWindow`
+  - `MI_InternalWindowFront`
+  - `MI_InternalWindowFrontSimulated`
+  - `MI_InternalWindowSimulated`
+  - `MI_InternalWindowStickers`
+  - `MI_KevlarYellowCockpit`
+  - `MI_LCD`
+  - `MI_LightGlassInternal`
+  - `MI_PaintBlackGlossCockpit`
+  - `MI_PaintBlackMatteCockpit`
+  - `MI_PaintMetalBlackWeldsCockpit`
+  - `MI_PaintMetalCockpit`
+  - `MI_PaintMetalCockpit_UserLivery`
+  - `MI_PaintMetalWeldsCockpit`
+  - `MI_PaintMetalWeldsCockpit_UserLivery`
+  - `MI_PlasticBlackGlossCockpit`
+  - `MI_PlasticBlackMatteCockpit`
+  - `MI_RubberCockpit`
+  - `MI_SteelCockpit`
+  - `MI_SteelYellowCockpit`
+  - `MI_SuedeCockpit`
+  - `T_Cockpit_AO`
+  - `T_IntDetails_B`
+  - `T_IntDetails_E`
+  - `T_IntDetails_M`
+  - `T_IntDetails_NAO`
+  - `T_IntDetails_ORM`
+  - `T_Lights_B`
+  - `T_Lights_GlowA`
+  - `T_Lights_GlowB`
+  - `T_Lights_N`
+  - `T_Lights_ORM`
+  - `T_Lights_PH`
+  - `T_Lights_TN`
+  - `T_Peugeot206_CockpitReflection`
+  - `T_WipersLoopFlipbook_M`
+  - `T_WipersStartFlipbook_M`
+  - `T_Wipers_M`

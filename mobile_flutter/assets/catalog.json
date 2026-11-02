@@ -15378,6 +15378,7 @@
                 "z": 3,
                 "fontSize": 330,
                 "color": "#10200c",
+                "foreground": "#10200c",
                 "border": false,
                 "font": "factory",
                 "fontWeight": 700
@@ -15394,6 +15395,7 @@
                 "z": 3,
                 "fontSize": 110,
                 "color": "#10200c",
+                "foreground": "#10200c",
                 "border": false,
                 "font": "factory"
               },
@@ -15409,6 +15411,7 @@
                 "z": 3,
                 "fontSize": 110,
                 "color": "#10200c",
+                "foreground": "#10200c",
                 "border": false,
                 "font": "factory"
               },
@@ -15424,6 +15427,7 @@
                 "z": 3,
                 "fontSize": 70,
                 "color": "#10200c",
+                "foreground": "#10200c",
                 "border": false,
                 "font": "factory"
               },
@@ -15439,6 +15443,7 @@
                 "z": 3,
                 "fontSize": 60,
                 "color": "#10200c",
+                "foreground": "#10200c",
                 "border": false,
                 "font": "factory"
               },

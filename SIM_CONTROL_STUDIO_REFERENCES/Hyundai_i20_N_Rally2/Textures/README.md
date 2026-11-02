@@ -1,0 +1,46 @@
+# Hyundai i20 N Rally2 · Textures
+
+Játékbeli anyag- és textúranevek (csak nevek, export nélkül).
+
+- Játékbeli azonosító: `HyundaiI20NRally2`
+- Játékbeli eszközmappa: `Vehicles/Rally2/HyundaiI20`
+- Utastér-anyagok (név szerint):
+  - `MI_AluminiumCockpit`
+  - `MI_CarbonGlossyCockpit`
+  - `MI_CarbonYellowGlossyCockpit`
+  - `MI_DecalsCockpit`
+  - `MI_DetailsCockpit`
+  - `MI_HeatWiresCockpit`
+  - `MI_InternalWindow`
+  - `MI_InternalWindowFront`
+  - `MI_InternalWindowFrontSimulated`
+  - `MI_InternalWindowSimulated`
+  - `MI_InternalWindowStickers`
+  - `MI_LCD`
+  - `MI_PaintBlackCockpit`
+  - `MI_PaintCockpit`
+  - `MI_PaintCockpit_UserLivery`
+  - `MI_PaintRedCockpit`
+  - `MI_PlasticBlackCockpit`
+  - `MI_PlasticGreyCockpit`
+  - `MI_RollcagePaddingCockpit`
+  - `MI_RubberCockpit`
+  - `MI_WeldsBlackCockpit`
+  - `MI_WeldsPaintedCockpit`
+  - `MI_WeldsPaintedCockpit_UserLivery`
+  - `T_Cockpit_AO`
+  - `T_HyundaiI20_CockpitReflection`
+  - `T_IntDetails_B`
+  - `T_IntDetails_E`
+  - `T_IntDetails_M`
+  - `T_IntDetails_NAO`
+  - `T_IntDetails_ORM`
+  - `T_Lights_C`
+  - `T_Lights_GlowA`
+  - `T_Lights_GlowB`
+  - `T_Lights_N`
+  - `T_Lights_ORM`
+  - `T_Lights_PH`
+  - `T_WipersLoopFlipbook_M`
+  - `T_WipersStartFlipbook_M`
+  - `T_Wipers_M`

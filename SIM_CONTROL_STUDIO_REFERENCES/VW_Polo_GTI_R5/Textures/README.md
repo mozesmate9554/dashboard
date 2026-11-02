@@ -1,0 +1,60 @@
+# VW Polo GTI R5 · Textures
+
+Játékbeli anyag- és textúranevek (csak nevek, export nélkül).
+
+- Játékbeli azonosító: `VWPoloGTIR5`
+- Játékbeli eszközmappa: `Vehicles/R5/VWPoloGTI`
+- Utastér-anyagok (név szerint):
+  - `MI_AluFoilCockpit`
+  - `MI_AluminiumCockpit`
+  - `MI_CarbonFiberCockpit`
+  - `MI_DecalsCockpit`
+  - `MI_DetailsCockpit`
+  - `MI_FabricBlackCockpit`
+  - `MI_FabricGreyCockpit`
+  - `MI_FabricHandleCockpit`
+  - `MI_FabricStrapCockpit`
+  - `MI_FoamCockpit`
+  - `MI_GlassClearCockpit`
+  - `MI_GrilleFabricCockpit`
+  - `MI_GripTapeCockpit`
+  - `MI_InternalWindow`
+  - `MI_InternalWindowFront`
+  - `MI_InternalWindowFrontSimulated`
+  - `MI_InternalWindowPoly`
+  - `MI_InternalWindowSimulated`
+  - `MI_InternalWindowSimulatedPoly`
+  - `MI_InternalWindowStickers`
+  - `MI_LCD`
+  - `MI_LightGlassInternal`
+  - `MI_MetalBlackSatinCockpit`
+  - `MI_PaintBlackSatinCockpit`
+  - `MI_PaintMetalBlackWeldsCockpit`
+  - `MI_PaintMetalCockpit`
+  - `MI_PaintMetalCockpit_UserLivery`
+  - `MI_PaintMetalWeldsCockpit`
+  - `MI_PaintMetalWeldsCockpit_UserLivery`
+  - `MI_PlasticBlackGlossCockpit`
+  - `MI_PlasticBlackSatinCockpit`
+  - `MI_PlasticGrainCockpit`
+  - `MI_PlasticGreyMatteCockpit`
+  - `MI_RubberCockpit`
+  - `MI_SafetyFoamCockpit`
+  - `MI_SuedeCockpit`
+  - `T_Cockpit_AO`
+  - `T_IntDetails_B`
+  - `T_IntDetails_E`
+  - `T_IntDetails_M`
+  - `T_IntDetails_NAO`
+  - `T_IntDetails_ORM`
+  - `T_Lights_B`
+  - `T_Lights_GlowA`
+  - `T_Lights_GlowB`
+  - `T_Lights_N`
+  - `T_Lights_ORM`
+  - `T_Lights_PH`
+  - `T_Lights_TN`
+  - `T_VWPoloGTI_CockpitReflection`
+  - `T_WipersLoopFlipbook_M`
+  - `T_WipersStartFlipbook_M`
+  - `T_Wipers_M`

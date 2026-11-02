@@ -1,0 +1,49 @@
+# Subaru Impreza 555 GrA 1993 · Textures
+
+Játékbeli anyag- és textúranevek (csak nevek, export nélkül).
+
+- Játékbeli azonosító: `SubaruImprezaS3`
+- Játékbeli eszközmappa: `Vehicles/GroupA/SubaruImprezaS3`
+- Utastér-anyagok (név szerint):
+  - `MI_AluminiumCockpit`
+  - `MI_CarbonSatinCockpit`
+  - `MI_DecalsCockpit`
+  - `MI_DecalsCockpit_UserLivery`
+  - `MI_DetailsCockpit`
+  - `MI_FabricBlackCockpit`
+  - `MI_FabricDotsCockpit`
+  - `MI_FabricStripesCockpit`
+  - `MI_FlockCockpit`
+  - `MI_GripTapeCockpit`
+  - `MI_InternalWindowFrontSimulated`
+  - `MI_InternalWindowSimulated`
+  - `MI_InternalWindowStickers`
+  - `MI_LCD`
+  - `MI_LightGlassInternal`
+  - `MI_MetalBlackBrushedCockpit`
+  - `MI_MetalBlackMatteCockpit`
+  - `MI_PaintMetalCockpit`
+  - `MI_PaintMetalCockpit_UserLivery`
+  - `MI_PaintMetalWeldsCockpit`
+  - `MI_PaintMetalWeldsCockpit_UserLivery`
+  - `MI_PlasticBlackGlossCockpit`
+  - `MI_PlasticBlackGrainCockpit`
+  - `MI_PlasticBlackSatinCockpit`
+  - `MI_RubberCockpit`
+  - `MI_SuedeCockpit`
+  - `T_Cockpit_AO`
+  - `T_IntDetails_B`
+  - `T_IntDetails_E`
+  - `T_IntDetails_M`
+  - `T_IntDetails_NAO`
+  - `T_IntDetails_ORM`
+  - `T_Lights_B`
+  - `T_Lights_GlowA`
+  - `T_Lights_GlowB`
+  - `T_Lights_N`
+  - `T_Lights_ORM`
+  - `T_Lights_PH`
+  - `T_Lights_TN`
+  - `T_WipersLoopFlipbook_M`
+  - `T_WipersStartFlipbook_M`
+  - `T_Wipers_M`

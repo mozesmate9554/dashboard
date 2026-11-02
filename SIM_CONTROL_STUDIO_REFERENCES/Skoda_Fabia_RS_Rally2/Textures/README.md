@@ -1,0 +1,58 @@
+# Skoda Fabia RS Rally2 · Textures
+
+Játékbeli anyag- és textúranevek (csak nevek, export nélkül).
+
+- Játékbeli azonosító: `SkodaFabiaRSRally2`
+- Játékbeli eszközmappa: `Vehicles/Rally2/SkodaFabiaRS`
+- Utastér-anyagok (név szerint):
+  - `MI_AluminiumCockpit`
+  - `MI_CarbonFiberCockpit`
+  - `MI_DecalsCockpit`
+  - `MI_DecalsCockpit_UserLivery`
+  - `MI_DetailsCockpit`
+  - `MI_FabricBlackCockpit`
+  - `MI_FabricHandleCockpit`
+  - `MI_FullBlackCockpit`
+  - `MI_GripTapeCockpit`
+  - `MI_InternalWindow`
+  - `MI_InternalWindowFront`
+  - `MI_InternalWindowFrontSimulated`
+  - `MI_InternalWindowPoly`
+  - `MI_InternalWindowSimulatedPoly`
+  - `MI_InternalWindowStickers`
+  - `MI_InternalWindowStickers_UserLivery`
+  - `MI_LCD`
+  - `MI_LightGlassInternal`
+  - `MI_PaintBlackMatteCockpit`
+  - `MI_PaintBlackMatteCockpit_UserLivery`
+  - `MI_PaintBlackSatinCockpit`
+  - `MI_PaintRedCockpit`
+  - `MI_PaintSilverCockpit`
+  - `MI_PaintSilverCockpit_UserLivery`
+  - `MI_PlasticBlackSatinCockpit`
+  - `MI_PlasticDarkGreyCockpit`
+  - `MI_RollcagePaddingCockpit`
+  - `MI_RubberCockpit`
+  - `MI_SafetyFoamCockpit`
+  - `MI_SuedeCockpit`
+  - `MI_SuedeDashCockpit`
+  - `MI_WeldsBlackCockpit`
+  - `MI_WeldsBlackCockpit_UserLivery`
+  - `MI_WeldsSilverCockpit`
+  - `MI_WeldsSilverCockpit_UserLivery`
+  - `MI_WindowsGrilleCockpit`
+  - `T_Cockpit_AO`
+  - `T_IntDetails_B`
+  - `T_IntDetails_E`
+  - `T_IntDetails_M`
+  - `T_IntDetails_NAO`
+  - `T_IntDetails_ORM`
+  - `T_Lights_B`
+  - `T_Lights_GlowA`
+  - `T_Lights_GlowB`
+  - `T_Lights_N`
+  - `T_Lights_ORM`
+  - `T_Lights_PH`
+  - `T_WipersLoopFlipbook_M`
+  - `T_WipersStartFlipbook_M`
+  - `T_Wipers_M`

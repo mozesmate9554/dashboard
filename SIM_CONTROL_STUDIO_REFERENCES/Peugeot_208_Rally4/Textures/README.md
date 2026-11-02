@@ -1,0 +1,52 @@
+# Peugeot 208 Rally4 · Textures
+
+Játékbeli anyag- és textúranevek (csak nevek, export nélkül).
+
+- Játékbeli azonosító: `Peugeot208Rally4`
+- Játékbeli eszközmappa: `Vehicles/Rally4/Peugeot208`
+- Utastér-anyagok (név szerint):
+  - `MI_AluminiumCockpit`
+  - `MI_CarpetBlackCockpit`
+  - `MI_DecalsCockpit`
+  - `MI_DecalsCockpit_UserLivery`
+  - `MI_DetailsCockpit`
+  - `MI_DuctCockpit`
+  - `MI_FabricBlackCockpit`
+  - `MI_FabricDotsCockpit`
+  - `MI_FabricStrapCockpit`
+  - `MI_InternalWindow`
+  - `MI_InternalWindowFront`
+  - `MI_InternalWindowFrontSimulated`
+  - `MI_InternalWindowSimulated`
+  - `MI_InternalWindowStickers`
+  - `MI_LCD`
+  - `MI_LightGlassInternal`
+  - `MI_MetalBrushedCockpit`
+  - `MI_PaintBlackGlossCockpit`
+  - `MI_PaintBlackGlossCockpit_UserLivery`
+  - `MI_PaintBlackGlossWeldsCockpit`
+  - `MI_PaintBlackGlossWeldsCockpit_UserLivery`
+  - `MI_PaintSilverCockpit`
+  - `MI_PaintSilverCockpit_UserLivery`
+  - `MI_PaintSilverWeldsCockpit`
+  - `MI_PaintSilverWeldsCockpit_UserLivery`
+  - `MI_PlasticBlackGrainCockpit`
+  - `MI_PlasticBlackSatinCockpit`
+  - `MI_RollcagePaddingCockpit`
+  - `MI_RubberCockpit`
+  - `MI_SuedeBlackCockpit`
+  - `T_Cockpit_AO`
+  - `T_IntDetails_B`
+  - `T_IntDetails_E`
+  - `T_IntDetails_M`
+  - `T_IntDetails_NAO`
+  - `T_IntDetails_ORM`
+  - `T_Lights_B`
+  - `T_Lights_GlowA`
+  - `T_Lights_GlowB`
+  - `T_Lights_ORM`
+  - `T_Lights_PH`
+  - `T_Peugeot208_CockpitReflection`
+  - `T_WipersLoopFlipbook_M`
+  - `T_WipersStartFlipbook_M`
+  - `T_Wipers_M`

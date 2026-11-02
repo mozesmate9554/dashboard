@@ -6,117 +6,117 @@
     {
       "name": "All vehicles and every factory layout are separately identified",
       "status": "passed",
-      "durationMs": 0.02
+      "durationMs": 0.04
     },
     {
       "name": "Porsche 911 GT3 R (992) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.08
+      "durationMs": 2.23
     },
     {
       "name": "BMW M4 GT3 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.53
+      "durationMs": 0.68
     },
     {
       "name": "Mercedes-AMG GT3 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.51
+      "durationMs": 0.56
     },
     {
       "name": "Ferrari 296 GT3 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.45
+      "durationMs": 0.8
     },
     {
       "name": "Audi R8 LMS GT3 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.46
+      "durationMs": 2.17
     },
     {
       "name": "Lamborghini Huracán GT3 EVO2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.57
+      "durationMs": 0.86
     },
     {
       "name": "McLaren 720S GT3 Evo pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.57
+      "durationMs": 0.58
     },
     {
       "name": "Aston Martin Vantage GT3 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.44
+      "durationMs": 0.72
     },
     {
       "name": "Lexus RC F GT3 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.53
+      "durationMs": 1.12
     },
     {
       "name": "Corvette Z06 GT3.R pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.45
+      "durationMs": 3.25
     },
     {
       "name": "Porsche 963 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.54
+      "durationMs": 2.45
     },
     {
       "name": "Ferrari 499P pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.48
+      "durationMs": 0.64
     },
     {
       "name": "Toyota GR010 Hybrid pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.45
+      "durationMs": 0.54
     },
     {
       "name": "Cadillac V-Series.R pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.43
+      "durationMs": 2.69
     },
     {
       "name": "BMW M Hybrid V8 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.45
+      "durationMs": 0.65
     },
     {
       "name": "Toyota GR Yaris Rally1 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.39
+      "durationMs": 0.48
     },
     {
       "name": "Hyundai i20 N Rally1 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.41
+      "durationMs": 2.78
     },
     {
       "name": "Ford Puma Rally1 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.41
+      "durationMs": 0.55
     },
     {
       "name": "Škoda Fabia RS Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 2.49
+      "durationMs": 2.47
     },
     {
       "name": "Dallara IR-18 IndyCar pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.53
+      "durationMs": 0.75
     },
     {
       "name": "Peugeot 208 Rally4 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.81
+      "durationMs": 1.06
     },
     {
       "name": "Hyundai i20 N Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.09
+      "durationMs": 0.93
     },
     {
       "name": "Volkswagen Polo GTI R5 pair, bindings, bounds, SVG and provenance",
@@ -126,17 +126,17 @@
     {
       "name": "Peugeot 206 WRC (1999) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.67
+      "durationMs": 0.68
     },
     {
       "name": "Subaru Impreza 555 Group A (1993) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 0.65
+      "durationMs": 0.91
     },
     {
       "name": "Skoda: 0.3.0 photo console preserved as a variant, dashboard telemetry preserved",
       "status": "passed",
-      "durationMs": 0.31
+      "durationMs": 0.45
     },
     {
       "name": "ACR cars: separate mechanical button boxes, hold starter, cycle lights, aliases",
@@ -146,27 +146,27 @@
     {
       "name": "Seven short, preloadable switch sounds",
       "status": "passed",
-      "durationMs": 1.62
+      "durationMs": 1.68
     },
     {
       "name": "Other 19 profile files remain byte-identical to the 0.2.0 baseline",
       "status": "passed",
-      "durationMs": 1.4
+      "durationMs": 1.81
     },
     {
       "name": "Android manifests / iOS plist, entitlement, storyboard and workspace XML",
       "status": "passed",
-      "durationMs": 4.5
+      "durationMs": 5.0
     },
     {
       "name": "Xcode project object references and iPhone/iPad deployment settings",
       "status": "passed",
-      "durationMs": 0.45
+      "durationMs": 0.57
     },
     {
       "name": "Cross-platform version and profile ID consistency",
       "status": "passed",
-      "durationMs": 0.33
+      "durationMs": 0.43
     }
   ]
 }

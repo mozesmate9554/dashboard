@@ -211,11 +211,11 @@ def peugeot_206(m):
     ink = '#10200c'
     lcd = [
         el('p206-leds', 'leds', 'rpm', 160, 70, 1280, 56, 'RPM', count=20, max=8000, palette=['#f2f2f2'] * 14 + ['#ff3030'] * 6, border=False),
-        el('p206-gear', 'gear', 'gear', 610, 170, 380, 420, '', fontSize=330, color=ink, border=False, font='factory', fontWeight=700),
-        el('p206-rpm', 'number', 'rpm', 150, 200, 420, 180, 'RPM', fontSize=110, color=ink, border=False, font='factory'),
-        el('p206-speed', 'number', 'speed', 1030, 200, 420, 180, 'KM/H', fontSize=110, color=ink, border=False, font='factory'),
-        el('p206-water', 'number', 'waterTemp', 150, 430, 420, 150, 'EAU °C', fontSize=70, color=ink, border=False, font='factory'),
-        el('p206-time', 'number', 'stageTime', 1030, 430, 420, 150, 'TEMPS', fontSize=60, color=ink, border=False, font='factory'),
+        el('p206-gear', 'gear', 'gear', 610, 170, 380, 420, '', fontSize=330, color=ink, foreground=ink, border=False, font='factory', fontWeight=700),
+        el('p206-rpm', 'number', 'rpm', 150, 200, 420, 180, 'RPM', fontSize=110, color=ink, foreground=ink, border=False, font='factory'),
+        el('p206-speed', 'number', 'speed', 1030, 200, 420, 180, 'KM/H', fontSize=110, color=ink, foreground=ink, border=False, font='factory'),
+        el('p206-water', 'number', 'waterTemp', 150, 430, 420, 150, 'EAU °C', fontSize=70, color=ink, foreground=ink, border=False, font='factory'),
+        el('p206-time', 'number', 'stageTime', 1030, 430, 420, 150, 'TEMPS', fontSize=60, color=ink, foreground=ink, border=False, font='factory'),
         el('p206-throttle', 'bar', 'throttle', 150, 640, 640, 110, 'GAZ', max=1, color='#20401a', foreground=ink, border=False),
         el('p206-brake', 'bar', 'brake', 810, 640, 640, 110, 'FREIN', max=1, color='#20401a', foreground=ink, border=False),
     ]

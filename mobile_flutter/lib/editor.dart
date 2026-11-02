@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import 'connection.dart';
 import 'display.dart';
 import 'models.dart';
+import 'premium_controls.dart';
 import 'storage.dart';
 import 'layout_geometry.dart';
 
@@ -175,7 +176,12 @@ class _LayoutEditorState extends State<LayoutEditor> {
       input('Kiemelőszín #RRGGBB', 'color'), input('Szövegszín #RRGGBB', 'foreground'), input('Háttérszín #RRGGBB', 'background'),
       input('Betűméret', 'fontSize', numeric: true), choose('Betűstílus', 'font', ['monospace', 'sans','factory']),
       choose('Saját gombgrafika', 'assetId', ((_layout.data['assets'] as Map<String,dynamic>?)?.keys.toList() ?? [])),
-      choose('Forma', 'shape', ['rectangle','rounded','circle']), input('Skála maximum', 'max', numeric: true), input('Tizedesek', 'decimals', numeric: true),
+      choose('Forma', 'shape', ['rectangle','rounded','circle','square']),
+      if ({'rocker','pushButton','guarded','rotarySwitch','cycleButton'}.contains(e['kind'])) ...[
+        choose('Kapcsolóhang', 'sound', SwitchSounds.files.keys.toList()), input('LED-szín #RRGGBB', 'ledColor'),
+        choose('Anyag', 'material', ['brushed','alu','carbon','plastic','rubber','glass']), input('Gravírozott felirat', 'engraving'),
+      ],
+      input('Skála maximum', 'max', numeric: true), input('Tizedesek', 'decimals', numeric: true),
       input('Választó pozícióinak száma (2–12)', 'positions', numeric: true),
       input('Figyelmeztetés e fölött', 'warningAbove', numeric: true),
       SwitchListTile(title: const Text('Figyelmeztetés villogása'), value: e['animate'] == true, onChanged: (v) => update('animate', v)),

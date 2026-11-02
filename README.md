@@ -1,4 +1,11 @@
-# SIM CONTROL STUDIO 0.3.0
+# SIM CONTROL STUDIO 0.4.0 Alpha
+
+> **0.4.0 Alpha** (`feature/sim-control-studio-0.4.0-alpha`): hat Assetto Corsa Rally autó saját műszerfallal és mechanikus Button Boxszal (animáció, kapcsolóhang, haptika, négyfokozatú LED), javított világításvezérlés (a játékban léptető `CycleLights`), nappali/éjszakai mód és automatikus autófelismerés.
+> Kezdd itt: [kiadási jegyzet](documentation/RELEASE_NOTES.md) · [gombkiosztás és világítás](documentation/BUTTON_MAPPING.md) · [tesztjelentés](documentation/TEST_REPORT.md) · [állapot](documentation/DEVELOPMENT_STATUS.md) · [játékfájl-referenciák](documentation/GAME_ASSET_REFERENCE_REPORT.md) · [autóreferenciák](documentation/VEHICLE_REFERENCE_REPORT.md)
+
+---
+
+## Előzmény: 0.3.0
 
 Natív Flutter műszerfal, kezelőpanel és hibrid kijelző, külön .NET 10 Windows Bridge-dzsel. A meglévő projekt, Git-előzmény, 20 autó és 40 alapelrendezés megmaradt. A másik 19 autó grafikai fájljai változatlanok.
 
