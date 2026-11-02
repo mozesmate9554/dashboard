@@ -476,11 +476,11 @@ class _AnalogPainter extends CustomPainter {
       final inner = center + Offset(math.cos(a), math.sin(a)) * radius * (major ? .72 : .79);
       canvas.drawLine(inner, outer, Paint()..strokeWidth = major ? radius * .025 : radius * .01..color = Colors.white);
       if (major) {
-        final label = TextPainter(text: TextSpan(text: '${i ~/ 5}', style: TextStyle(color: Colors.white, fontSize: radius * .15, fontWeight: FontWeight.w600)), textDirection: TextDirection.ltr)..layout();
+        final label = TextPainter(text: TextSpan(text: '${i ~/ 5}', style: TextStyle(color: Colors.white, fontSize: radius * .15, fontWeight: FontWeight.w600, fontFamily: 'OemCondensed')), textDirection: TextDirection.ltr)..layout();
         label.paint(canvas, center + Offset(math.cos(a), math.sin(a)) * radius * .58 - Offset(label.width / 2, label.height / 2));
       }
     }
-    final captionPainter = TextPainter(text: TextSpan(text: caption, style: TextStyle(color: Colors.white70, fontSize: radius * .085, letterSpacing: 1)), textDirection: TextDirection.ltr)..layout();
+    final captionPainter = TextPainter(text: TextSpan(text: caption, style: TextStyle(color: Colors.white70, fontSize: radius * .085, letterSpacing: 1, fontFamily: 'OemCondensed')), textDirection: TextDirection.ltr)..layout();
     captionPainter.paint(canvas, center + Offset(-captionPainter.width / 2, radius * .3));
     if (value != null) {
       final a = angle(value!);
@@ -488,7 +488,7 @@ class _AnalogPainter extends CustomPainter {
         Paint()..strokeWidth = radius * .035..strokeCap = StrokeCap.round..color = color);
     }
     canvas.drawCircle(center, radius * .07, Paint()..color = const Color(0xff2a2a2a));
-    final readout = TextPainter(text: TextSpan(text: text, style: TextStyle(color: Colors.white60, fontSize: radius * .11, fontFamily: 'monospace')), textDirection: TextDirection.ltr)..layout();
+    final readout = TextPainter(text: TextSpan(text: text, style: TextStyle(color: Colors.white60, fontSize: radius * .11, fontFamily: 'OemCondensed')), textDirection: TextDirection.ltr)..layout();
     readout.paint(canvas, center + Offset(-readout.width / 2, radius * .52));
     // Glass reflection.
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius * .88), math.pi * 1.1, math.pi * .5, false,

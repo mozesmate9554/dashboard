@@ -2,7 +2,8 @@ import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'models.dart';
 
-const controlKinds = {'button','hold','toggle','threeState','multiState','rotary','stepper','slider','icon'};
+const controlKinds = {'button','hold','toggle','threeState','multiState','rotary','stepper','slider','icon',
+  'rocker','pushButton','guarded','rotarySwitch','cycleButton'};
 
 /// A temporary presentation derived from a saved layout. Saved geometry never changes.
 StudioLayout adaptLayout(StudioLayout source, int page, Size viewport) {

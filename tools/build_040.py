@@ -73,6 +73,7 @@ def panel_background(w, h, face='carbon', frame=(168, 173, 180), face_tint=(34, 
         for (sx, sy) in ((x + 14, y + 14), (x + pw - 14, y + 14), (x + 14, y + ph - 14), (x + pw - 14, y + ph - 14)):
             screw(d, sx, sy, 6)
     for (x, y, text) in headings:
+        y = HEADING_ROWS.get(y, y)
         engrave(d, (x, y), text, 22, anchor='lm', fill=(196, 198, 202))
         d.line((x, y + 16, x + 9 * len(text) + 40, y + 16), fill=(90, 92, 96), width=2)
     for (sx, sy) in ((11, 11), (w - 11, 11), (11, h - 11), (w - 11, h - 11)):
@@ -85,7 +86,13 @@ def panel_background(w, h, face='carbon', frame=(168, 173, 180), face_tint=(34, 
     return buffer.getvalue()
 
 # ---------------------------------------------------------------- layout helpers
+GRID_ROWS = {92: 92, 340: 346, 588: 600}
+HEADING_ROWS = {62: 62, 310: 322, 558: 576}
+
 def control(identifier, kind, label, action, x, y, w, h, **extra):
+    # Left-hand grid: 210 px cells leave room for the engraved section headings between rows.
+    if x < 1000 and h == 228 and y in GRID_ROWS:
+        y, h = GRID_ROWS[y], 210
     e = {'id': identifier, 'kind': kind, 'label': label, 'field': extra.pop('field', ''), 'action': action,
          'x': x, 'y': y, 'w': w, 'h': h, 'border': False, 'z': 5}
     e.update(extra)
@@ -98,7 +105,7 @@ def background_element(identifier, w, h):
 def legend(identifier, x, y, w):
     return {'id': identifier + '-legend', 'kind': 'text', 'field': '', 'x': x, 'y': y, 'w': w, 'h': 30, 'z': 4, 'border': False,
             'label': 'LED · villogó sárga: elküldve · félig világít: Bridge végrehajtotta (feltételezett) · teljes fény: játék igazolta · piros: hiba',
-            'fontSize': 17, 'letterSpacing': 1, 'foreground': '#9aa0a6', 'font': 'factory'}
+            'fontSize': 16, 'letterSpacing': 1, 'foreground': '#9aa0a6', 'font': 'factory'}
 
 def panel_layout(identifier, name, vehicle_id, w, h, elements, png, supported):
     return {'schemaVersion': 1, 'id': identifier, 'name': name, 'vehicleId': vehicle_id, 'role': 'panel', 'isBase': True,
@@ -127,8 +134,8 @@ def skoda_panel():
         control('sk-fog', 'pushButton', 'Ködlámpa', 'fogLights', **at(2, 1), engraving='FOG', color='#2a3440', ledColor='#5cff8a', sound='plastic', **glass),
         control('sk-hazard', 'pushButton', 'Vészvillogó', 'hazards', **at(3, 1), engraving='HAZ', color='#9b1c1c', ledColor='#ff7a1a', sound='plastic', **glass),
         control('sk-wiper', 'cycleButton', 'Ablaktörlő · léptetés', 'wiper', **at(0, 2), states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='WIPE', color='#2a3440', ledColor='#5cc8ff', sound='plastic', **glass),
-        control('sk-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', **at(1, 2), engraving='◄', color='#2a3440', ledColor='#3cff6a', sound='plastic', **glass),
-        control('sk-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', **at(2, 2), engraving='►', color='#2a3440', ledColor='#3cff6a', sound='plastic', **glass),
+        control('sk-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', **at(1, 2), engraving='«', color='#2a3440', ledColor='#3cff6a', sound='plastic', **glass),
+        control('sk-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', **at(2, 2), engraving='»', color='#2a3440', ledColor='#3cff6a', sound='plastic', **glass),
         control('sk-demist', 'pushButton', 'Szélvédőfűtés', 'demist', **at(3, 2), engraving='DEMIST', color='#2a3440', ledColor='#ffb03c', sound='plastic', **glass),
         control('sk-map', 'rotarySwitch', 'Motortérkép', 'engineMapUp', x=1040, y=92, w=250, h=300, minusAction='engineMapDown', positions=5, states=['1', '2', '3', '4', '5'], color='#9bd158', material='alu', field=''),
         control('sk-intercom', 'rotarySwitch', 'Interkom hangerő', 'intercomVolumeUp', x=1310, y=92, w=250, h=300, minusAction='intercomVolumeDown', positions=6, states=['0', '1', '2', '3', '4', '5'], color='#e8e8e8', material='alu'),
@@ -136,7 +143,7 @@ def skoda_panel():
         control('sk-all', 'pushButton', 'ALL', 'acknowledge', x=1330, y=440, w=190, h=200, engraving='ALL', color='#2a3440', ledColor='#e8e8e8', sound='plastic', **glass),
         control('sk-call', 'pushButton', 'Hívás fogadása', 'callAccept', x=1070, y=652, w=190, h=170, engraving='CALL', color='#1f6b34', ledColor='#3cff6a', sound='plastic', **glass),
         control('sk-end', 'pushButton', 'Hívás vége', 'callEnd', x=1330, y=652, w=190, h=170, engraving='END', color='#8a1d1d', ledColor='#ff4040', sound='plastic', **glass),
-        legend(pid, 48, 830, 960),
+        legend(pid, 48, 836, 960),
     ]
     png = panel_background(W, H, face='carbon', plates=[(1018, 70, 556, 344, 'matte'), (1018, 424, 556, 418, 'matte')],
         headings=[(48, 62, 'TÁP · INDÍTÁS'), (48, 310, 'VILÁGÍTÁS'), (48, 558, 'LÁTÁS · JELZÉS')],

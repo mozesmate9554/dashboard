@@ -18,6 +18,8 @@ def png_bytes(image):
     buffer = io.BytesIO(); image.save(buffer, format='PNG', optimize=True); return buffer.getvalue()
 
 def el(i, kind, field, x, y, w, h, label='', **extra):
+    if kind in ('number', 'gear'):
+        extra.setdefault('font', 'factory')
     e = {'id': i, 'kind': kind, 'field': field, 'label': label, 'x': x, 'y': y, 'w': w, 'h': h, 'z': 3}
     e.update(extra); return e
 
@@ -106,11 +108,11 @@ def peugeot_208(m):
         c('p208-high', 'pushButton', 'Távfény', 'highBeam', 520, 588, 200, 228, engraving='HIGH', color='#1b1b1b', ledColor='#3c8cff', sound='plastic', **RUBBER),
         c('p208-page', 'pushButton', 'Kijelzőoldal', 'displayNext', 756, 588, 200, 228, engraving='PAGE', color='#1b1b1b', ledColor='#e8e8e8', sound='plastic', **RUBBER),
         c('p208-wiper', 'cycleButton', 'Ablaktörlő (jobb kar) · léptetés', 'wiper', 1060, 110, 220, 260, states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='WIPE', color='#1b1b1b', ledColor=yl, sound='rotary', **RUBBER),
-        c('p208-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 1310, 110, 120, 140, engraving='◄', color='#1b1b1b', ledColor='#3cff6a', sound='latch', **RUBBER),
-        c('p208-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 1440, 110, 120, 140, engraving='►', color='#1b1b1b', ledColor='#3cff6a', sound='latch', **RUBBER),
+        c('p208-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 1310, 110, 120, 140, engraving='«', color='#1b1b1b', ledColor='#3cff6a', sound='latch', **RUBBER),
+        c('p208-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 1440, 110, 120, 140, engraving='»', color='#1b1b1b', ledColor='#3cff6a', sound='latch', **RUBBER),
         c('p208-respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1310, 270, 250, 120, engraving='RESET', color='#3a1010', ledColor='#ff4040', sound='plastic', **GLASS),
         c('p208-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', 1070, 440, 470, 380, hold=True, engraving='HANDBRAKE', color='#262626', ledColor='#ff3030', sound='latch', **RUBBER),
-        m.legend(pid, 48, 830, 960)]
+        m.legend(pid, 48, 836, 960)]
     panel = m.panel_layout(pid, 'Peugeot 208 Rally4 · Button Box 0.4.0', vid, W, H, e,
         m.panel_background(W, H, face='matte', face_tint=(46, 48, 52), plates=[(1018, 70, 556, 344, 'brushed'), (1018, 424, 556, 418, 'matte')],
             headings=[(48, 62, 'MAIN · POWER · START'), (48, 310, 'ENGINE STRATEGY · LIGHTS'), (48, 558, 'ACCESSORIES')], title='RALLY4 · CONSOLE'), ['ignition'])
@@ -143,15 +145,15 @@ def hyundai_i20(m):
         c('i20-high', 'pushButton', 'Távfény', 'highBeam', 284, 340, 200, 228, engraving='HIGH', color='#16273d', ledColor='#3c8cff', sound='plastic', **GLASS),
         c('i20-haz', 'pushButton', 'Vészvillogó', 'hazards', 520, 340, 200, 228, engraving='HAZ', color='#7a1414', ledColor='#ff7a1a', sound='plastic', **GLASS),
         c('i20-wiper', 'cycleButton', 'Ablaktörlő · léptetés', 'wiper', 756, 340, 200, 228, states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='WIPE', color='#16273d', ledColor='#5cc8ff', sound='plastic', **GLASS),
-        c('i20-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='◄', color='#16273d', ledColor='#3cff6a', sound='plastic', **GLASS),
-        c('i20-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='►', color='#16273d', ledColor='#3cff6a', sound='plastic', **GLASS),
+        c('i20-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='«', color='#16273d', ledColor='#3cff6a', sound='plastic', **GLASS),
+        c('i20-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='»', color='#16273d', ledColor='#3cff6a', sound='plastic', **GLASS),
         c('i20-demist', 'pushButton', 'Szélvédőfűtés', 'demist', 520, 588, 200, 228, engraving='DEMIST', color='#16273d', ledColor=orange, sound='plastic', **GLASS),
         c('i20-fan', 'pushButton', 'Ventilátor', 'fan', 756, 588, 200, 228, engraving='FAN', color='#16273d', ledColor=orange, sound='plastic', **GLASS),
         c('i20-map', 'rotarySwitch', 'Motortérkép', 'engineMapUp', 1040, 92, 250, 300, minusAction='engineMapDown', positions=5, states=['1', '2', '3', '4', '5'], color=orange, material='alu'),
         c('i20-page', 'rotarySwitch', 'Kijelzőoldal', 'displayNext', 1310, 92, 250, 300, minusAction='displayPrevious', positions=4, states=['1', '2', '3', '4'], color=blue, material='alu'),
         c('i20-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', 1070, 440, 230, 380, hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch', **RUBBER),
         c('i20-respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1330, 440, 230, 380, engraving='RESET', color='#3a1010', ledColor='#ff4040', sound='plastic', **GLASS),
-        m.legend(pid, 48, 830, 960)]
+        m.legend(pid, 48, 836, 960)]
     panel = m.panel_layout(pid, 'Hyundai i20 N Rally2 · Button Box 0.4.0', vid, W, H, e,
         m.panel_background(W, H, face='carbon', face_tint=(26, 32, 44), plates=[(1018, 70, 556, 344, 'matte'), (1018, 424, 556, 418, 'matte')],
             headings=[(48, 62, 'POWER'), (48, 310, 'LIGHTS · VISION'), (48, 558, 'SIGNALS · CLIMATE')], title='RALLY2 · SWITCH PANEL'), ['ignition'])
@@ -188,14 +190,14 @@ def polo_r5(m):
         c('polo-high', 'pushButton', 'Távfény', 'highBeam', 284, 340, 200, 228, engraving='HIGH', color='#202020', ledColor='#3c8cff', sound='plastic', **RUBBER),
         c('polo-haz', 'pushButton', 'Vészvillogó', 'hazards', 520, 340, 200, 228, engraving='HAZ', color='#202020', ledColor='#ff7a1a', sound='plastic', **RUBBER),
         c('polo-wiper', 'cycleButton', 'Ablaktörlő · léptetés', 'wiper', 756, 340, 200, 228, states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='WIPE', color='#202020', ledColor='#ffffff', sound='plastic', **RUBBER),
-        c('polo-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='◄', color='#202020', ledColor='#3cff6a', sound='plastic', **RUBBER),
-        c('polo-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='►', color='#202020', ledColor='#3cff6a', sound='plastic', **RUBBER),
+        c('polo-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='«', color='#202020', ledColor='#3cff6a', sound='plastic', **RUBBER),
+        c('polo-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='»', color='#202020', ledColor='#3cff6a', sound='plastic', **RUBBER),
         c('polo-demist', 'pushButton', 'Szélvédőfűtés', 'demist', 520, 588, 200, 228, engraving='DEMIST', color='#202020', ledColor='#ffffff', sound='plastic', **RUBBER),
         c('polo-page', 'pushButton', 'Kijelzőoldal', 'displayNext', 756, 588, 200, 228, engraving='PAGE', color='#202020', ledColor='#ffffff', sound='plastic', **RUBBER),
         c('polo-map', 'rotarySwitch', 'Motortérkép', 'engineMapUp', 1040, 92, 250, 300, minusAction='engineMapDown', positions=5, states=['1', '2', '3', '4', '5'], color=red, material='alu'),
         c('polo-respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1330, 120, 220, 240, engraving='RESET', color='#3a1010', ledColor='#ff4040', sound='plastic', **GLASS),
         c('polo-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', 1070, 440, 470, 380, hold=True, engraving='HANDBRAKE', color='#262626', ledColor=red, sound='latch', **RUBBER),
-        m.legend(pid, 48, 830, 960)]
+        m.legend(pid, 48, 836, 960)]
     panel = m.panel_layout(pid, 'Volkswagen Polo GTI R5 · Button Box 0.4.0', vid, W, H, e,
         m.panel_background(W, H, face='matte', face_tint=(20, 20, 22), frame=(150, 150, 152), plates=[(1018, 70, 556, 344, 'brushed'), (1018, 424, 556, 418, 'matte')],
             headings=[(48, 62, 'POWER'), (48, 310, 'LIGHTS · VISION'), (48, 558, 'SIGNALS')], title='R5 · CONSOLE'), ['ignition'])
@@ -209,11 +211,11 @@ def peugeot_206(m):
     ink = '#10200c'
     lcd = [
         el('p206-leds', 'leds', 'rpm', 160, 70, 1280, 56, 'RPM', count=20, max=8000, palette=['#f2f2f2'] * 14 + ['#ff3030'] * 6, border=False),
-        el('p206-gear', 'gear', 'gear', 610, 170, 380, 420, '', fontSize=330, color=ink, border=False, font='monospace', fontWeight=700),
-        el('p206-rpm', 'number', 'rpm', 150, 200, 420, 180, 'RPM', fontSize=110, color=ink, border=False, font='monospace'),
-        el('p206-speed', 'number', 'speed', 1030, 200, 420, 180, 'KM/H', fontSize=110, color=ink, border=False, font='monospace'),
-        el('p206-water', 'number', 'waterTemp', 150, 430, 420, 150, 'EAU °C', fontSize=70, color=ink, border=False, font='monospace'),
-        el('p206-time', 'number', 'stageTime', 1030, 430, 420, 150, 'TEMPS', fontSize=60, color=ink, border=False, font='monospace'),
+        el('p206-gear', 'gear', 'gear', 610, 170, 380, 420, '', fontSize=330, color=ink, border=False, font='factory', fontWeight=700),
+        el('p206-rpm', 'number', 'rpm', 150, 200, 420, 180, 'RPM', fontSize=110, color=ink, border=False, font='factory'),
+        el('p206-speed', 'number', 'speed', 1030, 200, 420, 180, 'KM/H', fontSize=110, color=ink, border=False, font='factory'),
+        el('p206-water', 'number', 'waterTemp', 150, 430, 420, 150, 'EAU °C', fontSize=70, color=ink, border=False, font='factory'),
+        el('p206-time', 'number', 'stageTime', 1030, 430, 420, 150, 'TEMPS', fontSize=60, color=ink, border=False, font='factory'),
         el('p206-throttle', 'bar', 'throttle', 150, 640, 640, 110, 'GAZ', max=1, color='#20401a', foreground=ink, border=False),
         el('p206-brake', 'bar', 'brake', 810, 640, 640, 110, 'FREIN', max=1, color='#20401a', foreground=ink, border=False),
     ]
@@ -229,14 +231,14 @@ def peugeot_206(m):
         c('p206-high', 'rocker', 'Távfény', 'highBeam', 284, 340, 200, 228, engraving='HIGH  LOW', ledColor='#3c8cff', material='alu'),
         c('p206-fog', 'rocker', 'Ködlámpa', 'fogLights', 520, 340, 200, 228, engraving='ANTIB.', ledColor='#ffb020', material='alu'),
         c('p206-wiper', 'cycleButton', 'Essuie-glace · léptetés', 'wiper', 756, 340, 200, 228, states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='E-G', color='#1d1d1d', ledColor='#ffb020', sound='metalOn', **RUBBER),
-        c('p206-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='◄', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
-        c('p206-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='►', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
+        c('p206-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='«', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
+        c('p206-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='»', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
         c('p206-haz', 'rocker', 'Vészvillogó', 'hazards', 520, 588, 200, 228, engraving='WARN', ledColor='#ff7a1a', material='alu'),
         c('p206-fan', 'rocker', 'Ventilátor', 'fan', 756, 588, 200, 228, engraving='VENT', ledColor='#ffb020', material='alu'),
         c('p206-map', 'rotarySwitch', 'Motortérkép', 'engineMapUp', 1040, 92, 250, 300, minusAction='engineMapDown', positions=4, states=['1', '2', '3', '4'], color='#ffb020', material='alu'),
         c('p206-respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1330, 120, 220, 240, engraving='RESET', color='#3a1010', ledColor='#ff4040', sound='plastic', **GLASS),
         c('p206-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', 1070, 440, 470, 380, hold=True, engraving='FREIN À MAIN', color='#262626', ledColor='#ff3030', sound='latch', **RUBBER),
-        m.legend(pid, 48, 830, 960)]
+        m.legend(pid, 48, 836, 960)]
     panel = m.panel_layout(pid, 'Peugeot 206 WRC (1999) · Button Box 0.4.0', vid, W, H, e,
         m.panel_background(W, H, face='matte', face_tint=(36, 37, 40), frame=(178, 182, 188), plates=[(1018, 70, 556, 344, 'brushed'), (1018, 424, 556, 418, 'brushed')],
             headings=[(48, 62, 'ALIMENTATION'), (48, 310, 'ÉCLAIRAGE'), (48, 558, 'SIGNALISATION')], title='WRC 1999 · INTERRUPTEURS'), ['ignition'])
@@ -253,7 +255,7 @@ def subaru_555(m):
         el('s555-water', 'analog', 'waterTemp', 150, 220, 300, 300, 'VÍZ', max=140, style='classic', redline=110, divisor=20, caption='°C ×20', color='#ff3a1a', face='#0a0a0b', border=False),
         el('s555-shift', 'leds', 'rpm', 700, 640, 200, 60, 'SHIFT', count=1, max=7000, palette=['#ff2a1a'], shape='circle', border=False),
         el('s555-gear', 'gear', 'gear', 1160, 200, 300, 330, '', fontSize=240, color='#f2f2f2', border=False, font='sans', fontWeight=700),
-        el('s555-trip', 'number', 'stageDistance', 150, 660, 420, 170, 'TRIP (Coralba-stílus)', fontSize=70, color='#ff9a3a', font='monospace', decimals=2, border=False, background='#120804'),
+        el('s555-trip', 'number', 'stageDistance', 150, 660, 420, 170, 'TRIP (Coralba-stílus)', fontSize=70, color='#ff9a3a', font='factory', decimals=2, border=False, background='#120804'),
         el('s555-speed', 'number', 'speed', 1060, 660, 420, 170, 'km/h', fontSize=80, color='#f2f2f2', border=False),
     ]
     dash = dash_layout(m, vid + '-dash-040', 'Subaru Impreza 555 Gr.A (1993) · Analóg műszerek', vid, W, H, [('Analóg', analog)],
@@ -268,14 +270,14 @@ def subaru_555(m):
         c('s555-high', 'rocker', 'Távfény / pótfényszóró', 'highBeam', 284, 340, 200, 228, engraving='SPOT  OFF', ledColor='#3c8cff', material='plastic'),
         c('s555-fog', 'rocker', 'Ködlámpa', 'fogLights', 520, 340, 200, 228, engraving='FOG  OFF', ledColor='#ffb020', material='plastic'),
         c('s555-wiper', 'cycleButton', 'Ablaktörlő · léptetés', 'wiper', 756, 340, 200, 228, states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='WIPE', color='#1d1d1d', ledColor='#ffb020', sound='rotary', **RUBBER),
-        c('s555-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='◄', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
-        c('s555-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='►', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
+        c('s555-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 48, 588, 200, 228, engraving='«', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
+        c('s555-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 284, 588, 200, 228, engraving='»', color='#1d1d1d', ledColor='#3cff6a', sound='latch', **RUBBER),
         c('s555-haz', 'rocker', 'Vészvillogó', 'hazards', 520, 588, 200, 228, engraving='HAZ  OFF', ledColor='#ff7a1a', material='plastic'),
         c('s555-fan', 'rocker', 'Ventilátor', 'fan', 756, 588, 200, 228, engraving='FAN  OFF', ledColor='#ffb020', material='plastic'),
         c('s555-respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1060, 120, 220, 240, engraving='RESET', color='#3a1010', ledColor='#ff4040', sound='plastic', **GLASS),
         c('s555-page', 'pushButton', 'Tripmaster nullázás / oldal', 'displayNext', 1320, 120, 220, 240, engraving='TRIP', color='#1d1d1d', ledColor='#ff9a3a', sound='latch', **RUBBER),
         c('s555-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', 1070, 440, 470, 380, hold=True, engraving='HANDBRAKE', color='#262626', ledColor='#ff3030', sound='latch', **RUBBER),
-        m.legend(pid, 48, 830, 960)]
+        m.legend(pid, 48, 836, 960)]
     panel = m.panel_layout(pid, 'Subaru Impreza 555 Gr.A (1993) · Button Box 0.4.0', vid, W, H, e,
         m.panel_background(W, H, face='matte', face_tint=(24, 24, 26), frame=(140, 142, 146), plates=[(1018, 70, 556, 344, 'matte'), (1018, 424, 556, 418, 'matte')],
             headings=[(48, 62, 'POWER'), (48, 310, 'LIGHTING'), (48, 558, 'SIGNALS · AUX')], title='GROUP A · 1993'), ['ignition'])
