@@ -4,6 +4,8 @@ A meglévő projekt folytatása: iOS-kompatibilitás, teljes képernyő és a Š
 
 ## Letöltés
 
+A legutóbbi sikeres **Package verified SIM CONTROL STUDIO 0.3.0** GitHub Actions-futás Artifacts listájából: külön ANDROID_APK, iOS_BUILDS, SKODA_PREVIEWS és COMPLETE_RELEASE csomag. Bejelentkezés szükséges; megőrzés 90 nap. A GitHub Releases API HTTP 403-at adott, ezért a kiadás az ellenőrzött artifactokban érhető el.
+
 - **Android:** `SIM_CONTROL_STUDIO_0.3.0.apk`.
 - **Windows:** `SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe` vagy `SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip`.
 - **iOS szimulátor:** `SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip`.

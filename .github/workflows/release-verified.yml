@@ -1,4 +1,4 @@
-name: Publish verified SIM CONTROL STUDIO 0.3.0
+name: Package verified SIM CONTROL STUDIO 0.3.0
 on:
   push:
     branches: [main]
@@ -10,6 +10,11 @@ on:
         required: true
         default: '41368420342'
         type: string
+      publish_release:
+        description: Also attempt GitHub Releases publication after artifacts (requires release API permission)
+        required: false
+        default: false
+        type: boolean
 permissions:
   contents: write
   actions: read
@@ -119,21 +124,62 @@ jobs:
           cat _release-input/Android-native/native-integration-results.json
           python3 tools/release_status.py --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
           python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
-      - name: Preserve every verified downloadable file before publication
+      - name: Prepare the iOS download folder
+        run: |
+          mkdir -p app/_staging/iOS-Download
+          cp app/_release-output/SIM_CONTROL_STUDIO_0.3.0_iOS_*.zip app/_staging/iOS-Download/
+          cp app/documentation/IOS.md app/_staging/iOS-Download/TELEPITES_iOS.md
+      - name: Upload installable Android APK
+        id: apk
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: SIM_CONTROL_STUDIO_0.3.0_VERIFIED_DOWNLOADS
-          path: |
-            app/_release-output/*.apk
-            app/_release-output/*.exe
-            app/_release-output/*.zip
-            app/_release-output/*.pdf
-            app/_release-output/*.png
-            app/_release-output/*.txt
-            app/_release-output/*.json
+          name: SIM_CONTROL_STUDIO_0.3.0_ANDROID_APK
+          path: app/_release-output/SIM_CONTROL_STUDIO_0.3.0.apk
           if-no-files-found: error
           retention-days: 90
+      - name: Upload actual iOS builds and installation guide
+        id: ios
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SIM_CONTROL_STUDIO_0.3.0_iOS_BUILDS
+          path: app/_staging/iOS-Download/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload the two high resolution previews and reference comparison
+        id: previews
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SIM_CONTROL_STUDIO_0.3.0_SKODA_PREVIEWS
+          path: app/_release-output/SIM_CONTROL_STUDIO_0.3.0_Skoda_Previews.zip
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload the complete verified release package
+        id: full
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SIM_CONTROL_STUDIO_0.3.0_COMPLETE_RELEASE
+          path: |
+            app/_release-output/SIM_CONTROL_STUDIO_0.3.0_RELEASE.zip
+            app/_release-output/STATUS.json
+            app/_release-output/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 90
+      - name: Record the actual download locations
+        env:
+          APK_URL: ${{ steps.apk.outputs.artifact-url }}
+          IOS_URL: ${{ steps.ios.outputs.artifact-url }}
+          PREVIEWS_URL: ${{ steps.previews.outputs.artifact-url }}
+          FULL_URL: ${{ steps.full.outputs.artifact-url }}
+        run: |
+          python3 - <<'PY'
+          import os
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as output:
+              output.write('# SIM CONTROL STUDIO 0.3.0 — verified downloads\n\n')
+              for label,key in [('Android APK','APK_URL'),('iOS simulator + unsigned ARM64 + guide','IOS_URL'),('Skoda previews and reference comparison','PREVIEWS_URL'),('Complete release, Windows installer, sources and test evidence','FULL_URL')]:output.write('- ['+label+']('+os.environ[key]+')\n')
+              output.write('\nArtifacts require GitHub sign-in and are retained for 90 days. No signed IPA, TestFlight or physical iPhone test. GitHub Releases API returned HTTP 403; the verified artifacts are the primary delivery.\n')
+          PY
       - name: Publish the verified application revision
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_release
         working-directory: app
         env:
           GH_TOKEN: ${{ github.token }}

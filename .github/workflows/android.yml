@@ -122,63 +122,6 @@ jobs:
         if: always()
         run: rm -f "$RUNNER_TEMP/simcontrol-release.jks"
 
-  release:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release SIM CONTROL STUDIO 0.3.0')
-    needs: [android, windows, ios, android-native]
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          fetch-depth: 0
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: SIM_CONTROL_STUDIO-Android-${{ github.sha }}
-          path: _release-input/Android
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: SIM_CONTROL_STUDIO-Windows-${{ github.sha }}
-          path: _release-input/Windows
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: Android-check-results-${{ github.sha }}
-          path: _release-input/Android-checks
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: Windows-check-results-${{ github.sha }}
-          path: tests/results
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: SIM_CONTROL_STUDIO-iOS-${{ github.sha }}
-          path: _release-input/iOS
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: Android-native-${{ github.sha }}
-          path: _release-input/Android-native
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: Skoda-previews-${{ github.sha }}
-          path: _release-input/Previews
-      - name: Build attributed reference comparisons from actual Flutter previews
-        run: |
-          python3 -m pip install reportlab==4.4.9 pillow==12.0.0
-          python3 tools/build_reference_evidence.py --no-review --requested-surfaces
-          python3 tools/build_skoda_comparison.py --previews _release-input/Previews --references reference-evidence --output _release-input/Previews
-          cp documentation/SKODA_REKONSTRUKCIO_0.3.0.md _release-input/Previews/
-      - name: Package only actual verified build outputs
-        run: |
-          mkdir -p _staging/Windows
-          unzip -q _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip -d _staging/Windows
-          cp _release-input/Android-checks/mobile_flutter/pubspec.lock mobile_flutter/pubspec.lock
-          cp _release-input/Android-checks/tests/results/profile-tests.json tests/results/profile-tests.json
-          python3 tools/release_status.py --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
-          python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
-      - name: Publish downloadable 0.3.0 release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create v0.3.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.3.0" --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/*.png _release-output/STATUS.json _release-output/SHA256SUMS.txt
-
   windows:
     if: "!startsWith(github.event.head_commit.message, 'Package verified SIM CONTROL STUDIO 0.3.0')"
     runs-on: windows-2025

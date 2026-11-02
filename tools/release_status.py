@@ -34,6 +34,7 @@ assert android['orientationAndSystemBars']=='passed'
 comparison=read(a.previews/'comparison-provenance.json');assert len(comparison['surfaces'])==2
 status={'application':'SIM CONTROL STUDIO','version':'0.3.0','generatedAtUtc':datetime.now(timezone.utc).isoformat(),
  'releaseKind':'installable_preview','buildProvenance':provenance,
+ 'downloadAvailability':{'method':'GitHub Actions artifacts','runUrl':'https://github.com/'+__import__('os').environ.get('GITHUB_REPOSITORY','mozesmate9554/dashboard')+'/actions/runs/'+__import__('os').environ.get('GITHUB_RUN_ID','local'),'retentionDays':90,'githubSignInRequired':True,'githubReleases':'not_published_API_HTTP_403'},
  'packagingProvenance':{'commit':__import__('os').environ.get('GITHUB_SHA'),'runUrl':'https://github.com/'+__import__('os').environ.get('GITHUB_REPOSITORY','mozesmate9554/dashboard')+'/actions/runs/'+__import__('os').environ.get('GITHUB_RUN_ID','local')},
  'android':{'signedReleaseApk':True,'nativeEmulatorApi':36,'nativeTlsSecureStorageTelemetryTouchReconnect':True,'allThreeRolesBothOrientations':True,'actualSystemBarsHidden':True,'physicalDeviceTestByDeveloper':False,'signing':read(checks/'signing.json')},
  'ios':{'xcode':(a.ios/'xcode-version.txt').read_text().strip(),'simulatorBuildInstallLaunch':True,'nativeTlsKeychainTelemetryTouchReconnect':True,'allThreeRolesBothOrientations':True,'arm64ReleaseBuildUnsigned':True,'signedIpa':False,'testFlight':False,'physicalIphoneTest':False,'appleDeveloperMembershipProvided':False},

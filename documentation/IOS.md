@@ -6,7 +6,9 @@ A 0.3.0 valódi macOS/Xcode-fordítást használ. Az első sikeres ellenőrzés 
 
 ## Letölthető iOS-állományok
 
-Kiadás: https://github.com/mozesmate9554/dashboard/releases/tag/v0.3.0
+Letöltés: https://github.com/mozesmate9554/dashboard/actions/workflows/release-verified.yml
+
+A legutóbbi sikeres csomagoló futás Artifacts listájában **SIM_CONTROL_STUDIO_0.3.0_iOS_BUILDS**. GitHub-bejelentkezés kell, megőrzés 90 nap. A GitHub Releases közzététel HTTP 403 miatt nem készült el.
 
 - `SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip`: ténylegesen fordított, szimulátoron telepített és elindított `Runner.app`. Csak kompatibilis macOS/Xcode/iOS Simulator környezetben fut.
 - `SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip`: tényleges ARM64 release `.app`, aláírás nélkül. **Nem iPhone-ra telepíthető IPA**, és nem adható TestFlightnak.
