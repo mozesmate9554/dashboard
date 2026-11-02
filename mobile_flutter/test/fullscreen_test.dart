@@ -16,7 +16,7 @@ import 'package:sim_control_studio/storage.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final catalog=jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String,dynamic>;
-  test('Adaptive presentations preserve all 20 saved profiles and action identities',(){
+  test('Adaptive presentations preserve all saved profiles and action identities',(){
     for(final json in catalog['vehicles'] as List){
       final car=VehicleProfile(json as Map<String,dynamic>);
       for(final layout in [car.dashboard,car.panel,composeHybrid(car.id,car.name,car.dashboard,car.panel)]){
@@ -24,7 +24,8 @@ void main() {
         for(var page=0;page<layout.pages.length;page++){
           for(final size in [const Size(360,680),const Size(844,300),const Size(1024,1280)]){
             final adaptive=adaptLayout(layout,page,size);adaptive.validate();
-            expect(adaptive.width/adaptive.height,closeTo(size.width/size.height,.001));
+            if(layout.data['adaptive']=='preserve'){expect(adaptive.width/adaptive.height,closeTo(layout.width/layout.height,.001));}
+            else{expect(adaptive.width/adaptive.height,closeTo(size.width/size.height,.001));}
             final originalActions=layout.elements(page).where((e)=>e['action']!=null).map((e)=>e['action']).toSet().toList()..sort();
             final shownActions=adaptive.pages.expand((p)=>(p['elements'] as List).cast<Map<String,dynamic>>()).where((e)=>e['action']!=null).map((e)=>e['action']).toSet().toList()..sort();
             expect(shownActions,originalActions,reason:'${layout.id} page $page');

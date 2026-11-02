@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sim_control_studio/connection.dart';
 import 'package:sim_control_studio/demo.dart';
 import 'package:sim_control_studio/display.dart';
+import 'package:sim_control_studio/premium_controls.dart';
 import 'package:sim_control_studio/editor.dart';
 import 'package:sim_control_studio/layout_geometry.dart';
 import 'package:sim_control_studio/models.dart';
@@ -155,12 +156,12 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox()); connection.dispose();
   });
-  testWidgets('Every Skoda vector control sends its bound DEMO action and volume directions remain distinct',(tester)async{
+  testWidgets('Every Skoda 0.3.0 vector control (kept as a variant) sends its bound DEMO action and volume directions remain distinct',(tester)async{
     tester.view.devicePixelRatio=1;tester.view.physicalSize=const Size(1100,1450);
     addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);
     await store.set('vehicleId','skoda-fabia-rs-rally2');
     final connection=BridgeConnection(store);await connection.setDemo(true);
-    final layout=store.vehicle.panel;
+    final layout=store.vehicle.variants.firstWhere((l)=>l.id=='skoda-fabia-rs-rally2-panel');
     await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:Scaffold(body:LayoutCanvas(layout:layout,connection:connection,frame:connection.telemetry.value))));
     await tester.pump();
     for(final e in layout.elements(0).where((e)=>e['action']!=null)){
@@ -181,4 +182,41 @@ void main() {
     await tester.pumpWidget(const SizedBox());connection.dispose();
   });
 
+  testWidgets('Every 0.4.0 mechanical control sends real DEMO commands; LED never claims game confirmation',(tester)async{
+    tester.view.devicePixelRatio=1;tester.view.physicalSize=const Size(1600,900);
+    addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);
+    for(final car in store.vehicles.where((v)=>v.panel.data['adaptive']=='preserve')){
+      await store.set('vehicleId',car.id);
+      final connection=BridgeConnection(store);await connection.setDemo(true);
+      final layout=car.panel;
+      await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:Scaffold(body:LayoutCanvas(layout:layout,connection:connection,frame:connection.telemetry.value))));
+      await tester.pump();
+      for(final e in layout.elements(0).where((e)=>{'rocker','pushButton','guarded','rotarySwitch','cycleButton'}.contains(e['kind']))){
+        final finder=find.byWidgetPredicate((w)=>w is PremiumControl && w.element['id']==e['id']);
+        expect(finder,findsOneWidget,reason:'${car.id} ${e['id']}');
+        final rect=tester.getRect(finder);
+        final face=Offset(rect.center.dx,rect.top+(rect.height-42)/2);
+        final before=connection.commandHistory.length;
+        if(e['kind']=='guarded'){
+          await tester.tapAt(face);await tester.pump(const Duration(milliseconds:300));
+          expect(connection.commandHistory.length,before,reason:'Opening the safety cover must not send ${e['action']}');
+        }
+        if(e['kind']=='rotarySwitch'){
+          await tester.tapAt(Offset(rect.left+rect.width*.8,face.dy));await tester.pump(const Duration(milliseconds:200));
+          expect(connection.commandHistory.last['action'],e['action'],reason:e['id'] as String);
+          await tester.tapAt(Offset(rect.left+rect.width*.2,face.dy));await tester.pump(const Duration(milliseconds:200));
+          expect(connection.commandHistory.last['action'],e['minusAction'],reason:e['id'] as String);
+          continue;
+        }
+        await tester.tapAt(face);await tester.pump(const Duration(milliseconds:200));
+        final sent=connection.commandHistory.skip(before).toList();
+        expect(sent.map((c)=>c['action']).toSet(),{e['action']},reason:'${car.id} ${e['id']}');
+        expect(sent.every((c)=>c['stage']=='simulated'),true);
+        if(e['hold']==true){expect(sent.map((c)=>c['phase']).toList(),['down','up'],reason:'Hold controls must release on lift');}
+        expect(find.descendant(of:finder,matching:find.text('JÁTÉK IGAZOLTA')),findsNothing,reason:'DEMO/Bridge acks are not game confirmation (${e['id']})');
+      }
+      expect(connection.outboundMessageCount,0);expect(tester.takeException(),isNull);
+      await tester.pumpWidget(const SizedBox());connection.dispose();
+    }
+  });
 }

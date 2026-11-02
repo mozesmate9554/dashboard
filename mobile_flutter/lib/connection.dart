@@ -180,6 +180,10 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
         case 'telemetry':
           final frame = TelemetryFrame.fromJson(json['frame'] as Map<String, dynamic>);
           telemetry.value = frame;
+          final detected = detectVehicle(store.vehicles, frame.value('vehicleId')?.toString() ?? frame.vehicleId);
+          if (detected != null && detected != store.vehicleId && detected != suggestedProfile && detected != _dismissedDetection && store.suggestions) {
+            suggestedProfile = detected; suggestionSource = 'game'; notifyListeners();
+          }
           return;
         case 'health':
           mode = json['mode'] as String? ?? 'live';
@@ -252,7 +256,8 @@ class BridgeConnection extends ChangeNotifier with WidgetsBindingObserver {
     releaseAll(); _generation++; _socket?.close(); _client?.close(force: true); _ping?.cancel(); _connecting = false;
     telemetry.value = null; status = 'disconnected'; _wantConnection = target != null; await connect();
   }
-  void dismissSuggestion() { suggestedProfile = null; notifyListeners(); }
+  String? _dismissedDetection;
+  void dismissSuggestion() { _dismissedDetection = suggestedProfile; suggestedProfile = null; notifyListeners(); }
   void _lost(String reason) {
     if (_disposed || localDemo) return;
     status = 'disconnected'; lastError = reason; canControl = false; mobileControlEnabled = false;
@@ -307,4 +312,18 @@ Future<List<BridgeTarget>> discoverBridges({int port = 19761}) async {
     await Future<void>.delayed(const Duration(seconds: 2));
     await subscription.cancel(); return results.values.toList();
   } finally { socket.close(); }
+}
+
+String normalizeVehicleKey(String value) => value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+
+/// Maps the game's car identifier to a profile only through the profile's explicit alias list.
+/// No match means manual selection stays in effect.
+String? detectVehicle(List<VehicleProfile> vehicles, String? gameCar) {
+  if (gameCar == null || gameCar.trim().isEmpty) return null;
+  final key = normalizeVehicleKey(gameCar);
+  for (final vehicle in vehicles) {
+    final aliases = (vehicle.data['gameVehicleAliases'] as List?)?.cast<String>() ?? const [];
+    if (aliases.any((alias) => normalizeVehicleKey(alias) == key)) return vehicle.id;
+  }
+  return null;
 }

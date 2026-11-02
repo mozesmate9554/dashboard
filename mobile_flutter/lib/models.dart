@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-const appVersion = '0.3.0';
+const appVersion = '0.4.0';
 const widgetKinds = <String>{
   'number', 'gear', 'bar', 'leds', 'analog', 'pedals', 'gForce', 'tyres',
   'text', 'image', 'svg', 'button', 'hold', 'toggle', 'threeState', 'multiState',
   'rotary', 'stepper', 'slider', 'indicator', 'icon',
+  // 0.4.0 mechanical controls with animation, sound, haptics and four-stage LED state.
+  'rocker', 'pushButton', 'guarded', 'rotarySwitch', 'cycleButton',
 };
 const actions = <String>{
   'ignition', 'starter', 'lights', 'flash', 'wiper', 'radio', 'intercom', 'camera',
   'pitLimiter', 'brakeBiasUp', 'brakeBiasDown', 'absUp', 'absDown', 'tcUp', 'tcDown',
   'diffUp', 'diffDown', 'engineMapUp', 'engineMapDown', 'drs', 'ers', 'p2p', 'neutral',
   'reverse', 'displayNext', 'displayPrevious', 'acknowledge', 'drink', 'fan', 'rainLight', 'electricalMaster', 'auxMode', 'hazards', 'fogLights', 'demist', 'callAccept', 'callEnd', 'fireExtinguisher', 'intercomVolumeUp', 'intercomVolumeDown', 'radioVolumeUp', 'radioVolumeDown',
+  'highBeam', 'indicatorLeft', 'indicatorRight', 'handbrake', 'respawn',
 };
 
 class TelemetryDatum {
@@ -202,4 +205,7 @@ class VehicleProfile {
   String get fidelity => data['fidelity'] as String;
   StudioLayout get dashboard => StudioLayout(data['dashboard'] as Map<String, dynamic>);
   StudioLayout get panel => StudioLayout(data['panel'] as Map<String, dynamic>);
+  /// Additional factory layouts kept for the same car (for example the 0.3.0 photo reconstruction).
+  List<StudioLayout> get variants => ((data['variants'] as List?) ?? const []).map((v) => StudioLayout(v as Map<String, dynamic>)).toList();
+  List<StudioLayout> layouts(String role) => [role == 'panel' ? panel : dashboard, ...variants.where((l) => l.role == role)];
 }

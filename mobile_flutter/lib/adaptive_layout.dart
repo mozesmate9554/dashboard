@@ -6,6 +6,8 @@ const controlKinds = {'button','hold','toggle','threeState','multiState','rotary
 
 /// A temporary presentation derived from a saved layout. Saved geometry never changes.
 StudioLayout adaptLayout(StudioLayout source, int page, Size viewport) {
+  // Reference-drawn 0.4.0 button boxes keep their exact proportions; they are only scaled uniformly.
+  if (source.data['adaptive'] == 'preserve') return source;
   final factor = math.max(320 / viewport.width, 200 / viewport.height).clamp(1.0, 10.0).toDouble();
   final width = (viewport.width * factor).clamp(320.0,4096.0).toDouble();
   final height = (viewport.height * factor).clamp(200.0,4096.0).toDouble();

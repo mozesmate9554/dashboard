@@ -8,12 +8,17 @@ import 'connection.dart';
 import 'display.dart';
 import 'editor.dart';
 import 'models.dart';
+import 'premium_controls.dart';
 import 'storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     final store = StudioStore(); await store.load();
+    CockpitLighting.night.value = store.prefs.getBool('nightMode') ?? false;
+    SwitchSounds.instance..enabled = store.prefs.getBool('switchSounds') ?? true
+      ..volume = store.prefs.getDouble('switchVolume') ?? .8;
+    unawaited(SwitchSounds.instance.preload());
     final connection = BridgeConnection(store); await connection.initialize();
     runApp(StudioApp(store: store, connection: connection));
   } catch (error) {
@@ -82,7 +87,7 @@ class _StudioShellState extends State<StudioShell> {
     } catch (error) { _error(error); }
   }
   Future<void> _newLayout(String role) async {
-    final layout = StudioLayout({'schemaVersion':1,'id':newId(),'version':'0.3.0','revision':1,'name':role == 'panel' ? 'Új kezelőpanel' : 'Új műszerfal',
+    final layout = StudioLayout({'schemaVersion':1,'id':newId(),'version':'0.4.0','revision':1,'name':role == 'panel' ? 'Új kezelőpanel' : 'Új műszerfal',
       'vehicleId':store.vehicleId,'role':role,'isBase':false,'width':1200,'height':700,'background':'#080a0c','supportedFields':<String>[],
       'pages':[{'id':newId(),'name':'Főoldal','elements':<Map<String,dynamic>>[]}]});
     await _edit(layout);
@@ -113,7 +118,7 @@ class _StudioShellState extends State<StudioShell> {
   ]));
   Widget _home() => _scroll([
     SwitchListTile(title: const Text('DEMO mód'), subtitle: const Text('Szimulált adatok · PC és játék nélkül kipróbálható'), value: connection.localDemo, onChanged: connection.setDemo),
-    _title('SIM CONTROL STUDIO / 0.3.0', tr('A pilótafülkéd. Minden kijelzőn.','Your cockpit. Every display.'), tr('Helyi hálózat. Élő telemetria. Saját elrendezések.','Local network. Live telemetry. Your layouts.')),
+    _title('SIM CONTROL STUDIO / 0.4.0', tr('A pilótafülkéd. Minden kijelzőn.','Your cockpit. Every display.'), tr('Helyi hálózat. Élő telemetria. Saját elrendezések.','Local network. Live telemetry. Your layouts.')),
     LayoutBuilder(builder: (context,constraints) => Wrap(spacing: 12, runSpacing: 12, children: [
       for (final (title,value,icon) in [
         (tr('PC BRIDGE','PC BRIDGE'),connection.connected ? connection.bridgeVersion : '—',Icons.computer),
@@ -178,7 +183,10 @@ class _StudioShellState extends State<StudioShell> {
       FilledButton.tonalIcon(onPressed:()=>_edit(store.selected('hybrid')),icon:const Icon(Icons.view_column_outlined),label:Text(tr('Hibrid szerkesztése','Edit hybrid'))),
       OutlinedButton.icon(onPressed:_import,icon:const Icon(Icons.file_open_outlined),label:const Text('Import JSON'))]),
     const SizedBox(height:24),Text(tr('Kiválasztott autó alapprofiljai','Base profiles for the selected vehicle'),style:const TextStyle(fontSize:20,fontWeight:FontWeight.bold)),const SizedBox(height:12),
-    for(final layout in [store.vehicle.dashboard,store.vehicle.panel]) Card(child:ListTile(title:Text(layout.name),subtitle:Text(tr('Szerkesztéskor személyes másolat készül.','Editing creates a personal copy.')),trailing:const Icon(Icons.chevron_right),onTap:()=>_edit(layout))),
+    for(final layout in [...store.vehicle.layouts('dashboard'),...store.vehicle.layouts('panel')]) Card(child:ListTile(title:Text(layout.name),
+      subtitle:Text(tr('Szerkesztéskor személyes másolat készül.','Editing creates a personal copy.')),
+      leading:Icon(store.selected(layout.role).id==layout.id?Icons.radio_button_checked:Icons.radio_button_off),
+      trailing:TextButton(onPressed:()=>store.selectLayout(layout),child:Text(tr('Használat','Use'))),onTap:()=>_edit(layout))),
     const SizedBox(height:24),Text(tr('Személyes profilok','Personal profiles'),style:const TextStyle(fontSize:20,fontWeight:FontWeight.bold)),const SizedBox(height:12),
     if(store.loadError!=null)Text(store.loadError!,style:const TextStyle(color:Colors.amber)),
     if(store.personal.isEmpty)Text(tr('Még nincs mentett saját profil.','No personal profiles yet.'),style:const TextStyle(color:Colors.white54)),
@@ -218,7 +226,11 @@ class _StudioShellState extends State<StudioShell> {
     DropdownButtonFormField<int>(initialValue:store.hz,decoration:InputDecoration(labelText:tr('Kért telemetria-gyakoriság','Requested telemetry rate')),items:[20,30,60].map((hz)=>DropdownMenuItem(value:hz,child:Text('$hz Hz'))).toList(),onChanged:(value)async{await store.set('hz',value!);await connection.refreshSettings();}),
     const SizedBox(height:18),TextFormField(initialValue:store.prefs.getString('deviceName')??'',maxLength:60,decoration:InputDecoration(labelText:tr('Készülék neve','Device name')),onFieldSubmitted:(value)async{if(value.trim().isNotEmpty){await store.set('deviceName',value.trim());await connection.refreshSettings();}}),
     SwitchListTile(title:Text(tr('Érintéses rezgés','Haptic feedback')),value:store.haptic,onChanged:(value)=>store.set('haptic',value)),
-    const SizedBox(height:24),const Text('SIM CONTROL STUDIO 0.3.0\nNatív Flutter / helyi TLS-kapcsolat\nNincs regisztráció, előfizetés vagy felhőszolgáltatás.',style:TextStyle(color:Colors.white54)),
+    SwitchListTile(title:Text(tr('Kapcsolóhangok','Switch sounds')),value:SwitchSounds.instance.enabled,onChanged:(value)async{SwitchSounds.instance.enabled=value;await store.set('switchSounds',value);}),
+    ListTile(title:Text(tr('Kapcsolóhangok hangereje','Switch sound volume')),subtitle:Slider(value:SwitchSounds.instance.volume,min:0,max:1,divisions:10,
+      label:'${(SwitchSounds.instance.volume*100).round()} %',onChanged:(value){SwitchSounds.instance.volume=value;setState((){});},
+      onChangeEnd:(value)async{await store.prefs.setDouble('switchVolume',value);SwitchSounds.instance.play('plastic');})),
+    const SizedBox(height:24),const Text('SIM CONTROL STUDIO 0.4.0\nNatív Flutter / helyi TLS-kapcsolat\nNincs regisztráció, előfizetés vagy felhőszolgáltatás.',style:TextStyle(color:Colors.white54)),
     const SizedBox(height:18),OutlinedButton(onPressed:()async{await store.set('onboarded',false);if(mounted){Navigator.pushReplacement(context,MaterialPageRoute<void>(builder:(_)=>FirstRunWizard(store:store,connection:connection)));}},child:Text(tr('Konfigurációs varázsló újraindítása','Run setup wizard'))),
   ]);
 }

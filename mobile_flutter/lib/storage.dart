@@ -28,7 +28,7 @@ class StudioStore extends ChangeNotifier {
       } catch (e) { loadError = 'A személyes profilok nem tölthetők be. Az eredeti fájl megmaradt. $e'; }
     }
     // Eagerly validate every shipped profile, rather than deferring a failure until track use.
-    for (final vehicle in vehicles) { vehicle.dashboard.validate(); vehicle.panel.validate(); }
+    for (final vehicle in vehicles) { vehicle.dashboard.validate(); vehicle.panel.validate(); for (final variant in vehicle.variants) { variant.validate(); } }
     notifyListeners();
   }
   String get language => prefs.getString('language') ?? 'hu';
@@ -69,6 +69,10 @@ class StudioStore extends ChangeNotifier {
     final personalId = prefs.getString('layout:$role:$vehicleId');
     final saved = personal.where((p) => p.id == personalId && p.vehicleId == vehicleId && p.role == role);
     if (saved.isNotEmpty) return saved.first;
+    if (role != 'hybrid') {
+      final factory = vehicle.layouts(role).where((l) => l.id == personalId);
+      if (factory.isNotEmpty) return factory.first;
+    }
     if (role == 'hybrid') return composeHybrid(vehicleId, vehicle.name, selected('dashboard'), selected('panel'));
     return role == 'panel' ? vehicle.panel : vehicle.dashboard;
   }

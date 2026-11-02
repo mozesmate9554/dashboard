@@ -147,15 +147,15 @@ jobs:
           if (-not (Test-Path $compiler)) { choco install nsis --yes --no-progress }
           if (-not (Test-Path $compiler)) { throw 'NSIS compiler unavailable' }
           $appDir = (Resolve-Path _staging/Windows).Path
-          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe'
+          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.4.0_Setup_x64.exe'
           & $compiler /WX /V2 "/DAPPDIR=$appDir" "/DOUTPUT=$setupFile" tools/windows-installer.nsi
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path $setupFile)) { throw 'Setup executable missing' }
-          Compress-Archive -Path _staging/Windows/* -DestinationPath SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip
+          Compress-Archive -Path _staging/Windows/* -DestinationPath SIM_CONTROL_STUDIO_0.4.0_Windows_x64.zip
       - name: Smoke test installer and WinForms startup on Windows
         shell: pwsh
         run: |
-          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe'
+          $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.4.0_Setup_x64.exe'
           $install = Start-Process $setupFile -ArgumentList '/S' -Wait -PassThru
           if ($install.ExitCode -ne 0) { throw 'Silent installation failed' }
           $installDir = Join-Path $env:LOCALAPPDATA 'Programs\SimControlStudio'
@@ -169,8 +169,8 @@ jobs:
               if ($app.HasExited) { throw 'Bridge exited during startup' }
               if ($app.MainWindowHandle -ne 0) { break }
             }
-            if ($app.MainWindowTitle -notlike '*SIM CONTROL STUDIO 0.3.0*') { throw "Unexpected application window: $($app.MainWindowTitle)" }
-            @{ version = '0.3.0'; install = 'passed'; winFormsStartup = 'passed'; windowTitle = $app.MainWindowTitle; realGameInput = 'not_tested' } | ConvertTo-Json | Set-Content tests/results/windows-installer-smoke.json
+            if ($app.MainWindowTitle -notlike '*SIM CONTROL STUDIO 0.4.0*') { throw "Unexpected application window: $($app.MainWindowTitle)" }
+            @{ version = '0.4.0'; install = 'passed'; winFormsStartup = 'passed'; windowTitle = $app.MainWindowTitle; realGameInput = 'not_tested' } | ConvertTo-Json | Set-Content tests/results/windows-installer-smoke.json
           } finally { if (-not $app.HasExited) { Stop-Process -Id $app.Id -Force } }
           Get-Content tests/results/windows-installer-smoke.json
           Start-Process (Join-Path $installDir 'Uninstall.exe') -ArgumentList '/S' -Wait
@@ -179,8 +179,8 @@ jobs:
         with:
           name: SIM_CONTROL_STUDIO-Windows-${{ github.sha }}
           path: |
-            SIM_CONTROL_STUDIO_0.3.0_Windows_x64.zip
-            SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe
+            SIM_CONTROL_STUDIO_0.4.0_Windows_x64.zip
+            SIM_CONTROL_STUDIO_0.4.0_Setup_x64.exe
           if-no-files-found: error
           retention-days: 30
       - name: Upload Windows check results
@@ -253,7 +253,7 @@ jobs:
           done
           if [[ "$studio_fixture_ready" != 1 ]]; then cat "$RUNNER_TEMP/studio-android-fixture.log"; exit 1; fi
           flutter drive --driver=test_driver/native_driver.dart --target=integration_test/native_bridge_test.dart -d emulator-5554 2>&1 | tee ../android-ci/native-bridge-integration.log
-          python3 -c 'import os,json; json.dump({"version":"0.3.0","commit":os.environ["GITHUB_SHA"],"physicalAndroidTest":False,"nativeApi":36,"orientationAndSystemBars":"passed","tlsKeystoreTelemetryTouchReconnect":"passed"},open("../android-ci/provenance.json","w"),indent=2)'
+          python3 -c 'import os,json; json.dump({"version":"0.4.0","commit":os.environ["GITHUB_SHA"],"physicalAndroidTest":False,"nativeApi":36,"orientationAndSystemBars":"passed","tlsKeystoreTelemetryTouchReconnect":"passed"},open("../android-ci/provenance.json","w"),indent=2)'
       - name: Upload native Android evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -291,7 +291,7 @@ jobs:
           set -o pipefail
           flutter build ios --simulator --debug --no-pub 2>&1 | tee ../ios-ci/simulator-build.log
           test -d build/ios/iphonesimulator/Runner.app
-          ditto -c -k --sequesterRsrc --keepParent build/ios/iphonesimulator/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.3.0_iOS_Simulator.zip
+          ditto -c -k --sequesterRsrc --keepParent build/ios/iphonesimulator/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.4.0_iOS_Simulator.zip
       - name: Install and launch on an available iPhone simulator
         run: |
           xcrun simctl list devices available --json > ../ios-ci/simulator-devices.json
@@ -305,7 +305,7 @@ jobs:
           sleep 5
           kill -0 "$studio_process"
           xcrun simctl io "$studio_simulator" screenshot ../ios-ci/iphone-startup.png
-          python3 -c 'import os,json; json.dump({"version":"0.3.0","commit":os.environ["GITHUB_SHA"],"runUrl":"https://github.com/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"],"simulatorInstall":"passed","simulatorLaunch":"passed","physicalIphoneTest":False,"signedIpa":False,"testFlight":False},open("../ios-ci/provenance.json","w"),indent=2)'
+          python3 -c 'import os,json; json.dump({"version":"0.4.0","commit":os.environ["GITHUB_SHA"],"runUrl":"https://github.com/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"],"simulatorInstall":"passed","simulatorLaunch":"passed","physicalIphoneTest":False,"signedIpa":False,"testFlight":False},open("../ios-ci/provenance.json","w"),indent=2)'
       - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           dotnet-version: '10.0.x'
@@ -327,7 +327,7 @@ jobs:
           set -o pipefail
           flutter build ios --release --no-codesign --no-pub --target lib/main.dart 2>&1 | tee ../ios-ci/device-unsigned-build.log
           test -d build/ios/iphoneos/Runner.app
-          ditto -c -k --sequesterRsrc --keepParent build/ios/iphoneos/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.3.0_iOS_Unsigned_NotInstallable.zip
+          ditto -c -k --sequesterRsrc --keepParent build/ios/iphoneos/Runner.app ../ios-ci/SIM_CONTROL_STUDIO_0.4.0_iOS_Unsigned_NotInstallable.zip
       - name: Upload actual iOS outputs and evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

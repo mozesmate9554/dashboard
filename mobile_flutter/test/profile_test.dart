@@ -5,14 +5,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sim_control_studio/models.dart';
 import 'package:sim_control_studio/connection.dart';
 import 'package:sim_control_studio/hybrid.dart';
+import 'package:sim_control_studio/premium_controls.dart';
 
 void main() {
-  test('All 40 base layouts validate and remain unchanged when copied', () {
+  test('All base layouts and variants validate and remain unchanged when copied', () {
     final json = jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String, dynamic>;
-    expect((json['vehicles'] as List).length, 20);
+    expect((json['vehicles'] as List).length, greaterThanOrEqualTo(20));
     for (final data in json['vehicles'] as List) {
       final vehicle = VehicleProfile(data as Map<String, dynamic>);
-      for (final base in [vehicle.dashboard, vehicle.panel]) {
+      for (final base in [vehicle.dashboard, vehicle.panel, ...vehicle.variants]) {
         final original = jsonEncode(base.data);
         final copy = base.personalCopy(newId(), 'Personal');
         copy.elements(0).first['x'] = 0;
@@ -59,5 +60,21 @@ void main() {
     item['count'] = 1000000; expect(() => StudioLayout(data), throwsFormatException);
     item['count'] = 16; item['decimals'] = 99; expect(() => StudioLayout(data), throwsFormatException);
     item['decimals'] = 1; item['x'] = -1; expect(() => StudioLayout(data), throwsFormatException);
+  });
+  test('LED stages: only valid telemetry confirms; Bridge execution stays an assumption', () {
+    final frame = TelemetryFrame(1, DateTime.now().millisecondsSinceEpoch, 'acr', 'live', null, {
+      'ignition': TelemetryDatum(true, '', 'fixture', 1, 'valid', false),
+    });
+    expect(ledStageFor(connection: null, commandId: null, requestedOn: true, frame: frame, field: 'ignition'), LedStage.confirmed);
+    expect(ledStageFor(connection: null, commandId: null, requestedOn: true, frame: null, field: 'lights'), LedStage.requested);
+    expect(ledStageFor(connection: null, commandId: null, requestedOn: false, frame: null, field: 'lights', enabled: false), LedStage.unknown);
+  });
+  test('Game car identifiers map to profiles only through explicit aliases', () {
+    final json = jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String, dynamic>;
+    final vehicles = (json['vehicles'] as List).map((v) => VehicleProfile(v as Map<String, dynamic>)).toList();
+    expect(detectVehicle(vehicles, 'SkodaFabiaRSRally2'), 'skoda-fabia-rs-rally2');
+    expect(detectVehicle(vehicles, 'skoda_fabia_rs_rally2'), 'skoda-fabia-rs-rally2');
+    expect(detectVehicle(vehicles, 'Unknown Car 9000'), isNull);
+    expect(detectVehicle(vehicles, null), isNull);
   });
 }

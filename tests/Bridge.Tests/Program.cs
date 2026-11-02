@@ -130,6 +130,31 @@ try
         probe.Foreground = true; Assert((await engine.ExecuteAsync("d", true, new("4", 4, "lights", "press"))).Stage == "executed");
         Assert(sink.Events.SequenceEqual(new[] { "down:76", "up:76" }));
     });
+    await Test("0.4.0 Rally actions: cycle lights, high beam, indicators, handbrake hold", async () =>
+    {
+        var config = new BridgeConfiguration { MobileControlEnabled = true };
+        config.Bindings["acr"]["lights"] = new("L", "press", 150);
+        config.Bindings["acr"]["highBeam"] = new("K");
+        config.Bindings["acr"]["indicatorLeft"] = new("Q");
+        config.Bindings["acr"]["indicatorRight"] = new("E");
+        config.Bindings["acr"]["handbrake"] = new("SPACE", "hold");
+        config.Bindings["acr"]["respawn"] = new("R");
+        config.Validate();
+        var probe = new FixtureProbe(); var sink = new FixtureSink(); using var engine = new ControlEngine(config, probe, sink);
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        Assert((await engine.ExecuteAsync("d", true, new("c1", 1, "lights", "press"))).Stage == "executed");
+        Assert(watch.ElapsedMilliseconds >= 140, "A cycle press must stay down for the configured duration");
+        foreach (var (action, key) in new[] { ("highBeam", 75), ("indicatorLeft", 81), ("indicatorRight", 69), ("respawn", 82) })
+        {
+            Assert((await engine.ExecuteAsync("d", true, new("p-" + action, 2, action, "press"))).Stage == "executed", action);
+            Assert(sink.Events.TakeLast(2).SequenceEqual(new[] { $"down:{key}", $"up:{key}" }), action);
+        }
+        Assert((await engine.ExecuteAsync("d", true, new("h1", 3, "handbrake", "down"))).Stage == "executed");
+        Assert(engine.HeldKeyCount == 1);
+        engine.ReleaseOwner("d"); // Disconnect must never leave the handbrake pulled.
+        Assert(engine.HeldKeyCount == 0 && sink.Events.Last() == "up:32");
+        Assert(ActionCatalog.Actions.IsSupersetOf(new[] { "lights", "wiper", "highBeam", "indicatorLeft", "indicatorRight", "handbrake", "respawn" }));
+    });
     await Test("Two devices share modifier ownership; disconnect and focus watchdog", async () =>
     {
         var config = new BridgeConfiguration { MobileControlEnabled = true };

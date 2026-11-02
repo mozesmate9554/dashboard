@@ -8,6 +8,7 @@ import 'adaptive_layout.dart';
 import 'fullscreen.dart';
 import 'connection.dart';
 import 'models.dart';
+import 'premium_controls.dart';
 import 'storage.dart';
 
 Color studioColor(Object? hex, [Color fallback = const Color(0xffef3340)]) {
@@ -157,6 +158,9 @@ class Instrument extends StatelessWidget {
           Icon(Icons.circle, color: actual == true || actual is num && actual != 0 ? color : Colors.white12, size: 28),
           Text(actual == null ? '$label · —' : label, style: const TextStyle(fontSize: 14)),
         ]); break;
+      case 'rocker': case 'pushButton': case 'guarded': case 'rotarySwitch': case 'cycleButton':
+        child = PremiumControl(element: e, frame: frame, connection: connection);
+        break;
       case 'image': case 'svg':
         final assets = layout.data['assets'] as Map<String, dynamic>?;
         final asset = assets?[e['assetId']] as Map<String, dynamic>?;
@@ -164,8 +168,12 @@ class Instrument extends StatelessWidget {
         else {
           final bytes = layout.assetBytes(e['assetId'] as String)!;
           child = kind == 'svg' ? SvgPicture.memory(bytes, fit: BoxFit.contain,
-            errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image))) : Image.memory(bytes, fit: BoxFit.contain,
+            errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image))) : Image.memory(bytes, fit: e['fit'] == 'fill' ? BoxFit.fill : BoxFit.contain,
             errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image)));
+          if (e['nightDim'] == true && CockpitLighting.night.value) {
+            child = ColorFiltered(colorFilter: const ColorFilter.matrix(<double>[
+              .32, 0, 0, 0, 0, 0, .3, 0, 0, 0, 0, 0, .3, 0, 0, 0, 0, 0, 1, 0]), child: child);
+          }
         }
         break;
       default:
@@ -320,6 +328,7 @@ class _LiveDisplayState extends State<LiveDisplay> {
         ListTile(leading:Icon(_adaptive?Icons.check_circle:Icons.crop_free),title:const Text('Adaptív mobilnézet'),subtitle:const Text('Nagyobb műszerek és gombok; kitölti a biztonságos kijelzőterületet.'),onTap:()=>Navigator.pop(sheetContext,'adaptive')),
         ListTile(leading:Icon(!_adaptive?Icons.check_circle:Icons.aspect_ratio),title:const Text('Eredeti arány és elrendezés'),subtitle:const Text('Az autó referenciához rajzolt vagy a saját szerkesztett geometriája.'),onTap:()=>Navigator.pop(sheetContext,'original')),
         ListTile(leading:const Icon(Icons.visibility),title:Text(_toolbar?'Eszköztár elrejtése':'Eszköztár megjelenítése'),onTap:()=>Navigator.pop(sheetContext,'toolbar')),
+        ListTile(leading:Icon(CockpitLighting.night.value?Icons.light_mode:Icons.dark_mode),title:Text(CockpitLighting.night.value?'Nappali megvilágítás':'Éjszakai megvilágítás'),subtitle:const Text('Háttérvilágított feliratok, erősebb LED-fényudvar, sötétített panel.'),onTap:()=>Navigator.pop(sheetContext,'night')),
         if(widget.layout==null) ...[
           const Divider(),
           for(final (role,label) in [('dashboard','Műszerfal'),('panel','Kezelőpanel'),('hybrid','Hibrid')])
@@ -335,6 +344,8 @@ class _LiveDisplayState extends State<LiveDisplay> {
     if(choice=='quick'){await _quickControls();return;}
     if(choice=='adaptive' || choice=='original'){
       setState((){_adaptive=choice=='adaptive';_mobilePage=0;});await widget.store.set('displayAdaptive',_adaptive);
+    } else if(choice=='night'){
+      CockpitLighting.night.value=!CockpitLighting.night.value;await widget.store.set('nightMode',CockpitLighting.night.value);
     } else if(choice=='toolbar'){
       setState(()=>_toolbar=!_toolbar);await widget.store.set('displayToolbar',_toolbar);
     } else if(choice.startsWith('orientation:')){
@@ -371,7 +382,7 @@ class _LiveDisplayState extends State<LiveDisplay> {
       }
       final presentation=_cachedPresentation!;
       _mobilePage=_mobilePage.clamp(0,presentation.pages.length-1).toInt();
-      return AnimatedBuilder(animation:Listenable.merge([widget.connection,widget.connection.telemetry,widget.connection.ticks]),builder:(context,_){
+      return AnimatedBuilder(animation:Listenable.merge([widget.connection,widget.connection.telemetry,widget.connection.ticks,CockpitLighting.night]),builder:(context,_){
         final frame=widget.connection.telemetry.value;
         return Column(children:[
           if(_toolbar) SizedBox(height:48,child:Row(children:[

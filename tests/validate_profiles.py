@@ -16,23 +16,26 @@ def check(name, action):
         results.append({'name':name,'status':'failed','error':str(error)});print('FAIL',name,str(error))
 catalog=json.loads((ROOT/'mobile_flutter/assets/catalog.json').read_text())
 vehicles=catalog['vehicles']
-KINDS={'number','gear','bar','leds','analog','pedals','gForce','tyres','text','image','svg','button','hold','toggle','threeState','multiState','rotary','stepper','slider','indicator','icon'}
-ALLOWED={'ignition','starter','lights','flash','wiper','radio','intercom','camera','pitLimiter','brakeBiasUp','brakeBiasDown','absUp','absDown','tcUp','tcDown','diffUp','diffDown','engineMapUp','engineMapDown','drs','ers','p2p','neutral','reverse','displayNext','displayPrevious','acknowledge','drink','fan','rainLight','electricalMaster','auxMode','hazards','fogLights','demist','callAccept','callEnd','fireExtinguisher','intercomVolumeUp','intercomVolumeDown','radioVolumeUp','radioVolumeDown'}
+KINDS={'number','gear','bar','leds','analog','pedals','gForce','tyres','text','image','svg','button','hold','toggle','threeState','multiState','rotary','stepper','slider','indicator','icon','rocker','pushButton','guarded','rotarySwitch','cycleButton'}
+ALLOWED={'ignition','starter','lights','flash','wiper','radio','intercom','camera','pitLimiter','brakeBiasUp','brakeBiasDown','absUp','absDown','tcUp','tcDown','diffUp','diffDown','engineMapUp','engineMapDown','drs','ers','p2p','neutral','reverse','displayNext','displayPrevious','acknowledge','drink','fan','rainLight','electricalMaster','auxMode','hazards','fogLights','demist','callAccept','callEnd','fireExtinguisher','intercomVolumeUp','intercomVolumeDown','radioVolumeUp','radioVolumeDown','highBeam','indicatorLeft','indicatorRight','handbrake','respawn'}
 FIELDS={'speed','rpm','rpmLimit','gear','throttle','brake','clutch','steering','handbrake','ignition','engineRunning','waterTemp','oilTemp','oilPressure','turbo','fuel','consumption','range','engineMap','gearboxTemp','differential','faults','tyrePressure','tyreTempInner','tyreTempMiddle','tyreTempOuter','tyreWear','brakeTemp','wheelSpeed','wheelSlip','wheelLock','absActive','absLevel','tcActive','tcLevel','brakeBias','lapCurrent','lapLast','lapBest','sectors','delta','position','lap','lapsRemaining','timeRemaining','inPit','pitLimit','flags','drs','ers','hybridEnergy','battery','gX','gY','gZ','yaw','pitch','roll','suspension','stageTime','stageSplits','stageDistance','stageState','vehicleId','stageId','navigation','damage','sessionStatus','lights','wiperLevel','radioActive','intercomActive','starterActive','radioVolume','intercomVolume','sessionClock','driveMode','launchRpmLimit'}
+SIX={'skoda-fabia-rs-rally2','peugeot-208-rally4','hyundai-i20-n-rally2','vw-polo-gti-r5','peugeot-206-wrc','subaru-impreza-555-gra'}
 def counts():
-    assert len(vehicles)==20
-    assert len({v['id'] for v in vehicles})==20
-    assert len({v[k]['id'] for v in vehicles for k in ('dashboard','panel')})==40
-check('20 required vehicles / 40 separately identified layouts',counts)
+    assert len(vehicles)>=20
+    assert len({v['id'] for v in vehicles})==len(vehicles)
+    ids=[l['id'] for v in vehicles for l in [v['dashboard'],v['panel'],*v.get('variants',[])]]
+    assert len(ids)==len(set(ids))
+check('All vehicles and every factory layout are separately identified',counts)
 signatures={'dashboard':set(),'panel':set()}
 for v in vehicles:
     def validate(v=v):
         assert json.loads((ROOT/'vehicle_profiles'/v['id']/'profile.json').read_text())==v
         assert v['references'] and all(ref['url'].startswith('https://') for ref in v['references'])
-        assert v['fidelity'] in ('inspired','partial_reference')
-        for role,key in [('dashboard','dashboard'),('panel','panel')]:
-            layout=v[key];assert layout['vehicleId']==v['id'] and layout['role']==role
-            assert layout['schemaVersion']==1 and layout['version']==('0.3.0' if v['id']=='skoda-fabia-rs-rally2' else '0.2.0') and layout['isBase']
+        assert v['fidelity'] in ('inspired','partial_reference','reference_research')
+        for role,key,layout in [('dashboard','dashboard',v['dashboard']),('panel','panel',v['panel'])]+[(l['role'],'variant:'+l['role'],l) for l in v.get('variants',[])]:
+            assert layout['vehicleId']==v['id'] and layout['role']==role
+            assert layout['schemaVersion']==1 and layout['version'] in ('0.2.0','0.3.0','0.4.0') and layout['isBase']
+            signatures.setdefault(key,set())
             ids=set();signature=[]
             assert 1<=len(layout['pages'])<=8
             for p in layout['pages']:
@@ -60,15 +63,37 @@ for v in vehicles:
 def skoda():
     v=next(v for v in vehicles if v['id']=='skoda-fabia-rs-rally2')
     assert v['reconstructionScope']==['driver_display','central_console']
-    assert len(v['panel']['pages'])==1 and len(v['dashboard']['pages'])==3
-    controls=[e for e in v['panel']['pages'][0]['elements'] if e.get('action')]
+    assert len(v['dashboard']['pages'])==3
+    legacy=v['variants'][0]
+    assert legacy['id']=='skoda-fabia-rs-rally2-panel' and len(legacy['pages'])==1
+    controls=[e for e in legacy['pages'][0]['elements'] if e.get('action')]
     assert len(controls)==16 and all(e.get('artwork') and e.get('assetId') for e in controls)
-    assert all('wheel' not in key for key in v['panel']['assets'])
+    assert all('wheel' not in key for key in legacy['assets'])
     assert all(e.get('action')!='starter' for e in controls)
     before=json.loads((ROOT/'documentation/history/0.2.0/skoda-profile.json').read_text())
     old={e['field'] for p in before['dashboard']['pages'] for e in p['elements'] if e.get('field')}
     assert old<=set(v['dashboard']['supportedFields']),old-set(v['dashboard']['supportedFields'])
-check('Skoda: two photo-derived surfaces, editable artwork and preserved telemetry',skoda)
+check('Skoda: 0.3.0 photo console preserved as a variant, dashboard telemetry preserved',skoda)
+def premium_boxes():
+    for v in vehicles:
+        if v['id'] not in SIX: continue
+        panel=v['panel']; assert panel['version']=='0.4.0' and panel.get('adaptive')=='preserve',v['id']
+        controls=[e for e in panel['pages'][0]['elements'] if e['kind'] in ('rocker','pushButton','guarded','rotarySwitch','cycleButton')]
+        assert len(controls)>=10,v['id']
+        actions={e['action'] for e in controls}
+        assert {'ignition','starter','lights'}<=actions,(v['id'],actions)
+        assert all(e.get('minusAction') for e in controls if e['kind']=='rotarySwitch')
+        assert next(e for e in controls if e['action']=='starter').get('hold') is True
+        assert next(e for e in controls if e['action']=='lights')['kind']=='cycleButton','Rally lights are a game cycle, not an on/off toggle'
+        assert v['gameVehicleAliases'],v['id']
+check('ACR cars: separate mechanical button boxes, hold starter, cycle lights, aliases',premium_boxes)
+def sounds():
+    import wave
+    names=['metal_toggle_on','metal_toggle_off','plastic_button','latching_switch','rotary_detent','safety_cover','starter_button']
+    for n in names:
+        with wave.open(str(ROOT/'mobile_flutter/assets/sounds'/(n+'.wav'))) as w:
+            assert w.getframerate()==44100 and w.getnchannels()==1 and w.getnframes()/44100<.2,n
+check('Seven short, preloadable switch sounds',sounds)
 def unchanged_profiles():
     previous=json.loads((ROOT/'documentation/history/0.2.0/profile-sha256.json').read_text())
     for car,expected in previous.items():
@@ -89,8 +114,8 @@ def xcode():
 check('Xcode project object references and iPhone/iPad deployment settings',xcode)
 def version_identity():
     pub=(ROOT/'mobile_flutter/pubspec.yaml').read_text()
-    assert re.search(r'^version: 0\.3\.0\+\d+$',pub,re.M)
-    assert '<Version>0.3.0</Version>' in (ROOT/'Directory.Build.props').read_text()
+    assert re.search(r'^version: 0\.4\.0\+\d+$',pub,re.M)
+    assert '<Version>0.4.0</Version>' in (ROOT/'Directory.Build.props').read_text()
     assert json.loads((ROOT/'windows_bridge/Bridge.Windows/profiles.json').read_text())==[v['id'] for v in vehicles]
 check('Cross-platform version and profile ID consistency',version_identity)
 target=ROOT/'tests/results/profile-tests.json';target.parent.mkdir(parents=True,exist_ok=True)

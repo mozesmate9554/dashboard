@@ -1,7 +1,7 @@
 name: sim_control_studio
 description: Private, offline native motorsport dashboards and button boxes.
 publish_to: none
-version: 0.3.0+3
+version: 0.4.0+4
 environment:
   sdk: '>=3.9.0 <4.0.0'
   flutter: '>=3.35.0'
@@ -18,6 +18,7 @@ dependencies:
   path_provider: 2.1.5
   share_plus: 11.1.0
   cross_file: 0.3.4+2
+  audioplayers: ^6.1.0
 dev_dependencies:
   integration_test:
     sdk: flutter
@@ -34,3 +35,4 @@ flutter:
           weight: 600
   assets:
     - assets/catalog.json
+    - assets/sounds/

@@ -106,6 +106,9 @@ public static class ActionCatalog
         "ignition", "starter", "lights", "flash", "wiper", "radio", "intercom", "camera",
         "pitLimiter", "brakeBiasUp", "brakeBiasDown", "absUp", "absDown", "tcUp", "tcDown",
         "diffUp", "diffDown", "engineMapUp", "engineMapDown", "drs", "ers", "p2p", "neutral",
-        "reverse", "displayNext", "displayPrevious", "acknowledge", "drink", "fan", "rainLight", "electricalMaster", "auxMode", "hazards", "fogLights", "demist", "callAccept", "callEnd", "fireExtinguisher", "intercomVolumeUp", "intercomVolumeDown", "radioVolumeUp", "radioVolumeDown"
+        "reverse", "displayNext", "displayPrevious", "acknowledge", "drink", "fan", "rainLight", "electricalMaster", "auxMode", "hazards", "fogLights", "demist", "callAccept", "callEnd", "fireExtinguisher", "intercomVolumeUp", "intercomVolumeDown", "radioVolumeUp", "radioVolumeDown",
+        // 0.4.0: separate Assetto Corsa Rally input actions (IA_ToggleHighBeams, IA_Toggle*IndicatorLight, IA_HandBrake, IA_Respawn).
+        // "lights" maps to the game's IA_CycleLights and "wiper" to IA_CycleWipers: both are cycles, not on/off states.
+        "highBeam", "indicatorLeft", "indicatorRight", "handbrake", "respawn"
     };
 }
