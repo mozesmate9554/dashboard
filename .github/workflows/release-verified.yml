@@ -55,6 +55,10 @@ jobs:
           cp release-tooling/tools/release_status.py release-tooling/tools/package_release.py release-tooling/tools/build_reference_evidence.py release-tooling/tools/build_skoda_comparison.py app/tools/
           cp -R release-tooling/documentation/. app/documentation/
           git -C app diff --exit-code -- mobile_flutter/lib mobile_flutter/assets vehicle_profiles windows_bridge
+      - name: Require the release tag to identify the tested application source
+        env:
+          APP_SOURCE: ${{ steps.verified.outputs.source_sha }}
+        run: test "$(git -C app rev-parse 'v0.3.0^{commit}')" = "$APP_SOURCE"
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: SIM_CONTROL_STUDIO-Android-${{ steps.verified.outputs.source_sha }}
@@ -115,9 +119,23 @@ jobs:
           cat _release-input/Android-native/native-integration-results.json
           python3 tools/release_status.py --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
           python3 tools/package_release.py --output _release-output --windows _staging/Windows --apk _release-input/Android/app-release.apk --installer _release-input/Windows/SIM_CONTROL_STUDIO_0.3.0_Setup_x64.exe --checks _release-input/Android-checks/ci-results --ios _release-input/iOS --android-native _release-input/Android-native --previews _release-input/Previews
+      - name: Preserve every verified downloadable file before publication
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: SIM_CONTROL_STUDIO_0.3.0_VERIFIED_DOWNLOADS
+          path: |
+            app/_release-output/*.apk
+            app/_release-output/*.exe
+            app/_release-output/*.zip
+            app/_release-output/*.pdf
+            app/_release-output/*.png
+            app/_release-output/*.txt
+            app/_release-output/*.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Publish the verified application revision
         working-directory: app
         env:
           GH_TOKEN: ${{ github.token }}
           APP_SOURCE: ${{ steps.verified.outputs.source_sha }}
-        run: gh release create v0.3.0 --target "$APP_SOURCE" --title 'SIM CONTROL STUDIO 0.3.0' --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/*.png _release-output/STATUS.json _release-output/SHA256SUMS.txt
+        run: gh release create v0.3.0 --verify-tag --target "$APP_SOURCE" --title 'SIM CONTROL STUDIO 0.3.0' --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/*.png _release-output/STATUS.json _release-output/SHA256SUMS.txt
