@@ -14,6 +14,7 @@ sources=[
  ('official-console','https://cdn.skoda-storyboard.com/2022/10/02_FABIA_RS_Rally2_f0de083a.jpg','Škoda Storyboard / RS Experience press kit, October 2022'),
  ('dashboard-detail','https://images.dailyrevs.com/0000/v3/Skoda/63ef4ce282f6b2e83c761558/2023-fabia-rs-rally2-skoda-b0mei0zo2vuqxinrg.jpeg','DailyRevs / reproduced 2023 Škoda Fabia RS Rally2 press photography'),
 ]
+if '--requested-surfaces' in sys.argv:sources=[s for s in sources if s[0]!='dashboard-detail']
 records=[]
 c=canvas.Canvas(str(out/'SKODA_REFERENCE_EVIDENCE.pdf'),pagesize=(1440,1100))
 for name,url,credit in sources:

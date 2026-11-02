@@ -93,7 +93,7 @@ assets = [archive(release, output/f'SIM_CONTROL_STUDIO_{version}_RELEASE.zip'),
 assets += [archive(release/'Previews',output/f'SIM_CONTROL_STUDIO_{version}_Skoda_Previews.zip')]
 for f in a.ios.glob('*.zip'):
     dest=output/f.name;shutil.copy2(f,dest);assets.append(dest)
-for f in [a.previews/'SKODA_REFERENCE_COMPARISON_0.3.0.pdf',ROOT/'documentation/STATUS.json']:
+for f in [a.previews/'SKODA_REFERENCE_COMPARISON_0.3.0.pdf',ROOT/'documentation/STATUS.json',*sorted(a.previews.glob('SKODA_*_0.3.0.png'))]:
     dest=output/f.name;shutil.copy2(f,dest);assets.append(dest)
 for src, name in [(a.apk, f'SIM_CONTROL_STUDIO_{version}.apk'), (a.installer,a.installer.name)]:
     dest=output/name; shutil.copy2(src,dest); assets.append(dest)

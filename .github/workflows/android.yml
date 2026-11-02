@@ -162,7 +162,7 @@ jobs:
       - name: Build attributed reference comparisons from actual Flutter previews
         run: |
           python3 -m pip install reportlab==4.4.9 pillow==12.0.0
-          python3 tools/build_reference_evidence.py --no-review
+          python3 tools/build_reference_evidence.py --no-review --requested-surfaces
           python3 tools/build_skoda_comparison.py --previews _release-input/Previews --references reference-evidence --output _release-input/Previews
           cp documentation/SKODA_REKONSTRUKCIO_0.3.0.md _release-input/Previews/
       - name: Package only actual verified build outputs
@@ -176,7 +176,7 @@ jobs:
       - name: Publish downloadable 0.3.0 release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create v0.3.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.3.0" --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/STATUS.json _release-output/SHA256SUMS.txt
+        run: gh release create v0.3.0 --target "$GITHUB_SHA" --title "SIM CONTROL STUDIO 0.3.0" --notes-file documentation/RELEASE_0.3.0.md _release-output/*.apk _release-output/*.exe _release-output/*.zip _release-output/*.pdf _release-output/*.png _release-output/STATUS.json _release-output/SHA256SUMS.txt
 
   windows:
     runs-on: windows-2025
