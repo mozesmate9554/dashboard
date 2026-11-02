@@ -106,6 +106,7 @@ class Instrument extends StatelessWidget {
       case 'text': child = Center(child: Text(label, textAlign: TextAlign.center, style: TextStyle(color: foreground, fontSize: size, letterSpacing: (e['letterSpacing'] as num?)?.toDouble() ?? 2, fontWeight:weight, fontFamily: font))); break;
       case 'number': case 'gear':
         if(e['style']=='factoryMap' || e['style']=='adaptiveMap'){
+          if(value==null){child=const Center(child:Text('—',style:TextStyle(fontSize:38,color:Colors.white54)));break;}
           final row=Row(children:[for(var i=1;i<=5;i++) Expanded(child:Padding(padding:const EdgeInsets.all(2),child:Container(
             decoration:BoxDecoration(color:value==i?const Color(0xff9bd158):const Color(0xff34383b),borderRadius:BorderRadius.circular(6)),
             child:Center(child:FittedBox(child:Text('$i',style:TextStyle(fontFamily:font,fontSize:40,color:value==i?Colors.black:Colors.white54)))))))]);
@@ -141,9 +142,9 @@ class Instrument extends StatelessWidget {
         final values = frame?.value(field);
         child = Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           FittedBox(fit:BoxFit.scaleDown,child:Text(label,maxLines:1,style: TextStyle(color: color, fontSize: 15))),
-          for (var row = 0; row < 2; row++) Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          for (var row = 0; row < 2; row++) Expanded(child:Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             for (var column = 0; column < 2; column++) Expanded(child:FittedBox(fit:BoxFit.scaleDown,child:Text('${['FL', 'FR', 'RL', 'RR'][row * 2 + column]}\n${values is List && values.length == 4 && values[row * 2 + column] is num ? (values[row * 2 + column] as num).toStringAsFixed(1) : '—'}', textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, fontFamily: 'monospace')))),
-          ]),
+          ])),
         ]); break;
       case 'indicator':
         final actual = frame?.value(field);
@@ -281,7 +282,7 @@ class _PanelControlState extends State<PanelControl> {
             if (_kind == 'toggle' && !artwork) Text(observed == null ? 'ÁLLAPOT: —' : observed == true ? 'BE' : 'KI', style: const TextStyle(fontSize: 10, color: Colors.white38)),
           ])))));
     }
-    return Tooltip(message: _enabled ? label : 'Ez a funkció ebben a játékban nem érhető el, nincs kiosztva vagy nincs engedélyezve.', child: child);
+    return Tooltip(message: _enabled ? (artwork?'$label · Rekonstrukció, szerkeszthető funkciókiosztás.':label) : 'Ez a funkció ebben a játékban nem érhető el, nincs kiosztva vagy nincs engedélyezve.', child: child);
   }
   @override void dispose() { _renew?.cancel(); if (_pressed) widget.connection?.releaseAll(); super.dispose(); }
 }

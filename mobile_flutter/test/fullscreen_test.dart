@@ -39,6 +39,7 @@ void main() {
     }
   });
   testWidgets('Adaptive pages render with fresh DEMO data in portrait and landscape',(tester)async{
+    final errors=<String>[];
     tester.view.devicePixelRatio=1;
     addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);
     for(final size in [const Size(360,680),const Size(844,300)]){
@@ -50,12 +51,13 @@ void main() {
             final layout=adaptLayout(source,page,size);
             for(var mobilePage=0;mobilePage<layout.pages.length;mobilePage++){
               await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:Scaffold(body:LayoutCanvas(layout:layout,page:mobilePage,frame:DemoSimulator().frame(5000)))));
-              await tester.pump();expect(tester.takeException(),isNull,reason:'${source.id} page $page/$mobilePage at $size');
+              await tester.pump();final error=tester.takeException();if(error!=null)errors.add('${source.id} page $page/$mobilePage at $size: $error');
             }
           }
         }
       }
     }
+    expect(errors,isEmpty,reason:errors.join('\n'));
   });
   testWidgets('All cockpit roles respect iPhone safe areas and keep an exit reachable',(tester)async{
     SharedPreferences.setMockInitialValues({'haptic':false});

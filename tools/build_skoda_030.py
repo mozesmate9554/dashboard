@@ -153,7 +153,7 @@ def apply_profile():
     dash['id']=previous['dashboard']['id'];panel['id']=previous['panel']['id']
     for layout in [dash,panel]:
         used={e['assetId'] for p in layout['pages'] for e in p['elements'] if 'assetId' in e}
-        layout['assets']={k:ASSETS[k] for k in used}
+        layout['assets']={k:ASSETS[k] for k in sorted(used)}
         layout['supportedFields']=sorted({e['field'] for p in layout['pages'] for e in p['elements'] if e.get('field')})
     car.update(version='0.3.0',dashboard=dash,panel=panel,fidelity='partial_reference',fidelityLabel='Fotóalapú rekonstrukció · részben igazolt',
        reconstructionVersion='0.3.0',reconstructionScope=['driver_display','central_console'],

@@ -52,6 +52,7 @@ jobs:
           set -o pipefail
           flutter test --machine 2>&1 | tee ../ci-results/flutter-tests.jsonl
       - name: Review actual Flutter Skoda renders
+        if: always()
         working-directory: .
         run: |
           python3 -m pip install pillow==12.0.0
