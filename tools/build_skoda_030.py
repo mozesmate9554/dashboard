@@ -76,7 +76,7 @@ ICONS={
  'call':'<path d="M26 13 10 23c-2 26 35 64 65 64l14-19-22-14-12 11C40 57 34 50 29 35l11-9Z"/>',
  'endCall':'<path d="m10 62 1-22c22-21 56-20 78 1v21H65V48c-12-4-19-4-31 0v14Z"/>',
  'speaker':'<path d="M8 38h17l23-21v66L25 62H8Z"/><g fill="none" stroke="white" stroke-width="5"><path d="M58 32q19 18 0 36M67 19q32 31 0 62"/></g>',
- 'all':'<g fill="none" stroke="white" stroke-width="5"><path d="m12 22 69-13 7 31-69 13ZM20 25l12 16M43 21l12 16M67 17l12 16M19 53v24h69V39"/></g><text x="52" y="96" font-family="Arial" font-size="24" text-anchor="middle" fill="white">ALL</text>',
+ 'all':'<g fill="none" stroke="white" stroke-width="5"><path d="m12 22 69-13 7 31-69 13ZM20 25l12 16M43 21l12 16M67 17l12 16M19 53v24h69V39"/></g><text x="52" y="96" font-family="OemCondensed" font-size="24" text-anchor="middle" fill="white">ALL</text>',
 }
 
 def round_button(name,color,icon):
@@ -94,7 +94,7 @@ def touch_key(name,icon=None,text=None,color='white'):
     symbol=ICONS.get(icon,'') if icon else ''
     return asset(name,210,150,f'''<defs><linearGradient id="key" x2="0" y2="1"><stop stop-color="#6d7b94"/><stop offset="1" stop-color="#47546c"/></linearGradient></defs>
 <rect x="5" y="7" width="200" height="139" rx="30" fill="#070a0d"/><rect x="11" y="6" width="188" height="127" rx="27" fill="url(#key)" stroke="#232b35" stroke-width="3"/>
-'''+(f'<g transform="translate(60 23) scale(.92)" fill="{color}">{symbol}</g>' if symbol else '')+(f'<text x="105" y="56" text-anchor="middle" font-family="Arial" font-size="34" fill="white">{text.split()[0]}</text><text x="105" y="97" text-anchor="middle" font-family="Arial" font-size="34" fill="white">{text.split()[-1]}</text>' if text else ''))
+'''+(f'<g transform="translate(60 23) scale(.92)" fill="{color}">{symbol}</g>' if symbol else '')+(f'<text x="105" y="56" text-anchor="middle" font-family="OemCondensed" font-size="34" fill="white">{text.split()[0]}</text><text x="105" y="97" text-anchor="middle" font-family="OemCondensed" font-size="34" fill="white">{text.split()[-1]}</text>' if text else ''))
 
 def volume(name,flip=False):
     return asset(name,190,650,'''<defs><linearGradient id="key" x2="0" y2="1"><stop stop-color="#6e7f9e"/><stop offset=".6" stop-color="#536582"/><stop offset="1" stop-color="#46536a"/></linearGradient></defs>
@@ -116,7 +116,7 @@ def console():
 ''')
     knob=asset('skoda-console-audio-knob',180,210,'''<defs><linearGradient id="knob" x2="1" y2="1"><stop stop-color="#555a60"/><stop offset=".45" stop-color="#242b30"/><stop offset="1" stop-color="#080c0f"/></linearGradient></defs><ellipse cx="92" cy="159" rx="78" ry="36" fill="#070b0e"/><path d="m47 37 22-19h48l23 20 13 102-35 29H67l-34-27Z" fill="url(#knob)" stroke="#11171c" stroke-width="4"/><path d="M91 26v91" stroke="#919b9e" stroke-width="4"/>''')
     toggle=asset('skoda-console-toggle',160,220,'''<defs><linearGradient id="lever" x2="1" y2="0"><stop stop-color="#080b0d"/><stop offset=".5" stop-color="#525e65"/><stop offset="1" stop-color="#11181d"/></linearGradient></defs><ellipse cx="81" cy="165" rx="59" ry="35" fill="#080c10" stroke="#58646a" stroke-width="3"/><path d="M63 161 52 48q0-30 28-30t28 30l-11 113Z" fill="url(#lever)" stroke="#05080b" stroke-width="5"/>''')
-    fire=asset('skoda-console-fire-guard',240,400,'''<defs><linearGradient id="red" x2="1" y2="1"><stop stop-color="#ff5b46"/><stop offset=".5" stop-color="#c91f19"/><stop offset="1" stop-color="#720e0b"/></linearGradient></defs><rect x="10" y="14" width="220" height="367" rx="38" fill="#070a0b"/><path d="M22 51 59 14h121l39 39v287l-39 35H57l-35-35Z" fill="url(#red)" stroke="#520909" stroke-width="5"/><rect x="48" y="79" width="144" height="218" rx="20" fill="#e8d69a" stroke="#f2e5b6" stroke-width="3"/><path d="M115 105q-5 32 15 43-1-28 19-41 10 29-4 48 39 42 5 67-12 10-39 7-52-4-38-46 3-12 19-32-2 29 14 31-5-37 9-77Z" fill="#212a30"/><text x="120" y="271" text-anchor="middle" font-family="Arial" font-size="39" fill="#212a30">FIRE</text>''')
+    fire=asset('skoda-console-fire-guard',240,400,'''<defs><linearGradient id="red" x2="1" y2="1"><stop stop-color="#ff5b46"/><stop offset=".5" stop-color="#c91f19"/><stop offset="1" stop-color="#720e0b"/></linearGradient></defs><rect x="10" y="14" width="220" height="367" rx="38" fill="#070a0b"/><path d="M22 51 59 14h121l39 39v287l-39 35H57l-35-35Z" fill="url(#red)" stroke="#520909" stroke-width="5"/><rect x="48" y="79" width="144" height="218" rx="20" fill="#e8d69a" stroke="#f2e5b6" stroke-width="3"/><path d="M115 105q-5 32 15 43-1-28 19-41 10 29-4 48 39 42 5 67-12 10-39 7-52-4-38-46 3-12 19-32-2 29 14 31-5-37 9-77Z" fill="#212a30"/><text x="120" y="271" text-anchor="middle" font-family="OemCondensed" font-size="39" fill="#212a30">FIRE</text>''')
     buttons=[
       ('audio-master','rotary','intercomVolumeUp','intercomVolumeDown','Interkom szabályzó · rekonstrukció',knob,94,72,170,210,'intercomVolume','exact channel assignment unverified'),
       ('thermal','button','fan',None,'Segédfunkció · ikon jelentése részben bizonytalan',round_button('skoda-console-thermal','#ef5a3d','thermal'),72,328,200,235,'','icon geometry observed; game assignment configurable'),

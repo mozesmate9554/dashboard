@@ -277,7 +277,7 @@ class _PanelControlState extends State<PanelControl> {
             _emit(_action); setState(() => _requested++);
           } : null, child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             if (_kind == 'icon') Icon(_action == 'lights' ? Icons.lightbulb_outline : _action == 'radio' ? Icons.mic : Icons.sports_motorsports, size: 30, color: _enabled ? color : Colors.white24),
-            if(!artwork) Text(label, textAlign: TextAlign.center, style: TextStyle(color: _enabled ? Colors.white : Colors.white24, fontSize: (widget.element['fontSize'] as num?)?.toDouble() ?? 20, fontWeight: FontWeight.w800, letterSpacing: 1)),
+            if(!artwork) Flexible(child:FittedBox(fit:BoxFit.scaleDown,child:Text(label,maxLines:1,textAlign: TextAlign.center, style: TextStyle(color: _enabled ? Colors.white : Colors.white24, fontSize: (widget.element['fontSize'] as num?)?.toDouble() ?? 20, fontWeight: FontWeight.w800, letterSpacing: 1)))),
             if (_kind == 'toggle' && !artwork) Text(observed == null ? 'ÁLLAPOT: —' : observed == true ? 'BE' : 'KI', style: const TextStyle(fontSize: 10, color: Colors.white38)),
           ])))));
     }

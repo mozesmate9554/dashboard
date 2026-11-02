@@ -271,6 +271,8 @@ jobs:
           mkdir -p ../android-ci
           flutter pub get
           sudo chmod 666 /dev/kvm
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
           sdkmanager 'platform-tools' 'emulator' 'platforms;android-36' 'system-images;android-36;google_apis;x86_64' > ../android-ci/sdk-install.log
           echo no | avdmanager create avd -n studio -k 'system-images;android-36;google_apis;x86_64' --device pixel_7
           "$ANDROID_HOME/emulator/emulator" -avd studio -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -memory 2048 -cores 2 > ../android-ci/emulator.log 2>&1 &

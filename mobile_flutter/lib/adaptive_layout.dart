@@ -85,7 +85,7 @@ List<List<Map<String,dynamic>>> _controlPages(List<Map<String,dynamic>> controls
 void _place(Map<String,dynamic> item, Rect rect) {
   item['x']=rect.left;item['y']=rect.top;item['w']=rect.width;item['h']=rect.height;
   item['rotation']=0; // Adaptive reading orientation; original rotation stays in the saved layout.
-  item['fontSize']=(item['fontSize'] as num? ?? 48).clamp(14,140);
+  item['fontSize']=(item['fontSize'] as num? ?? (controlKinds.contains(item['kind'])?20:48)).clamp(14,140);
   if(item['style']=='factoryReadout')item['style']='adaptiveReadout';
   if(item['style']=='factoryMap')item['style']='adaptiveMap';
 }

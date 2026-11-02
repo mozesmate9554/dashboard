@@ -21,7 +21,7 @@ void main(){
     for(final layout in [car.dashboard,car.panel]){
       tester.view.physicalSize=Size(layout.width,layout.height+88);
       final key=GlobalKey();
-      await tester.pumpWidget(MaterialApp(theme:ThemeData.dark(),home:Scaffold(body:RepaintBoundary(key:key,child:Column(children:[
+      await tester.pumpWidget(MaterialApp(theme:ThemeData.dark().copyWith(textTheme:ThemeData.dark().textTheme.apply(fontFamily:'OemCondensed')),home:Scaffold(body:RepaintBoundary(key:key,child:Column(children:[
         SizedBox(height:50,child:Center(child:Text('ŠKODA FABIA RS RALLY2 / ${layout.role=='dashboard'?'DRIVER DISPLAY':'CENTRAL CONSOLE'}',style:const TextStyle(fontSize:23,letterSpacing:3)))),
         Expanded(child:LayoutCanvas(layout:layout,frame:DemoSimulator().frame(8500))),
         const SizedBox(height:38,child:Center(child:Text('PHOTO-DERIVED RECONSTRUCTION · DEMO / SYNTHETIC DATA · EDITABLE CONTROLS',style:TextStyle(fontSize:16,color:Colors.amber,letterSpacing:1)))),
