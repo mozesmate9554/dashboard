@@ -128,8 +128,11 @@ class Instrument extends StatelessWidget {
           LinearProgressIndicator(value: value == null ? 0 : (value / maximum).clamp(0, 1).toDouble(), color: color, backgroundColor: Colors.white12, minHeight: 16),
         ])); break;
       case 'leds': child = CustomPaint(painter: _LedPainter(value, frame?.number('rpmLimit') ?? (e['max'] as num?)?.toDouble() ?? 8000,
-          (e['count'] as num?)?.toInt() ?? 15, e['vertical'] == true, e['shape'] == 'circle', (e['rows'] as num?)?.toInt() ?? 1)); break;
-      case 'analog': child = CustomPaint(painter: _AnalogPainter(value, (e['max'] as num?)?.toDouble() ?? 10000, color, text)); break;
+          (e['count'] as num?)?.toInt() ?? 15, e['vertical'] == true, e['shape'] == 'circle', (e['rows'] as num?)?.toInt() ?? 1,
+          palette: (e['palette'] as List?)?.map((c) => studioColor(c)).toList(), night: CockpitLighting.night.value)); break;
+      case 'analog': child = CustomPaint(painter: _AnalogPainter(value, (e['max'] as num?)?.toDouble() ?? 10000, color, text,
+          style: e['style'] as String?, face: studioColor(e['face'], const Color(0xff0c0c0e)), redline: (e['redline'] as num?)?.toDouble(),
+          divisor: (e['divisor'] as num?)?.toDouble() ?? 1000, caption: e['caption'] as String? ?? '')); break;
       case 'pedals':
         child = Padding(padding: const EdgeInsets.all(8), child: Row(children: [
           for (final (key, name, tint) in [('throttle', 'GÁZ', Colors.greenAccent), ('brake', 'FÉK', Colors.redAccent), ('clutch', 'KU', Colors.lightBlueAccent)])
@@ -428,16 +431,22 @@ class _GridPainter extends CustomPainter {
 }
 class _LedPainter extends CustomPainter {
   final double? value; final double maximum; final int count; final bool vertical, round; final int rows;
-  _LedPainter(this.value, this.maximum, this.count, this.vertical, this.round, this.rows);
+  final List<Color>? palette; final bool night;
+  _LedPainter(this.value, this.maximum, this.count, this.vertical, this.round, this.rows, {this.palette, this.night = false});
   @override void paint(Canvas canvas, Size size) {
     final fraction = value == null || maximum <= 0 ? 0 : (value! / maximum).clamp(0, 1);
     for (var i = 0; i < count; i++) {
-      final color = i < count * .6 ? const Color(0xff43e078) : i < count * .8 ? const Color(0xffffd640) : const Color(0xffff3a4b);
-      final p = Paint()..color = i < fraction * count ? color : const Color(0xff20252a);
+      final color = palette != null && palette!.isNotEmpty ? palette![math.min(i * palette!.length ~/ count, palette!.length - 1)]
+        : i < count * .6 ? const Color(0xff43e078) : i < count * .8 ? const Color(0xffffd640) : const Color(0xffff3a4b);
+      final lit = i < fraction * count;
+      final p = Paint()..color = lit ? color : (night ? const Color(0xff101214) : const Color(0xff20252a));
       final columns=(count/rows).ceil();
       final w = rows>1?size.width/columns-4:vertical ? size.width - 4 : size.width / count - 4;
       final h = rows>1?size.height/rows-4:vertical ? size.height / count - 4 : size.height - 4;
       final rect = Rect.fromLTWH(rows>1?(i%columns)*size.width/columns+2:vertical ? 2 : i * size.width / count + 2, rows>1?(i~/columns)*size.height/rows+2:vertical ? size.height - (i + 1) * size.height / count + 2 : 2, math.max(1, w), math.max(1, h));
+      if (lit && palette != null) {
+        canvas.drawCircle(rect.center, math.max(w, h) * .7, Paint()..color = color.withValues(alpha: night ? .45 : .25)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8));
+      }
       if(rows>1 && round){canvas.drawCircle(rect.center,math.max(1,math.min(w,h)/2),p);}
       else{canvas.drawRRect(RRect.fromRectAndRadius(rect, Radius.circular(round ? math.min(w, h) / 2 : 2)), p);}
     }
@@ -446,8 +455,47 @@ class _LedPainter extends CustomPainter {
 }
 class _AnalogPainter extends CustomPainter {
   final double? value; final double maximum; final Color color; final String text;
-  _AnalogPainter(this.value, this.maximum, this.color, this.text);
+  final String? style; final Color face; final double? redline; final double divisor; final String caption;
+  _AnalogPainter(this.value, this.maximum, this.color, this.text, {this.style, this.face = const Color(0xff0c0c0e), this.redline, this.divisor = 1000, this.caption = ''});
+  void _classic(Canvas canvas, Size size) {
+    // Period-correct analogue instrument: bezel, black face, numerals, red sector and needle.
+    final center = Offset(size.width / 2, size.height / 2); final radius = math.min(size.width, size.height) * .47;
+    final rect = Rect.fromCircle(center: center, radius: radius);
+    canvas.drawCircle(center, radius, Paint()..shader = const SweepGradient(colors: [Color(0xffd8dbe0), Color(0xff6a6f76), Color(0xffc9cdd3), Color(0xff6a6f76), Color(0xffd8dbe0)]).createShader(rect));
+    canvas.drawCircle(center, radius * .92, Paint()..color = face);
+    const start = math.pi * .75, sweep = math.pi * 1.5;
+    double angle(double v) => start + sweep * (v / maximum).clamp(0, 1);
+    if (redline != null) {
+      canvas.drawArc(Rect.fromCircle(center: center, radius: radius * .8), angle(redline!), angle(maximum) - angle(redline!), false,
+        Paint()..style = PaintingStyle.stroke..strokeWidth = radius * .09..color = const Color(0xffd01818));
+    }
+    final majors = (maximum / divisor).round();
+    for (var i = 0; i <= majors * 5; i++) {
+      final v = i * divisor / 5; final a = angle(v); final major = i % 5 == 0;
+      final outer = center + Offset(math.cos(a), math.sin(a)) * radius * .86;
+      final inner = center + Offset(math.cos(a), math.sin(a)) * radius * (major ? .72 : .79);
+      canvas.drawLine(inner, outer, Paint()..strokeWidth = major ? radius * .025 : radius * .01..color = Colors.white);
+      if (major) {
+        final label = TextPainter(text: TextSpan(text: '${i ~/ 5}', style: TextStyle(color: Colors.white, fontSize: radius * .15, fontWeight: FontWeight.w600)), textDirection: TextDirection.ltr)..layout();
+        label.paint(canvas, center + Offset(math.cos(a), math.sin(a)) * radius * .58 - Offset(label.width / 2, label.height / 2));
+      }
+    }
+    final captionPainter = TextPainter(text: TextSpan(text: caption, style: TextStyle(color: Colors.white70, fontSize: radius * .085, letterSpacing: 1)), textDirection: TextDirection.ltr)..layout();
+    captionPainter.paint(canvas, center + Offset(-captionPainter.width / 2, radius * .3));
+    if (value != null) {
+      final a = angle(value!);
+      canvas.drawLine(center - Offset(math.cos(a), math.sin(a)) * radius * .15, center + Offset(math.cos(a), math.sin(a)) * radius * .8,
+        Paint()..strokeWidth = radius * .035..strokeCap = StrokeCap.round..color = color);
+    }
+    canvas.drawCircle(center, radius * .07, Paint()..color = const Color(0xff2a2a2a));
+    final readout = TextPainter(text: TextSpan(text: text, style: TextStyle(color: Colors.white60, fontSize: radius * .11, fontFamily: 'monospace')), textDirection: TextDirection.ltr)..layout();
+    readout.paint(canvas, center + Offset(-readout.width / 2, radius * .52));
+    // Glass reflection.
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius * .88), math.pi * 1.1, math.pi * .5, false,
+      Paint()..style = PaintingStyle.stroke..strokeWidth = radius * .05..color = Colors.white.withValues(alpha: .07));
+  }
   @override void paint(Canvas canvas, Size size) {
+    if (style == 'classic') { _classic(canvas, size); return; }
     final center = Offset(size.width / 2, size.height / 2); final radius = math.min(size.width, size.height) * .42;
     final p = Paint()..style = PaintingStyle.stroke..strokeWidth = 8..color = const Color(0xff303640);
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), math.pi * .75, math.pi * 1.5, false, p);

@@ -299,7 +299,10 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
     final captionColor = stage == LedStage.error ? const Color(0xffff4d4d) : stage == LedStage.confirmed ? const Color(0xff7dff9a) : Colors.white54;
     return Semantics(button: true, enabled: enabled, label: label,
       child: Tooltip(message: enabled ? '$label · ${ledCaption(stage)}' : '$label · nincs kiosztva, nincs engedélyezve vagy nincs kapcsolat',
-        child: Opacity(opacity: enabled ? 1 : .55, child: Column(children: [
+        child: Opacity(opacity: enabled ? 1 : .55, child: LayoutBuilder(builder: (context, constraints) {
+          // Very small presentations (hybrid / adaptive scaling) show the mechanical face only.
+          if (constraints.maxHeight < 110) return SizedBox.expand(child: face);
+          return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Expanded(child: face),
           const SizedBox(height: 4),
           SizedBox(height: 22, child: FittedBox(fit: BoxFit.scaleDown, child: Text(label.toUpperCase(), maxLines: 1,
@@ -308,7 +311,8 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
               shadows: night ? const [Shadow(color: Color(0xaaffb040), blurRadius: 8)] : const [Shadow(color: Colors.black, offset: Offset(0, 1))])))),
           SizedBox(height: 16, child: FittedBox(fit: BoxFit.scaleDown, child: Text(stateText, maxLines: 1,
             style: TextStyle(fontSize: 13, letterSpacing: .8, color: captionColor)))),
-        ]))));
+        ]);
+        }))));
   }
 
   @override void dispose() {

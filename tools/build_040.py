@@ -25,18 +25,16 @@ def carbon(w, h, cell=14, tint=(34, 37, 42)):
     shade = np.where(twill == 0, 0.55 + 0.45 * np.sin(fx * math.pi), 0.55 + 0.45 * np.sin(fy * math.pi))
     base = np.array(tint, dtype=float)[None, None, :]
     img = base * (0.55 + 0.6 * shade[..., None])
-    img += rng.normal(0, 3, (h, w, 1))
     return Image.fromarray(np.clip(img, 0, 255).astype('uint8'))
 
 def brushed(w, h, tone=(168, 173, 180)):
-    streak = rng.normal(0, 1, (h, 1)) * 9 + rng.normal(0, 1, (h, w)) * 3
-    streak = np.repeat(streak[:, :1], w, axis=1) * 0.7 + streak * 0.3
+    streak = np.repeat(rng.normal(0, 1, (h, 1)) * 8, w, axis=1)
     grad = np.linspace(1.08, 0.86, h)[:, None]
     img = np.array(tone, dtype=float)[None, None, :] * grad[..., None] + streak[..., None]
     return Image.fromarray(np.clip(img, 0, 255).astype('uint8'))
 
 def matte(w, h, tone=(48, 50, 54)):
-    img = np.array(tone, dtype=float)[None, None, :] + rng.normal(0, 4, (h, w, 1))
+    img = np.repeat(np.repeat(np.array(tone, dtype=float)[None, None, :], h, axis=0), w, axis=1)
     return Image.fromarray(np.clip(img, 0, 255).astype('uint8'))
 
 def font(size):
