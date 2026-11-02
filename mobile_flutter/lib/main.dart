@@ -153,7 +153,7 @@ class _StudioShellState extends State<StudioShell> {
     const SizedBox(height:24), Text(tr('A kijelző csak friss, fogadott adatot mutat. A hiányzó adat helyén — látható.','Only fresh received values are shown. Unavailable data appears as —.'),style:const TextStyle(color:Colors.white38,fontSize:12)),
   ]);
   Widget _gallery(String role) => CustomScrollView(slivers:[
-    SliverPadding(padding:const EdgeInsets.all(22),sliver:SliverToBoxAdapter(child:_title('20 AUTÓ / 40 ALAPELRENDEZÉS',role=='panel'?tr('Kezelőpanelek','Button boxes'):role=='dashboard'?tr('Műszerfalak','Dashboards'):tr('Autóprofilok','Vehicle profiles'),
+    SliverPadding(padding:const EdgeInsets.all(22),sliver:SliverToBoxAdapter(child:_title('6 RALLYAUTÓ / ASSETTO CORSA RALLY',role=='panel'?tr('Kezelőpanelek','Button boxes'):role=='dashboard'?tr('Műszerfalak','Dashboards'):tr('Autóprofilok','Vehicle profiles'),
       tr('Minden profil önállóan szerkeszthető. A referenciaállapotot a részletek mutatják.','Editable profiles with documented reference status.')))),
     SliverPadding(padding:const EdgeInsets.fromLTRB(22,0,22,22),sliver:SliverLayoutBuilder(builder:(context,constraints){
       final columns=constraints.crossAxisExtent>1100?3:constraints.crossAxisExtent>650?2:1;

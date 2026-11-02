@@ -21,11 +21,11 @@ ALLOWED={'ignition','starter','lights','flash','wiper','radio','intercom','camer
 FIELDS={'speed','rpm','rpmLimit','gear','throttle','brake','clutch','steering','handbrake','ignition','engineRunning','waterTemp','oilTemp','oilPressure','turbo','fuel','consumption','range','engineMap','gearboxTemp','differential','faults','tyrePressure','tyreTempInner','tyreTempMiddle','tyreTempOuter','tyreWear','brakeTemp','wheelSpeed','wheelSlip','wheelLock','absActive','absLevel','tcActive','tcLevel','brakeBias','lapCurrent','lapLast','lapBest','sectors','delta','position','lap','lapsRemaining','timeRemaining','inPit','pitLimit','flags','drs','ers','hybridEnergy','battery','gX','gY','gZ','yaw','pitch','roll','suspension','stageTime','stageSplits','stageDistance','stageState','vehicleId','stageId','navigation','damage','sessionStatus','lights','wiperLevel','radioActive','intercomActive','starterActive','radioVolume','intercomVolume','sessionClock','driveMode','launchRpmLimit'}
 SIX={'skoda-fabia-rs-rally2','peugeot-208-rally4','hyundai-i20-n-rally2','vw-polo-gti-r5','peugeot-206-wrc','subaru-impreza-555-gra'}
 def counts():
-    assert len(vehicles)>=20
+    assert [v['id'] for v in vehicles]==['skoda-fabia-rs-rally2','peugeot-208-rally4','hyundai-i20-n-rally2','vw-polo-gti-r5','peugeot-206-wrc','subaru-impreza-555-gra']
     assert len({v['id'] for v in vehicles})==len(vehicles)
     ids=[l['id'] for v in vehicles for l in [v['dashboard'],v['panel'],*v.get('variants',[])]]
     assert len(ids)==len(set(ids))
-check('All vehicles and every factory layout are separately identified',counts)
+check('Exactly the six requested ACR cars; every factory layout separately identified',counts)
 signatures={'dashboard':set(),'panel':set()}
 for v in vehicles:
     def validate(v=v):
@@ -94,12 +94,6 @@ def sounds():
         with wave.open(str(ROOT/'mobile_flutter/assets/sounds'/(n+'.wav'))) as w:
             assert w.getframerate()==44100 and w.getnchannels()==1 and w.getnframes()/44100<.2,n
 check('Seven short, preloadable switch sounds',sounds)
-def unchanged_profiles():
-    previous=json.loads((ROOT/'documentation/history/0.2.0/profile-sha256.json').read_text())
-    for car,expected in previous.items():
-        if car!='skoda-fabia-rs-rally2':
-            assert hashlib.sha256((ROOT/'vehicle_profiles'/car/'profile.json').read_bytes()).hexdigest()==expected,car
-check('Other 19 profile files remain byte-identical to the 0.2.0 baseline',unchanged_profiles)
 def native_xml():
     paths=list((ROOT/'mobile_flutter/android').rglob('*.xml'))+list((ROOT/'mobile_flutter/ios').rglob('*.plist'))+list((ROOT/'mobile_flutter/ios').rglob('*.storyboard'))+list((ROOT/'mobile_flutter/ios').rglob('*.entitlements'))+list((ROOT/'mobile_flutter/ios').rglob('*.xcscheme'))+list((ROOT/'mobile_flutter/ios').rglob('*.xcworkspacedata'))
     for p in paths:ET.parse(p)

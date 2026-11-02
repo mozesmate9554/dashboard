@@ -10,7 +10,7 @@ import 'package:sim_control_studio/premium_controls.dart';
 void main() {
   test('All base layouts and variants validate and remain unchanged when copied', () {
     final json = jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String, dynamic>;
-    expect((json['vehicles'] as List).length, greaterThanOrEqualTo(20));
+    expect((json['vehicles'] as List).length, 6);
     for (final data in json['vehicles'] as List) {
       final vehicle = VehicleProfile(data as Map<String, dynamic>);
       for (final base in [vehicle.dashboard, vehicle.panel, ...vehicle.variants]) {

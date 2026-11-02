@@ -171,6 +171,10 @@ def main():
         build_040_cars.apply(vehicles, sys.modules[__name__])
     except ModuleNotFoundError:
         pass
+    # 0.4.0: only the six requested Assetto Corsa Rally cars stay in the app.
+    keep = ['skoda-fabia-rs-rally2', 'peugeot-208-rally4', 'hyundai-i20-n-rally2', 'vw-polo-gti-r5', 'peugeot-206-wrc', 'subaru-impreza-555-gra']
+    vehicles[:] = sorted((v for v in vehicles if v['id'] in keep), key=lambda v: keep.index(v['id']))
+    catalog['vehicles'] = vehicles
     catalog['version'] = '0.4.0'
     CATALOG.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + '\n')
     for v in vehicles:

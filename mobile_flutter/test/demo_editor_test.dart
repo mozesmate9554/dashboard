@@ -80,7 +80,10 @@ void main() {
   });
   testWidgets('Changing panel page releases a held action and never renews it', (tester) async {
     final connection = BridgeConnection(store); await connection.setDemo(true);
-    final layout = store.vehicles.firstWhere((v)=>v.id=='porsche-992-gt3-r').panel;
+    Map<String,dynamic> page(String id) => {'id':id,'name':id,'elements':[
+      {'id':'$id-hold','kind':'hold','label':'START','action':'starter','x':20,'y':20,'w':300,'h':200}]};
+    final layout = StudioLayout({'schemaVersion':1,'id':'two-page-test','name':'Two pages','vehicleId':'skoda-fabia-rs-rally2','role':'panel',
+      'isBase':true,'version':'0.4.0','revision':1,'width':800,'height':480,'pages':[page('p1'),page('p2')]});
     final index = layout.elements(0).indexWhere((e) => e['kind'] == 'hold');
     expect(index, greaterThanOrEqualTo(0));
     final id = layout.elements(0)[index]['id'];
