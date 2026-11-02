@@ -123,7 +123,7 @@ class Instrument extends StatelessWidget {
       case 'bar':
         final maximum = (e['max'] as num?)?.toDouble() ?? 1.0;
         child = Padding(padding: const EdgeInsets.all(10), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text('$label  $text', style: TextStyle(color: foreground, fontSize: 18)), const SizedBox(height: 8),
+          FittedBox(fit:BoxFit.scaleDown,child:Text('$label  $text',maxLines:1,style: TextStyle(color: foreground, fontSize: 18))), const SizedBox(height: 8),
           LinearProgressIndicator(value: value == null ? 0 : (value / maximum).clamp(0, 1).toDouble(), color: color, backgroundColor: Colors.white12, minHeight: 16),
         ])); break;
       case 'leds': child = CustomPaint(painter: _LedPainter(value, frame?.number('rpmLimit') ?? (e['max'] as num?)?.toDouble() ?? 8000,
@@ -269,7 +269,7 @@ class _PanelControlState extends State<PanelControl> {
     } else {
       final holding = _kind == 'hold';
       final observed = widget.frame?.value(widget.element['field'] as String? ?? '');
-      child = Material(color: _pressed ? color.withValues(alpha: .35) : observed == true ? color.withValues(alpha: .2) : Colors.transparent,
+      child = Material(color: _pressed ? color.withValues(alpha: .35) : artwork ? Colors.transparent : observed == true ? color.withValues(alpha: .2) : Colors.transparent,
         child: Listener(behavior: HitTestBehavior.opaque,
           onPointerDown: holding ? (event) { if (_holdPointer == null) { _holdPointer = event.pointer; _down(); } } : null,
           onPointerUp: holding ? (event) { if (_holdPointer == event.pointer) { _holdPointer = null; _up(); } } : null,
@@ -427,7 +427,8 @@ class _LedPainter extends CustomPainter {
       final w = rows>1?size.width/columns-4:vertical ? size.width - 4 : size.width / count - 4;
       final h = rows>1?size.height/rows-4:vertical ? size.height / count - 4 : size.height - 4;
       final rect = Rect.fromLTWH(rows>1?(i%columns)*size.width/columns+2:vertical ? 2 : i * size.width / count + 2, rows>1?(i~/columns)*size.height/rows+2:vertical ? size.height - (i + 1) * size.height / count + 2 : 2, math.max(1, w), math.max(1, h));
-      canvas.drawRRect(RRect.fromRectAndRadius(rect, Radius.circular(round ? math.min(w, h) / 2 : 2)), p);
+      if(rows>1 && round){canvas.drawCircle(rect.center,math.max(1,math.min(w,h)/2),p);}
+      else{canvas.drawRRect(RRect.fromRectAndRadius(rect, Radius.circular(round ? math.min(w, h) / 2 : 2)), p);}
     }
   }
   @override bool shouldRepaint(covariant _LedPainter oldDelegate) => true;

@@ -12,10 +12,10 @@ def asset(name,w,h,body):
     return name
 
 def caption(identifier,text,x,y,w,h,size=32,color='#c7cdd0',group=None):
-    return dict(id=identifier,kind='text',field='',label=text,x=x,y=y,w=w,h=h,font='factory',fontWeight=400,fontSize=size,letterSpacing=0,
+    return dict(id=identifier,kind='text',field='',label=text,x=x,y=y,w=w,h=h,font='factory',fontWeight=600,fontSize=size,letterSpacing=0,
                 foreground=color,color=color,border=False,z=4,**({'group':group} if group else {}))
 def value(identifier,field,label,x,y,w,h,color='#f7df58',size=180,group=None,style='factoryReadout'):
-    return dict(id=identifier,kind='gear' if field=='gear' else 'number',field=field,label=label,x=x,y=y,w=w,h=h,font='factory',fontWeight=400,
+    return dict(id=identifier,kind='gear' if field=='gear' else 'number',field=field,label=label,x=x,y=y,w=w,h=h,font='factory',fontWeight=600,
                 fontSize=size,foreground=color,color=color,border=False,z=5,style=style,**({'group':group} if group else {}))
 def graphic(identifier,asset_id,x,y,w,h,z=0,locked=False):
     return dict(id=identifier,kind='svg',field='',label=identifier,x=x,y=y,w=w,h=h,assetId=asset_id,border=False,z=z,locked=locked)
@@ -29,7 +29,7 @@ def dashboard():
 <rect x="70" y="69" width="1140" height="660" rx="3" fill="url(#glass)"/>
 <path d="M78 77H1201V250C840 125 450 136 78 230Z" fill="#ffffff" opacity=".018"/>
 <path d="M430 237V688 M813 237V688" stroke="#343b3e" stroke-width="2"/>
-<path d="M93 496H410 M455 500H789" stroke="#283034" stroke-width="2"/>
+<path d="M93 468H410 M455 500H789" stroke="#283034" stroke-width="2"/>
 <g fill="#0c0e10" stroke="#62686b" stroke-width="2"><circle cx="39" cy="400" r="9"/><circle cx="1241" cy="400" r="9"/></g>
 <g stroke="#7c8487" stroke-width="2"><path d="M34 395l10 10M34 405l10-10M1236 395l10 10M1236 405l10-10"/></g>
 ''')
@@ -41,7 +41,7 @@ def dashboard():
     for name,text,x,y,w,h,size in [
       ('speed','Speed',104,245,280,50,42),('gear','Gear',850,245,290,50,42),('map','Map',475,245,270,48,40),
       ('limit','LC Limiter',96,472,300,50,39),('time','Time',475,587,280,45,38)]:
-        elements.append(caption('skoda-driver-label-'+name,text,x,y,w,h,size,group='driver-'+name))
+        elements.append(caption('skoda-driver-label-'+name,text,x,y,w,h,size,color='#f7df58' if name=='speed' else '#c7cdd0',group='driver-'+name))
     elements += [value('skoda-driver-speed','speed','Speed',112,298,284,165,group='driver-speed'),
                  value('skoda-driver-gear','gear','Gear',846,300,306,365,color='#f7f8f8',size=380,group='driver-gear'),
                  value('skoda-driver-map','engineMap','Map',465,300,316,70,size=42,style='factoryMap',group='driver-map'),

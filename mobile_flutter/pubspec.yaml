@@ -30,5 +30,7 @@ flutter:
     - family: OemCondensed
       fonts:
         - asset: assets/fonts/BarlowCondensed-Regular.ttf
+        - asset: assets/fonts/BarlowCondensed-SemiBold.ttf
+          weight: 600
   assets:
     - assets/catalog.json

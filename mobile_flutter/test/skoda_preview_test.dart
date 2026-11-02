@@ -11,7 +11,7 @@ import 'package:sim_control_studio/models.dart';
 
 void main(){
   testWidgets('Export the two editable Skoda reconstructions through the actual Flutter renderer',(tester)async{
-    final loader=FontLoader('OemCondensed')..addFont(rootBundle.load('assets/fonts/BarlowCondensed-Regular.ttf'));
+    final loader=FontLoader('OemCondensed')..addFont(rootBundle.load('assets/fonts/BarlowCondensed-Regular.ttf'))..addFont(rootBundle.load('assets/fonts/BarlowCondensed-SemiBold.ttf'));
     await tester.runAsync(loader.load);
     final json=jsonDecode(File('assets/catalog.json').readAsStringSync()) as Map<String,dynamic>;
     final car=VehicleProfile((json['vehicles'] as List).cast<Map<String,dynamic>>().firstWhere((v)=>v['id']=='skoda-fabia-rs-rally2'));

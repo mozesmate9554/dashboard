@@ -6,7 +6,7 @@
 <rect x="70" y="69" width="1140" height="660" rx="3" fill="url(#glass)"/>
 <path d="M78 77H1201V250C840 125 450 136 78 230Z" fill="#ffffff" opacity=".018"/>
 <path d="M430 237V688 M813 237V688" stroke="#343b3e" stroke-width="2"/>
-<path d="M93 496H410 M455 500H789" stroke="#283034" stroke-width="2"/>
+<path d="M93 468H410 M455 500H789" stroke="#283034" stroke-width="2"/>
 <g fill="#0c0e10" stroke="#62686b" stroke-width="2"><circle cx="39" cy="400" r="9"/><circle cx="1241" cy="400" r="9"/></g>
 <g stroke="#7c8487" stroke-width="2"><path d="M34 395l10 10M34 405l10-10M1236 395l10 10M1236 405l10-10"/></g>
 </svg>
