@@ -290,8 +290,11 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
         face = Listener(behavior: HitTestBehavior.opaque, onPointerDown: _pushDown, onPointerUp: _pushUp,
           onPointerCancel: (event) => _pushUp(event, cancelled: true),
           child: AnimatedBuilder(animation: Listenable.merge([_motion, _pulse]), builder: (context, _) => CustomPaint(
-            painter: _PushPainter(_motion.value, stage, led, accent, night, material, _pulse.value,
-              e['engraving'] as String? ?? '', e['ring'] != false, e['shape'] == 'square'))));
+            painter: material == 'touch' || material == 'outline'
+              ? _PanelKeyPainter(_motion.value, stage, led, accent, night, material, _pulse.value, e['engraving'] as String? ?? '',
+                  panelIcons[e['icon']], (e['leds'] as num?)?.toInt() ?? 1, kind == 'cycleButton' ? _position : -1)
+              : _PushPainter(_motion.value, stage, led, accent, night, material, _pulse.value,
+                  e['engraving'] as String? ?? '', e['ring'] != false, e['shape'] == 'square'))));
     }
     final stateText = kind == 'cycleButton' && states.isNotEmpty ? 'kért: ${states[_position % states.length]}'
         : kind == 'rotarySwitch' ? 'kért: ${states.isNotEmpty ? states[_position.clamp(0, states.length - 1)] : _position + 1}'
@@ -534,4 +537,68 @@ class _RotaryPainter extends CustomPainter {
       Paint()..strokeWidth = side * .035..strokeCap = StrokeCap.round..color = enabled ? accent : Colors.white30);
   }
   @override bool shouldRepaint(covariant _RotaryPainter old) => old.position != position || old.night != night || old.enabled != enabled;
+}
+
+
+/// Symbols used on the reference panels (rendered from the bundled Material icon font).
+const panelIcons = <String, IconData>{
+  'phone': Icons.call, 'phoneEnd': Icons.call_end, 'hazard': Icons.change_history, 'fog': Icons.foggy,
+  'volumeUp': Icons.volume_up, 'volumeDown': Icons.volume_down, 'all': Icons.movie_creation_outlined,
+  'horn': Icons.campaign, 'demist': Icons.waves, 'power': Icons.flash_on, 'windowUp': Icons.arrow_upward,
+  'windowDown': Icons.arrow_downward, 'light': Icons.light_mode, 'highBeam': Icons.highlight, 'wiper': Icons.water_drop,
+  'left': Icons.arrow_back, 'right': Icons.arrow_forward, 'fire': Icons.local_fire_department, 'fan': Icons.air,
+};
+
+/// Flat panel keys as seen on the cars: navy touch keys (Škoda console) and black keys with a coloured
+/// outline and LED dots (Peugeot Sport switch panel).
+class _PanelKeyPainter extends CustomPainter {
+  final double t, pulse; final LedStage stage; final Color led, accent; final bool night; final String material, engraving;
+  final IconData? icon; final int leds, position;
+  _PanelKeyPainter(this.t, this.stage, this.led, this.accent, this.night, this.material, this.pulse, this.engraving, this.icon, this.leds, this.position);
+  @override void paint(Canvas canvas, Size size) {
+    final rect = (Offset.zero & size).deflate(math.min(size.width, size.height) * .04);
+    final side = math.min(rect.width, rect.height);
+    final radius = Radius.circular(side * (material == 'touch' ? .16 : .12));
+    final pressed = t;
+    final lit = stage == LedStage.confirmed || stage == LedStage.bridgeAck || stage == LedStage.sent || stage == LedStage.error;
+    final blink = (math.sin(pulse * math.pi * 2) + 1) / 2;
+    final glowColor = stage == LedStage.error ? const Color(0xffff2020) : stage == LedStage.sent ? const Color(0xffffb020) : led;
+    final ink = night ? const Color(0xffffe6b8) : const Color(0xffdfe3e8);
+    if (material == 'touch') {
+      final base = night ? Color.lerp(accent, Colors.black, .45)! : accent;
+      canvas.drawRRect(RRect.fromRectAndRadius(rect.shift(const Offset(0, 3)), radius), Paint()..color = Colors.black54..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
+      canvas.drawRRect(RRect.fromRectAndRadius(rect, radius), Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
+        colors: [Color.lerp(base, Colors.white, .08 - pressed * .05)!, Color.lerp(base, Colors.black, .18 + pressed * .15)!]).createShader(rect));
+      if (lit) {
+        canvas.drawRRect(RRect.fromRectAndRadius(rect.deflate(2), radius), Paint()..style = PaintingStyle.stroke..strokeWidth = side * .03
+          ..color = glowColor.withValues(alpha: stage == LedStage.sent || stage == LedStage.error ? .3 + .6 * blink : stage == LedStage.confirmed ? .95 : .55));
+      }
+    } else {
+      canvas.drawRRect(RRect.fromRectAndRadius(rect, radius), Paint()..color = Color.lerp(const Color(0xff141414), Colors.black, pressed * .6)!);
+      canvas.drawRRect(RRect.fromRectAndRadius(rect.deflate(side * .05), radius), Paint()..style = PaintingStyle.stroke..strokeWidth = side * .035
+        ..color = night ? Color.lerp(accent, Colors.white, .1)! : accent);
+      for (var i = 0; i < leds; i++) {
+        final center = Offset(rect.right - side * .1, leds == 1 ? rect.top + side * .1 : rect.top + side * .15 + i * (rect.height - side * .3) / math.max(1, leds - 1));
+        final on = leds > 1 ? position == i && stage != LedStage.off && stage != LedStage.unknown : lit;
+        canvas.drawCircle(center, side * .075, Paint()..color = const Color(0xff141414));
+        canvas.drawCircle(center, side * .075, Paint()..style = PaintingStyle.stroke..strokeWidth = side * .03..color = accent);
+        final level = !on ? 0.0 : stage == LedStage.confirmed ? 1.0 : stage == LedStage.bridgeAck ? .6 : .3 + .6 * blink;
+        final color = stage == LedStage.error ? const Color(0xffff2020) : led;
+        if (level > 0) canvas.drawCircle(center, side * .12, Paint()..color = color.withValues(alpha: .45 * level)..maskFilter = MaskFilter.blur(BlurStyle.normal, side * .05));
+        canvas.drawCircle(center, side * .05, Paint()..color = Color.lerp(const Color(0xff4a3c10), color, level)!);
+      }
+    }
+    final content = rect.center + Offset(0, pressed * side * .02);
+    if (icon != null) {
+      final painter = TextPainter(text: TextSpan(text: String.fromCharCode(icon!.codePoint), style: TextStyle(fontFamily: icon!.fontFamily, package: icon!.fontPackage,
+        fontSize: side * (engraving.isEmpty ? .48 : .34), color: engraving.isEmpty && material == 'touch' ? ink : (material == 'outline' ? Colors.white : ink))), textDirection: TextDirection.ltr)..layout();
+      painter.paint(canvas, content - Offset(painter.width / 2, engraving.isEmpty ? painter.height / 2 : painter.height * .85));
+    }
+    if (engraving.isNotEmpty) {
+      final painter = TextPainter(text: TextSpan(text: engraving, style: TextStyle(fontFamily: 'OemCondensed', fontWeight: FontWeight.w600,
+        fontSize: side * (engraving.length > 8 ? .14 : .18), height: 1.25, color: ink)), textDirection: TextDirection.ltr, textAlign: TextAlign.center)..layout(maxWidth: rect.width * .9);
+      painter.paint(canvas, content + Offset(-painter.width / 2, icon != null ? side * .08 : -painter.height / 2));
+    }
+  }
+  @override bool shouldRepaint(covariant _PanelKeyPainter old) => old.t != t || old.stage != stage || old.pulse != pulse || old.night != night || old.position != position;
 }

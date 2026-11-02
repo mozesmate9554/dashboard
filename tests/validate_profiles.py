@@ -80,11 +80,11 @@ def premium_boxes():
         panel=v['panel']; assert panel['version']=='0.4.0' and panel.get('adaptive')=='preserve',v['id']
         controls=[e for e in panel['pages'][0]['elements'] if e['kind'] in ('rocker','pushButton','guarded','rotarySwitch','cycleButton')]
         assert len(controls)>=10,v['id']
-        actions={e['action'] for e in controls}
+        actions={e.get('action') for e in controls}
         assert {'ignition','starter','lights'}<=actions,(v['id'],actions)
         assert all(e.get('minusAction') for e in controls if e['kind']=='rotarySwitch')
-        assert next(e for e in controls if e['action']=='starter').get('hold') is True
-        assert next(e for e in controls if e['action']=='lights')['kind']=='cycleButton','Rally lights are a game cycle, not an on/off toggle'
+        assert next(e for e in controls if e.get('action')=='starter').get('hold') is True
+        assert next(e for e in controls if e.get('action')=='lights')['kind']=='cycleButton','Rally lights are a game cycle, not an on/off toggle'
         assert v['gameVehicleAliases'],v['id']
 check('ACR cars: separate mechanical button boxes, hold starter, cycle lights, aliases',premium_boxes)
 def sounds():

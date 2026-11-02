@@ -94,28 +94,40 @@ def peugeot_208(m):
         housing(W, H, screen=(60, 40, 1540, 860), screen_color=((10, 10, 12), (2, 2, 3))))
     pid = vid + '-buttonbox-040'; c = m.control
     yl = '#ffcf1f'
+    # Layout traced from the game's own switch-panel texture (Peugeot208/Textures/T_IntDetails_B).
+    k = 1000 / 877
+    def C(x0, y0, x1, y1): return dict(x=round(40 + x0 * k), y=round(80 + y0 * k), w=round((x1 - x0) * k), h=round((y1 - y0) * k) + 42)
+    o = dict(material='outline', ledColor=yl, sound='latch', ring=False)
     e = [m.background_element(pid, W, H),
-        c('p208-main', 'guarded', 'Főkapcsoló', 'electricalMaster', 48, 92, 200, 228, engraving='MAIN', coverColor='#d0202a', ledColor=yl),
-        c('p208-power', 'rocker', 'Power (gyújtás)', 'ignition', 284, 92, 200, 228, field='ignition', engraving='ON  OFF', ledColor=yl),
-        c('p208-start', 'pushButton', 'Start (tartsd)', 'starter', 520, 92, 200, 228, hold=True, engraving='START', color='#1b1b1b', ledColor='#ff3a3a', sound='starter', **RUBBER),
-        c('p208-fire', 'guarded', 'Tűzoltó', 'fireExtinguisher', 756, 92, 200, 228, engraving='FIRE', coverColor='#d0202a', ledColor='#ff3030'),
-        c('p208-road', 'pushButton', 'Road térkép', 'engineMapDown', 48, 340, 200, 228, engraving='ROAD', color='#1b1b1b', ledColor=yl, sound='plastic', **RUBBER),
-        c('p208-stage', 'pushButton', 'Stage térkép', 'engineMapUp', 284, 340, 200, 228, engraving='STAGE', color='#1b1b1b', ledColor=yl, sound='plastic', **RUBBER),
-        c('p208-warning', 'pushButton', 'Warning', 'hazards', 520, 340, 200, 228, engraving='WARN', color='#1b1b1b', ledColor='#ff8a1a', sound='plastic', **RUBBER),
-        c('p208-lights', 'cycleButton', 'Lights · léptetés', 'lights', 756, 340, 200, 228, engraving='LIGHTS', color='#1b1b1b', ledColor=yl, sound='plastic', **RUBBER),
-        c('p208-demist', 'pushButton', 'Demister', 'demist', 48, 588, 200, 228, engraving='DEMIST', color='#1b1b1b', ledColor=yl, sound='plastic', **RUBBER),
-        c('p208-fans', 'pushButton', 'Fans', 'fan', 284, 588, 200, 228, engraving='FANS', color='#1b1b1b', ledColor=yl, sound='plastic', **RUBBER),
-        c('p208-high', 'pushButton', 'Távfény', 'highBeam', 520, 588, 200, 228, engraving='HIGH', color='#1b1b1b', ledColor='#3c8cff', sound='plastic', **RUBBER),
-        c('p208-page', 'pushButton', 'Kijelzőoldal', 'displayNext', 756, 588, 200, 228, engraving='PAGE', color='#1b1b1b', ledColor='#e8e8e8', sound='plastic', **RUBBER),
-        c('p208-wiper', 'cycleButton', 'Ablaktörlő (jobb kar) · léptetés', 'wiper', 1060, 110, 220, 260, states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='WIPE', color='#1b1b1b', ledColor=yl, sound='rotary', **RUBBER),
-        c('p208-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', 1310, 110, 120, 140, engraving='«', color='#1b1b1b', ledColor='#3cff6a', sound='latch', **RUBBER),
-        c('p208-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', 1440, 110, 120, 140, engraving='»', color='#1b1b1b', ledColor='#3cff6a', sound='latch', **RUBBER),
-        c('p208-respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1310, 270, 250, 120, engraving='RESET', color='#3a1010', ledColor='#ff4040', sound='plastic', **GLASS),
-        c('p208-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', 1070, 440, 470, 380, hold=True, engraving='HANDBRAKE', color='#262626', ledColor='#ff3030', sound='latch', **RUBBER),
+        c('p208-main', 'rotarySwitch', 'Főkapcsoló OFF/ON', 'electricalMaster', **C(160, 40, 290, 150), minusAction='electricalMaster', positions=2, states=['OFF', 'ON'], color='#e0262b', material='alu'),
+        c('p208-power', 'pushButton', 'Power (gyújtás)', 'ignition', **C(175, 180, 272, 270), icon='power', color='#e0262b', **o),
+        c('p208-start', 'pushButton', 'START (tartsd)', 'starter', **C(175, 300, 272, 390), hold=True, engraving='START', color='#e0262b', **dict(o, sound='starter')),
+        c('p208-road', 'cycleButton', 'Road / Stage térkép', 'engineMapUp', **C(315, 95, 412, 210), engraving='ROAD\nSTAGE', color='#e8e8e8', leds=2, states=['ROAD', 'STAGE'], **o),
+        c('p208-surface', 'pushButton', 'Tarmac / Gravel (nincs játékakció)', '', **C(315, 260, 412, 375), engraving='TARMAC\nGRAVEL', color='#e6dc2a', leds=2, **o),
+        c('p208-launch', 'pushButton', 'Launch (nincs játékakció)', '', **C(465, 95, 565, 190), engraving='LAUNCH', color='#6bc23a', **o),
+        c('p208-map', 'cycleButton', 'Map 1-2-3', 'engineMapUp', **C(465, 265, 565, 375), engraving='MAP', color='#6bc23a', leds=3, states=['1', '2', '3'], **o),
+        c('p208-horn', 'pushButton', 'Kürt (nincs játékakció)', '', **C(610, 55, 705, 140), icon='horn', color='#f08a1c', **o),
+        c('p208-hazard', 'pushButton', 'Warning', 'hazards', **C(610, 175, 705, 270), icon='hazard', color='#f08a1c', **o),
+        c('p208-demist', 'pushButton', 'Demister', 'demist', **C(610, 295, 705, 385), icon='demist', color='#2f6bff', **o),
+        c('p208-win-l', 'pushButton', 'Ablak bal (nincs játékakció)', '', **C(30, 130, 115, 340), engraving='▲\n▼', color='#e8e8e8', leds=0, **o),
+        c('p208-win-r', 'pushButton', 'Ablak jobb (nincs játékakció)', '', **C(750, 130, 835, 340), engraving='▲\n▼', color='#e8e8e8', leds=0, **o),
+    ]
+    rubber = dict(material='rubber', ring=True)
+    gx, gy, gw, gh = [1090, 1240, 1390], [96, 330, 564], 140, 214
+    e += [
+        c('p208-lights', 'cycleButton', 'Világítás · léptetés', 'lights', x=gx[0], y=gy[0], w=gw, h=gh, icon='light', color='#e8e8e8', **o),
+        c('p208-high', 'pushButton', 'Távfény', 'highBeam', x=gx[1], y=gy[0], w=gw, h=gh, icon='highBeam', color='#2f6bff', **dict(o, ledColor='#3c8cff')),
+        c('p208-wiper', 'cycleButton', 'Ablaktörlő (jobb kar)', 'wiper', x=gx[2], y=gy[0], w=gw, h=gh, states=['KI', 'INT', 'LASSÚ', 'GYORS'], icon='wiper', color='#e8e8e8', **o),
+        c('p208-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', x=gx[0], y=gy[1], w=gw, h=gh, icon='left', color='#6bc23a', **dict(o, ledColor='#3cff6a')),
+        c('p208-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', x=gx[1], y=gy[1], w=gw, h=gh, icon='right', color='#6bc23a', **dict(o, ledColor='#3cff6a')),
+        c('p208-fire', 'guarded', 'Tűzoltó', 'fireExtinguisher', x=gx[2], y=gy[1], w=gw, h=gh, engraving='FIRE', coverColor='#d0202a', ledColor='#ff3030'),
+        c('p208-page', 'pushButton', 'Kijelzőoldal', 'displayNext', x=gx[0], y=gy[2], w=gw, h=gh, engraving='PAGE', color='#e8e8e8', **o),
+        c('p208-respawn', 'pushButton', 'Visszahelyezés', 'respawn', x=gx[1], y=gy[2], w=gw, h=gh, engraving='RESET', color='#e0262b', **o),
+        c('p208-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', x=gx[2], y=gy[2], w=gw, h=gh, hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch', **rubber),
         m.legend(pid, 48, 836, 960)]
     panel = m.panel_layout(pid, 'Peugeot 208 Rally4 · Button Box 0.4.0', vid, W, H, e,
-        m.panel_background(W, H, face='matte', face_tint=(46, 48, 52), plates=[(1018, 70, 556, 344, 'brushed'), (1018, 424, 556, 418, 'matte')],
-            headings=[(48, 62, 'MAIN · POWER · START'), (48, 310, 'ENGINE STRATEGY · LIGHTS'), (48, 558, 'ACCESSORIES')], title='RALLY4 · CONSOLE'), ['ignition'])
+        m.panel_background(W, H, face='matte', face_tint=(40, 42, 46), plates=[(28, 66, 1024, 560, 'black'), (1070, 66, 504, 744, 'matte')],
+            headings=[(48, 662, 'KAPCSOLÓPANEL (játékbeli textúra alapján)'), (1090, 62, 'KAROK · KIEGÉSZÍTŐK')], title=''), ['ignition'])
     return dict(id=vid, name='Peugeot 208 Rally4', modelYear=2020, category='RALLY4', color='#ffcf1f', dashboard=dash, panel=panel,
         aliases=['Peugeot208Rally4', 'Peugeot 208 Rally4', 'peugeot_208_rally4'],
         references=[{'url': 'https://www.manualslib.com/manual/2872833/Peugeot-208-Rally-4-2021.html', 'scope': 'Gyári User Guide: váltásjelző LED-ek, kék riasztó-LED, 10 kijelzőoldal, MAIN/POWER/START, ROAD/STAGE, WARNING, LIGHTS, DEMISTER, FANS, jobb oldali ablaktörlőkar.', 'status': 'primary_manufacturer_document'}],
