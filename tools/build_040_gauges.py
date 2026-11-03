@@ -168,9 +168,11 @@ def peugeot_208():
                 referenceNote='DistanceFinal: a szakasz teljes hossza. Az ACR-adapter ezt nem adja, ezért „—”.'),
         label('p208t-km2', 'km', tx + 1030, ty + 540, 120, 90, '#35358E', 80),
     ]
-    assets = {pid + '-screen': ('png', body(W, H, screen)), pid + '-trip': ('png', body(W, H, trip))}
-    return layout(pid, 'Peugeot 208 Rally4 · Műszerfal (játékbeli widget)', vid, W, H,
-                  [('Kijelző', main, pid + '-screen'), ('GPS tripmeter', trip_page, pid + '-trip'), ('Rejtett mezők', hidden, pid + '-screen')], assets)
+    real, real_png = peugeot_208_real_page(W, H)
+    assets = {pid + '-screen': ('png', body(W, H, screen)), pid + '-trip': ('png', body(W, H, trip)), pid + '-real': ('png', real_png)}
+    return layout(pid, 'Peugeot 208 Rally4 · Műszerfal (játékbeli widget + valós kijelző)', vid, W, H,
+                  [('Kijelző', main, pid + '-screen'), ('Valós kijelző (fotó alapján)', real, pid + '-real'),
+                   ('GPS tripmeter', trip_page, pid + '-trip'), ('Rejtett mezők', hidden, pid + '-screen')], assets)
 
 # ------------------------------------------------------------------ Hyundai i20 N Rally2
 def hyundai_i20():
@@ -340,3 +342,136 @@ def subaru_555(analog_elements, analog_png):
     assets = {pid + '-analog': ('png', analog_png), pid + '-trip': ('png', body(W, H, trip))}
     return layout(pid, 'Subaru Impreza 555 Gr.A (1993) · Analóg + tripmeter (játékbeli widget)', vid, W, H,
                   [('Analóg', analog_elements, pid + '-analog'), ('Tripmeter', tripmeter, pid + '-trip')], assets)
+
+# ------------------------------------------------------------------ pages traced from the user's reference photos
+# The photos only serve as a reference: nothing of them is embedded, everything is drawn here.
+
+def arc_gauge(i, field, x, y, w, h, maximum, arc, color='#ffffff', **extra):
+    return el(i, 'analog', field, x, y, w, h, '', style='bandArc', max=maximum, arc=arc, color=color, **extra)
+
+def peugeot_208_real_page(W=1600, H=900):
+    """Colour rally display of the real car (user photo): oil temp / oil pressure arcs on the left, water
+    temp arc on the right, tachometer arc with a big gear in the middle, blue rpm digits, and a bottom row
+    with the map pill, the speed box and the surface pill ('Asph'). Returns (elements, png)."""
+    sx, sy, sw, sh = 150, 120, 1300, 640
+    green, red, yellow = '#3ad13a', '#ff2a2a', '#f2d22a'
+    def art(d, img):
+        d.rounded_rectangle((60, 40, W - 61, H - 41), 70, fill=(20, 20, 22), outline=(52, 54, 58), width=4)
+        d.rounded_rectangle((90, 70, W - 91, H - 71), 52, fill=(12, 12, 13))
+        for n in range(16):  # vent / LED row on the upper edge of the housing
+            cx = 330 + n * 62; d.ellipse((cx - 7, 50, cx + 7, 64), fill=(4, 4, 5))
+        for (cx, cy) in [(112, 260), (112, 640), (W - 113, 260), (W - 113, 640)]:
+            d.ellipse((cx - 13, cy - 13, cx + 13, cy + 13), fill=(48, 50, 54)); d.ellipse((cx - 5, cy - 5, cx + 5, cy + 5), fill=(10, 10, 11))
+        d.rectangle((sx - 6, sy - 6, sx + sw + 6, sy + sh + 6), fill=(30, 31, 34))
+        d.rectangle((sx, sy, sx + sw, sy + sh), fill=(0, 0, 0))
+        d.rounded_rectangle((390, 668, 590, 738), 14, outline=(242, 210, 42), width=4)   # Map pill
+        d.rounded_rectangle((650, 668, 950, 738), 10, outline=(170, 172, 176), width=3)  # speed box
+        d.rounded_rectangle((1010, 668, 1210, 738), 14, outline=(170, 172, 176), width=3)  # surface pill
+        d.rectangle((1230, 470, 1430, 640), fill=(26, 27, 30))  # spare data window (right bottom)
+    side = dict(width=.05, labelSize=.075, pointer='marker')
+    elements = [
+        label('p208r-oilt-l', 'OIL', 175, 140, 120, 56, '#ffffff', 48),
+        readout('p208r-oilt', 'oilTemp', 165, 196, 170, 96, green, 90),
+        label('p208r-oilt-u', '°C', 175, 292, 120, 40, '#ffffff', 34),
+        arc_gauge('p208r-oilt-arc', 'oilTemp', 200, 130, 320, 250, 150, dict(side, cx=.0, cy=.5, r=.9, start=40, sweep=-80, min=50,
+                  bands=[[50, 110, green], [110, 150, red]], ticks=[50, 100, 150], labels=['50', '100', '150'])),
+        label('p208r-oilp-l', 'OIL', 175, 430, 120, 56, '#ffffff', 48),
+        readout('p208r-oilp', 'oilPressure', 165, 486, 170, 96, green, 90, decimals=1),
+        label('p208r-oilp-u', 'bar', 175, 582, 120, 40, '#ffffff', 34),
+        arc_gauge('p208r-oilp-arc', 'oilPressure', 200, 420, 320, 250, 10, dict(side, cx=.0, cy=.5, r=.9, start=40, sweep=-80,
+                  bands=[[0, 1.5, red], [1.5, 10, green]], ticks=[0, 5, 10], labels=['0', '5', '10'])),
+        label('p208r-wat-l', 'WAT', 1300, 140, 140, 56, '#ffffff', 48),
+        readout('p208r-wat', 'waterTemp', 1290, 196, 160, 96, green, 90),
+        label('p208r-wat-u', '°C', 1305, 292, 130, 40, '#ffffff', 34),
+        arc_gauge('p208r-wat-arc', 'waterTemp', 1080, 130, 320, 250, 120, dict(side, cx=1.0, cy=.5, r=.9, start=140, sweep=80, min=40,
+                  bands=[[40, 100, green], [100, 120, red]], ticks=[40, 80, 120], labels=['40', '80', '120'])),
+        arc_gauge('p208r-tach', 'rpm', 520, 140, 560, 500, 7000, dict(cx=.5, cy=.62, r=.5, width=.035, start=195, sweep=150, labelSize=.065,
+                  bands=[[0, 6100, '#d8d8d8'], [6100, 7000, red]], ticks=list(range(0, 7001, 1000)), labels=[str(n) for n in range(8)], needleFrom=.62),
+                  color=red, referenceNote='Fordulatszám-ív a felhasználó fotója alapján; a piros mező 6100 rpm-től (a játék 208-as váltásjelzőjével egyezően).'),
+        readout('p208r-gear', 'gear', 690, 300, 220, 250, '#ffffff', 270, weight=700),
+        readout('p208r-rpm', 'rpm', 690, 560, 220, 70, '#3c78ff', 64),
+        label('p208r-map-l', 'Map', 400, 674, 100, 58, yellow, 46),
+        readout('p208r-map', 'engineMap', 495, 674, 80, 58, yellow, 50),
+        readout('p208r-speed', 'speed', 660, 674, 170, 58, '#ffffff', 52),
+        label('p208r-kmh', 'km/h', 830, 680, 110, 46, '#cfd2d6', 36),
+        readout('p208r-surface', 'driveMode', 1020, 674, 180, 58, '#cfd2d6', 46,
+                referenceNote='A fotón „Asph” (aszfalt). A burkolatválasztónak nincs ACR-adatmezője, ezért élesben „—”.'),
+    ]
+    return elements, _png_body(W, H, art)
+
+def _png_body(W, H, art):
+    img = Image.new('RGB', (W, H), (8, 8, 9)); art(ImageDraw.Draw(img), img); return _png(img)
+
+def skoda_car_info_page(W=1280, H=800):
+    """'Car Info' page of the real Fabia RS Rally2 display (user photo): nEng / Gear / sCar on top,
+    IGN SYNC ERR USB status pills, a temperature list (tExh green, tWater blue highlight), Map/Boost/
+    LC Limiter box, a pressure/electrics list and the page tab bar. Returns (page dict, assets)."""
+    ox, oy, sw, sh = 70, 70, 1140, 640
+    def X(f): return ox + f * sw
+    def Y(f): return oy + f * sh
+    left_rows = [('nChrgr', '', 'rpm', 0, None), ('tExh', '', '°C', 0, (0x8b, 0xd6, 0x4a)), ('tOil', 'oilTemp', '°C', 1, None),
+                 ('tWater', 'waterTemp', '°C', 1, (0x7e, 0xc8, 0xf2)), ('tGbx', 'gearboxTemp', '°C', 1, None), ('tReDiff', '', '°C', 1, None)]
+    right_rows = [('pRail', '', 'bar', 1), ('pFuel', '', 'bar', 2), ('pOil', 'oilPressure', 'bar', 1), ('pReDiffClutch', '', 'bar', 1),
+                  ('vBatt', '', 'V', 2), ('iPbuTotal', '', 'A', 1)]
+    row_h = .068
+    def art(d, img):
+        d.rounded_rectangle((20, 20, W - 21, H - 21), 18, fill=(70, 72, 76), outline=(110, 112, 116), width=3)  # anodised bezel
+        for (cx, cy) in [(42, 260), (42, 540), (W - 43, 260), (W - 43, 540)]:
+            d.ellipse((cx - 6, cy - 6, cx + 6, cy + 6), fill=(20, 20, 22))
+        d.rectangle((ox - 8, oy - 8, ox + sw + 8, oy + sh + 8), fill=(10, 10, 11))
+        d.rectangle((ox, oy, ox + sw, oy + sh), fill=(0, 0, 0))
+        box = (32, 33, 36)
+        d.rounded_rectangle((X(.02), Y(.02), X(.33), Y(.17)), 10, fill=box)
+        d.rounded_rectangle((X(.58), Y(.02), X(.98), Y(.15)), 10, fill=box)
+        d.rounded_rectangle((X(.58), Y(.17), X(.96), Y(.33)), 10, fill=box)
+        for n, (_, _, _, _, hi) in enumerate(left_rows):
+            y0 = Y(.30 + n * row_h)
+            d.rounded_rectangle((X(.02), y0, X(.33), y0 + row_h * sh - 6), 6, fill=hi or box)
+        for n in range(len(right_rows)):
+            y0 = Y(.35 + n * row_h)
+            d.rounded_rectangle((X(.58), y0, X(.98), y0 + row_h * sh - 6), 6, fill=box)
+        for n in range(4):  # ERR pill stays dark; the others light up from telemetry elements
+            x0 = X(.02 + n * .078); d.rounded_rectangle((x0, Y(.20), x0 + .07 * sw, Y(.26)), 22, fill=(40, 41, 44))
+        d.line((X(.02), Y(.985), X(.08), Y(.985)), fill=(90, 210, 80), width=5)
+    elements = [
+        label('skc-neng-l', 'nEng', X(.12), Y(.025), X(.23) - X(.12), 36, '#d8d8d8', 30, weight=400),
+        readout('skc-neng', 'rpm', X(.06), Y(.065), X(.29) - X(.06), 70, '#f2d22a', 62),
+        label('skc-gear-l', 'Gear', X(.40), Y(.03), X(.51) - X(.40), 40, '#d8d8d8', 32, weight=400),
+        readout('skc-gear', 'gear', X(.37), Y(.08), X(.54) - X(.37), 210, '#ffffff', 200, weight=700),
+        label('skc-scar-l', 'sCar', X(.72), Y(.025), X(.84) - X(.72), 36, '#d8d8d8', 30, weight=400),
+        readout('skc-scar', 'speed', X(.65), Y(.055), X(.91) - X(.65), 66, '#f2d22a', 62, decimals=1),
+        label('skc-map-l', 'Map', X(.61), Y(.18), 150, 32, '#e8e8e8', 30, weight=400),
+        readout('skc-map', 'engineMap', X(.89), Y(.18), 36, 32, '#000000', 28, background='#8bd64a', shape='rounded'),
+        label('skc-boost-l', 'Boost', X(.61), Y(.225), 150, 32, '#e8e8e8', 30, weight=400),
+        readout('skc-boost', '', X(.85), Y(.225), 90, 32, '#e8e8e8', 30),
+        label('skc-lc-l', 'LC Limiter', X(.61), Y(.27), 190, 32, '#e8e8e8', 30, weight=400),
+        readout('skc-lc', 'launchRpmLimit', X(.82), Y(.27), 130, 32, '#e8e8e8', 30),
+    ]
+    for n, (name, ok, field) in enumerate([('IGN', True, 'ignition'), ('SYNC', True, 'engineRunning'), ('ERR', False, ''), ('USB', False, '')]):
+        x0 = X(.02 + n * .078)
+        if ok:
+            elements.append(label(f'skc-pill-{name.lower()}', name, x0, Y(.20), .07 * sw, .06 * sh, '#ffffff', 26, background='#ff5a2a', shape='rounded',
+                                  visibleWhen={'field': field, 'op': '>=', 'value': 1}))
+        else:
+            elements.append(label(f'skc-pill-{name.lower()}', name, x0, Y(.20), .07 * sw, .06 * sh, '#cfd2d6', 26))
+    for n, (name, field, unit, dec, hi) in enumerate(left_rows):
+        y0 = Y(.30 + n * row_h); ink = '#101010' if hi else '#e8e8e8'
+        elements += [label(f'skc-l{n}', name, X(.03), y0 + 2, 110, row_h * sh - 10, ink, 28, weight=400),
+                     readout(f'skc-lv{n}', field, X(.18), y0 + 2, 90, row_h * sh - 10, ink, 28, decimals=dec),
+                     label(f'skc-lu{n}', unit, X(.27), y0 + 2, 60, row_h * sh - 10, ink, 24, weight=400)]
+    for n, (name, field, unit, dec) in enumerate(right_rows):
+        y0 = Y(.35 + n * row_h)
+        elements += [label(f'skc-r{n}', name, X(.59), y0 + 2, 200, row_h * sh - 10, '#e8e8e8', 28, weight=400),
+                     readout(f'skc-rv{n}', field, X(.83), y0 + 2, 90, row_h * sh - 10, '#e8e8e8', 28, decimals=dec),
+                     label(f'skc-ru{n}', unit, X(.92), y0 + 2, 50, row_h * sh - 10, '#e8e8e8', 24, weight=400)]
+    tabs = ['Car\nInfo', 'Chassis\nInfo', 'Engine\nInfo', 'Stage\nInfo', 'Chassis\nValues', 'Engine\nValues', 'Engine\nTest', 'Devices\nStatus', 'Devices\nCurrent', 'Mask\nError', 'Alarm\nInfo']
+    for n, tab in enumerate(tabs):
+        color = '#6fdc5a' if n == 0 else '#e8e8e8' if n < 4 else '#5c5f64'
+        elements.append(label(f'skc-tab{n}', tab, X(.015 + n * .088), Y(.885), .085 * sw, .095 * sh, color, 20, weight=400))
+    elements[0]['referenceNote'] = ('A valódi Fabia RS Rally2 kijelzőjének „Car Info” oldala a felhasználó fotója alapján. '
+                                    'A játék nem ad nChrgr, tExh, tReDiff, pRail, pFuel, pReDiffClutch, vBatt, iPbuTotal és Boost értéket: ezek „—”.')
+    png = _png_body(W, H, art)
+    page = {'id': 'skoda-fabia-rs-rally2-dashboard-carinfo', 'name': 'Car Info (valós kijelző, fotó alapján)',
+            'elements': [{'id': 'skc-body-img', 'kind': 'image', 'field': '', 'label': 'Ház', 'x': 0, 'y': 0, 'w': W, 'h': H, 'assetId': 'skc-body',
+                          'border': False, 'fit': 'fill', 'nightDim': True, 'z': 0, 'locked': True}] + elements}
+    return page, {'skc-body': ('png', png)}

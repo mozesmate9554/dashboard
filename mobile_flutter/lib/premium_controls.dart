@@ -290,7 +290,7 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
         face = Listener(behavior: HitTestBehavior.opaque, onPointerDown: _pushDown, onPointerUp: _pushUp,
           onPointerCancel: (event) => _pushUp(event, cancelled: true),
           child: AnimatedBuilder(animation: Listenable.merge([_motion, _pulse]), builder: (context, _) => CustomPaint(
-            painter: material == 'touch' || material == 'outline' || material == 'label'
+            painter: material == 'touch' || material == 'outline' || material == 'label' || material == 'mushroom'
               ? _PanelKeyPainter(_motion.value, stage, led, accent, night, material, _pulse.value, e['engraving'] as String? ?? '',
                   panelIcons[e['icon']], (e['leds'] as num?)?.toInt() ?? 1, kind == 'cycleButton' ? _position : -1)
               : _PushPainter(_motion.value, stage, led, accent, night, material, _pulse.value,
@@ -547,6 +547,7 @@ const panelIcons = <String, IconData>{
   'horn': Icons.campaign, 'demist': Icons.waves, 'power': Icons.flash_on, 'windowUp': Icons.arrow_upward,
   'windowDown': Icons.arrow_downward, 'light': Icons.light_mode, 'highBeam': Icons.highlight, 'wiper': Icons.water_drop,
   'left': Icons.arrow_back, 'right': Icons.arrow_forward, 'fire': Icons.local_fire_department, 'fan': Icons.air,
+  'onOff': Icons.power_settings_new, 'heater': Icons.hvac, 'defrost': Icons.dehaze,
 };
 
 /// Flat panel keys as seen on the cars: navy touch keys (Škoda console) and black keys with a coloured
@@ -567,6 +568,7 @@ class _PanelKeyPainter extends CustomPainter {
     // Outline keys are black faces: their engraving stays light whatever the rim colour (208 white/yellow keys).
     final dark = material == 'label' || material != 'outline' && accent.computeLuminance() > .45;
     final ink = dark ? (night ? const Color(0xff2a2410) : const Color(0xff1c1f1a)) : inkLight;
+    if (material == 'mushroom') { _mushroom(canvas, rect, side, pressed, lit, blink, glowColor, inkLight); return; }
     if (material == 'touch' || material == 'label') {
       final base = night ? Color.lerp(accent, Colors.black, .45)! : accent;
       canvas.drawRRect(RRect.fromRectAndRadius(rect.shift(const Offset(0, 3)), radius), Paint()..color = Colors.black54..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
@@ -602,6 +604,41 @@ class _PanelKeyPainter extends CustomPainter {
         fontSize: side * (engraving.length > 8 ? .14 : .18), height: 1.25, color: ink)), textDirection: TextDirection.ltr, textAlign: TextAlign.center)..layout(maxWidth: rect.width * .9);
       painter.paint(canvas, content + Offset(-painter.width / 2, icon != null ? side * .08 : -painter.height / 2));
     }
+  }
+  /// Coloured mushroom push button beside a back-lit symbol plate (Škoda Fabia RS Rally2 console).
+  void _mushroom(Canvas canvas, Rect rect, double side, double pressed, bool lit, double blink, Color glowColor, Color inkLight) {
+    final plate = Rect.fromLTWH(rect.left, rect.top, side * .5, side * .42);
+    final plateShape = RRect.fromRectAndRadius(plate, Radius.circular(side * .07));
+    canvas.drawRRect(plateShape, Paint()..color = const Color(0xff1a1d21));
+    canvas.drawRRect(plateShape.deflate(side * .012), Paint()..style = PaintingStyle.stroke..strokeWidth = side * .022
+      ..color = const Color(0xff9fdcff).withValues(alpha: night ? .85 : .45));
+    if (night) canvas.drawRRect(plateShape, Paint()..color = const Color(0xff9fdcff).withValues(alpha: .12)..maskFilter = MaskFilter.blur(BlurStyle.normal, side * .04));
+    final symbol = icon;
+    if (symbol != null) {
+      final painter = TextPainter(text: TextSpan(text: String.fromCharCode(symbol.codePoint), style: TextStyle(fontFamily: symbol.fontFamily,
+        package: symbol.fontPackage, fontSize: side * .3, color: night ? const Color(0xffd8f2ff) : inkLight)), textDirection: TextDirection.ltr)..layout();
+      painter.paint(canvas, plate.center - Offset(painter.width / 2, painter.height / 2));
+    } else if (engraving.isNotEmpty) {
+      final painter = TextPainter(text: TextSpan(text: engraving, style: TextStyle(fontFamily: 'OemCondensed', fontSize: side * .11, height: 1.1,
+        color: inkLight)), textDirection: TextDirection.ltr, textAlign: TextAlign.center)..layout(maxWidth: plate.width * .9);
+      painter.paint(canvas, plate.center - Offset(painter.width / 2, painter.height / 2));
+    }
+    final center = Offset(rect.left + side * .64, rect.top + side * .62);
+    final radius = side * .27;
+    canvas.drawCircle(center + Offset(0, side * .04), radius * 1.12, Paint()..color = Colors.black54..maskFilter = MaskFilter.blur(BlurStyle.normal, side * .04));
+    canvas.drawCircle(center, radius * 1.1, Paint()..color = const Color(0xff141518));
+    if (lit) {
+      final alpha = stage == LedStage.confirmed ? .9 : stage == LedStage.bridgeAck ? .55 : .25 + .6 * blink;
+      canvas.drawCircle(center, radius * 1.25, Paint()..color = glowColor.withValues(alpha: alpha * .6)..maskFilter = MaskFilter.blur(BlurStyle.normal, side * .06));
+      canvas.drawCircle(center, radius * 1.1, Paint()..style = PaintingStyle.stroke..strokeWidth = side * .02..color = glowColor.withValues(alpha: alpha));
+    }
+    final dome = center + Offset(0, pressed * side * .025);
+    final cap = Rect.fromCircle(center: dome, radius: radius * (1 - pressed * .04));
+    final base = night ? Color.lerp(accent, Colors.black, .35)! : accent;
+    canvas.drawCircle(dome, cap.width / 2, Paint()..shader = RadialGradient(center: const Alignment(-.35, -.45), radius: .95,
+      colors: [Color.lerp(base, Colors.white, .45 - pressed * .2)!, base, Color.lerp(base, Colors.black, .45)!], stops: const [0, .55, 1]).createShader(cap));
+    canvas.drawOval(Rect.fromCenter(center: dome + Offset(-radius * .28, -radius * .38), width: radius * .7, height: radius * .38),
+      Paint()..color = Colors.white.withValues(alpha: .35 - pressed * .2)..maskFilter = MaskFilter.blur(BlurStyle.normal, side * .012));
   }
   @override bool shouldRepaint(covariant _PanelKeyPainter old) => old.t != t || old.stage != stage || old.pulse != pulse || old.night != night || old.position != position;
 }

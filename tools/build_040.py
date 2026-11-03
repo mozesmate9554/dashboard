@@ -118,44 +118,54 @@ def panel_layout(identifier, name, vehicle_id, w, h, elements, png, supported):
 
 # ---------------------------------------------------------------- Škoda Fabia RS Rally2 0.4.0 button box
 def skoda_panel():
-    """Layout traced from the game's own console texture (T_IntDetails_B, Škoda Fabia RS Rally2):
-    navy touch panel - servis menu / call / end call, two +/- volume keys, hazard / fog lamp / ALL.
-    Game functions that sit on the wheel and stalks in the real car are grouped on the right."""
+    """Centre console of the Škoda Fabia RS Rally2, laid out after the game's console texture (T_IntDetails_B)
+    and the user's reference photo of the real car: dark moulded console, back-lit touch keys (servis menu,
+    call / end call, two tall +/- volume keys, hazard / fog lamp / ALL), coloured mushroom buttons with
+    back-lit symbol plates, a guarded FIRE switch, a toggle lever and a rotary knob. Functions without a
+    confirmed role carry '(feltételezett funkció)' in their label. Wheel and stalk functions sit on the right."""
     W, H = 1600, 900
     pid = 'skoda-fabia-rs-rally2-buttonbox-040'
-    navy = '#1f2b47'
-    k = 1000 / 640  # console texture crop -> canvas
-    def C(x0, y0, x1, y1): return dict(x=round(40 + x0 * k), y=round(80 + y0 * k), w=round((x1 - x0) * k), h=round((y1 - y0) * k))
-    touch = dict(material='touch', color=navy, ledColor='#7fd3ff', sound='plastic', ring=False, caption=False)
+    def P(x0, y0, x1, y1): return dict(x=round(40 + x0 * 1000), y=round(80 + y0 * 740), w=round((x1 - x0) * 1000), h=round((y1 - y0) * 740))
+    touch = dict(material='touch', color='#25282c', ledColor='#9fdcff', sound='plastic', ring=False, caption=False)
+    mush = dict(material='mushroom', sound='latch', ring=False, caption=False)
     e = [background_element(pid, W, H)]
     e += [
-        control('sk-service', 'pushButton', 'Szervizmenü', 'displayNext', **C(28, 25, 180, 125), engraving='servis\nmenu', **touch),
-        control('sk-call', 'pushButton', 'Hívás fogadása', 'callAccept', **C(28, 130, 180, 225), icon='phone', **touch),
-        control('sk-end', 'pushButton', 'Hívás vége', 'callEnd', **C(28, 230, 180, 330), icon='phoneEnd', **touch),
-        control('sk-vol1-up', 'pushButton', 'Interkom +', 'intercomVolumeUp', **C(190, 10, 322, 175), engraving='+', **touch),
-        control('sk-vol1-dn', 'pushButton', 'Interkom −', 'intercomVolumeDown', **C(190, 180, 322, 352), icon='volumeDown', engraving='−', **touch),
-        control('sk-vol2-up', 'pushButton', 'Rádió +', 'radioVolumeUp', **C(332, 10, 464, 175), engraving='+', **touch),
-        control('sk-vol2-dn', 'pushButton', 'Rádió −', 'radioVolumeDown', **C(332, 180, 464, 352), icon='volumeDown', engraving='−', **touch),
-        control('sk-hazard', 'pushButton', 'Vészvillogó', 'hazards', **C(476, 25, 620, 125), icon='hazard', **dict(touch, ledColor='#ff8a1a')),
-        control('sk-fog', 'pushButton', 'Ködlámpa', 'fogLights', **C(476, 130, 620, 225), icon='fog', **touch),
-        control('sk-all', 'pushButton', 'ALL', 'acknowledge', **C(476, 230, 620, 330), icon='all', **touch),
+        control('sk-knob', 'rotarySwitch', 'Forgatógomb · motortérkép (feltételezett funkció)', 'engineMapUp', **P(.0, .0, .17, .2),
+                minusAction='engineMapDown', positions=5, states=['1', '2', '3', '4', '5'], color='#2a2a2a', material='plastic', caption=False),
+        control('sk-heat', 'pushButton', 'Fűtés / ventilátor (feltételezett funkció)', 'fan', **P(.18, .02, .36, .25), icon='heater', color='#ff6a2a', ledColor='#ff8a40', **mush),
+        control('sk-master', 'pushButton', 'Főkapcsoló (feltételezett funkció)', 'electricalMaster', **P(.37, .0, .55, .23), icon='power', color='#ff5a2a', ledColor='#ff8a40', **mush),
+        control('sk-ign', 'rocker', 'Gyújtás · billenőkar', 'ignition', **P(.56, .0, .68, .24), field='ignition', engraving='IGN  OFF', ledColor='#ffd23c',
+                material='plastic', sound='metalOn', caption=False),
+        control('sk-start', 'pushButton', 'Motor indítása (tartsd)', 'starter', **P(.72, .06, .92, .30), hold=True, icon='onOff', color='#1aa89a', ledColor='#5affe0',
+                **dict(mush, sound='starter')),
+        control('sk-fire', 'guarded', 'FIRE · tűzoltó', 'fireExtinguisher', **P(.0, .30, .15, .62), engraving='FIRE', coverColor='#d0202a', ledColor='#ff3030', caption=False),
+        control('sk-service', 'pushButton', 'Szervizmenü', 'displayNext', **P(.17, .32, .33, .45), engraving='servis\nmenu', **touch),
+        control('sk-call', 'pushButton', 'Hívás fogadása', 'callAccept', **P(.17, .47, .33, .60), icon='phone', **dict(touch, ledColor='#3cff6a')),
+        control('sk-end', 'pushButton', 'Hívás vége', 'callEnd', **P(.17, .62, .33, .75), icon='phoneEnd', **dict(touch, ledColor='#ff4040')),
+        control('sk-vol1-up', 'pushButton', 'Interkom +', 'intercomVolumeUp', **P(.35, .30, .49, .52), engraving='+', **touch),
+        control('sk-vol1-dn', 'pushButton', 'Interkom −', 'intercomVolumeDown', **P(.35, .53, .49, .76), icon='volumeDown', engraving='−', **touch),
+        control('sk-vol2-up', 'pushButton', 'Rádió +', 'radioVolumeUp', **P(.51, .30, .65, .52), engraving='+', **touch),
+        control('sk-vol2-dn', 'pushButton', 'Rádió −', 'radioVolumeDown', **P(.51, .53, .65, .76), icon='volumeDown', engraving='−', **touch),
+        control('sk-hazard', 'pushButton', 'Vészvillogó', 'hazards', **P(.67, .36, .81, .49), icon='hazard', **dict(touch, ledColor='#ff8a1a')),
+        control('sk-fog', 'pushButton', 'Ködlámpa', 'fogLights', **P(.67, .51, .81, .64), icon='fog', **touch),
+        control('sk-all', 'pushButton', 'ALL', 'acknowledge', **P(.67, .66, .81, .79), icon='all', **touch),
+        control('sk-demist', 'pushButton', 'Szélvédőfűtés', 'demist', **P(.82, .36, 1.0, .60), icon='demist', color='#f2c618', ledColor='#ffe066', **mush),
+        control('sk-lights', 'cycleButton', 'Világítás · léptetés', 'lights', **P(.82, .64, 1.0, .88), icon='light', color='#1f6fe0', ledColor='#b4e2ff',
+                states=['1', '2', '3'], **mush),
     ]
     rubber = dict(material='rubber', ring=True)
     gx, gy, gw, gh = [1090, 1240, 1390], [96, 330, 564], 140, 214
     e += [
-        control('sk-start', 'pushButton', 'Start (kormány)', 'starter', x=gx[0], y=gy[0], w=gw, h=gh, hold=True, engraving='START', color='#c8102e', ledColor='#ff4040', sound='starter', **rubber),
-        control('sk-ign', 'rocker', 'Gyújtás', 'ignition', x=gx[1], y=gy[0], w=gw, h=gh, field='ignition', engraving='IGN  OFF', ledColor='#ffd23c', material='plastic', sound='metalOn'),
-        control('sk-fire', 'guarded', 'FIRE', 'fireExtinguisher', x=gx[2], y=gy[0], w=gw, h=gh, engraving='FIRE', coverColor='#d0202a', ledColor='#ff3030'),
-        control('sk-lights', 'cycleButton', 'Világítás · léptetés', 'lights', x=gx[0], y=gy[1], w=gw, h=gh, icon='light', **dict(touch, ledColor='#b4e2ff')),
-        control('sk-high', 'pushButton', 'Távfény', 'highBeam', x=gx[1], y=gy[1], w=gw, h=gh, icon='highBeam', **dict(touch, ledColor='#3c8cff')),
-        control('sk-wiper', 'cycleButton', 'Ablaktörlő · léptetés', 'wiper', x=gx[2], y=gy[1], w=gw, h=gh, states=['KI', 'INT', 'LASSÚ', 'GYORS'], icon='wiper', **touch),
-        control('sk-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', x=gx[0], y=gy[2], w=gw, h=gh, icon='left', **dict(touch, ledColor='#3cff6a')),
-        control('sk-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', x=gx[1], y=gy[2], w=gw, h=gh, icon='right', **dict(touch, ledColor='#3cff6a')),
-        control('sk-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', x=gx[2], y=gy[2], w=gw, h=gh, hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch', **rubber),
+        control('sk-high', 'pushButton', 'Távfény (kar)', 'highBeam', x=gx[0], y=gy[0], w=gw, h=gh, icon='highBeam', **dict(touch, ledColor='#3c8cff')),
+        control('sk-wiper', 'cycleButton', 'Ablaktörlő · léptetés (kar)', 'wiper', x=gx[1], y=gy[0], w=gw, h=gh, states=['KI', 'INT', 'LASSÚ', 'GYORS'], icon='wiper', **touch),
+        control('sk-respawn', 'pushButton', 'Visszahelyezés', 'respawn', x=gx[2], y=gy[0], w=gw, h=gh, engraving='RESET', **touch),
+        control('sk-ind-l', 'pushButton', 'Index bal', 'indicatorLeft', x=gx[0], y=gy[1], w=gw, h=gh, icon='left', **dict(touch, ledColor='#3cff6a')),
+        control('sk-ind-r', 'pushButton', 'Index jobb', 'indicatorRight', x=gx[1], y=gy[1], w=gw, h=gh, icon='right', **dict(touch, ledColor='#3cff6a')),
+        control('sk-hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', x=gx[2], y=gy[1], w=gw, h=gh, hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch', **rubber),
         legend(pid, 48, 836, 960),
     ]
-    png = panel_background(W, H, face='carbon', plates=[(28, 66, 1024, 562, 'navy'), (1070, 66, 504, 744, 'matte')],
-        headings=[(48, 662, 'KÖZÉPKONZOL (játékbeli textúra alapján)'), (1090, 62, 'KORMÁNY · KAROK')], title='')
+    png = panel_background(W, H, face='carbon', plates=[(28, 66, 1024, 762, 'black'), (1070, 66, 504, 510, 'matte')],
+        headings=[(1090, 62, 'KORMÁNY · KAROK')], title='')
     return panel_layout(pid, 'Škoda Fabia RS Rally2 · Button Box 0.4.0', 'skoda-fabia-rs-rally2', W, H, e, png, ['ignition'])
 
 def main():
@@ -178,10 +188,13 @@ def main():
     import build_040_gauges
     game_page, game_assets = build_040_gauges.skoda_page()
     dash = skoda['dashboard']
-    dash['pages'] = [game_page] + [p for p in dash['pages'] if p['id'] != game_page['id']]
+    info_page, info_assets = build_040_gauges.skoda_car_info_page()
+    game_assets.update(info_assets)
+    rest = [p for p in dash['pages'] if p['id'] not in (game_page['id'], info_page['id'])]
+    dash['pages'] = [game_page, rest[0], info_page] + rest[1:]  # game display, photo driver display, Car Info, app pages
     for key, (kind, raw) in game_assets.items():
         dash['assets'][key] = {'type': kind, 'name': key, 'base64': base64.b64encode(raw).decode()}
-    dash['supportedFields'] = sorted(set(dash['supportedFields']) | {e['field'] for e in game_page['elements'] if e.get('field')})
+    dash['supportedFields'] = sorted(set(dash['supportedFields']) | {e['field'] for p in (game_page, info_page) for e in p['elements'] if e.get('field')})
     try:
         import build_040_cars
         build_040_cars.apply(vehicles, sys.modules[__name__])

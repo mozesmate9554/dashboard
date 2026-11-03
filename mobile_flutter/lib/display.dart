@@ -19,7 +19,9 @@ Color studioColor(Object? hex, [Color fallback = const Color(0xffef3340)]) {
 bool visibleElement(Map<String, dynamic> element, TelemetryFrame? frame) {
   final rule = element['visibleWhen'];
   if (rule is! Map<String, dynamic>) return true;
-  final value = frame?.number(rule['field'] as String? ?? '');
+  final raw = frame?.value(rule['field'] as String? ?? '');
+  // Boolean telemetry (ignition, lights…) counts as 1/0 so status pills can follow it.
+  final value = raw is bool ? (raw ? 1.0 : 0.0) : raw is num ? raw.toDouble() : null;
   if (value == null) return false;
   final threshold = (rule['value'] as num?)?.toDouble() ?? 0;
   return switch (rule['op']) { '>' => value > threshold, '<' => value < threshold,
@@ -138,7 +140,8 @@ class Instrument extends StatelessWidget {
           minimum: ledMin, glow: e['glow'] != false, offColor: e['offColor'] == null ? null : studioColor(e['offColor']))); break;
       case 'analog': child = CustomPaint(painter: _AnalogPainter(value, (e['max'] as num?)?.toDouble() ?? 10000, color, text,
           style: e['style'] as String?, face: studioColor(e['face'], const Color(0xff0c0c0e)), redline: (e['redline'] as num?)?.toDouble(),
-          divisor: (e['divisor'] as num?)?.toDouble() ?? 1000, caption: e['caption'] as String? ?? '')); break;
+          divisor: (e['divisor'] as num?)?.toDouble() ?? 1000, caption: e['caption'] as String? ?? '',
+          arc: e['arc'] is Map ? Map<String, dynamic>.from(e['arc'] as Map) : null)); break;
       case 'pedals':
         child = Padding(padding: const EdgeInsets.all(8), child: Row(children: [
           for (final (key, name, tint) in [('throttle', 'GÁZ', Colors.greenAccent), ('brake', 'FÉK', Colors.redAccent), ('clutch', 'KU', Colors.lightBlueAccent)])
@@ -464,7 +467,54 @@ class _LedPainter extends CustomPainter {
 class _AnalogPainter extends CustomPainter {
   final double? value; final double maximum; final Color color; final String text;
   final String? style; final Color face; final double? redline; final double divisor; final String caption;
-  _AnalogPainter(this.value, this.maximum, this.color, this.text, {this.style, this.face = const Color(0xff0c0c0e), this.redline, this.divisor = 1000, this.caption = ''});
+  final Map<String, dynamic>? arc;
+  _AnalogPainter(this.value, this.maximum, this.color, this.text, {this.style, this.face = const Color(0xff0c0c0e), this.redline, this.divisor = 1000, this.caption = '', this.arc});
+  /// Partial arc gauge of modern rally displays (oil/water side arcs, tachometer arc): coloured bands,
+  /// ticks with labels and a needle, marker or filled pointer. Geometry comes from the element's `arc` map.
+  void _bandArc(Canvas canvas, Size size, Map<String, dynamic> a) {
+    double n(String k, double d) => (a[k] as num?)?.toDouble() ?? d;
+    final side = math.min(size.width, size.height);
+    final center = Offset(size.width * n('cx', .5), size.height * n('cy', .5));
+    final radius = side * n('r', .45), width = side * n('width', .06);
+    final minimum = n('min', 0), span = math.max(1e-6, maximum - minimum);
+    final start = n('start', 135) * math.pi / 180, sweep = n('sweep', 270) * math.pi / 180;
+    double angle(double v) => start + sweep * ((v - minimum) / span).clamp(0, 1);
+    final rect = Rect.fromCircle(center: center, radius: radius);
+    final bands = (a['bands'] as List?) ?? [[minimum, maximum, '#ffffff']];
+    final pointer = a['pointer'] as String? ?? 'needle';
+    for (final band in bands) {
+      final b = band as List; final from = (b[0] as num).toDouble(), to = (b[1] as num).toDouble();
+      final bandColor = studioColor(b[2]);
+      final dim = pointer == 'fill';
+      canvas.drawArc(rect, angle(from), angle(to) - angle(from), false, Paint()..style = PaintingStyle.stroke..strokeWidth = width
+        ..color = dim ? bandColor.withValues(alpha: .22) : bandColor);
+      if (dim && value != null && value! > from) {
+        final end = math.min(value!, to);
+        canvas.drawArc(rect, angle(from), angle(end) - angle(from), false, Paint()..style = PaintingStyle.stroke..strokeWidth = width..color = bandColor);
+      }
+    }
+    final ticks = (a['ticks'] as List?)?.cast<num>() ?? const <num>[];
+    final labels = (a['labels'] as List?)?.cast<String>() ?? const <String>[];
+    final inward = n('tickSide', -1);
+    for (var i = 0; i < ticks.length; i++) {
+      final t = angle(ticks[i].toDouble()); final dir = Offset(math.cos(t), math.sin(t));
+      canvas.drawLine(center + dir * (radius - width / 2), center + dir * (radius + inward * width * 1.4), Paint()..strokeWidth = side * .012..color = Colors.white);
+      if (i < labels.length && labels[i].isNotEmpty) {
+        final label = TextPainter(text: TextSpan(text: labels[i], style: TextStyle(color: Colors.white, fontSize: side * n('labelSize', .07), fontFamily: 'OemCondensed', fontWeight: FontWeight.w600)), textDirection: TextDirection.ltr)..layout();
+        label.paint(canvas, center + dir * (radius + inward * width * 3.1) - Offset(label.width / 2, label.height / 2));
+      }
+    }
+    if (value == null || pointer == 'fill') return;
+    final t = angle(value!); final dir = Offset(math.cos(t), math.sin(t));
+    if (pointer == 'marker') {
+      final normal = Offset(-dir.dy, dir.dx);
+      final tip = center + dir * (radius - width * .8);
+      canvas.drawPath(Path()..moveTo(tip.dx, tip.dy)..lineTo((tip + dir * width * 1.9 + normal * width * .7).dx, (tip + dir * width * 1.9 + normal * width * .7).dy)
+        ..lineTo((tip + dir * width * 1.9 - normal * width * .7).dx, (tip + dir * width * 1.9 - normal * width * .7).dy)..close(), Paint()..color = color);
+    } else {
+      canvas.drawLine(center + dir * radius * n('needleFrom', .55), center + dir * (radius + width * .5), Paint()..strokeWidth = side * .022..strokeCap = StrokeCap.round..color = color);
+    }
+  }
   void _classic(Canvas canvas, Size size) {
     // Period-correct analogue instrument: bezel, black face, numerals, red sector and needle.
     final center = Offset(size.width / 2, size.height / 2); final radius = math.min(size.width, size.height) * .47;
@@ -504,6 +554,7 @@ class _AnalogPainter extends CustomPainter {
   }
   @override void paint(Canvas canvas, Size size) {
     if (style == 'classic') { _classic(canvas, size); return; }
+    if (style == 'bandArc' && arc != null) { _bandArc(canvas, size, arc!); return; }
     final center = Offset(size.width / 2, size.height / 2); final radius = math.min(size.width, size.height) * .42;
     final p = Paint()..style = PaintingStyle.stroke..strokeWidth = 8..color = const Color(0xff303640);
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), math.pi * .75, math.pi * 1.5, false, p);
