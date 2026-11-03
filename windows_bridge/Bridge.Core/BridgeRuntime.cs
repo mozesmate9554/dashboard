@@ -342,6 +342,11 @@ public sealed class BridgeRuntime : IAsyncDisposable
             catch (OperationCanceledException) when (!cancellation.IsCancellationRequested) { Close(); }
             finally { _sendGate.Release(); }
         }
-        public void Close() { lifetime.Cancel(); socket.Abort(); }
+        public void Close()
+        {
+            // The connection handler may already have disposed its lifetime source while shutdown iterates the clients.
+            try { lifetime.Cancel(); } catch (ObjectDisposedException) { }
+            socket.Abort();
+        }
     }
 }
