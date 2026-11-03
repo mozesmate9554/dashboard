@@ -45,6 +45,7 @@ for v in vehicles:
                     assert 0<=e['x'] and 0<=e['y'] and e['w']>=12 and e['h']>=12
                     assert e['x']+e['w']<=layout['width'] and e['y']+e['h']<=layout['height'],e
                     assert e.get('field','') in FIELDS|{''},e
+                    assert 1<=e.get('fontSize',1)<=500 and 1<=e.get('count',1)<=64 and 0<=e.get('decimals',0)<=5,e  # mirrors StudioLayout.validate
                     assert all(e[k] in ALLOWED for k in ('action','minusAction') if k in e)
                     if e['kind'] not in ('text','svg','image'):
                         signature.append(tuple(e.get(k) for k in ('kind','field','x','y','w','h','action','minusAction')))

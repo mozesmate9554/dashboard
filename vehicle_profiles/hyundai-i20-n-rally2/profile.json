@@ -25,7 +25,7 @@
     }
   ],
   "knownLimitations": [
-    "A konzol gombkiosztása referencián alapuló saját elrendezés; a játékbeli WB_GaugeHyundaiI20NRally2 képernyőképével még pontosítandó."
+    "A kapcsolómátrix a játékbeli T_IntDetails_B textúrát, a műszerfal a WB_GaugeHyundaiI20NRally2 widgetet követi; a váltásjelző overlayek küszöbe feltételezés (a Blueprint-logika nem exportálható)."
   ],
   "dashboard": {
     "schemaVersion": 1,
@@ -193,7 +193,7 @@
             "style": "factoryReadout",
             "foreground": "#02FEFF",
             "color": "#02FEFF",
-            "fontSize": 542,
+            "fontSize": 500,
             "font": "sans",
             "fontWeight": 400,
             "referenceNote": "GearText: Sui Generis 350 px, cián (02FEFF). A játék betűtípusa nem kerül terjesztésre."

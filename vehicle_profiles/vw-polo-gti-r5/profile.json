@@ -21,7 +21,8 @@
     }
   ],
   "knownLimitations": [
-    "A játék saját ívelt fordulatszám-kijelzője (T_PoloGaugeRpm) alapján analóg-íves fő műszer; a pontos skála játékbeli képernyőképpel pontosítandó."
+    "A két képernyő a WB_GaugeVolkswagenPoloGTIR5 widget elrendezését követi; az ívelt RPM-sávok küszöbe és a dobozok futásidejű színei feltételezések.",
+    "A szakaszhossz (Trip [total]) mezőt az ACR-adapter nem adja."
   ],
   "dashboard": {
     "schemaVersion": 1,

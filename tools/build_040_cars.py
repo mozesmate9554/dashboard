@@ -133,7 +133,7 @@ def peugeot_208(m):
     return dict(id=vid, name='Peugeot 208 Rally4', modelYear=2020, category='RALLY4', color='#ffcf1f', dashboard=dash, panel=panel,
         aliases=['Peugeot208Rally4', 'Peugeot 208 Rally4', 'peugeot_208_rally4'],
         references=[{'url': 'https://www.manualslib.com/manual/2872833/Peugeot-208-Rally-4-2021.html', 'scope': 'Gyári User Guide: váltásjelző LED-ek, kék riasztó-LED, 10 kijelzőoldal, MAIN/POWER/START, ROAD/STAGE, WARNING, LIGHTS, DEMISTER, FANS, jobb oldali ablaktörlőkar.', 'status': 'primary_manufacturer_document'}],
-        limitations=['A TARMAC/GRAVEL és a KLAXON gombnak nincs játékbeli bemenete, ezért nem szerepel.', 'Víz/olaj hő- és nyomásértéket az ACR-adapter nem ad: „—” jelenik meg.'])
+        limitations=['A TARMAC/GRAVEL, LAUNCH, KLAXON és ablakemelő gombnak nincs játékbeli bemenete: a panelen szerepelnek, de parancsot nem küldenek.', 'Az ACR-adapter jelenleg csak sebességet, fordulatszámot, fokozatot, pedálokat, G-erőt, fordulatszám-limitet és autóazonosítót ad; a többi kijelzőmező (Map, hőmérsékletek, trip, kézifék, világítás) élesben „—”.'])
 
 def hyundai_i20(m):
     vid = 'hyundai-i20-n-rally2'; W, H = 1600, 900
@@ -169,7 +169,7 @@ def hyundai_i20(m):
         aliases=['HyundaiI20NRally2', 'Hyundai i20 N Rally2', 'hyundai_i20_n_rally2'],
         references=[{'url': 'https://motorsport.hyundai.com/Corporate%20Site/Car%20Spec/i20%20N%20Rally2/Hyundai%20Rally2%20Tech%20Specs.pdf', 'scope': 'Gyári műszaki adatlap; a cockpit-kiosztás nem gyárilag dokumentált.', 'status': 'primary_manufacturer_document'},
                     {'url': 'https://racemarket.net/rally/rally-cars-for-sale/r5/hyundai-i20-n-rally2-step-2-i7004', 'scope': 'Hirdetési utastérfotók elrendezési referenciaként.', 'status': 'photo_reference'}],
-        limitations=['A konzol gombkiosztása referencián alapuló saját elrendezés; a játékbeli WB_GaugeHyundaiI20NRally2 képernyőképével még pontosítandó.'])
+        limitations=['A kapcsolómátrix a játékbeli T_IntDetails_B textúrát, a műszerfal a WB_GaugeHyundaiI20NRally2 widgetet követi; a váltásjelző overlayek küszöbe feltételezés (a Blueprint-logika nem exportálható).'])
 
 def polo_r5(m):
     vid = 'vw-polo-gti-r5'; W, H = 1600, 900
@@ -206,7 +206,7 @@ def polo_r5(m):
     return dict(id=vid, name='Volkswagen Polo GTI R5', modelYear=2018, category='R5', color='#e3001b', dashboard=dash, panel=panel,
         aliases=['VWPoloGTIR5', 'VolkswagenPoloGTIR5', 'VW Polo GTI R5', 'vw_polo_gti_r5'],
         references=[{'url': 'https://www.volkswagen-newsroom.com/en/the-new-polo-gti-driving-presentation-2512/the-new-polo-gti-r5-gti-goes-rallying-2567', 'scope': 'Gyári bemutató; a játék 2018-as változatot modellez (505 Games 0.6 changelog).', 'status': 'primary_manufacturer'}],
-        limitations=['A játék saját ívelt fordulatszám-kijelzője (T_PoloGaugeRpm) alapján analóg-íves fő műszer; a pontos skála játékbeli képernyőképpel pontosítandó.'])
+        limitations=['A két képernyő a WB_GaugeVolkswagenPoloGTIR5 widget elrendezését követi; az ívelt RPM-sávok küszöbe és a dobozok futásidejű színei feltételezések.', 'A szakaszhossz (Trip [total]) mezőt az ACR-adapter nem adja.'])
 
 def peugeot_206(m):
     vid = 'peugeot-206-wrc'; W, H = 1600, 900
@@ -242,7 +242,7 @@ def peugeot_206(m):
         aliases=['Peugeot206WRC', 'Peugeot 206 WRC', 'Peugeot206', 'peugeot_206_wrc'],
         references=[{'url': 'https://en.wikipedia.org/wiki/Peugeot_206_WRC', 'scope': 'Típustörténet; a játék 1999-es autót modellez.', 'status': 'secondary'},
                     {'url': 'https://www.largus.fr/actualite-automobile/une-peugeot-206-wrc-pilotee-par-marcus-gronholm-en-vente-10316395.html', 'scope': 'Utastérfotó (2001-es C31): a széria 206 műszerfal-alapformája megmaradt.', 'status': 'photo_reference'}],
-        limitations=['Monokróm LCD-jellegű kijelző a játék T_Peugeot206WRCLCD textúrája alapján; a pontos szegmensek képernyőképpel pontosítandók.', 'Francia feliratok korhű stílusban; a pontos gyári feliratok nincsenek igazolva.'])
+        limitations=['Az LCD a WB_GaugePeugeot206 widget elrendezését követi; a 7-szegmenses játékbetűtípus helyett szabad betűtípus szerepel.', 'A kapcsolófeliratok a játékbeli T_IntDetails_B textúráról származnak.'])
 
 def subaru_555(m):
     vid = 'subaru-impreza-555-gra'; W, H = 1600, 900
@@ -304,7 +304,7 @@ def subaru_555(m):
         aliases=['SubaruImprezaS3', 'Subaru Impreza S3', 'Subaru Impreza 555', 'subaru_impreza_s3'],
         references=[{'url': 'https://isdc.ie/forum/threads/subaru-impreza-555-group-a-technical-specifications-and-stats-impreza555-com.42273/', 'scope': 'Műszerek: Stack ST400 analóg fordulatszámmérő 0–8000/min, VDO vízhőmérő, Coralba tripmaster, GEMS adatgyűjtő.', 'status': 'secondary_specification'},
                     {'url': 'https://www.carthrottle.com/news/duo-90s-rally-icons-land-assetto-corsa-rally', 'scope': 'A játék az 1993-as Group A specifikációt modellezi.', 'status': 'secondary'}],
-        limitations=['A Stack/VDO műszerek stílusa saját rajz, márkajelzés nélkül.', 'Vízhőmérsékletet és tripmaster-távolságot az ACR-adapter jelenleg nem ad: „—” jelenik meg.'])
+        limitations=['A Stack/VDO műszerek stílusa saját rajz, márkajelzés nélkül.', 'Vízhőmérsékletet, napszakot és tripmaster-távolságot az ACR-adapter jelenleg nem ad: „—” jelenik meg. A tripmeter elrendezése a WB_GaugeSubaruImprezaS3 widgetet követi.'])
 
 CARS = [peugeot_208, hyundai_i20, polo_r5, peugeot_206, subaru_555]
 

@@ -1668,8 +1668,8 @@
         }
       ],
       "knownLimitations": [
-        "A TARMAC/GRAVEL és a KLAXON gombnak nincs játékbeli bemenete, ezért nem szerepel.",
-        "Víz/olaj hő- és nyomásértéket az ACR-adapter nem ad: „—” jelenik meg."
+        "A TARMAC/GRAVEL, LAUNCH, KLAXON és ablakemelő gombnak nincs játékbeli bemenete: a panelen szerepelnek, de parancsot nem küldenek.",
+        "Az ACR-adapter jelenleg csak sebességet, fordulatszámot, fokozatot, pedálokat, G-erőt, fordulatszám-limitet és autóazonosítót ad; a többi kijelzőmező (Map, hőmérsékletek, trip, kézifék, világítás) élesben „—”."
       ],
       "dashboard": {
         "schemaVersion": 1,
@@ -3079,7 +3079,7 @@
         }
       ],
       "knownLimitations": [
-        "A konzol gombkiosztása referencián alapuló saját elrendezés; a játékbeli WB_GaugeHyundaiI20NRally2 képernyőképével még pontosítandó."
+        "A kapcsolómátrix a játékbeli T_IntDetails_B textúrát, a műszerfal a WB_GaugeHyundaiI20NRally2 widgetet követi; a váltásjelző overlayek küszöbe feltételezés (a Blueprint-logika nem exportálható)."
       ],
       "dashboard": {
         "schemaVersion": 1,
@@ -3247,7 +3247,7 @@
                 "style": "factoryReadout",
                 "foreground": "#02FEFF",
                 "color": "#02FEFF",
-                "fontSize": 542,
+                "fontSize": 500,
                 "font": "sans",
                 "fontWeight": 400,
                 "referenceNote": "GearText: Sui Generis 350 px, cián (02FEFF). A játék betűtípusa nem kerül terjesztésre."
@@ -4207,7 +4207,8 @@
         }
       ],
       "knownLimitations": [
-        "A játék saját ívelt fordulatszám-kijelzője (T_PoloGaugeRpm) alapján analóg-íves fő műszer; a pontos skála játékbeli képernyőképpel pontosítandó."
+        "A két képernyő a WB_GaugeVolkswagenPoloGTIR5 widget elrendezését követi; az ívelt RPM-sávok küszöbe és a dobozok futásidejű színei feltételezések.",
+        "A szakaszhossz (Trip [total]) mezőt az ACR-adapter nem adja."
       ],
       "dashboard": {
         "schemaVersion": 1,
@@ -5276,8 +5277,8 @@
         }
       ],
       "knownLimitations": [
-        "Monokróm LCD-jellegű kijelző a játék T_Peugeot206WRCLCD textúrája alapján; a pontos szegmensek képernyőképpel pontosítandók.",
-        "Francia feliratok korhű stílusban; a pontos gyári feliratok nincsenek igazolva."
+        "Az LCD a WB_GaugePeugeot206 widget elrendezését követi; a 7-szegmenses játékbetűtípus helyett szabad betűtípus szerepel.",
+        "A kapcsolófeliratok a játékbeli T_IntDetails_B textúráról származnak."
       ],
       "dashboard": {
         "schemaVersion": 1,
@@ -6363,7 +6364,7 @@
       ],
       "knownLimitations": [
         "A Stack/VDO műszerek stílusa saját rajz, márkajelzés nélkül.",
-        "Vízhőmérsékletet és tripmaster-távolságot az ACR-adapter jelenleg nem ad: „—” jelenik meg."
+        "Vízhőmérsékletet, napszakot és tripmaster-távolságot az ACR-adapter jelenleg nem ad: „—” jelenik meg. A tripmeter elrendezése a WB_GaugeSubaruImprezaS3 widgetet követi."
       ],
       "dashboard": {
         "schemaVersion": 1,

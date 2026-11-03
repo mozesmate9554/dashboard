@@ -105,6 +105,7 @@ void _place(Map<String,dynamic> item, Rect rect) {
 }
 void _grid(List<Map<String,dynamic>> items, Rect area) {
   if (items.isEmpty) return;
+  if (area.height < 24) area=Rect.fromLTWH(area.left,area.top,area.width,24);
   const gap=8.0;
   final ideal=math.sqrt(items.length*area.width/area.height).ceil();
   final columns=ideal.clamp(1,math.max(1,(area.width/140).floor())).toInt();
@@ -119,8 +120,17 @@ void _dashboard(List<Map<String,dynamic>> items, Rect area, bool portrait) {
   final leds=items.where((e)=>e['kind']=='leds').toList();
   final rest=items.where((e)=>e['kind']!='leds').toList();
   double top=area.top;
-  for(final led in leds) {
-    _place(led,Rect.fromLTWH(area.left,top,area.width,20)); led['vertical']=false;led['rows']=1; top+=26;
+  if(leds.length<=2){
+    for(final led in leds) {
+      _place(led,Rect.fromLTWH(area.left,top,area.width,20)); led['vertical']=false;led['rows']=1; top+=26;
+    }
+  } else {
+    // Game-style strips built from many single LEDs/overlays (208: 10+10, i20: 4) share one row.
+    final cell=area.width/leds.length;
+    for(var i=0;i<leds.length;i++){
+      _place(leds[i],Rect.fromLTWH(area.left+i*cell,top,math.max(12.0,cell-2),20)); leds[i]['vertical']=false;leds[i]['rows']=1;
+    }
+    top+=26;
   }
   if(area.height<420){
     _grid(rest,Rect.fromLTWH(area.left,top,area.width,area.bottom-top));

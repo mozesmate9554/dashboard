@@ -20,8 +20,8 @@
     }
   ],
   "knownLimitations": [
-    "A TARMAC/GRAVEL és a KLAXON gombnak nincs játékbeli bemenete, ezért nem szerepel.",
-    "Víz/olaj hő- és nyomásértéket az ACR-adapter nem ad: „—” jelenik meg."
+    "A TARMAC/GRAVEL, LAUNCH, KLAXON és ablakemelő gombnak nincs játékbeli bemenete: a panelen szerepelnek, de parancsot nem küldenek.",
+    "Az ACR-adapter jelenleg csak sebességet, fordulatszámot, fokozatot, pedálokat, G-erőt, fordulatszám-limitet és autóazonosítót ad; a többi kijelzőmező (Map, hőmérsékletek, trip, kézifék, világítás) élesben „—”."
   ],
   "dashboard": {
     "schemaVersion": 1,

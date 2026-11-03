@@ -191,7 +191,7 @@ def hyundai_i20():
         flash('i20-red', cx - 425 * s / 2, sy, 425 * s, sh, '#C90E05', .96, z=3, referenceNote='RedOverlay: középső 425 px-es sáv (C90E05). ' + SHOT),
         label('i20-rpm-label', 'RPM', cx - 190, sy + 35 * s + 20, 110, 60, '#1571B1', 34),
         readout('i20-rpm', 'rpm', cx - 80, sy + 35 * s, 270, 92, '#ffffff', 78),
-        readout('i20-gear', 'gear', cx - 300, sy + 150, 600, 520, '#02FEFF', 542, weight=400,
+        readout('i20-gear', 'gear', cx - 300, sy + 150, 600, 520, '#02FEFF', 500, weight=400,
                 referenceNote='GearText: Sui Generis 350 px, cián (02FEFF). A játék betűtípusa nem kerül terjesztésre.'),
         readout('i20-speed', 'speed', cx - 200, sy + sh - 150, 400, 104, '#ffffff', 78),
     ]

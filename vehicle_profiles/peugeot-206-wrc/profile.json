@@ -26,8 +26,8 @@
     }
   ],
   "knownLimitations": [
-    "Monokróm LCD-jellegű kijelző a játék T_Peugeot206WRCLCD textúrája alapján; a pontos szegmensek képernyőképpel pontosítandók.",
-    "Francia feliratok korhű stílusban; a pontos gyári feliratok nincsenek igazolva."
+    "Az LCD a WB_GaugePeugeot206 widget elrendezését követi; a 7-szegmenses játékbetűtípus helyett szabad betűtípus szerepel.",
+    "A kapcsolófeliratok a játékbeli T_IntDetails_B textúráról származnak."
   ],
   "dashboard": {
     "schemaVersion": 1,

@@ -27,7 +27,7 @@
   ],
   "knownLimitations": [
     "A Stack/VDO műszerek stílusa saját rajz, márkajelzés nélkül.",
-    "Vízhőmérsékletet és tripmaster-távolságot az ACR-adapter jelenleg nem ad: „—” jelenik meg."
+    "Vízhőmérsékletet, napszakot és tripmaster-távolságot az ACR-adapter jelenleg nem ad: „—” jelenik meg. A tripmeter elrendezése a WB_GaugeSubaruImprezaS3 widgetet követi."
   ],
   "dashboard": {
     "schemaVersion": 1,
