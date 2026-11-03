@@ -692,7 +692,7 @@ class _PanelKeyPainter extends CustomPainter {
     final yTop = rect.top + rect.height * .1, yBottom = rect.bottom - rect.height * .1;
     final wedge = Path()..moveTo(edge(top), yTop)..lineTo(x1, yTop)..lineTo(x1, yBottom)..lineTo(edge(bottom), yBottom)..close();
     canvas.drawPath(wedge, Paint()..color = ink.withValues(alpha: .9 - pressed * .3));
-    final sign = TextPainter(text: TextSpan(text: upper ? '+' : '−', style: TextStyle(color: ink, fontSize: rect.width * .34, fontWeight: FontWeight.w300)),
+    final sign = TextPainter(text: TextSpan(text: upper ? '+' : '−', style: TextStyle(fontFamily: 'OemCondensed', color: ink, fontSize: rect.width * .34)),
       textDirection: TextDirection.ltr)..layout();
     sign.paint(canvas, Offset(rect.left + rect.width * .32 - sign.width / 2, upper ? rect.top + rect.height * .06 : rect.bottom - sign.height - rect.height * .06));
     if (icon != null && !upper) {

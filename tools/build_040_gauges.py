@@ -497,22 +497,22 @@ def polo_real_pages(W=1600, H=900):
             d.ellipse((cx - 62, sy + sh * .80 - 62, cx + 62, sy + sh * .80 + 62), outline=(200, 190, 230), width=4)
     blue, orange, green, yellow = '#2f7dff', '#ff8a1a', '#58d84a', '#f2d22a'
     upper = [
-        readout('pr-up-gear', 'gear', sx + sw * .06, sy + sh * .12, sw * .36, sh * .78, '#ffb347', 500, outline=True, weight=500,
+        readout('pr-up-gear', 'gear', sx + sw * .04, sy + sh * .12, sw * .30, sh * .72, '#ffb347', 500, outline=True, weight=500,
                 referenceNote='A fotón izzó narancs körvonalas fokozatszám.'),
-        arc_gauge('pr-up-arc', 'rpm', sx, sy, sw, sh, 8000, dict(cx=1.0, cy=1.0, r=.95, width=.13, start=182, sweep=88, hatch=True, segments=70,
+        arc_gauge('pr-up-arc', 'rpm', sx, sy, sw, sh, 8000, dict(cx=1.0, cy=1.0, r=.82, width=.11, start=184, sweep=86, hatch=True, segments=70,
                   hatchColor=blue, tickColor=orange, ticks=list(range(0, 8001, 1000)), labels=[str(n) for n in range(9)], labelSize=.05, pointer='fill', tickSide=-1)),
     ]
     lower = [
         readout('pr-lo-rpm', 'rpm', sx + sw * .14, sy + sh * .02, sw * .22, sh * .14, yellow, 90),
         label('pr-lo-rpm-l', 'RPM', sx + sw * .01, sy + sh * .16, sw * .1, sh * .06, yellow, 30),
-        arc_gauge('pr-lo-arc', 'rpm', sx, sy, sw, sh, 8000, dict(cx=1.15, cy=1.75, r=1.67, width=.085, start=213, sweep=50, hatch=True, segments=80,
+        arc_gauge('pr-lo-arc', 'rpm', sx, sy, sw, sh, 8000, dict(cx=.92, cy=1.31, r=1.29, width=.085, start=203, sweep=70, hatch=True, segments=80,
                   hatchColor=blue, tickColor='#4a8a6a', ticks=list(range(0, 8001, 1000)), labels=[], pointer='fill', tickSide=-1)),
-        label('pr-lo-mode-l', 'Mode', sx + sw * .30, sy + sh * .43, sw * .1, sh * .07, '#ffffff', 34),
-        readout('pr-lo-mode', 'driveMode', sx + sw * .40, sy + sh * .38, sw * .16, sh * .12, yellow, 80),
+        label('pr-lo-mode-l', 'Mode', sx + sw * .30, sy + sh * .47, sw * .1, sh * .07, '#ffffff', 34),
+        readout('pr-lo-mode', 'driveMode', sx + sw * .40, sy + sh * .42, sw * .16, sh * .12, yellow, 80),
         label('pr-lo-speed-l', 'Speed', sx + sw * .02, sy + sh * .62, sw * .12, sh * .07, '#ff4a2a', 38),
         label('pr-lo-speed-u', 'km/h', sx + sw * .14, sy + sh * .63, sw * .07, sh * .05, '#ff4a2a', 24),
         readout('pr-lo-speed', 'speed', sx + sw * .02, sy + sh * .70, sw * .2, sh * .2, orange, 140),
-        readout('pr-lo-gear', 'gear', sx + sw * .40, sy + sh * .52, sw * .15, sh * .36, '#3c8cff', 260, outline=True, weight=500),
+        readout('pr-lo-gear', 'gear', sx + sw * .38, sy + sh * .56, sw * .17, sh * .33, '#3c8cff', 260, outline=True, weight=500),
         label('pr-lo-gear-l', 'Gear', sx + sw * .40, sy + sh * .89, sw * .15, sh * .07, '#3c8cff', 34),
         readout('pr-lo-clock', 'sessionClock', sx + sw * .02, sy + sh * .92, sw * .16, sh * .06, '#ffffff', 26),
     ]

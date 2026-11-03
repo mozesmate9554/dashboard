@@ -119,7 +119,7 @@ class Instrument extends StatelessWidget {
         if(e['style']=='factoryReadout'){
           // `outline`: hollow, glowing digits (e.g. the gear on the Polo's upper display).
           final style=e['outline']==true
-            ?TextStyle(fontFamily:font,fontSize:size,fontWeight:weight,height:1,foreground:Paint()..style=PaintingStyle.stroke..strokeWidth=size*.07..color=foreground,
+            ?TextStyle(fontFamily:font,fontSize:size,fontWeight:weight,height:1,foreground:Paint()..style=PaintingStyle.stroke..strokeWidth=size*.022..color=foreground,
                 shadows:[Shadow(color:foreground.withValues(alpha:.8),blurRadius:size*.08)])
             :TextStyle(color:foreground,fontFamily:font,fontSize:size,fontWeight:weight,height:1);
           child=FittedBox(fit:BoxFit.contain,alignment:Alignment.center,child:Text(text,style:style));break;

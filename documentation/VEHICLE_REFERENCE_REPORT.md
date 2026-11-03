@@ -85,5 +85,7 @@ Gyártói és kereskedői fotók: Škoda Storyboard / Škoda Motorsport, Racemar
 | Hyundai-kormány gombmátrixszal, ülés melletti billentyűzet | Hyundai i20 N Rally2 | megerősíti a meglévő 3×5 kapcsolómátrixot; változtatás nem kellett |
 | „Car Info” kijelzőoldal (nEng, Gear, sCar, pRail …) | Škoda Fabia RS Rally2 | „Car Info (valós kijelző, fotó alapján)” oldal |
 | Középkonzol („servis menu”, FIRE, színes gombafejű gombok) | Škoda Fabia RS Rally2 | a Button Box elrendezése és anyagai |
+| Rally Polo cockpit két kijelzővel, WIPER/START/LIGHT/HI-BEAM/RADIO kormánygombokkal | VW Polo GTI R5 (a felhasználó szerint; a kormány és a kijelzők alapján lehet a Polo R WRC is – **nem igazolt**) | „Valós felső/alsó kijelző” oldalak; kormányszekció a Button Boxon |
+| Szürke velúr középtorony, bat-kapcsolók piros jelzőlámpákkal, fehér forgatógomb | Peugeot 206 WRC | a Button Box elrendezése és anyagai; a feliratok a játék textúrájáról, mert a fotón olvashatatlanok |
 
 A gombafejű gombok pontos funkcióját a fotó nem mutatja; ezek címkéjén „(feltételezett funkció)” szerepel. A fotókból semmi nincs beépítve az alkalmazásba.
