@@ -135,7 +135,8 @@ void main() {
     final connection = BridgeConnection(store); await connection.setDemo(true);
     final base = store.vehicle.dashboard, original = jsonEncode(store.vehicle.dashboard.data);
     await tester.pumpWidget(MaterialApp(theme: ThemeData.dark(), home: LayoutEditor(store: store, connection: connection, layout: base)));
-    final field = base.elements(0).firstWhere((e) => e['field'] == 'speed');
+    // The Škoda game-display page (page 1) has no speed readout; its engine-map badge is used instead.
+    final field = base.elements(0).firstWhere((e) => {'speed', 'engineMap'}.contains(e['field']));
     final instrument = find.byWidgetPredicate((w) => w is Instrument && w.element['id'] == field['id']);
     final finder = find.ancestor(of: instrument, matching: find.byType(GestureDetector)).first;
     await tester.tap(finder); await tester.pump();

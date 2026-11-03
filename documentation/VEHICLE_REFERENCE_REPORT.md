@@ -6,7 +6,7 @@
 
 A valódi fotók **tervezési referenciaként** szolgálnak (elrendezés, arányok, színek, feliratok, kapcsolótípusok). A kiadott alkalmazásba nem másoljuk be a gyártói vagy harmadik féltől származó fotókat, logókat és márkajelzéseket. A grafika saját vektoros rajz, a referenciák alapján.
 
-**Elsődleges hitelesség:** a mobil műszerfal a *játékbeli* autót tükrözi, ezért a döntő referencia a játék `WB_Gauge*` kijelzőjének élő képe. A valódi autó fotói a kapcsolópanelhez és az anyaghatásokhoz kellenek, mert a játékbeli cockpit is ezekből készült.
+**Elsődleges hitelesség:** a mobil műszerfal a *játékbeli* autót tükrözi, ezért a döntő referencia a játék `WB_Gauge*` kijelzője. **2026-11-03:** mind a hat widget elrendezése JSON-ban exportálva (FModel, csak olvasás), és a műszerfalak ennek alapján készültek; összefoglaló: `GAME_ASSET_REFERENCE_REPORT.md`. A valódi autó fotói a kapcsolópanelhez és az anyaghatásokhoz kellenek, mert a játékbeli cockpit is ezekből készült.
 
 ## Játékbeli változatok (megerősítve)
 
@@ -50,7 +50,7 @@ A valódi fotók **tervezési referenciaként** szolgálnak (elrendezés, arány
 
 - **Forrás:** [VW Newsroom – Polo GTI R5](https://www.volkswagen-newsroom.com/en/the-new-polo-gti-driving-presentation-2512/the-new-polo-gti-r5-gti-goes-rallying-2567), [Wikipedia](https://en.wikipedia.org/wiki/Volkswagen_Polo_GTI_R5), Racemarket-hirdetések (fotók).
 - **Játékból:** saját fordulatszám-textúra (`T_PoloGaugeRpm`) és UV-referencia. A kijelző tehát egyedi, ívelt fordulatszám-skálás.
-- **Igazolatlan:** a kijelző gyártója, a konzol feliratai. **Szükséges:** játékbeli képernyőkép.
+- **Igazolatlan:** a kijelző gyártója. **2026-11-03:** a widgetből kiderült, hogy a játék két képernyőt modellez (felső: időmérő, gyújtás, ívelt RPM-sávok, fokozat; alsó: 3×4 adatdoboz); a konzol feliratai a `T_IntDetails_B` textúráról származnak.
 
 ### 5. Peugeot 206 WRC (1999)
 
