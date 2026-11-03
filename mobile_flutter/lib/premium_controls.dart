@@ -290,7 +290,7 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
         face = Listener(behavior: HitTestBehavior.opaque, onPointerDown: _pushDown, onPointerUp: _pushUp,
           onPointerCancel: (event) => _pushUp(event, cancelled: true),
           child: AnimatedBuilder(animation: Listenable.merge([_motion, _pulse]), builder: (context, _) => CustomPaint(
-            painter: material == 'touch' || material == 'outline'
+            painter: material == 'touch' || material == 'outline' || material == 'label'
               ? _PanelKeyPainter(_motion.value, stage, led, accent, night, material, _pulse.value, e['engraving'] as String? ?? '',
                   panelIcons[e['icon']], (e['leds'] as num?)?.toInt() ?? 1, kind == 'cycleButton' ? _position : -1)
               : _PushPainter(_motion.value, stage, led, accent, night, material, _pulse.value,
@@ -304,7 +304,7 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
       child: Tooltip(message: enabled ? '$label · ${ledCaption(stage)}' : '$label · nincs kiosztva, nincs engedélyezve vagy nincs kapcsolat',
         child: Opacity(opacity: enabled ? 1 : .55, child: LayoutBuilder(builder: (context, constraints) {
           // Very small presentations (hybrid / adaptive scaling) show the mechanical face only.
-          if (constraints.maxHeight < 110) return SizedBox.expand(child: face);
+          if (constraints.maxHeight < 110 || e['caption'] == false) return SizedBox.expand(child: face);
           return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Expanded(child: face),
           const SizedBox(height: 4),
@@ -563,8 +563,10 @@ class _PanelKeyPainter extends CustomPainter {
     final lit = stage == LedStage.confirmed || stage == LedStage.bridgeAck || stage == LedStage.sent || stage == LedStage.error;
     final blink = (math.sin(pulse * math.pi * 2) + 1) / 2;
     final glowColor = stage == LedStage.error ? const Color(0xffff2020) : stage == LedStage.sent ? const Color(0xffffb020) : led;
-    final ink = night ? const Color(0xffffe6b8) : const Color(0xffdfe3e8);
-    if (material == 'touch') {
+    final inkLight = night ? const Color(0xffffe6b8) : const Color(0xffdfe3e8);
+    final dark = material == 'label' || accent.computeLuminance() > .45;
+    final ink = dark ? (night ? const Color(0xff2a2410) : const Color(0xff1c1f1a)) : inkLight;
+    if (material == 'touch' || material == 'label') {
       final base = night ? Color.lerp(accent, Colors.black, .45)! : accent;
       canvas.drawRRect(RRect.fromRectAndRadius(rect.shift(const Offset(0, 3)), radius), Paint()..color = Colors.black54..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
       canvas.drawRRect(RRect.fromRectAndRadius(rect, radius), Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,

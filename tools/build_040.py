@@ -126,7 +126,7 @@ def skoda_panel():
     navy = '#1f2b47'
     k = 1000 / 640  # console texture crop -> canvas
     def C(x0, y0, x1, y1): return dict(x=round(40 + x0 * k), y=round(80 + y0 * k), w=round((x1 - x0) * k), h=round((y1 - y0) * k))
-    touch = dict(material='touch', color=navy, ledColor='#7fd3ff', sound='plastic', ring=False)
+    touch = dict(material='touch', color=navy, ledColor='#7fd3ff', sound='plastic', ring=False, caption=False)
     e = [background_element(pid, W, H)]
     e += [
         control('sk-service', 'pushButton', 'Szervizmenü', 'displayNext', **C(28, 25, 180, 125), engraving='servis\nmenu', **touch),

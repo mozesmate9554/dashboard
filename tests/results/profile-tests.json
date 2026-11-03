@@ -6,42 +6,42 @@
     {
       "name": "Exactly the six requested ACR cars; every factory layout separately identified",
       "status": "passed",
-      "durationMs": 0.03
+      "durationMs": 0.02
     },
     {
       "name": "Škoda Fabia RS Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 3.75
+      "durationMs": 4.41
     },
     {
       "name": "Peugeot 208 Rally4 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.82
+      "durationMs": 1.37
     },
     {
       "name": "Hyundai i20 N Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.59
+      "durationMs": 1.15
     },
     {
       "name": "Volkswagen Polo GTI R5 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.29
+      "durationMs": 0.98
     },
     {
       "name": "Peugeot 206 WRC (1999) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.54
+      "durationMs": 1.12
     },
     {
       "name": "Subaru Impreza 555 Group A (1993) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.24
+      "durationMs": 1.02
     },
     {
       "name": "Skoda: 0.3.0 photo console preserved as a variant, dashboard telemetry preserved",
       "status": "passed",
-      "durationMs": 0.44
+      "durationMs": 1.2
     },
     {
       "name": "ACR cars: separate mechanical button boxes, hold starter, cycle lights, aliases",
@@ -51,22 +51,22 @@
     {
       "name": "Seven short, preloadable switch sounds",
       "status": "passed",
-      "durationMs": 1.4
+      "durationMs": 2.82
     },
     {
       "name": "Android manifests / iOS plist, entitlement, storyboard and workspace XML",
       "status": "passed",
-      "durationMs": 3.99
+      "durationMs": 7.72
     },
     {
       "name": "Xcode project object references and iPhone/iPad deployment settings",
       "status": "passed",
-      "durationMs": 0.65
+      "durationMs": 0.66
     },
     {
       "name": "Cross-platform version and profile ID consistency",
       "status": "passed",
-      "durationMs": 0.39
+      "durationMs": 0.56
     }
   ]
 }

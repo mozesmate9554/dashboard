@@ -673,7 +673,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-call",
@@ -692,7 +693,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-end",
@@ -711,7 +713,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-vol1-up",
@@ -730,7 +733,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-vol1-dn",
@@ -750,7 +754,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-vol2-up",
@@ -769,7 +774,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-vol2-dn",
@@ -789,7 +795,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-hazard",
@@ -808,7 +815,8 @@
             "color": "#1f2b47",
             "ledColor": "#ff8a1a",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-fog",
@@ -827,7 +835,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-all",
@@ -846,7 +855,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-start",
@@ -918,7 +928,8 @@
             "color": "#1f2b47",
             "ledColor": "#b4e2ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-high",
@@ -937,7 +948,8 @@
             "color": "#1f2b47",
             "ledColor": "#3c8cff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-wiper",
@@ -962,7 +974,8 @@
             "color": "#1f2b47",
             "ledColor": "#7fd3ff",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-ind-l",
@@ -981,7 +994,8 @@
             "color": "#1f2b47",
             "ledColor": "#3cff6a",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-ind-r",
@@ -1000,7 +1014,8 @@
             "color": "#1f2b47",
             "ledColor": "#3cff6a",
             "sound": "plastic",
-            "ring": false
+            "ring": false,
+            "caption": false
           },
           {
             "id": "sk-hb",

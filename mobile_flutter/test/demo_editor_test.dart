@@ -198,7 +198,7 @@ void main() {
         final finder=find.byWidgetPredicate((w)=>w is PremiumControl && w.element['id']==e['id']);
         expect(finder,findsOneWidget,reason:'${car.id} ${e['id']}');
         final rect=tester.getRect(finder);
-        final face=Offset(rect.center.dx,rect.top+(rect.height-42)/2);
+        final face=e['caption']==false||rect.height<110?rect.center:Offset(rect.center.dx,rect.top+(rect.height-42)/2);
         final before=connection.commandHistory.length;
         if(e['action']==null){
           await tester.tapAt(face);await tester.pump(const Duration(milliseconds:200));
