@@ -272,7 +272,7 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
         face = AnimatedBuilder(animation: Listenable.merge([_motion, _cover, _pulse]), builder: (context, _) => Stack(fit: StackFit.expand, children: [
           CustomPaint(painter: _RockerPainter(_motion.value, stage, led, accent, night, 'alu', _pulse.value, e['engraving'] as String? ?? '')),
           Positioned.fill(child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _coverOpen ? _guardedSwitch : _toggleCover)),
-          Positioned.fill(child: IgnorePointer(child: CustomPaint(painter: _CoverPainter(_cover.value, _hex(e['coverColor'], const Color(0xffd0202a)), night)))),
+          Positioned.fill(child: IgnorePointer(child: CustomPaint(painter: _CoverPainter(_cover.value, _hex(e['coverColor'], const Color(0xffd0202a)), night, tag: e['coverStyle'] == 'fireTag')))),
           if (_coverOpen) Positioned(left: 0, right: 0, top: 0, height: 34, child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _toggleCover,
             child: const Center(child: Icon(Icons.keyboard_arrow_down, size: 26, color: Colors.white70)))),
         ]));
@@ -292,7 +292,8 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
           child: AnimatedBuilder(animation: Listenable.merge([_motion, _pulse]), builder: (context, _) => CustomPaint(
             painter: material == 'touch' || material == 'outline' || material == 'label' || material == 'mushroom'
               ? _PanelKeyPainter(_motion.value, stage, led, accent, night, material, _pulse.value, e['engraving'] as String? ?? '',
-                  panelIcons[e['icon']], (e['leds'] as num?)?.toInt() ?? 1, kind == 'cycleButton' ? _position : -1)
+                  panelIcons[e['icon']], (e['leds'] as num?)?.toInt() ?? 1, kind == 'cycleButton' ? _position : -1,
+                  iconColor: e['iconColor'] == null ? null : _hex(e['iconColor'], Colors.white), ramp: e['ramp'] as String?)
               : _PushPainter(_motion.value, stage, led, accent, night, material, _pulse.value,
                   e['engraving'] as String? ?? '', e['ring'] != false, e['shape'] == 'square'))));
     }
@@ -400,7 +401,34 @@ void _engrave(Canvas canvas, String text, Offset center, double size, bool night
 class _RockerPainter extends CustomPainter {
   final double t, pulse; final LedStage stage; final Color led, accent; final bool night; final String material, engraving;
   _RockerPainter(this.t, this.stage, this.led, this.accent, this.night, this.material, this.pulse, this.engraving);
+  /// Bat-handle toggle switch: hex nut and chrome lever pointing up (ON) or down (OFF).
+  void _bat(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final r = math.min(size.width, size.height) * .16;
+    final nut = Path();
+    for (var i = 0; i < 6; i++) {
+      final a = math.pi / 6 + i * math.pi / 3; final p = center + Offset(math.cos(a), math.sin(a)) * r * 1.25;
+      if (i == 0) { nut.moveTo(p.dx, p.dy); } else { nut.lineTo(p.dx, p.dy); }
+    }
+    nut.close();
+    canvas.drawPath(nut, Paint()..color = const Color(0xff1a1b1e));
+    canvas.drawPath(nut, Paint()..style = PaintingStyle.stroke..strokeWidth = 2..color = const Color(0xff55585e));
+    canvas.drawCircle(center, r * .75, Paint()..color = const Color(0xff2c2e33));
+    final tilt = (t - .5) * 2; // +1 = ON (lever up)
+    final length = math.min(size.height * .42, size.width * 1.2);
+    final tip = center + Offset(0, -tilt * length * .9);
+    final lever = Paint()..strokeCap = StrokeCap.round..strokeWidth = r * .55
+      ..shader = const LinearGradient(colors: [Color(0xff4a4c50), Color(0xffe0e2e6), Color(0xff55575c)]).createShader(Rect.fromPoints(center - Offset(r, 0), center + Offset(r, 0)));
+    canvas.drawLine(center + Offset(r * .15, r * .25), tip + Offset(r * .15, r * .25), Paint()..color = Colors.black45..strokeWidth = r * .6..strokeCap = StrokeCap.round);
+    canvas.drawLine(center, tip, lever);
+    canvas.drawCircle(tip, r * .42, Paint()..color = const Color(0xff16171a));
+    final parts = engraving.split(RegExp(r'\s{2,}'));
+    _engrave(canvas, parts.isNotEmpty ? parts.first : '', Offset(center.dx + r * 2.4, center.dy - length * .55), r * .7, night);
+    if (parts.length > 1) _engrave(canvas, parts[1], Offset(center.dx + r * 2.4, center.dy + length * .55), r * .7, night);
+    _led(canvas, Offset(center.dx - r * 2.3, center.dy - length * .55), r * .4, stage, led, pulse, night);
+  }
   @override void paint(Canvas canvas, Size size) {
+    if (material == 'bat') { _bat(canvas, size); return; }
     final w = math.min(size.width, size.height * .62);
     final rect = Rect.fromCenter(center: Offset(size.width / 2, size.height * .5), width: w, height: size.height * .96);
     _bezel(canvas, rect, w * .12, night);
@@ -426,8 +454,8 @@ class _RockerPainter extends CustomPainter {
 }
 
 class _CoverPainter extends CustomPainter {
-  final double open; final Color color; final bool night;
-  _CoverPainter(this.open, this.color, this.night);
+  final double open; final Color color; final bool night, tag;
+  _CoverPainter(this.open, this.color, this.night, {this.tag = false});
   @override void paint(Canvas canvas, Size size) {
     final w = math.min(size.width, size.height * .62);
     final rect = Rect.fromCenter(center: Offset(size.width / 2, size.height * .5), width: w * .86, height: size.height * .9);
@@ -444,7 +472,17 @@ class _CoverPainter extends CustomPainter {
     canvas.drawRRect(RRect.fromRectAndRadius(cover, Radius.circular(w * .1)), Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
       colors: [base.withValues(alpha: .92), Color.lerp(base, Colors.black, .4)!.withValues(alpha: .92)]).createShader(cover));
     canvas.drawRRect(RRect.fromRectAndRadius(cover.deflate(5), Radius.circular(w * .08)), Paint()..style = PaintingStyle.stroke..strokeWidth = 2..color = Colors.white30);
-    if (visible > .5) {
+    if (visible > .5 && tag) {
+      // Yellow FIRE label with a flame symbol on a glossy red cover (rally extinguisher switch).
+      final label = Rect.fromCenter(center: Offset(cover.center.dx, cover.top + cover.height * .62), width: cover.width * .72, height: cover.height * .34);
+      canvas.drawRRect(RRect.fromRectAndRadius(label, Radius.circular(w * .04)), Paint()..color = night ? const Color(0xff8a7a2a) : const Color(0xffe8cf4a));
+      final flame = TextPainter(text: TextSpan(text: String.fromCharCode(Icons.local_fire_department.codePoint),
+        style: TextStyle(fontFamily: Icons.local_fire_department.fontFamily, fontSize: label.height * .5, color: const Color(0xffb01818))), textDirection: TextDirection.ltr)..layout();
+      flame.paint(canvas, Offset(label.center.dx - flame.width / 2, label.top + label.height * .02));
+      _engrave(canvas, 'FIRE', Offset(label.center.dx, label.bottom - label.height * .22), label.height * .26, night, color: const Color(0xff7a1010));
+      canvas.drawLine(Offset(cover.left + cover.width * .2, cover.top + 8), Offset(cover.left + cover.width * .35, cover.top + cover.height * .4),
+        Paint()..color = Colors.white.withValues(alpha: .25)..strokeWidth = w * .03..strokeCap = StrokeCap.round);
+    } else if (visible > .5) {
       // Diagonal warning stripes stamped into the cover.
       canvas.save(); canvas.clipRRect(RRect.fromRectAndRadius(cover.deflate(8), Radius.circular(w * .07)));
       final stripe = Paint()..color = Colors.black.withValues(alpha: .25)..strokeWidth = w * .06;
@@ -554,8 +592,9 @@ const panelIcons = <String, IconData>{
 /// outline and LED dots (Peugeot Sport switch panel).
 class _PanelKeyPainter extends CustomPainter {
   final double t, pulse; final LedStage stage; final Color led, accent; final bool night; final String material, engraving;
-  final IconData? icon; final int leds, position;
-  _PanelKeyPainter(this.t, this.stage, this.led, this.accent, this.night, this.material, this.pulse, this.engraving, this.icon, this.leds, this.position);
+  final IconData? icon; final int leds, position; final Color? iconColor; final String? ramp;
+  _PanelKeyPainter(this.t, this.stage, this.led, this.accent, this.night, this.material, this.pulse, this.engraving, this.icon, this.leds, this.position,
+      {this.iconColor, this.ramp});
   @override void paint(Canvas canvas, Size size) {
     final rect = (Offset.zero & size).deflate(math.min(size.width, size.height) * .04);
     final side = math.min(rect.width, rect.height);
@@ -594,15 +633,36 @@ class _PanelKeyPainter extends CustomPainter {
       }
     }
     final content = rect.center + Offset(0, pressed * side * .02);
+    if (ramp != null) { _volumeRamp(canvas, rect, pressed, inkLight); return; }
     if (icon != null) {
       final painter = TextPainter(text: TextSpan(text: String.fromCharCode(icon!.codePoint), style: TextStyle(fontFamily: icon!.fontFamily, package: icon!.fontPackage,
-        fontSize: side * (engraving.isEmpty ? .48 : .34), color: engraving.isEmpty && material == 'touch' ? ink : (material == 'outline' ? Colors.white : ink))), textDirection: TextDirection.ltr)..layout();
+        fontSize: side * (engraving.isEmpty ? .48 : .34), color: iconColor ?? (engraving.isEmpty && material == 'touch' ? ink : (material == 'outline' ? Colors.white : ink)))), textDirection: TextDirection.ltr)..layout();
       painter.paint(canvas, content - Offset(painter.width / 2, engraving.isEmpty ? painter.height / 2 : painter.height * .85));
     }
     if (engraving.isNotEmpty) {
       final painter = TextPainter(text: TextSpan(text: engraving, style: TextStyle(fontFamily: 'OemCondensed', fontWeight: FontWeight.w600,
         fontSize: side * (engraving.length > 8 ? .14 : .18), height: 1.25, color: ink)), textDirection: TextDirection.ltr, textAlign: TextAlign.center)..layout(maxWidth: rect.width * .9);
       painter.paint(canvas, content + Offset(-painter.width / 2, icon != null ? side * .08 : -painter.height / 2));
+    }
+  }
+  /// One half of a tall back-lit volume key: '+' / '−', speaker symbol and the white level wedge
+  /// (wide at the top, pointed at the bottom) split across the two halves.
+  void _volumeRamp(Canvas canvas, Rect rect, double pressed, Color inkLight) {
+    final upper = ramp == 'upper';
+    final ink = night ? const Color(0xffd8f2ff) : inkLight;
+    final x1 = rect.right - rect.width * .14, x0 = rect.left + rect.width * .5;
+    double edge(double f) => x1 - (x1 - x0) * f; // f = 1 at the very top of the key, 0 at the bottom
+    final top = upper ? 1.0 : .5, bottom = upper ? .5 : 0.0;
+    final yTop = rect.top + rect.height * .1, yBottom = rect.bottom - rect.height * .1;
+    final wedge = Path()..moveTo(edge(top), yTop)..lineTo(x1, yTop)..lineTo(x1, yBottom)..lineTo(edge(bottom), yBottom)..close();
+    canvas.drawPath(wedge, Paint()..color = ink.withValues(alpha: .9 - pressed * .3));
+    final sign = TextPainter(text: TextSpan(text: upper ? '+' : '−', style: TextStyle(color: ink, fontSize: rect.width * .34, fontWeight: FontWeight.w300)),
+      textDirection: TextDirection.ltr)..layout();
+    sign.paint(canvas, Offset(rect.left + rect.width * .32 - sign.width / 2, upper ? rect.top + rect.height * .06 : rect.bottom - sign.height - rect.height * .06));
+    if (icon != null && !upper) {
+      final speaker = TextPainter(text: TextSpan(text: String.fromCharCode(icon!.codePoint), style: TextStyle(fontFamily: icon!.fontFamily, package: icon!.fontPackage,
+        fontSize: rect.width * .24, color: ink)), textDirection: TextDirection.ltr)..layout();
+      speaker.paint(canvas, Offset(rect.left + rect.width * .32 - speaker.width / 2, rect.top + rect.height * .08));
     }
   }
   /// Coloured mushroom push button beside a back-lit symbol plate (Škoda Fabia RS Rally2 console).
