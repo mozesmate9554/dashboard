@@ -90,7 +90,7 @@ def skoda_page():
         flash('skg-red', gx0 + 12 * s, Y(6), gw - 24 * s, 400 * s, '#F74D4A', .93, referenceNote='RedOverlay (F74D4A) a váltási ponton. ' + SHOT),
         readout('skg-gear', 'gear', gx0, Y(6), gw, 400 * s, '#ffffff', 425, weight=700,
                 referenceNote='GearText: NotoSans Bold 327 px. A szerkesztőben fekete, futás közben a háttérhez igazodik; itt fehér (feltételezés).'),
-        label('skg-map-label', 'Map', X(57) + 4, Y(418), 92, 70, '#ffffff', 42, font='monospace', weight=400),
+        label('skg-map-label', 'Map', X(57) + 4, Y(418), 92, 70, '#ffffff', 42, font='factory', weight=400),
         readout('skg-map', 'engineMap', X(57) + 100, Y(416), 74, 72, '#000000', 62, weight=800, background='#31B87F', shape='rounded'),
         el('skg-handbrake', 'indicator', 'handbrake', gx0 + 200 * s - 4, Y(410), 104, 104, 'Kézifék', style='factorySymbol', assetId='skg-handbrake',
            activeAbove=.05, color='#ff4a3d'),
@@ -139,18 +139,18 @@ def peugeot_208():
     main = leds + [
         readout('p208-gear', 'gear', cx - 260, sy + 6, 520, 470, '#ffffff', 392, referenceNote='GearText: NotoSans SemiBold 280 px, középen.'),
         readout('p208-rpm', 'rpm', cx - 108 * s + 8, sy + sh - 27 * s - 43 * s - 34, 216 * s - 16, 86 * s - 12, '#F8F8F8', 81),
-        label('p208-speed-label', 'Speed', cx + 322 * s - 93 * s, sy + sh - 33 * s - 130 * s, 186 * s, 50, '#DADADA', 42, font='monospace', weight=400),
+        label('p208-speed-label', 'Speed', cx + 322 * s - 93 * s, sy + sh - 33 * s - 130 * s, 186 * s, 50, '#DADADA', 42, font='factory', weight=400),
         readout('p208-speed', 'speed', cx + 322 * s - 93 * s + 10, sy + sh - 33 * s - 130 * s + 52, 186 * s - 20, 136 * s - 64, '#5DC6EE', 67),
     ]
     hidden = [
         label('p208h-note', 'A játék 208-as kijelzőjén REJTETT mezők (Map, OilP, OilT, WaterT)', 160, 60, 1280, 60, '#8a8f96', 32),
-        label('p208h-map-l', 'Map', 200, 200, 560, 60, '#DADADA', 42, font='monospace', weight=400),
-        readout('p208h-map', 'engineMap', 200, 260, 560, 150, '#ECF831', 120, font='monospace'),
-        label('p208h-oilp-l', 'OilP', 840, 200, 560, 60, '#DADADA', 42, font='monospace', weight=400),
+        label('p208h-map-l', 'Map', 200, 200, 560, 60, '#DADADA', 42, font='factory', weight=400),
+        readout('p208h-map', 'engineMap', 200, 260, 560, 150, '#ECF831', 120, font='factory'),
+        label('p208h-oilp-l', 'OilP', 840, 200, 560, 60, '#DADADA', 42, font='factory', weight=400),
         readout('p208h-oilp', 'oilPressure', 840, 260, 560, 150, '#1AD325', 120, decimals=1),
-        label('p208h-oilt-l', 'OilT', 200, 480, 560, 60, '#DADADA', 42, font='monospace', weight=400),
+        label('p208h-oilt-l', 'OilT', 200, 480, 560, 60, '#DADADA', 42, font='factory', weight=400),
         readout('p208h-oilt', 'oilTemp', 200, 540, 560, 150, '#1AD325', 120),
-        label('p208h-wat-l', 'WaterT', 840, 480, 560, 60, '#DADADA', 42, font='monospace', weight=400),
+        label('p208h-wat-l', 'WaterT', 840, 480, 560, 60, '#DADADA', 42, font='factory', weight=400),
         readout('p208h-wat', 'waterTemp', 840, 540, 560, 150, '#F0A122', 120),
     ]
     k = 1.9; tx, ty = 118, 70
@@ -160,7 +160,7 @@ def peugeot_208():
         label('p208t-mode', 'MODE', tx + 17 * k - 40, ty + 470, 170, 44, '#ffffff', 34, rotation=-90),
         label('p208t-clr1', 'CLR', tx + 718 * k - 75 * k - 30, ty + 120, 150, 44, '#ffffff', 34, rotation=-90),
         label('p208t-clr2', 'CLR', tx + 718 * k - 75 * k - 30, ty + 470, 150, 44, '#ffffff', 34, rotation=-90),
-        label('p208t-gps', 'GPS', tx + 140, ty + 260, 120, 70, '#35358E', 58, font='monospace', weight=700),
+        label('p208t-gps', 'GPS', tx + 140, ty + 260, 120, 70, '#35358E', 58, font='factory', weight=700),
         readout('p208t-dist', 'stageDistance', tx + 260, ty + 40, 760, 300, blue, 150, scale=.001, decimals=2,
                 referenceNote='DistanceFromStart (David Sans 80 px): a szakasz elejétől megtett út, km.'),
         label('p208t-km1', 'km', tx + 1030, ty + 230, 120, 90, '#35358E', 80),
@@ -291,14 +291,14 @@ def peugeot_206():
     main = shift + [
         el('p206-bar', 'leds', 'rpm', 90, 70, 1180, 60, 'RPM', count=38, max=8000, palette=['#1a1e10'], offColor='#00000000', glow=False,
            referenceNote='WB_GaugeRPMBar (760 x 53) – a görbét az FC_RPMBarLanciaDeltaHFIntegraleEVO adja; itt lineáris (feltételezés).'),
-        readout('p206-gear', 'gear', 650, 150, 300, 490, '#FF0000', 430, font='monospace', weight=700),
-        readout('p206-dist', 'stageDistance', 1040, 160, 470, 110, red, 90, font='monospace', scale=.001, decimals=3),
-        readout('p206-clock', 'sessionClock', 1040, 300, 470, 110, red, 90, font='monospace'),
-        readout('p206-final', '', 1040, 440, 470, 110, red, 90, font='monospace', referenceNote='DistanceFinal: az ACR-adapter nem adja.'),
+        readout('p206-gear', 'gear', 650, 150, 300, 490, '#FF0000', 430, font='factory', weight=700),
+        readout('p206-dist', 'stageDistance', 1040, 160, 470, 110, red, 90, font='factory', scale=.001, decimals=3),
+        readout('p206-clock', 'sessionClock', 1040, 300, 470, 110, red, 90, font='factory'),
+        readout('p206-final', '', 1040, 440, 470, 110, red, 90, font='factory', referenceNote='DistanceFinal: az ACR-adapter nem adja.'),
         label('p206-gear-t', 'GEAR', 120, 694, 300, 34, '#b3000000', 28),
-        readout('p206-gear2', 'gear', 120, 724, 300, 120, ink, 110, font='monospace'),
+        readout('p206-gear2', 'gear', 120, 724, 300, 120, ink, 110, font='factory'),
         label('p206-fuel-t', 'FUEL', 480, 694, 300, 34, '#b3000000', 28),
-        readout('p206-fuel', 'fuel', 480, 724, 300, 120, ink, 110, font='monospace'),
+        readout('p206-fuel', 'fuel', 480, 724, 300, 120, ink, 110, font='factory'),
         label('p206-race', 'RACE', 1160, 700, 330, 46, '#cc000000', 34),
         label('p206-warm', 'WARM UP', 1160, 748, 330, 46, '#33000000', 34),
         label('p206-prac', 'PRACTICE', 1160, 796, 330, 46, '#33000000', 34,
@@ -307,7 +307,7 @@ def peugeot_206():
     hidden = [label('p206h-note', 'A játékban rejtett LCD-mezők: WATER T, OIL T, OIL P', 160, 160, 1280, 60, '#202418', 34)]
     for n, (name, field, dec) in enumerate([('WATER T', 'waterTemp', 0), ('OIL T', 'oilTemp', 0), ('OIL P', 'oilPressure', 1)]):
         hidden += [label(f'p206h-l{n}', name, 120 + n * 460, 694, 320, 34, '#b3000000', 28),
-                   readout(f'p206h-v{n}', field, 120 + n * 460, 724, 320, 120, ink, 110, font='monospace', decimals=dec)]
+                   readout(f'p206h-v{n}', field, 120 + n * 460, 724, 320, 120, ink, 110, font='factory', decimals=dec)]
     def lcd2(d, img):
         lcd(d, img); d = ImageDraw.Draw(img)
         d.rectangle((60, 150, W - 60, 680), fill=(156, 160, 136))
@@ -332,9 +332,9 @@ def subaru_555(analog_elements, analog_png):
         d.text((X(160), Y(600) + 16), 'WB_GaugeSubaruImprezaS3 · tripmeter-elrendezés, saját grafika', font=_font(22), fill=(90, 92, 96))
     red = '#D60000'
     tripmeter = [
-        readout('s555t-clock', 'sessionClock', X(174), Y(338), 254 * s, 92 * s, red, 100, font='monospace'),
-        readout('s555t-dist', 'stageDistance', X(480), Y(338), 365 * s, 108 * s, red, 110, font='monospace', scale=.001, decimals=3),
-        readout('s555t-final', '', X(174), Y(468), 254 * s, 94 * s, red, 100, font='monospace',
+        readout('s555t-clock', 'sessionClock', X(174), Y(338), 254 * s, 92 * s, red, 100, font='factory'),
+        readout('s555t-dist', 'stageDistance', X(480), Y(338), 365 * s, 108 * s, red, 110, font='factory', scale=.001, decimals=3),
+        readout('s555t-final', '', X(174), Y(468), 254 * s, 94 * s, red, 100, font='factory',
                 referenceNote='DistanceFinal: az ACR-adapter nem adja, ezért „—”.'),
     ]
     assets = {pid + '-analog': ('png', analog_png), pid + '-trip': ('png', body(W, H, trip))}

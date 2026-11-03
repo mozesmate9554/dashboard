@@ -156,7 +156,7 @@
             "foreground": "#FF0000",
             "color": "#FF0000",
             "fontSize": 430,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 700
           },
           {
@@ -174,7 +174,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 90,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "scale": 0.001,
             "decimals": 3
@@ -194,7 +194,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 90,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600
           },
           {
@@ -212,7 +212,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 90,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "referenceNote": "DistanceFinal: az ACR-adapter nem adja."
           },
@@ -249,7 +249,7 @@
             "foreground": "#101408",
             "color": "#101408",
             "fontSize": 110,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600
           },
           {
@@ -285,7 +285,7 @@
             "foreground": "#101408",
             "color": "#101408",
             "fontSize": 110,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600
           },
           {
@@ -416,7 +416,7 @@
             "foreground": "#101408",
             "color": "#101408",
             "fontSize": 110,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "decimals": 0
           },
@@ -453,7 +453,7 @@
             "foreground": "#101408",
             "color": "#101408",
             "fontSize": 110,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "decimals": 0
           },
@@ -490,7 +490,7 @@
             "foreground": "#101408",
             "color": "#101408",
             "fontSize": 110,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "decimals": 1
           }

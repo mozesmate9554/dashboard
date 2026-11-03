@@ -131,7 +131,7 @@
                 "foreground": "#ffffff",
                 "color": "#ffffff",
                 "fontSize": 42,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 400,
                 "letterSpacing": 0
               },
@@ -2146,7 +2146,7 @@
                 "foreground": "#DADADA",
                 "color": "#DADADA",
                 "fontSize": 42,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 400,
                 "letterSpacing": 0
               },
@@ -2280,7 +2280,7 @@
                 "foreground": "#35358E",
                 "color": "#35358E",
                 "fontSize": 58,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 700,
                 "letterSpacing": 0
               },
@@ -2414,7 +2414,7 @@
                 "foreground": "#DADADA",
                 "color": "#DADADA",
                 "fontSize": 42,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 400,
                 "letterSpacing": 0
               },
@@ -2433,7 +2433,7 @@
                 "foreground": "#ECF831",
                 "color": "#ECF831",
                 "fontSize": 120,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600
               },
               {
@@ -2450,7 +2450,7 @@
                 "foreground": "#DADADA",
                 "color": "#DADADA",
                 "fontSize": 42,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 400,
                 "letterSpacing": 0
               },
@@ -2487,7 +2487,7 @@
                 "foreground": "#DADADA",
                 "color": "#DADADA",
                 "fontSize": 42,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 400,
                 "letterSpacing": 0
               },
@@ -2523,7 +2523,7 @@
                 "foreground": "#DADADA",
                 "color": "#DADADA",
                 "fontSize": 42,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 400,
                 "letterSpacing": 0
               },
@@ -5407,7 +5407,7 @@
                 "foreground": "#FF0000",
                 "color": "#FF0000",
                 "fontSize": 430,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 700
               },
               {
@@ -5425,7 +5425,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 90,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "scale": 0.001,
                 "decimals": 3
@@ -5445,7 +5445,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 90,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600
               },
               {
@@ -5463,7 +5463,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 90,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "referenceNote": "DistanceFinal: az ACR-adapter nem adja."
               },
@@ -5500,7 +5500,7 @@
                 "foreground": "#101408",
                 "color": "#101408",
                 "fontSize": 110,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600
               },
               {
@@ -5536,7 +5536,7 @@
                 "foreground": "#101408",
                 "color": "#101408",
                 "fontSize": 110,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600
               },
               {
@@ -5667,7 +5667,7 @@
                 "foreground": "#101408",
                 "color": "#101408",
                 "fontSize": 110,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "decimals": 0
               },
@@ -5704,7 +5704,7 @@
                 "foreground": "#101408",
                 "color": "#101408",
                 "fontSize": 110,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "decimals": 0
               },
@@ -5741,7 +5741,7 @@
                 "foreground": "#101408",
                 "color": "#101408",
                 "fontSize": 110,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "decimals": 1
               }
@@ -6500,7 +6500,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 70,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "background": "#2D0000"
               },
@@ -6519,7 +6519,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 70,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "scale": 0.001,
                 "decimals": 3,
@@ -6562,7 +6562,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 100,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600
               },
               {
@@ -6580,7 +6580,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 110,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "scale": 0.001,
                 "decimals": 3
@@ -6600,7 +6600,7 @@
                 "foreground": "#D60000",
                 "color": "#D60000",
                 "fontSize": 100,
-                "font": "monospace",
+                "font": "factory",
                 "fontWeight": 600,
                 "referenceNote": "DistanceFinal: az ACR-adapter nem adja, ezért „—”."
               }

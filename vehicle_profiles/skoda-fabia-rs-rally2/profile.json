@@ -127,7 +127,7 @@
             "foreground": "#ffffff",
             "color": "#ffffff",
             "fontSize": 42,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 400,
             "letterSpacing": 0
           },

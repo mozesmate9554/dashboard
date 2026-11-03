@@ -255,8 +255,8 @@ def subaru_555(m):
         el('s555-speed', 'number', 'speed', 1060, 660, 420, 170, 'km/h', fontSize=80, color='#f2f2f2', border=False),
     ]
     analog = [e for e in analog if e['id'] != 's555-trip'] + [
-        gauges.readout('s555-clock', 'sessionClock', 150, 660, 200, 170, '#D60000', 70, font='monospace', background='#2D0000'),
-        gauges.readout('s555-dist', 'stageDistance', 360, 660, 260, 170, '#D60000', 70, font='monospace', scale=.001, decimals=3, background='#2D0000')]
+        gauges.readout('s555-clock', 'sessionClock', 150, 660, 200, 170, '#D60000', 70, font='factory', background='#2D0000'),
+        gauges.readout('s555-dist', 'stageDistance', 360, 660, 260, 170, '#D60000', 70, font='factory', scale=.001, decimals=3, background='#2D0000')]
     dash = gauges.subaru_555(analog, housing(W, H, tone=(14, 14, 15), screen=None, cutouts=[(800, 340, 285), (300, 370, 155)], radius=60))
     pid = vid + '-buttonbox-040'; c = m.control
     # Traced from SubaruImprezaS3/Textures/T_IntDetails_B: label strips over a row of toggles

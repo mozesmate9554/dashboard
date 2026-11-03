@@ -498,7 +498,7 @@
             "foreground": "#DADADA",
             "color": "#DADADA",
             "fontSize": 42,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 400,
             "letterSpacing": 0
           },
@@ -632,7 +632,7 @@
             "foreground": "#35358E",
             "color": "#35358E",
             "fontSize": 58,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 700,
             "letterSpacing": 0
           },
@@ -766,7 +766,7 @@
             "foreground": "#DADADA",
             "color": "#DADADA",
             "fontSize": 42,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 400,
             "letterSpacing": 0
           },
@@ -785,7 +785,7 @@
             "foreground": "#ECF831",
             "color": "#ECF831",
             "fontSize": 120,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600
           },
           {
@@ -802,7 +802,7 @@
             "foreground": "#DADADA",
             "color": "#DADADA",
             "fontSize": 42,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 400,
             "letterSpacing": 0
           },
@@ -839,7 +839,7 @@
             "foreground": "#DADADA",
             "color": "#DADADA",
             "fontSize": 42,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 400,
             "letterSpacing": 0
           },
@@ -875,7 +875,7 @@
             "foreground": "#DADADA",
             "color": "#DADADA",
             "fontSize": 42,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 400,
             "letterSpacing": 0
           },

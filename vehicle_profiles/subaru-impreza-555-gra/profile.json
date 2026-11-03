@@ -163,7 +163,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 70,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "background": "#2D0000"
           },
@@ -182,7 +182,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 70,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "scale": 0.001,
             "decimals": 3,
@@ -225,7 +225,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 100,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600
           },
           {
@@ -243,7 +243,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 110,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "scale": 0.001,
             "decimals": 3
@@ -263,7 +263,7 @@
             "foreground": "#D60000",
             "color": "#D60000",
             "fontSize": 100,
-            "font": "monospace",
+            "font": "factory",
             "fontWeight": 600,
             "referenceNote": "DistanceFinal: az ACR-adapter nem adja, ezért „—”."
           }
