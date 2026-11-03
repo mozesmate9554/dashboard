@@ -564,7 +564,8 @@ class _PanelKeyPainter extends CustomPainter {
     final blink = (math.sin(pulse * math.pi * 2) + 1) / 2;
     final glowColor = stage == LedStage.error ? const Color(0xffff2020) : stage == LedStage.sent ? const Color(0xffffb020) : led;
     final inkLight = night ? const Color(0xffffe6b8) : const Color(0xffdfe3e8);
-    final dark = material == 'label' || accent.computeLuminance() > .45;
+    // Outline keys are black faces: their engraving stays light whatever the rim colour (208 white/yellow keys).
+    final dark = material == 'label' || material != 'outline' && accent.computeLuminance() > .45;
     final ink = dark ? (night ? const Color(0xff2a2410) : const Color(0xff1c1f1a)) : inkLight;
     if (material == 'touch' || material == 'label') {
       final base = night ? Color.lerp(accent, Colors.black, .45)! : accent;
