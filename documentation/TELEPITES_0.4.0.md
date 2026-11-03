@@ -18,7 +18,8 @@ A letöltési linkek a `TEST_REPORT.md` „Letöltések” részében vannak (Gi
 
 1. **Előtte exportáld a saját elrendezéseidet:** Szerkesztő → export. A preview-aláírás buildenként változhat.
 2. Ha a telepítés aláírási ütközés miatt nem sikerül, töröld a 0.3.0-t, majd telepítsd a 0.4.0 APK-t, és párosítsd újra QR-kóddal.
-3. Indítás után: **Autóprofilok** → Škoda Fabia RS Rally2 → **Kezelőpanel**. Fekvő tájolásban teljes képernyős a nézet.
+3. Indítás után: **Autóprofilok** → válaszd az autót → **Kezelőpanel** vagy **Műszerfal**. Fekvő tájolásban teljes képernyős a nézet.
+   A műszerfalak oldalai (lapozás): Škoda – játékbeli kijelző, majd a 0.3.0 fotóalapú oldalak; 208 – kijelző, GPS-tripmeter, rejtett mezők; i20 – kijelző, rejtett mezők; Polo – felső és alsó kijelző; 206 – LCD, rejtett mezők; Subaru – analóg műszerek, tripmeter.
 4. **Beállítások:** Kapcsolóhangok be/ki, hangerő, Érintéses rezgés.
 5. A kijelző „…” menüjében: **Éjszakai megvilágítás**, eszköztár elrejtése.
 
@@ -34,6 +35,7 @@ A letöltési linkek a `TEST_REPORT.md` „Letöltések” részében vannak (Gi
 | 6 | Kézifék (tartsd) | behúzva marad, amíg nyomod |
 | 7 | Wi-Fi kikapcsolása nyomott kéziféknél | a Bridge felengedi a kéziféket (nem ragad be) |
 | 8 | Motortérkép forgatás | a térképérték változik a játék kijelzőjén |
-| 9 | Autóváltás a játékban | megjelenik-e az autóprofil-ajánlás (a játék `vehicleId` értéke a Telemetria lapon látszik) |
+| 9 | Váltásjelző: pörgesd fel a motort | 208: 10 LED 5200 rpm-től, 6100 felett mind piros; i20/Polo/Škoda: színes villanás (küszöb feltételezett, jegyezd fel, ha eltér a játéktól) |
+| 10 | Autóváltás a játékban | megjelenik-e az autóprofil-ajánlás (a játék `vehicleId` értéke a Telemetria lapon látszik) |
 
 A LED **félig világító, sötét közepű** állapota azt jelenti, hogy a Bridge végrehajtotta a parancsot. Ez **nem** igazolja a játékállapotot. A teljes fény csak akkor jelenik meg, ha a játék telemetriája igazolja az állapotot.
