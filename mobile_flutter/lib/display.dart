@@ -117,7 +117,12 @@ class Instrument extends StatelessWidget {
           child=e['style']=='adaptiveMap'?Column(children:[const Text('Map',style:TextStyle(fontSize:14)),Expanded(child:row)]):row;break;
         }
         if(e['style']=='factoryReadout'){
-          child=FittedBox(fit:BoxFit.contain,alignment:Alignment.center,child:Text(text,style:TextStyle(color:foreground,fontFamily:font,fontSize:size,fontWeight:weight,height:1)));break;
+          // `outline`: hollow, glowing digits (e.g. the gear on the Polo's upper display).
+          final style=e['outline']==true
+            ?TextStyle(fontFamily:font,fontSize:size,fontWeight:weight,height:1,foreground:Paint()..style=PaintingStyle.stroke..strokeWidth=size*.07..color=foreground,
+                shadows:[Shadow(color:foreground.withValues(alpha:.8),blurRadius:size*.08)])
+            :TextStyle(color:foreground,fontFamily:font,fontSize:size,fontWeight:weight,height:1);
+          child=FittedBox(fit:BoxFit.contain,alignment:Alignment.center,child:Text(text,style:style));break;
         }
         child = Padding(padding: const EdgeInsets.all(7), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           if (label.isNotEmpty) FittedBox(fit:BoxFit.scaleDown, child:Text(label.toUpperCase(),maxLines:1,style: TextStyle(color: color, fontSize: 15, fontWeight: FontWeight.w700, letterSpacing: 2))),
@@ -482,7 +487,20 @@ class _AnalogPainter extends CustomPainter {
     final rect = Rect.fromCircle(center: center, radius: radius);
     final bands = (a['bands'] as List?) ?? [[minimum, maximum, '#ffffff']];
     final pointer = a['pointer'] as String? ?? 'needle';
-    for (final band in bands) {
+    if (a['hatch'] == true) {
+      // Hatched bar arc: dense radial strokes, lit up to the current value (Polo displays).
+      final count = (a['segments'] as num?)?.toInt() ?? 60;
+      final hatch = studioColor(a['hatchColor'] ?? '#2f7dff');
+      for (var i = 0; i < count; i++) {
+        final v = minimum + span * i / (count - 1); final t = angle(v); final dir = Offset(math.cos(t), math.sin(t));
+        final on = value != null && v <= value!;
+        canvas.drawLine(center + dir * (radius - width / 2), center + dir * (radius + width / 2),
+          Paint()..strokeWidth = side * .006..color = on ? hatch : hatch.withValues(alpha: .28));
+      }
+      canvas.drawArc(rect.inflate(width / 2), start, sweep, false, Paint()..style = PaintingStyle.stroke..strokeWidth = side * .004..color = hatch.withValues(alpha: .7));
+      canvas.drawArc(rect.deflate(width / 2), start, sweep, false, Paint()..style = PaintingStyle.stroke..strokeWidth = side * .004..color = hatch.withValues(alpha: .7));
+    }
+    for (final band in (a['hatch'] == true ? const <Object>[] : bands)) {
       final b = band as List; final from = (b[0] as num).toDouble(), to = (b[1] as num).toDouble();
       final bandColor = studioColor(b[2]);
       final dim = pointer == 'fill';
@@ -496,11 +514,12 @@ class _AnalogPainter extends CustomPainter {
     final ticks = (a['ticks'] as List?)?.cast<num>() ?? const <num>[];
     final labels = (a['labels'] as List?)?.cast<String>() ?? const <String>[];
     final inward = n('tickSide', -1);
+    final tickColor = studioColor(a['tickColor'] ?? '#ffffff');
     for (var i = 0; i < ticks.length; i++) {
       final t = angle(ticks[i].toDouble()); final dir = Offset(math.cos(t), math.sin(t));
-      canvas.drawLine(center + dir * (radius - width / 2), center + dir * (radius + inward * width * 1.4), Paint()..strokeWidth = side * .012..color = Colors.white);
+      canvas.drawLine(center + dir * (radius - width / 2), center + dir * (radius + inward * width * 1.4), Paint()..strokeWidth = side * .012..color = tickColor);
       if (i < labels.length && labels[i].isNotEmpty) {
-        final label = TextPainter(text: TextSpan(text: labels[i], style: TextStyle(color: Colors.white, fontSize: side * n('labelSize', .07), fontFamily: 'OemCondensed', fontWeight: FontWeight.w600)), textDirection: TextDirection.ltr)..layout();
+        final label = TextPainter(text: TextSpan(text: labels[i], style: TextStyle(color: tickColor, fontSize: side * n('labelSize', .07), fontFamily: 'OemCondensed', fontWeight: FontWeight.w600)), textDirection: TextDirection.ltr)..layout();
         label.paint(canvas, center + dir * (radius + inward * width * 3.1) - Offset(label.width / 2, label.height / 2));
       }
     }

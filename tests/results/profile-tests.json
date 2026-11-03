@@ -11,62 +11,62 @@
     {
       "name": "Škoda Fabia RS Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 4.9
+      "durationMs": 4.07
     },
     {
       "name": "Peugeot 208 Rally4 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 2.28
+      "durationMs": 2.13
     },
     {
       "name": "Hyundai i20 N Rally2 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.43
+      "durationMs": 1.52
     },
     {
       "name": "Volkswagen Polo GTI R5 pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.29
+      "durationMs": 1.62
     },
     {
       "name": "Peugeot 206 WRC (1999) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.3
+      "durationMs": 1.08
     },
     {
       "name": "Subaru Impreza 555 Group A (1993) pair, bindings, bounds, SVG and provenance",
       "status": "passed",
-      "durationMs": 1.2
+      "durationMs": 1.26
     },
     {
       "name": "Skoda: 0.3.0 photo console preserved as a variant, dashboard telemetry preserved",
       "status": "passed",
-      "durationMs": 0.64
+      "durationMs": 0.29
     },
     {
       "name": "ACR cars: separate mechanical button boxes, hold starter, cycle lights, aliases",
       "status": "passed",
-      "durationMs": 0.14
+      "durationMs": 0.09
     },
     {
       "name": "Seven short, preloadable switch sounds",
       "status": "passed",
-      "durationMs": 2.47
+      "durationMs": 1.43
     },
     {
       "name": "Android manifests / iOS plist, entitlement, storyboard and workspace XML",
       "status": "passed",
-      "durationMs": 6.11
+      "durationMs": 3.07
     },
     {
       "name": "Xcode project object references and iPhone/iPad deployment settings",
       "status": "passed",
-      "durationMs": 0.54
+      "durationMs": 0.46
     },
     {
       "name": "Cross-platform version and profile ID consistency",
       "status": "passed",
-      "durationMs": 0.44
+      "durationMs": 0.24
     }
   ]
 }

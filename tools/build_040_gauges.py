@@ -260,9 +260,12 @@ def polo_r5():
     x, y, w, h = cell(2, 1); part = [label('polob-part-t', 'Trip [part.]', x, y, w, 44, '#ffffff', 36, weight=400), readout('polob-part', 'stageDistance', x, y + 44, w * .75, h - 48, yl, 67, scale=.001, decimals=2), label('polob-part-km', 'Km', x + w * .76, y + 60, w * .24, 50, '#ffffff', 40)]
     x, y, w, h = cell(2, 2); total = [label('polob-total-t', 'Trip [total]', x, y, w, 44, '#ffffff', 36, weight=400), readout('polob-total', '', x, y + 44, w * .75, h - 48, yl, 67), label('polob-total-km', 'Km', x + w * .76, y + 60, w * .24, 50, '#ffffff', 40)]
     trip = gear_rpm + timer + speed + part + total
-    assets = {pid + '-top': ('png', body(W, H, top)), pid + '-bottom': ('png', body(W, H, bottom))}
-    return layout(pid, 'Volkswagen Polo GTI R5 · Műszerfal (játékbeli widget)', vid, W, H,
-                  [('Felső kijelző', main, pid + '-top'), ('Alsó kijelző', trip, pid + '-bottom')], assets)
+    upper, upper_png, lower, lower_png = polo_real_pages(W, H)
+    assets = {pid + '-top': ('png', body(W, H, top)), pid + '-bottom': ('png', body(W, H, bottom)),
+              pid + '-real-upper': ('png', upper_png), pid + '-real-lower': ('png', lower_png)}
+    return layout(pid, 'Volkswagen Polo GTI R5 · Műszerfal (valós kijelzők + játékbeli widget)', vid, W, H,
+                  [('Valós felső kijelző (fotó)', upper, pid + '-real-upper'), ('Valós alsó kijelző (fotó)', lower, pid + '-real-lower'),
+                   ('Játék · felső kijelző', main, pid + '-top'), ('Játék · alsó kijelző', trip, pid + '-bottom')], assets)
 
 # ------------------------------------------------------------------ Peugeot 206 WRC
 def peugeot_206():
@@ -475,3 +478,47 @@ def skoda_car_info_page(W=1280, H=800):
             'elements': [{'id': 'skc-body-img', 'kind': 'image', 'field': '', 'label': 'Ház', 'x': 0, 'y': 0, 'w': W, 'h': H, 'assetId': 'skc-body',
                           'border': False, 'fit': 'fill', 'nightDim': True, 'z': 0, 'locked': True}] + elements}
     return page, {'skc-body': ('png', png)}
+
+
+def polo_real_pages(W=1600, H=900):
+    """Two displays of the rally Polo (user photo): the small upper display beside the wheel (huge glowing
+    orange gear outline, blue hatched rpm arc with orange tick numbers, two ring lamps) and the lower
+    display (yellow RPM, hatched arc, 'Mode Road', green OilP/OilT/WaterT/FuelP/Batt list, orange speed,
+    blue outline gear, clock)."""
+    sx, sy, sw, sh = 330, 110, 940, 705
+    def housing(d, img):
+        d.rounded_rectangle((sx - 70, sy - 60, sx + sw + 70, sy + sh + 60), 26, fill=(20, 20, 22), outline=(48, 50, 54), width=4)
+        for (cx, cy) in [(sx - 38, sy + 40), (sx - 38, sy + sh - 40), (sx + sw + 38, sy + 40), (sx + sw + 38, sy + sh - 40)]:
+            d.ellipse((cx - 10, cy - 10, cx + 10, cy + 10), fill=(44, 46, 50)); d.ellipse((cx - 4, cy - 4, cx + 4, cy + 4), fill=(10, 10, 11))
+        d.rectangle((sx, sy, sx + sw, sy + sh), fill=(4, 4, 6))
+    def upper_art(d, img):
+        housing(d, img)
+        for cx in (sx + sw * .70, sx + sw * .86):
+            d.ellipse((cx - 62, sy + sh * .80 - 62, cx + 62, sy + sh * .80 + 62), outline=(200, 190, 230), width=4)
+    blue, orange, green, yellow = '#2f7dff', '#ff8a1a', '#58d84a', '#f2d22a'
+    upper = [
+        readout('pr-up-gear', 'gear', sx + sw * .06, sy + sh * .12, sw * .36, sh * .78, '#ffb347', 500, outline=True, weight=500,
+                referenceNote='A fotón izzó narancs körvonalas fokozatszám.'),
+        arc_gauge('pr-up-arc', 'rpm', sx, sy, sw, sh, 8000, dict(cx=1.0, cy=1.0, r=.95, width=.13, start=182, sweep=88, hatch=True, segments=70,
+                  hatchColor=blue, tickColor=orange, ticks=list(range(0, 8001, 1000)), labels=[str(n) for n in range(9)], labelSize=.05, pointer='fill', tickSide=-1)),
+    ]
+    lower = [
+        readout('pr-lo-rpm', 'rpm', sx + sw * .14, sy + sh * .02, sw * .22, sh * .14, yellow, 90),
+        label('pr-lo-rpm-l', 'RPM', sx + sw * .01, sy + sh * .16, sw * .1, sh * .06, yellow, 30),
+        arc_gauge('pr-lo-arc', 'rpm', sx, sy, sw, sh, 8000, dict(cx=1.15, cy=1.75, r=1.67, width=.085, start=213, sweep=50, hatch=True, segments=80,
+                  hatchColor=blue, tickColor='#4a8a6a', ticks=list(range(0, 8001, 1000)), labels=[], pointer='fill', tickSide=-1)),
+        label('pr-lo-mode-l', 'Mode', sx + sw * .30, sy + sh * .43, sw * .1, sh * .07, '#ffffff', 34),
+        readout('pr-lo-mode', 'driveMode', sx + sw * .40, sy + sh * .38, sw * .16, sh * .12, yellow, 80),
+        label('pr-lo-speed-l', 'Speed', sx + sw * .02, sy + sh * .62, sw * .12, sh * .07, '#ff4a2a', 38),
+        label('pr-lo-speed-u', 'km/h', sx + sw * .14, sy + sh * .63, sw * .07, sh * .05, '#ff4a2a', 24),
+        readout('pr-lo-speed', 'speed', sx + sw * .02, sy + sh * .70, sw * .2, sh * .2, orange, 140),
+        readout('pr-lo-gear', 'gear', sx + sw * .40, sy + sh * .52, sw * .15, sh * .36, '#3c8cff', 260, outline=True, weight=500),
+        label('pr-lo-gear-l', 'Gear', sx + sw * .40, sy + sh * .89, sw * .15, sh * .07, '#3c8cff', 34),
+        readout('pr-lo-clock', 'sessionClock', sx + sw * .02, sy + sh * .92, sw * .16, sh * .06, '#ffffff', 26),
+    ]
+    for n, (name, field, dec) in enumerate([('OilP', 'oilPressure', 1), ('OilT', 'oilTemp', 0), ('WaterT', 'waterTemp', 0), ('FuelP', '', 1), ('Batt', '', 1)]):
+        y = sy + sh * (.28 + n * .11)
+        lower += [label(f'pr-lo-l{n}', name, sx + sw * .60, y, sw * .14, sh * .08, green, 36),
+                  readout(f'pr-lo-v{n}', field, sx + sw * .80, y, sw * .16, sh * .08, yellow if name == 'Batt' else green, 46, decimals=dec)]
+    lower[0]['referenceNote'] = 'Az alsó kijelző a felhasználó fotója alapján; FuelP és Batt értéket az ACR nem ad („—”).'
+    return upper, _png_body(W, H, upper_art), lower, _png_body(W, H, housing)

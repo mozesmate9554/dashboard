@@ -89,6 +89,45 @@ def grid(c, prefix, cols, rows, x0, y0, cw, ch, gap, keys, style):
             out.append(c(f'{prefix}-{k}', params.pop('kind', 'pushButton'), label, action, x=x0 + col * (cw + gap), y=y0 + r * (ch + gap), w=cw, h=ch, **params))
     return out
 
+def steering_wheel(png, cx, cy, rim=300):
+    """Rally steering wheel drawn behind the wheel-mounted controls: suede rim with a yellow centre
+    marker, three-spoke black hub with carbon cheeks (drawn here; no badge)."""
+    img = Image.open(io.BytesIO(png)).convert('RGB'); d = ImageDraw.Draw(img)
+    d.ellipse((cx - rim - 12, cy - rim - 12, cx + rim + 12, cy + rim + 12), fill=(10, 10, 11))
+    d.ellipse((cx - rim, cy - rim, cx + rim, cy + rim), outline=(52, 52, 54), width=58)
+    for k in range(0, 360, 6):  # suede texture
+        a = math.radians(k); r0 = rim - 52 + (k * 7 % 40)
+        d.point((cx + r0 * math.cos(a), cy + r0 * math.sin(a)), fill=(70, 70, 72))
+    d.arc((cx - rim, cy - rim, cx + rim, cy + rim), 266, 274, fill=(225, 200, 40), width=58)
+    d.polygon([(cx - rim + 40, cy - 60), (cx - 150, cy - 185), (cx + 150, cy - 185), (cx + rim - 40, cy - 60),
+               (cx + rim - 40, cy + 30), (cx + 150, cy + 200), (cx + 60, cy + rim - 30), (cx - 60, cy + rim - 30), (cx - 150, cy + 200), (cx - rim + 40, cy + 30)], fill=(24, 24, 26))
+    for side in (-1, 1):
+        x0, x1 = sorted((cx + side * 80, cx + side * 175))
+        d.rounded_rectangle((x0, cy - 60, x1, cy + 190), 24, fill=(34, 35, 38))
+        for y in range(cy - 52, cy + 182, 8):
+            d.line((x0 + 6, y, x1 - 6, y + 4), fill=(44, 45, 48))
+    d.ellipse((cx - 70, cy - 70, cx + 70, cy + 70), fill=(18, 18, 20), outline=(70, 72, 76), width=4)
+    for k in range(6):
+        a = math.radians(k * 60 + 30); d.ellipse((cx + 95 * math.cos(a) - 7, cy + 95 * math.sin(a) - 7, cx + 95 * math.cos(a) + 7, cy + 95 * math.sin(a) + 7), fill=(60, 62, 66))
+    return png_bytes(img)
+
+def suede_tower(png):
+    """Light grey suede console faces (Peugeot 206 WRC centre tower) with the air vents on top."""
+    img = Image.open(io.BytesIO(png)).convert('RGB')
+    for (x0, y0, x1, y1) in [(36, 40, 1046, 832), (1066, 40, 1580, 832)]:
+        w, h = x1 - x0, y1 - y0
+        base = np.full((h, w, 3), (184, 185, 183), dtype=float)  # smooth: noise would bloat the catalogue
+        base += np.linspace(8, -14, h)[:, None, None]
+        face = Image.fromarray(np.clip(base, 0, 255).astype('uint8'))
+        mask = Image.new('L', (w, h), 0); ImageDraw.Draw(mask).rounded_rectangle((0, 0, w - 1, h - 1), 46, fill=255)
+        img.paste(face, (x0, y0), mask)
+    d = ImageDraw.Draw(img)
+    for vx in (700, 860):  # vents above the rotary selector
+        d.rounded_rectangle((vx, 70, vx + 140, 170), 18, fill=(24, 24, 26))
+        for y in range(84, 160, 12): d.line((vx + 12, y, vx + 128, y + 4), fill=(70, 70, 72), width=4)
+    d.text((700, 540), 'MAX', fill=(40, 40, 42))
+    return png_bytes(img)
+
 # ---------------------------------------------------------------- per-car definitions
 def peugeot_208(m):
     vid = 'peugeot-208-rally4'; W, H = 1600, 900
@@ -188,21 +227,34 @@ def polo_r5(m):
         [('setup', 'Setup page', 'displayNext', dict(engraving='SETUP\nPAGE', color=dk)), None, ('hydr', 'Hydr bleed (nincs játékakció)', N, dict(engraving='HYDR\nBLEED', color=dk))],
     ], cap)
     e.append(c('polo-sos', 'pushButton', 'SOS (nincs játékakció)', N, x=60, y=180, w=200, h=260, engraving='SOS', color='#c62828', material='rubber', ring=True))
-    key = dict(material='touch', color='#26292e', ledColor='#ffffff', sound='plastic', ring=False)
-    e += strip(c, 'polo', [
-        ('lights', 'cycleButton', 'Világítás · léptetés', 'lights', dict(icon='light')),
-        ('high', 'pushButton', 'Távfény', 'highBeam', dict(icon='highBeam', ledColor='#3c8cff')),
-        ('map', 'rotarySwitch', 'Motortérkép', 'engineMapUp', dict(minusAction='engineMapDown', positions=5, states=['1', '2', '3', '4', '5'], color=red, material='alu')),
-        ('ind-l', 'pushButton', 'Index bal', 'indicatorLeft', dict(icon='left', ledColor='#3cff6a')),
-        ('ind-r', 'pushButton', 'Index jobb', 'indicatorRight', dict(icon='right', ledColor='#3cff6a')),
-        ('fire', 'guarded', 'Tűzoltó', 'fireExtinguisher', dict(engraving='FIRE', coverColor='#d0202a', ledColor='#ff3030')),
-        ('demist', 'pushButton', 'Szélvédőfűtés', 'demist', dict(icon='demist')),
-        ('respawn', 'pushButton', 'Visszahelyezés', 'respawn', dict(engraving='RESET')),
-        ('hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', dict(hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch', material='rubber', ring=True)),
-    ], key) + [m.legend(pid, 48, 836, 960)]
-    panel = m.panel_layout(pid, 'Volkswagen Polo GTI R5 · Button Box 0.4.0', vid, W, H, e,
-        m.panel_background(W, H, face='matte', face_tint=(150, 152, 156), frame=(150, 150, 152), plates=[(40, 150, 240, 320, 'black'), (300, 66, 530, 770, 'matte'), (1070, 66, 504, 744, 'matte')],
-            headings=[(48, 62, 'SOS · KAPCSOLÓMÁTRIX'), (1090, 62, 'KORMÁNY · KAROK')], title=''), ['ignition'])
+    # Steering wheel after the user's reference photo of the rally Polo: red WIPER and START buttons at the top,
+    # LIGHT rotary and green HI-BEAM bottom-left, unlabelled rotary and green RADIO bottom-right.
+    wx, wy = 1322, 440
+    rub = dict(material='rubber', ring=False, caption=False, sound='plastic')
+    e += [
+        c('polo-w-wiper', 'cycleButton', 'WIPER · ablaktörlő léptetés', 'wiper', x=wx - 165, y=wy - 165, w=110, h=110, states=['KI', 'INT', 'LASSÚ', 'GYORS'], color='#d81e1e', ledColor='#ff6060', **rub),
+        c('polo-w-start', 'pushButton', 'START (tartsd)', 'starter', x=wx + 55, y=wy - 165, w=110, h=110, hold=True, color='#d81e1e', ledColor='#ff6060', **dict(rub, sound='starter')),
+        c('polo-w-light', 'cycleButton', 'LIGHT · világítás léptetés', 'lights', x=wx - 190, y=wy - 30, w=120, h=120, states=['1', '2', '3'], color='#1b1c1f', ledColor='#ffffff', engraving='LIGHT', **dict(rub, ring=True)),
+        c('polo-w-high', 'pushButton', 'HI-BEAM · távfény', 'highBeam', x=wx - 132, y=wy + 88, w=105, h=105, color='#22b33a', ledColor='#3c8cff', **rub),
+        c('polo-w-map', 'rotarySwitch', 'Jobb forgatógomb · motortérkép (feltételezett funkció)', 'engineMapUp', x=wx + 68, y=wy - 32, w=125, h=125,
+          minusAction='engineMapDown', positions=5, states=['1', '2', '3', '4', '5'], color='#d81e1e', material='alu', caption=False),
+        c('polo-w-radio', 'pushButton', 'RADIO · rádió (tartsd)', 'radio', x=wx + 32, y=wy + 88, w=105, h=105, hold=True, color='#22b33a', ledColor='#3cff6a', **rub),
+    ]
+    key = dict(material='touch', color='#26292e', ledColor='#ffffff', sound='plastic', ring=False, caption=False)
+    col = [('ind-l', 'pushButton', 'Index bal', 'indicatorLeft', dict(icon='left', ledColor='#3cff6a')),
+           ('ind-r', 'pushButton', 'Index jobb', 'indicatorRight', dict(icon='right', ledColor='#3cff6a')),
+           ('demist', 'pushButton', 'Szélvédőfűtés', 'demist', dict(icon='demist')),
+           ('respawn', 'pushButton', 'Visszahelyezés', 'respawn', dict(engraving='RESET')),
+           ('hb', 'pushButton', 'Kézifék (tartsd)', 'handbrake', dict(hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch'))]
+    for n, (k, kind, label, action, extra) in enumerate(col):
+        params = dict(key); params.update(extra)
+        e.append(c(f'polo-{k}', kind, label, action, x=836, y=84 + n * 124, w=100, h=112, **params))
+    e.append(c('polo-fire', 'guarded', 'Tűzoltó', 'fireExtinguisher', x=946, y=84, w=100, h=236, engraving='FIRE', coverColor='#d0202a', ledColor='#ff3030', caption=False))
+    e.append(m.legend(pid, 48, 836, 960))
+    panel_png = steering_wheel(m.panel_background(W, H, face='matte', face_tint=(150, 152, 156), frame=(150, 150, 152),
+        plates=[(40, 150, 240, 320, 'black'), (300, 66, 530, 770, 'matte'), (826, 66, 230, 744, 'black')],
+        headings=[(48, 62, 'SOS · KAPCSOLÓMÁTRIX')], title=''), wx, wy, rim=250)
+    panel = m.panel_layout(pid, 'Volkswagen Polo GTI R5 · Button Box 0.4.0', vid, W, H, e, panel_png, ['ignition'])
     return dict(id=vid, name='Volkswagen Polo GTI R5', modelYear=2018, category='R5', color='#e3001b', dashboard=dash, panel=panel,
         aliases=['VWPoloGTIR5', 'VolkswagenPoloGTIR5', 'VW Polo GTI R5', 'vw_polo_gti_r5'],
         references=[{'url': 'https://www.volkswagen-newsroom.com/en/the-new-polo-gti-driving-presentation-2512/the-new-polo-gti-r5-gti-goes-rallying-2567', 'scope': 'Gyári bemutató; a játék 2018-as változatot modellez (505 Games 0.6 changelog).', 'status': 'primary_manufacturer'}],
@@ -213,31 +265,48 @@ def peugeot_206(m):
     ink = '#10200c'
     dash = gauges.peugeot_206()  # rebuilt from WB_GaugePeugeot206
     pid = vid + '-buttonbox-040'; c = m.control
-    # Traced from Peugeot206/Textures/T_IntDetails_B: two rows of labelled keys (French), lighting
-    # switch row (CligG / Veil / Code / Broul / Phare / CligD) and a 1-4 rotary selector.
-    lab = dict(material='label', color='#b9c4a6', ledColor='#ffb020', sound='latch', ring=False)
+    # Grey suede centre tower after the user's reference photo of the real car: black bat toggles, each with a
+    # red rectangular indicator lamp carrying its legend, and a white rotary selector. Legends (French) come
+    # from the game's own console texture (Peugeot206/Textures/T_IntDetails_B).
     N = ''
-    e = [m.background_element(pid, W, H)] + grid(c, 'p206', 7, 2, 40, 96, 136, 96, 8, [
-        [('gmv', 'Gmv · ventilátor', 'fan', dict(engraving='Gmv')), ('ab', 'AB (nincs játékakció)', N, dict(engraving='AB')), ('contact', 'CONTACT · gyújtás', 'ignition', dict(engraving='CONTACT')),
-         ('clim', 'CLIM (nincs játékakció)', N, dict(engraving='CLIM')), ('ppeau', 'PPeEau (nincs játékakció)', N, dict(engraving='PPeEau')), ('detresse', 'DETRESSE · vészvillogó', 'hazards', dict(engraving='DETRESSE')), ('ppess2', 'PPeEss2 (nincs játékakció)', N, dict(engraving='PPeEss2'))],
-        [('desemb', 'DESEMB · páramentesítő', 'demist', dict(engraving='DESEMB')), ('ppess1', 'PpeEss1 (nincs játékakció)', N, dict(engraving='PpeEss1')), ('lp2', 'LP2 (nincs játékakció)', N, dict(engraving='LP2')),
-         ('extinct', 'Extinct · tűzoltó', 'fireExtinguisher', dict(engraving='Extinct')), ('lp1', 'LP1 (nincs játékakció)', N, dict(engraving='LP1')), ('dem', 'DEM · indító (tartsd)', 'starter', dict(engraving='DEM', hold=True, sound='starter')), ('rear', 'REAR (nincs játékakció)', N, dict(engraving='REAR', color='#2f4f9a'))],
-    ], lab)
-    sw = dict(material='touch', color='#2a2c30', ledColor='#ffb020', sound='metalOn', ring=False)
-    e += grid(c, 'p206l', 6, 1, 40, 300, 152, 130, 12, [[
-        ('cligg', 'CligG · index bal', 'indicatorLeft', dict(engraving='CligG', ledColor='#3cff6a')), ('veil', 'Veil (nincs játékakció)', N, dict(engraving='Veil')),
-        ('code', 'Code · világítás léptetés', 'lights', dict(kind='cycleButton', engraving='Code')), ('broul', 'Broul · ködlámpa', 'fogLights', dict(engraving='Broul')),
-        ('phare', 'Phare · távfény', 'highBeam', dict(engraving='Phare', ledColor='#3c8cff')), ('cligd', 'CligD · index jobb', 'indicatorRight', dict(engraving='CligD', ledColor='#3cff6a'))]], sw)
-    e.append(c('p206-map', 'rotarySwitch', 'Választó 1-4 (motortérkép)', 'engineMapUp', x=760, y=470, w=260, h=210, minusAction='engineMapDown', positions=4, states=['1', '2', '3', '4'], color='#ffb020', material='alu'))
-    e += strip(c, 'p206', [
-        ('wiper', 'cycleButton', 'Essuie-glace · léptetés', 'wiper', dict(states=['KI', 'INT', 'LASSÚ', 'GYORS'], engraving='E-G')),
-        ('page', 'pushButton', 'Kijelzőoldal', 'displayNext', dict(engraving='PAGE')),
-        ('respawn', 'pushButton', 'Visszahelyezés', 'respawn', dict(engraving='RESET')),
-        ('hb', 'pushButton', 'Frein à main (tartsd)', 'handbrake', dict(hold=True, engraving='HB', color='#262626', ledColor='#ff3030', sound='latch', material='rubber', ring=True)),
-    ], sw) + [m.legend(pid, 360, 836, 700)]
+    lamp = dict(material='batLamp', ledColor='#ff3a2a', sound='metalOn', caption=False)
+    def sw(key, kind, label, action, x, y, **extra):
+        params = dict(lamp); params.update(extra)
+        return c(f'p206-{key}', kind, label, action, x=x, y=y, w=130, h=180, **params)
+    e = [m.background_element(pid, W, H),
+        sw('gmv', 'rocker', 'Gmv · ventilátor', 'fan', 70, 80, engraving='Gmv'),
+        sw('ab', 'pushButton', 'AB (nincs játékakció)', N, 220, 95, engraving='AB'),
+        sw('contact', 'rocker', 'CONTACT · gyújtás', 'ignition', 370, 110, engraving='CONTACT', field='ignition'),
+        sw('clim', 'pushButton', 'CLIM (nincs játékakció)', N, 70, 275, engraving='CLIM'),
+        sw('ppeau', 'pushButton', 'PPeEau (nincs játékakció)', N, 220, 285, engraving='PPeEau'),
+        sw('detresse', 'rocker', 'DETRESSE · vészvillogó', 'hazards', 370, 295, engraving='DETRESSE', ledColor='#ff8a1a'),
+        sw('ppess2', 'pushButton', 'PPeEss2 (nincs játékakció)', N, 70, 465, engraving='PPeEss2'),
+        sw('desemb', 'rocker', 'DESEMB · páramentesítő', 'demist', 220, 470, engraving='DESEMB'),
+        sw('ppess1', 'pushButton', 'PpeEss1 (nincs játékakció)', N, 370, 475, engraving='PpeEss1'),
+        sw('lp2', 'pushButton', 'LP2 (nincs játékakció)', N, 520, 480, engraving='LP2'),
+        sw('extinct', 'pushButton', 'Extinct · tűzoltó', 'fireExtinguisher', 70, 650, engraving='Extinct'),
+        sw('lp1', 'pushButton', 'LP1 (nincs játékakció)', N, 220, 650, engraving='LP1'),
+        sw('dem', 'pushButton', 'DEM · indító (tartsd)', 'starter', 370, 650, engraving='DEM', hold=True, sound='starter'),
+        sw('rear', 'pushButton', 'REAR (nincs játékakció)', N, 520, 650, engraving='REAR'),
+        c('p206-map', 'rotarySwitch', 'Választó 1-4 (motortérkép)', 'engineMapUp', x=700, y=250, w=300, h=280, minusAction='engineMapDown',
+          positions=4, states=['1', '2', '3', '4'], color='#e8e8e8', material='alu', caption=False),
+    ]
+    e += [
+        sw('cligg', 'rocker', 'CligG · index bal', 'indicatorLeft', 1090, 90, engraving='CligG', ledColor='#3cff6a'),
+        sw('veil', 'pushButton', 'Veil (nincs játékakció)', N, 1250, 90, engraving='Veil'),
+        sw('cligd', 'rocker', 'CligD · index jobb', 'indicatorRight', 1410, 90, engraving='CligD', ledColor='#3cff6a'),
+        sw('code', 'cycleButton', 'Code · világítás léptetés', 'lights', 1090, 280, engraving='Code', states=['1', '2', '3']),
+        sw('broul', 'rocker', 'Broul · ködlámpa', 'fogLights', 1250, 280, engraving='Broul'),
+        sw('phare', 'rocker', 'Phare · távfény', 'highBeam', 1410, 280, engraving='Phare', ledColor='#3c8cff'),
+        sw('eg', 'cycleButton', 'Essuie-glace · léptetés', 'wiper', 1090, 470, engraving='E-G', states=['KI', 'INT', 'LASSÚ', 'GYORS']),
+        sw('page', 'pushButton', 'Kijelzőoldal', 'displayNext', 1250, 470, engraving='PAGE'),
+        sw('respawn', 'pushButton', 'Visszahelyezés', 'respawn', 1410, 470, engraving='RESET'),
+        c('p206-hb', 'pushButton', 'Frein à main (tartsd)', 'handbrake', x=1250, y=660, w=140, h=150, hold=True, engraving='HB', color='#262626', ledColor='#ff3030',
+          sound='latch', material='rubber', ring=True, caption=False),
+        m.legend(pid, 640, 836, 900),
+    ]
     panel = m.panel_layout(pid, 'Peugeot 206 WRC (1999) · Button Box 0.4.0', vid, W, H, e,
-        m.panel_background(W, H, face='matte', face_tint=(36, 37, 40), frame=(178, 182, 188), plates=[(28, 80, 1024, 200, 'matte'), (28, 292, 1024, 150, 'black'), (1070, 66, 504, 520, 'matte')],
-            headings=[(48, 62, 'INTERRUPTEURS'), (48, 460, 'ÉCLAIRAGE'), (1090, 62, 'DIVERS')], title=''), ['ignition'])
+        suede_tower(m.panel_background(W, H, face='matte', face_tint=(30, 30, 32), frame=(150, 150, 152), plates=[], headings=[], title='')), ['ignition'])
     return dict(id=vid, name='Peugeot 206 WRC (1999)', modelYear=1999, category='WRC', color='#c9d6a8', dashboard=dash, panel=panel,
         aliases=['Peugeot206WRC', 'Peugeot 206 WRC', 'Peugeot206', 'peugeot_206_wrc'],
         references=[{'url': 'https://en.wikipedia.org/wiki/Peugeot_206_WRC', 'scope': 'Típustörténet; a játék 1999-es autót modellez.', 'status': 'secondary'},

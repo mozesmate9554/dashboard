@@ -290,7 +290,7 @@ class _PremiumControlState extends State<PremiumControl> with TickerProviderStat
         face = Listener(behavior: HitTestBehavior.opaque, onPointerDown: _pushDown, onPointerUp: _pushUp,
           onPointerCancel: (event) => _pushUp(event, cancelled: true),
           child: AnimatedBuilder(animation: Listenable.merge([_motion, _pulse]), builder: (context, _) => CustomPaint(
-            painter: material == 'touch' || material == 'outline' || material == 'label' || material == 'mushroom'
+            painter: material == 'touch' || material == 'outline' || material == 'label' || material == 'mushroom' || material == 'batLamp'
               ? _PanelKeyPainter(_motion.value, stage, led, accent, night, material, _pulse.value, e['engraving'] as String? ?? '',
                   panelIcons[e['icon']], (e['leds'] as num?)?.toInt() ?? 1, kind == 'cycleButton' ? _position : -1,
                   iconColor: e['iconColor'] == null ? null : _hex(e['iconColor'], Colors.white), ramp: e['ramp'] as String?)
@@ -389,6 +389,40 @@ void _led(Canvas canvas, Offset center, double radius, LedStage stage, Color col
   canvas.drawCircle(center, radius, Paint()..style = PaintingStyle.stroke..strokeWidth = radius * .14..color = Colors.white24);
 }
 
+/// Period rally console switch: rectangular red indicator lamp with its legend above a black bat
+/// toggle (Peugeot 206 WRC centre tower). `up` = 1 lever up (ON / pressed), 0 lever down.
+void _batLamp(Canvas canvas, Size size, double up, String label, LedStage stage, Color led, double pulse, bool night) {
+  final w = size.width, h = size.height;
+  final window = Rect.fromCenter(center: Offset(w / 2, h * .2), width: math.min(w * .82, h * .9), height: h * .26);
+  final blink = (math.sin(pulse * math.pi * 2) + 1) / 2;
+  final level = stage == LedStage.confirmed ? 1.0 : stage == LedStage.bridgeAck ? .6 : stage == LedStage.sent ? .25 + .6 * blink
+      : stage == LedStage.error ? .5 + .5 * blink : 0.0;
+  final lamp = stage == LedStage.error ? const Color(0xffff2020) : led;
+  canvas.drawRRect(RRect.fromRectAndRadius(window.inflate(3), const Radius.circular(3)), Paint()..color = const Color(0xff141414));
+  canvas.drawRect(window, Paint()..color = Color.lerp(const Color(0xff5a1416), lamp, level * .85)!);
+  if (level > 0) canvas.drawRect(window.inflate(6), Paint()..color = lamp.withValues(alpha: .35 * level)..maskFilter = MaskFilter.blur(BlurStyle.normal, window.height * .35));
+  canvas.drawRect(Rect.fromLTWH(window.left, window.top, window.width, window.height * .35), Paint()..color = Colors.white.withValues(alpha: .10));
+  final text = TextPainter(text: TextSpan(text: label, style: TextStyle(fontFamily: 'OemCondensed', fontWeight: FontWeight.w600,
+    fontSize: window.height * (label.length > 7 ? .42 : .52), color: level > .3 ? const Color(0xff2a0404) : (night ? const Color(0xffff9a9a) : const Color(0xffe8b0b0)))),
+    textDirection: TextDirection.ltr, maxLines: 1)..layout(maxWidth: window.width * .94);
+  text.paint(canvas, window.center - Offset(text.width / 2, text.height / 2));
+  final center = Offset(w / 2, h * .66);
+  final r = math.min(w, h) * .12;
+  canvas.drawCircle(center + const Offset(2, 3), r * 1.25, Paint()..color = Colors.black38..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3));
+  final nut = Path();
+  for (var i = 0; i < 6; i++) {
+    final a = math.pi / 6 + i * math.pi / 3; final p = center + Offset(math.cos(a), math.sin(a)) * r * 1.2;
+    if (i == 0) { nut.moveTo(p.dx, p.dy); } else { nut.lineTo(p.dx, p.dy); }
+  }
+  nut.close();
+  canvas.drawPath(nut, Paint()..color = const Color(0xff1c1d20));
+  canvas.drawCircle(center, r * .7, Paint()..color = const Color(0xff0e0e10));
+  final tilt = up * 2 - 1; // +1 lever up
+  final tip = center + Offset(r * .15, -tilt * h * .24);
+  canvas.drawLine(center, tip, Paint()..strokeWidth = r * .55..strokeCap = StrokeCap.round..color = const Color(0xff111214));
+  canvas.drawLine(center + Offset(-r * .1, 0), tip + Offset(-r * .1, 0), Paint()..strokeWidth = r * .14..strokeCap = StrokeCap.round..color = Colors.white.withValues(alpha: .18));
+  canvas.drawCircle(tip, r * .36, Paint()..color = const Color(0xff17181b));
+}
 void _engrave(Canvas canvas, String text, Offset center, double size, bool night, {Color? color}) {
   if (text.isEmpty) return;
   final style = TextStyle(fontFamily: 'OemCondensed', fontWeight: FontWeight.w600, fontSize: size, letterSpacing: 1,
@@ -429,6 +463,7 @@ class _RockerPainter extends CustomPainter {
   }
   @override void paint(Canvas canvas, Size size) {
     if (material == 'bat') { _bat(canvas, size); return; }
+    if (material == 'batLamp') { _batLamp(canvas, size, t, engraving, stage, led, pulse, night); return; }
     final w = math.min(size.width, size.height * .62);
     final rect = Rect.fromCenter(center: Offset(size.width / 2, size.height * .5), width: w, height: size.height * .96);
     _bezel(canvas, rect, w * .12, night);
@@ -608,6 +643,7 @@ class _PanelKeyPainter extends CustomPainter {
     final dark = material == 'label' || material != 'outline' && accent.computeLuminance() > .45;
     final ink = dark ? (night ? const Color(0xff2a2410) : const Color(0xff1c1f1a)) : inkLight;
     if (material == 'mushroom') { _mushroom(canvas, rect, side, pressed, lit, blink, glowColor, inkLight); return; }
+    if (material == 'batLamp') { _batLamp(canvas, size, pressed, engraving, stage, led, pulse, night); return; }
     if (material == 'touch' || material == 'label') {
       final base = night ? Color.lerp(accent, Colors.black, .45)! : accent;
       canvas.drawRRect(RRect.fromRectAndRadius(rect.shift(const Offset(0, 3)), radius), Paint()..color = Colors.black54..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
