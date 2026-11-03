@@ -144,7 +144,10 @@ jobs:
         run: |
           Copy-Item documentation/licenses _staging/Windows/Licenses -Recurse
           $compiler = 'C:\Program Files (x86)\NSIS\makensis.exe'
-          if (-not (Test-Path $compiler)) { choco install nsis --yes --no-progress }
+          for ($try = 1; $try -le 4 -and -not (Test-Path $compiler); $try++) {
+            choco install nsis --yes --no-progress
+            if (-not (Test-Path $compiler)) { Write-Host "NSIS install attempt $try failed; retrying"; Start-Sleep -Seconds (20 * $try) }
+          }
           if (-not (Test-Path $compiler)) { throw 'NSIS compiler unavailable' }
           $appDir = (Resolve-Path _staging/Windows).Path
           $setupFile = Join-Path $env:GITHUB_WORKSPACE 'SIM_CONTROL_STUDIO_0.4.0_Setup_x64.exe'

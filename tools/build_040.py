@@ -174,6 +174,14 @@ def main():
         'A világítás és az ablaktörlő a játékban körbeléptető (IA_CycleLights / IA_CycleWipers); a kért lépés nem igazolt játékállapot.',
     ]))
     sys.path.insert(0, str(Path(__file__).parent))
+    # Game-display page (WB_GaugeSkodaFabiaRS) goes first; the 0.3.0 photo-based pages stay unchanged after it.
+    import build_040_gauges
+    game_page, game_assets = build_040_gauges.skoda_page()
+    dash = skoda['dashboard']
+    dash['pages'] = [game_page] + [p for p in dash['pages'] if p['id'] != game_page['id']]
+    for key, (kind, raw) in game_assets.items():
+        dash['assets'][key] = {'type': kind, 'name': key, 'base64': base64.b64encode(raw).decode()}
+    dash['supportedFields'] = sorted(set(dash['supportedFields']) | {e['field'] for e in game_page['elements'] if e.get('field')})
     try:
         import build_040_cars
         build_040_cars.apply(vehicles, sys.modules[__name__])

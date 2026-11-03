@@ -21,20 +21,21 @@ void main(){
     tester.view.devicePixelRatio=1;
     addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(()=>CockpitLighting.night.value=false);
-    final renders=<(VehicleProfile,StudioLayout,bool)>[];
+    final renders=<(VehicleProfile,StudioLayout,bool,int)>[];
     for(final data in (json['vehicles'] as List).cast<Map<String,dynamic>>()){
       final car=VehicleProfile(data);
-      if(car.id=='skoda-fabia-rs-rally2'){renders.addAll([(car,car.dashboard,false),(car,car.variants.first,false)]);}
-      if(car.panel.data['adaptive']=='preserve'){renders.addAll([(car,car.panel,false),(car,car.panel,true)]);}
-      if(car.data['version']=='0.4.0' && car.id!='skoda-fabia-rs-rally2'){renders.add((car,car.dashboard,false));}
+      if(car.id=='skoda-fabia-rs-rally2'){renders.add((car,car.variants.first,false,0));}
+      if(car.panel.data['adaptive']=='preserve'){renders.addAll([(car,car.panel,false,0),(car,car.panel,true,0)]);}
+      // Every page of every driver display (game-widget page, trip computers, hidden-field pages).
+      if(car.data['version']=='0.4.0'){for(var page=0;page<car.dashboard.pages.length;page++){renders.add((car,car.dashboard,false,page));}}
     }
-    for(final (car,layout,night) in renders){
+    for(final (car,layout,night,page) in renders){
       CockpitLighting.night.value=night;
       tester.view.physicalSize=Size(layout.width,layout.height+88);
       final key=GlobalKey();
       await tester.pumpWidget(MaterialApp(theme:ThemeData.dark().copyWith(textTheme:ThemeData.dark().textTheme.apply(fontFamily:'OemCondensed')),home:Scaffold(body:RepaintBoundary(key:key,child:Column(children:[
         SizedBox(height:50,child:Center(child:Text('${car.name.toUpperCase()} / ${layout.role=='dashboard'?'DRIVER DISPLAY':'BUTTON BOX'}${night?' / NIGHT':''}',style:const TextStyle(fontSize:23,letterSpacing:3)))),
-        Expanded(child:LayoutCanvas(layout:layout,frame:DemoSimulator().frame(8500))),
+        Expanded(child:LayoutCanvas(layout:layout,page:page,frame:DemoSimulator().frame(8500))),
         const SizedBox(height:38,child:Center(child:Text('REFERENCE-BASED ORIGINAL ARTWORK · DEMO / SYNTHETIC DATA · EDITABLE CONTROLS',style:TextStyle(fontSize:16,color:Colors.amber,letterSpacing:1)))),
       ])))));
       await tester.runAsync(()async{
@@ -45,7 +46,7 @@ void main(){
       final boundary=key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
       final image=(await tester.runAsync(()=>boundary.toImage(pixelRatio:2)))!;
       final bytes=await tester.runAsync(()=>image.toByteData(format:ui.ImageByteFormat.png));
-      File('${out.path}/${car.id}_${layout.id}${night?'_night':''}.png').writeAsBytesSync(bytes!.buffer.asUint8List());
+      File('${out.path}/${car.id}_${layout.id}${page>0?'_p${page+1}':''}${night?'_night':''}.png').writeAsBytesSync(bytes!.buffer.asUint8List());
       image.dispose();
       final copy=layout.personalCopy('preview-edit-${layout.role}','Editable');
       final element=copy.elements(0).firstWhere((e)=>e['locked']!=true);

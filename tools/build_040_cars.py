@@ -6,6 +6,7 @@ research in documentation/VEHICLE_REFERENCE_REPORT.md; artwork is original (gene
 Functions without a matching game input (e.g. horn, tarmac/gravel selector) are NOT invented.
 """
 import base64, io, math
+import build_040_gauges as gauges
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -92,28 +93,7 @@ def grid(c, prefix, cols, rows, x0, y0, cw, ch, gap, keys, style):
 def peugeot_208(m):
     vid = 'peugeot-208-rally4'; W, H = 1600, 900
     yellow, red = '#ffcf1f', '#ff2a2a'
-    pal = [yellow] * 9 + [red] * 6  # Rally4 guide: yellow ramp, then fixed / flashing red
-    road = [
-        el('p208-leds', 'leds', 'rpm', 90, 60, 1420, 70, 'RPM', count=15, max=6300, palette=pal, shape='circle', border=False),
-        el('p208-gear', 'gear', 'gear', 620, 170, 360, 420, '', fontSize=330, color='#ffffff', border=False, font='sans', fontWeight=700),
-        el('p208-speed', 'number', 'speed', 120, 190, 420, 200, 'km/h', fontSize=120, color=yellow, border=False),
-        el('p208-rpm', 'number', 'rpm', 1060, 190, 420, 200, 'rpm', fontSize=110, color=yellow, border=False),
-        el('p208-water', 'number', 'waterTemp', 120, 430, 300, 150, 'Víz °C', fontSize=64, color='#9fd4ff', warningAbove=115, border=False),
-        el('p208-oilT', 'number', 'oilTemp', 1180, 430, 300, 150, 'Olaj °C', fontSize=64, color='#9fd4ff', border=False),
-        el('p208-oilP', 'number', 'oilPressure', 120, 620, 300, 150, 'Olajnyomás bar', fontSize=64, color='#9fd4ff', decimals=1, border=False),
-        el('p208-map', 'number', 'engineMap', 650, 640, 300, 130, 'Map', fontSize=60, color=yellow, border=False),
-        el('p208-alarm', 'indicator', 'faults', 1180, 620, 300, 150, 'Riasztás (kék)', color='#2f7bff', border=False),
-        txt('p208-page', '1 · ROAD', 650, 790, 300, 50, 26, '#8a8f96'),
-    ]
-    stage = [
-        el('p208s-leds', 'leds', 'rpm', 90, 60, 1420, 90, 'RPM', count=15, max=6300, palette=pal, shape='circle', border=False),
-        el('p208s-gear', 'gear', 'gear', 560, 180, 480, 560, '', fontSize=440, color='#ffffff', border=False, font='sans', fontWeight=700),
-        el('p208s-time', 'number', 'stageTime', 100, 300, 420, 180, 'Szakaszidő', fontSize=70, color=yellow, border=False),
-        el('p208s-speed', 'number', 'speed', 1080, 300, 420, 180, 'km/h', fontSize=100, color=yellow, border=False),
-        txt('p208s-page', '2 · STAGE', 650, 790, 300, 50, 26, '#8a8f96'),
-    ]
-    dash = dash_layout(m, vid + '-dash-040', 'Peugeot 208 Rally4 · Műszerfal', vid, W, H, [('Road', road), ('Stage', stage)],
-        housing(W, H, screen=(60, 40, 1540, 860), screen_color=((10, 10, 12), (2, 2, 3))))
+    dash = gauges.peugeot_208()  # rebuilt from WB_GaugePeugeot208Rally4
     pid = vid + '-buttonbox-040'; c = m.control
     yl = '#ffcf1f'
     # Layout traced from the game's own switch-panel texture (Peugeot208/Textures/T_IntDetails_B).
@@ -158,17 +138,7 @@ def peugeot_208(m):
 def hyundai_i20(m):
     vid = 'hyundai-i20-n-rally2'; W, H = 1600, 900
     orange, blue = '#ff7a1a', '#3aa0ff'
-    main = [
-        el('i20-leds', 'leds', 'rpm', 160, 50, 1280, 60, 'RPM', count=12, max=7000, palette=['#3cff6a'] * 4 + ['#ffd23c'] * 4 + ['#ff2a2a'] * 4, border=False),
-        el('i20-gear', 'gear', 'gear', 600, 150, 400, 480, '', fontSize=380, color='#ffffff', border=False, font='sans', fontWeight=700, background='#0b1a2c'),
-        el('i20-speed', 'number', 'speed', 120, 160, 440, 220, 'km/h', fontSize=130, color=orange, border=False),
-        el('i20-rpm', 'number', 'rpm', 1040, 160, 440, 220, 'rpm', fontSize=110, color=blue, border=False),
-        el('i20-throttle', 'pedals', '', 120, 420, 440, 330, 'Pedálok', border=False),
-        el('i20-g', 'gForce', '', 1040, 410, 440, 340, 'G', color=orange, border=False),
-        el('i20-time', 'number', 'stageTime', 600, 660, 400, 110, 'Szakaszidő', fontSize=56, color='#ffffff', border=False),
-    ]
-    dash = dash_layout(m, vid + '-dash-040', 'Hyundai i20 N Rally2 · Műszerfal', vid, W, H, [('Verseny', main)],
-        housing(W, H, screen=(60, 30, 1540, 870), screen_color=((8, 16, 30), (2, 4, 9))))
+    dash = gauges.hyundai_i20()  # rebuilt from WB_GaugeHyundaiI20NRally2
     pid = vid + '-buttonbox-040'; c = m.control
     # Traced from HyundaiI20/Textures/T_IntDetails_B: dark 3 x 5 key matrix next to the wheel.
     key = dict(material='touch', color='#26292e', ledColor=orange, sound='plastic', ring=False)
@@ -204,20 +174,7 @@ def hyundai_i20(m):
 def polo_r5(m):
     vid = 'vw-polo-gti-r5'; W, H = 1600, 900
     red = '#e3001b'
-    main = [
-        el('polo-rpm', 'analog', 'rpm', 500, 40, 600, 600, 'RPM', max=8000, color=red, border=False),
-        el('polo-gear', 'gear', 'gear', 690, 640, 220, 220, '', fontSize=180, color='#ffffff', border=False, font='sans', fontWeight=700),
-        el('polo-leds', 'leds', 'rpm', 120, 60, 320, 40, 'RPM', count=8, max=7600, palette=['#ffffff'] * 5 + [red] * 3, border=False),
-        el('polo-leds2', 'leds', 'rpm', 1160, 60, 320, 40, 'RPM', count=8, max=7600, palette=['#ffffff'] * 5 + [red] * 3, border=False),
-        el('polo-speed', 'number', 'speed', 120, 170, 340, 200, 'km/h', fontSize=110, color='#ffffff', border=False),
-        el('polo-time', 'number', 'stageTime', 1140, 170, 340, 200, 'Szakaszidő', fontSize=60, color='#ffffff', border=False),
-        el('polo-water', 'number', 'waterTemp', 120, 450, 340, 160, 'Víz °C', fontSize=60, color='#d0d4d8', border=False),
-        el('polo-map', 'number', 'engineMap', 1140, 450, 340, 160, 'Map', fontSize=60, color=red, border=False),
-        el('polo-pedals', 'pedals', '', 120, 650, 340, 200, 'Pedálok', border=False),
-        el('polo-g', 'gForce', '', 1240, 650, 200, 200, 'G', color=red, border=False),
-    ]
-    dash = dash_layout(m, vid + '-dash-040', 'Volkswagen Polo GTI R5 · Műszerfal', vid, W, H, [('Verseny', main)],
-        housing(W, H, screen=(60, 30, 1540, 870), screen_color=((14, 14, 16), (3, 3, 4))))
+    dash = gauges.polo_r5()  # rebuilt from WB_GaugeVolkswagenPoloGTIR5
     pid = vid + '-buttonbox-040'; c = m.control
     # Traced from VWPoloGTI/Textures/T_IntDetails_B: 3 x 5 matrix of coloured round rubber caps + SOS.
     cap = dict(material='rubber', ring=False, sound='plastic', ledColor='#ffffff')
@@ -254,18 +211,7 @@ def polo_r5(m):
 def peugeot_206(m):
     vid = 'peugeot-206-wrc'; W, H = 1600, 900
     ink = '#10200c'
-    lcd = [
-        el('p206-leds', 'leds', 'rpm', 160, 70, 1280, 56, 'RPM', count=20, max=8000, palette=['#f2f2f2'] * 14 + ['#ff3030'] * 6, border=False),
-        el('p206-gear', 'gear', 'gear', 610, 170, 380, 420, '', fontSize=330, color=ink, foreground=ink, border=False, font='factory', fontWeight=700),
-        el('p206-rpm', 'number', 'rpm', 150, 200, 420, 180, 'RPM', fontSize=110, color=ink, foreground=ink, border=False, font='factory'),
-        el('p206-speed', 'number', 'speed', 1030, 200, 420, 180, 'KM/H', fontSize=110, color=ink, foreground=ink, border=False, font='factory'),
-        el('p206-water', 'number', 'waterTemp', 150, 430, 420, 150, 'EAU °C', fontSize=70, color=ink, foreground=ink, border=False, font='factory'),
-        el('p206-time', 'number', 'stageTime', 1030, 430, 420, 150, 'TEMPS', fontSize=60, color=ink, foreground=ink, border=False, font='factory'),
-        el('p206-throttle', 'bar', 'throttle', 150, 640, 640, 110, 'GAZ', max=1, color='#20401a', foreground=ink, border=False),
-        el('p206-brake', 'bar', 'brake', 810, 640, 640, 110, 'FREIN', max=1, color='#20401a', foreground=ink, border=False),
-    ]
-    dash = dash_layout(m, vid + '-dash-040', 'Peugeot 206 WRC (1999) · LCD műszerfal', vid, W, H, [('LCD', lcd)],
-        housing(W, H, tone=(22, 22, 24), screen=(110, 40, 1490, 800), screen_color=((150, 170, 120), (118, 138, 92)), gloss=True))
+    dash = gauges.peugeot_206()  # rebuilt from WB_GaugePeugeot206
     pid = vid + '-buttonbox-040'; c = m.control
     # Traced from Peugeot206/Textures/T_IntDetails_B: two rows of labelled keys (French), lighting
     # switch row (CligG / Veil / Code / Broul / Phare / CligD) and a 1-4 rotary selector.
@@ -308,8 +254,10 @@ def subaru_555(m):
         el('s555-trip', 'number', 'stageDistance', 150, 660, 420, 170, 'TRIP (Coralba-stílus)', fontSize=70, color='#ff9a3a', font='factory', decimals=2, border=False, background='#120804'),
         el('s555-speed', 'number', 'speed', 1060, 660, 420, 170, 'km/h', fontSize=80, color='#f2f2f2', border=False),
     ]
-    dash = dash_layout(m, vid + '-dash-040', 'Subaru Impreza 555 Gr.A (1993) · Analóg műszerek', vid, W, H, [('Analóg', analog)],
-        housing(W, H, tone=(14, 14, 15), screen=None, cutouts=[(800, 340, 285), (300, 370, 155)], radius=60))
+    analog = [e for e in analog if e['id'] != 's555-trip'] + [
+        gauges.readout('s555-clock', 'sessionClock', 150, 660, 200, 170, '#D60000', 70, font='monospace', background='#2D0000'),
+        gauges.readout('s555-dist', 'stageDistance', 360, 660, 260, 170, '#D60000', 70, font='monospace', scale=.001, decimals=3, background='#2D0000')]
+    dash = gauges.subaru_555(analog, housing(W, H, tone=(14, 14, 15), screen=None, cutouts=[(800, 340, 285), (300, 370, 155)], radius=60))
     pid = vid + '-buttonbox-040'; c = m.control
     # Traced from SubaruImprezaS3/Textures/T_IntDetails_B: label strips over a row of toggles
     # (WASH : WIPE, HORN, BRAKE BLOWER, HEATER, Max Run), red hazard switch, Coralba tripmaster keys.

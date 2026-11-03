@@ -63,7 +63,7 @@ for v in vehicles:
 def skoda():
     v=next(v for v in vehicles if v['id']=='skoda-fabia-rs-rally2')
     assert v['reconstructionScope']==['driver_display','central_console']
-    assert len(v['dashboard']['pages'])==3
+    assert len(v["dashboard"]["pages"])==4 and v["dashboard"]["pages"][0]["id"].endswith("-p0")
     legacy=v['variants'][0]
     assert legacy['id']=='skoda-fabia-rs-rally2-panel' and len(legacy['pages'])==1
     controls=[e for e in legacy['pages'][0]['elements'] if e.get('action')]

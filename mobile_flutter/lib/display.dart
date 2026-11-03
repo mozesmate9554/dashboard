@@ -99,7 +99,8 @@ class Instrument extends StatelessWidget {
     final label = e['label'] as String? ?? '';
     final foreground = studioColor(e['foreground'], Colors.white);
     final unit = frame?.fields[field]?.unit ?? e['unit'] as String? ?? '';
-    final text = e['format']=='minutesSeconds' && value!=null ? '${value.toInt()~/60000}:${((value.toInt()~/1000)%60).toString().padLeft(2,'0')}' : frame?.formatted(field, decimals: (e['decimals'] as num?)?.toInt() ?? 0) ?? '—';
+    final text = e['scale'] is num && value!=null && field!='gear' ? (value*(e['scale'] as num)).toStringAsFixed((e['decimals'] as num?)?.toInt() ?? 0)
+      : e['format']=='minutesSeconds' && value!=null ?'${value.toInt()~/60000}:${((value.toInt()~/1000)%60).toString().padLeft(2,'0')}' : frame?.formatted(field, decimals: (e['decimals'] as num?)?.toInt() ?? 0) ?? '—';
     final font = e['font'] == 'factory' ? 'OemCondensed' : e['font'] == 'sans' ? null : 'monospace';
     final weight=FontWeight.values[(((e['fontWeight'] as num?)?.toInt() ?? (kind=='text'?400:800)) ~/ 100 - 1).clamp(0,8).toInt()];
     Widget child;
@@ -127,9 +128,14 @@ class Instrument extends StatelessWidget {
           FittedBox(fit:BoxFit.scaleDown,child:Text('$label  $text',maxLines:1,style: TextStyle(color: foreground, fontSize: 18))), const SizedBox(height: 8),
           LinearProgressIndicator(value: value == null ? 0 : (value / maximum).clamp(0, 1).toDouble(), color: color, backgroundColor: Colors.white12, minHeight: 16),
         ])); break;
-      case 'leds': child = CustomPaint(painter: _LedPainter(value, frame?.number('rpmLimit') ?? (e['max'] as num?)?.toDouble() ?? 8000,
+      case 'leds':
+        final ledMax = (e['min'] is num ? null : frame?.number('rpmLimit')) ?? (e['max'] as num?)?.toDouble() ?? 8000;
+        // `min` is an absolute window start; `minRatio` a share of the (possibly telemetry-supplied) limit.
+        final ledMin = (e['min'] as num?)?.toDouble() ?? ((e['minRatio'] as num?)?.toDouble() ?? 0) * ledMax;
+        child = CustomPaint(painter: _LedPainter(value, ledMax,
           (e['count'] as num?)?.toInt() ?? 15, e['vertical'] == true, e['shape'] == 'circle', (e['rows'] as num?)?.toInt() ?? 1,
-          palette: (e['palette'] as List?)?.map((c) => studioColor(c)).toList(), night: CockpitLighting.night.value)); break;
+          palette: (e['palette'] as List?)?.map((c) => studioColor(c)).toList(), night: CockpitLighting.night.value,
+          minimum: ledMin, glow: e['glow'] != false, offColor: e['offColor'] == null ? null : studioColor(e['offColor']))); break;
       case 'analog': child = CustomPaint(painter: _AnalogPainter(value, (e['max'] as num?)?.toDouble() ?? 10000, color, text,
           style: e['style'] as String?, face: studioColor(e['face'], const Color(0xff0c0c0e)), redline: (e['redline'] as num?)?.toDouble(),
           divisor: (e['divisor'] as num?)?.toDouble() ?? 1000, caption: e['caption'] as String? ?? '')); break;
@@ -154,7 +160,8 @@ class Instrument extends StatelessWidget {
         final actual = frame?.value(field);
         if(e['style']=='factorySymbol'){
           final bytes=layout.assetBytes(e['assetId'] as String?);
-          final active=e['activeBelow'] is num?value!=null && value<(e['activeBelow'] as num):actual==true;
+          final active=e['activeBelow'] is num?value!=null && value<(e['activeBelow'] as num)
+            :e['activeAbove'] is num?value!=null && value>(e['activeAbove'] as num):actual==true;
           child=bytes==null?const SizedBox():SvgPicture.memory(bytes,fit:BoxFit.contain,colorFilter:ColorFilter.mode(active?accent:Colors.white24,BlendMode.srcIn));break;
         }
         child = Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -431,20 +438,21 @@ class _GridPainter extends CustomPainter {
 }
 class _LedPainter extends CustomPainter {
   final double? value; final double maximum; final int count; final bool vertical, round; final int rows;
-  final List<Color>? palette; final bool night;
-  _LedPainter(this.value, this.maximum, this.count, this.vertical, this.round, this.rows, {this.palette, this.night = false});
+  final List<Color>? palette; final bool night, glow; final double minimum; final Color? offColor;
+  _LedPainter(this.value, this.maximum, this.count, this.vertical, this.round, this.rows, {this.palette, this.night = false, this.glow = true, this.minimum = 0, this.offColor});
   @override void paint(Canvas canvas, Size size) {
-    final fraction = value == null || maximum <= 0 ? 0 : (value! / maximum).clamp(0, 1);
+    // `minimum` lets a strip start at the game's own shift window (e.g. 5200-6100 rpm on the 208).
+    final fraction = value == null || maximum <= minimum ? 0 : ((value! - minimum) / (maximum - minimum)).clamp(0, 1);
     for (var i = 0; i < count; i++) {
       final color = palette != null && palette!.isNotEmpty ? palette![math.min(i * palette!.length ~/ count, palette!.length - 1)]
         : i < count * .6 ? const Color(0xff43e078) : i < count * .8 ? const Color(0xffffd640) : const Color(0xffff3a4b);
       final lit = i < fraction * count;
-      final p = Paint()..color = lit ? color : (night ? const Color(0xff101214) : const Color(0xff20252a));
+      final p = Paint()..color = lit ? color : offColor ?? (night ? const Color(0xff101214) : const Color(0xff20252a));
       final columns=(count/rows).ceil();
       final w = rows>1?size.width/columns-4:vertical ? size.width - 4 : size.width / count - 4;
       final h = rows>1?size.height/rows-4:vertical ? size.height / count - 4 : size.height - 4;
       final rect = Rect.fromLTWH(rows>1?(i%columns)*size.width/columns+2:vertical ? 2 : i * size.width / count + 2, rows>1?(i~/columns)*size.height/rows+2:vertical ? size.height - (i + 1) * size.height / count + 2 : 2, math.max(1, w), math.max(1, h));
-      if (lit && palette != null) {
+      if (lit && glow && palette != null) {
         canvas.drawCircle(rect.center, math.max(w, h) * .7, Paint()..color = color.withValues(alpha: night ? .45 : .25)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8));
       }
       if(rows>1 && round){canvas.drawCircle(rect.center,math.max(1,math.min(w,h)/2),p);}
