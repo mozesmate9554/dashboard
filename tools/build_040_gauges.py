@@ -281,15 +281,15 @@ def peugeot_206():
         for (x0, x1) in [(110, 430), (470, 790), (1150, 1500)]:
             d.rounded_rectangle((x0, 690, x1, 850), 10, fill=lcd_green)
     shift = [
-        el('p206-led1', 'leds', 'rpm', 1310, 64, 70, 70, 'RPM', count=1, min=19999, max=20000, palette=['#ff2a1a'], shape='circle',
+        el('p206-led1', 'leds', 'rpm', 1280, 64, 70, 70, 'RPM', count=1, min=19999, max=20000, palette=['#ff2a1a'], shape='circle',
            referenceNote='WB_306RPMLed_1: 19999 rpm-es küszöb – a játékban gyakorlatilag soha nem gyullad ki.'),
-        el('p206-led2', 'leds', 'rpm', 1400, 64, 70, 70, 'RPM', count=1, min=6700, max=6701, palette=['#ff2a1a'], shape='circle'),
-        el('p206-led3', 'leds', 'rpm', 1490, 64, 70, 70, 'RPM', count=1, min=7000, max=7001, palette=['#ff2a1a'], shape='circle',
+        el('p206-led2', 'leds', 'rpm', 1370, 64, 70, 70, 'RPM', count=1, min=6700, max=6701, palette=['#ff2a1a'], shape='circle'),
+        el('p206-led3', 'leds', 'rpm', 1460, 64, 70, 70, 'RPM', count=1, min=7000, max=7001, palette=['#ff2a1a'], shape='circle',
            referenceNote='WB_306RPMLed_2: 7000-7300 rpm között világít.'),
     ]
     ink, red = '#101408', '#D60000'
     main = shift + [
-        el('p206-bar', 'leds', 'rpm', 90, 70, 1180, 60, 'RPM', count=38, max=8000, palette=['#1a1e10'], offColor='#00000000', glow=False,
+        el('p206-bar', 'leds', 'rpm', 90, 70, 1160, 60, 'RPM', count=38, max=8000, palette=['#1a1e10'], offColor='#00000000', glow=False,
            referenceNote='WB_GaugeRPMBar (760 x 53) – a görbét az FC_RPMBarLanciaDeltaHFIntegraleEVO adja; itt lineáris (feltételezés).'),
         readout('p206-gear', 'gear', 650, 150, 300, 490, '#FF0000', 430, font='factory', weight=700),
         readout('p206-dist', 'stageDistance', 1040, 160, 470, 110, red, 90, font='factory', scale=.001, decimals=3),
