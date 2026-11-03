@@ -76,3 +76,14 @@ Autónként a játékból, cockpit-kamerával, a HUD kikapcsolásával:
 ## Képkeresési találatok (vizuális tájékozódás)
 
 Gyártói és kereskedői fotók: Škoda Storyboard / Škoda Motorsport, Racemarket.net, Racecarsdirect, Mikado Racing, Supercar-hirdetések (206 WRC Evo 2), impreza555. Ezeket csak elrendezés-referenciaként használjuk.
+
+## Felhasználói referenciafotók (2026-11-03)
+
+| Fotó | Autó (azonosítás) | Felhasználás |
+|---|---|---|
+| Színes kijelző OIL/WAT ívekkel, „Map1 · km/h · Asph” sorral | Peugeot 208 Rally4 (**feltételezés**: a burkolatválasztó és a Map-mező a játék 208-as widgetjével egyezik) | „Valós kijelző (fotó alapján)” oldal |
+| Hyundai-kormány gombmátrixszal, ülés melletti billentyűzet | Hyundai i20 N Rally2 | megerősíti a meglévő 3×5 kapcsolómátrixot; változtatás nem kellett |
+| „Car Info” kijelzőoldal (nEng, Gear, sCar, pRail …) | Škoda Fabia RS Rally2 | „Car Info (valós kijelző, fotó alapján)” oldal |
+| Középkonzol („servis menu”, FIRE, színes gombafejű gombok) | Škoda Fabia RS Rally2 | a Button Box elrendezése és anyagai |
+
+A gombafejű gombok pontos funkcióját a fotó nem mutatja; ezek címkéjén „(feltételezett funkció)” szerepel. A fotókból semmi nincs beépítve az alkalmazásba.

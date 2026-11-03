@@ -1,14 +1,14 @@
 # TEST_REPORT – SIM CONTROL STUDIO 0.4.0 Alpha
 
-Build: [GitHub Actions run 41710686392](https://github.com/mozesmate9554/dashboard/actions/runs/41710686392) · commit `4da3cab` · ág `feature/sim-control-studio-0.4.0-alpha` · 2026-11-03
+Build: [GitHub Actions run 41716176406](https://github.com/mozesmate9554/dashboard/actions/runs/41716176406) · commit `8f3977c` · ág `feature/sim-control-studio-0.4.0-alpha` · 2026-11-03
 
 ## Letöltések (GitHub-bejelentkezés szükséges)
 
 | Csomag | Link |
 |---|---|
-| **Android APK** (aláírt release) | https://github.com/mozesmate9554/dashboard/actions/runs/41710686392/artifacts/13267123902 |
-| **Windows Bridge** (telepítő + hordozható EXE) | https://github.com/mozesmate9554/dashboard/actions/runs/41710686392/artifacts/13268260061 |
-| Előnézetek (mind a 6 műszerfal minden oldala, 6 Button Box nappal/éjjel) | https://github.com/mozesmate9554/dashboard/actions/runs/41710686392/artifacts/13267629262 |
+| **Android APK** (aláírt release) | https://github.com/mozesmate9554/dashboard/actions/runs/41716176406/artifacts/13270566755 |
+| **Windows Bridge** (telepítő + hordozható EXE) | https://github.com/mozesmate9554/dashboard/actions/runs/41716176406/artifacts/13270840383 |
+| Előnézetek (mind a 6 műszerfal minden oldala, 6 Button Box nappal/éjjel) | https://github.com/mozesmate9554/dashboard/actions/runs/41716176406/artifacts/13269597955 |
 
 ## Automatizált tesztek – lefutottak, sikeresek ebben a runban
 
@@ -24,6 +24,8 @@ Build: [GitHub Actions run 41710686392](https://github.com/mozesmate9554/dashboa
 | iOS szimulátor és aláírás nélküli build | **a jelentés írásakor a macOS-sorban várt** – eredménye a run oldalán |
 
 Ebben a körben új vagy módosult:
+- A felhasználói referenciafotók alapján: Škoda középkonzol (gombafejű gombok), Škoda „Car Info” oldal, 208 „Valós kijelző” oldal – mind a valódi Flutter-renderelővel ellenőrizve.
+- Bridge: leállításkor egy már lezárt kliens bezárása nem dob többé `ObjectDisposedException`-t (a CI átviteli benchmarkja egyszer elakadt rajta).
 - Mind a 6 műszerfal **minden oldala** a valódi Flutter-renderelővel készül el (előnézet-artifact). A tesztek ellenőrzik, hogy minden elrendezés érvényes és a vásznon belül van.
 - A teljes képernyős (adaptív) nézet a játékhű LED-sorokat egy sorba rendezi; a teszt 6 autó × álló/fekvő tájolásra fut.
 - Az editor-teszt a Škoda új, játékbeli kijelzőoldalán a „Map” jelvényt mozgatja, átméretezi, visszavonja és menti; a gyári elrendezés változatlan marad.
